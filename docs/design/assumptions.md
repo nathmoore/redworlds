@@ -1,12 +1,26 @@
 # Game Design Assumptions
 
-The Red Worlds engine makes a number of deliberate choices about how the economy and
-emissions model behaves. These are not simplifications we haven't gotten around to fixing —
-they are intentional decisions, made for specific reasons, and documented here so that
-players, researchers, and contributors can understand, question, and improve them.
+## Overarching principles
 
-If you think an assumption should be revisited, please raise a GitHub issue. The whole
-point of open-sourcing the engine is to invite exactly that conversation.
+The engine exists to serve the game, and the game exists to be fun. That priority
+order matters. The reference for all game design decisions is **The Art of Game Design:
+A Book of Lenses** by Jesse Schell — when a design choice is contested, this is the
+common language.
+
+**Balance comes first.** BUILD, SWAP, and REDUCE must all be balanced to feel like genuinely viable,
+rewarding choices. We achieve this through
+playtesting and iteration. The interesting question
+the balancing process will surface is *how much adjustment each choice needs, and why*:
+it might turn out to say something real about the relative tractability of different
+climate strategies in the actual world.
+
+**Accuracy serves clarity.** The engine should be as scientifically grounded as
+possible, but not at the cost of the player losing the thread of what their choices
+mean. A simplification that makes the game more legible without being misleading is
+usually the right call.
+
+The specific choices below are all deliberate. If you think one should be revisited,
+raise a GitHub issue — that's exactly what the open-source model is for.
 
 ---
 

@@ -5,7 +5,7 @@
 [![Docs](https://github.com/nathmoore/redworlds/actions/workflows/docs.yml/badge.svg)](https://nathmoore.github.io/redworlds/)
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC_BY--SA_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
 
-**Red Worlds is the open-source Python engine behind [Red Carbon](https://github.com/nathmoore/red-carbon)** — a web game about decarbonisation, economics, and the uncomfortable question: *is climate change actually controllable?*
+**Red Worlds is the open-source Python engine behind [Red Carbon](https://github.com/nathmoore/red-carbon)** — a web game about decarbonisation, economics, and an uncomfortable question that sits just below the surface: *is climate change actually controllable?*
 
 This repo is the science and simulation layer only. It is not the game itself. The game's WordPress front end lives in a separate private repo.
 
@@ -61,7 +61,7 @@ just test -m integration
 
 ## License
 
-Red Worlds is licensed under **Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)**, matching the license of EXIOBASE 3, the data this engine is built on.
+Red Worlds is licensed under **Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)**, matching the license of EXIOBASE v3.8, the data this engine is built on.
 
 This means you are free to use, share, and adapt this work — including for commercial purposes — provided you give appropriate credit and distribute any adaptations under the same license.
 
