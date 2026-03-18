@@ -15,6 +15,7 @@ nav = [
     { "References" = "design/references.md" },
   ]},
   { "API Reference" = "api.md" },
+  { "Changelog" = "changelog.md" },
 ]
 
 [[project.theme.palette]]
