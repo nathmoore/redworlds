@@ -1,59 +1,75 @@
 # Red Worlds
 
-![PyPI version](https://img.shields.io/pypi/v/redworlds.svg)
+[![PyPI version](https://img.shields.io/pypi/v/redworlds.svg)](https://pypi.org/project/redworlds/)
+[![CI](https://github.com/nathmoore/redworlds/actions/workflows/ci.yml/badge.svg)](https://github.com/nathmoore/redworlds/actions/workflows/ci.yml)
+[![Docs](https://github.com/nathmoore/redworlds/actions/workflows/docs.yml/badge.svg)](https://nathmoore.github.io/redworlds/)
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC_BY--SA_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
 
-Open source game engine to o Red Carbon, with examples foon how to create your own economic/climate esimulation modelling.
+**Red Worlds is the open-source Python engine behind [Red Carbon](https://github.com/nathmoore/red-carbon)** — a web game about decarbonisation, economics, and the uncomfortable question: *is climate change actually controllable?*
 
-* Created by **[Nathan Moore](https://github.com/nathmoore)**
-  * PyPI: https://pypi.org/user/nathmoore/
-* PyPI package: https://pypi.org/project/redworlds/
-* Free software: MIT License
+This repo is the science and simulation layer only. It is not the game itself. The game's WordPress front end lives in a separate private repo.
 
-## Features
+---
 
-* TODO
+## Start here — by audience
 
-## Documentation
+| I want to... | Go to |
+|---|---|
+| Understand how the engine works | [docs/design/architecture.md](docs/design/architecture.md) |
+| Explore the game design assumptions | [docs/design/assumptions.md](docs/design/assumptions.md) |
+| Understand BUILD, SWAP, REDUCE mechanics | [docs/design/game_mechanics.md](docs/design/game_mechanics.md) |
+| Try the IO table examples or run notebooks | [examples/](examples/) |
+| Understand the data sources and concordances | [data/README.md](data/README.md) |
+| Contribute code or raise an issue | [CONTRIBUTING.md](CONTRIBUTING.md) |
+| Integrate with the Red Carbon WordPress site | [docs/api.md](docs/api.md) *(TBC)* |
 
-Documentation is built with [Zensical](https://zensical.org/) and deployed to GitHub Pages.
+---
 
-* **Live site:** https://nathmoore.github.io/redworlds/
-* **Preview locally:** `just docs-serve` (serves at http://localhost:8000)
-* **Build:** `just docs-build`
+## What this project does
 
-API documentation is auto-generated from docstrings using [mkdocstrings](https://mkdocstrings.github.io/).
+Each player in Red Carbon has their own simulated world, represented as an [EXIOBASE](https://www.exiobase.eu/) input-output (IO) table living on a remote server. Red Worlds handles:
 
-Docs deploy automatically on push to `main` via GitHub Actions. To enable this, go to your repo's Settings > Pages and set the source to **GitHub Actions**.
+1. **Overnight preparation** — economic growth and population updates are applied to advance the world one simulation year.
+2. **Scenario generation** — a daily scenario is created from a target emissions category (e.g. *European residential heating*), mapped to EXIOBASE sectors via concordance tables in this repo.
+3. **Player actions** — the player interacts with the scenario via the Red Carbon Decarbonator Deck, choosing one of three approaches:
+   - **BUILD** — construct new low-carbon capacity (e.g. wind farms, nuclear). CapEx is spread over a build period; the energy mix shifts after completion.
+   - **SWAP** — replace a fraction of an existing technology with a cleaner alternative (e.g. heat pumps replacing gas boilers). The IO mix is shifted proportionally.
+   - **REDUCE** — reduce consumption of a sector (e.g. lower thermostat settings). The IO demand is reduced; unlike BUILD and SWAP, the economy is *not* rebalanced (a deliberate post-growth design choice).
 
-## Development
+All calculations update the player's EXIOBASE-derived IO tables, recalculating emissions at each step.
 
-To set up for local development:
+---
+
+## Quickstart (for developers)
 
 ```bash
-# Clone your fork
-git clone git@github.com:your_username/redworlds.git
+git clone https://github.com/nathmoore/redworlds.git
 cd redworlds
-
-# Install in editable mode with live updates
-uv tool install --editable .
+uv sync
+just qa          # format, lint, type-check, test
+just test        # tests only (uses pymrio built-in test IO — no EXIOBASE needed)
+just docs-serve  # live docs at http://localhost:8000
 ```
 
-This installs the CLI globally but with live updates - any changes you make to the source code are immediately available when you run `redworlds`.
-
-Run tests:
+To run integration tests against real EXIOBASE data, first configure `config/config.toml` (copy from `config/config.example.toml`), then:
 
 ```bash
-uv run pytest
+just test -m integration
 ```
 
-Run quality checks (format, lint, type check, test):
+---
 
-```bash
-just qa
-```
+## License
 
-## Author
+Red Worlds is licensed under **Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)**, matching the license of EXIOBASE 3, the data this engine is built on.
 
-Red Worlds was created in 2026 by Nathan Moore.
+This means you are free to use, share, and adapt this work — including for commercial purposes — provided you give appropriate credit and distribute any adaptations under the same license.
 
-Built with [Cookiecutter](https://github.com/cookiecutter/cookiecutter) and the [audreyfeldroy/cookiecutter-pypackage](https://github.com/audreyfeldroy/cookiecutter-pypackage) project template.
+See [LICENSE](LICENSE) for the full text, or visit [creativecommons.org/licenses/by-sa/4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+
+---
+
+## About
+
+Red Worlds was created in 2026 by [Nathan Moore](https://github.com/nathmoore).
+Built from the [audreyfeldroy/cookiecutter-pypackage](https://github.com/audreyfeldroy/cookiecutter-pypackage) template.

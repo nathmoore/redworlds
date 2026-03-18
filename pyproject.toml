@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "redworlds"
 version = "0.1.0"
-description = "Open source game engine to o Red Carbon, with examples foon how to create your own economic/climate esimulation modelling."
+description = "Open source game engine for Red Carbon, with examples of how to create your own economic and climate simulation modelling."
 readme = "README.md"
 authors = [
   {name = "Nathan Moore", email = "nathan@redchoice.net"}
@@ -17,10 +17,13 @@ classifiers = [
     "Typing :: Typed",
     # TODO: Add additional classifiers as needed
 ]
-license = {text = "MIT"}
+license = "CC-BY-SA-4.0"
 dependencies = [
   "typer",
   "rich",
+  "pymrio",
+  "numpy",
+  "pandas",
 ]
 requires-python = ">= 3.12"
 

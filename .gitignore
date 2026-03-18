@@ -52,3 +52,12 @@ site/
 # IDE files
 # .idea/
 # .vscode/
+
+# RedWorlds: personal config (each user has their own)
+config/config.toml
+
+# RedWorlds: Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# ty type checker cache
+.ty_cache/

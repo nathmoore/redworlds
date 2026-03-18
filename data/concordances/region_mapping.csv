@@ -1,0 +1,5 @@
+exiobase_region,game_region
+# This file maps EXIOBASE region codes to the 6 amalgamated game regions.
+# See data/README.md for full schema documentation.
+# Placeholder — populate with actual EXIOBASE region codes before first use.
+# Reference: EXIOBASE 3 region list (49 regions)

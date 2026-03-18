@@ -1,0 +1,24 @@
+# config/config.example.toml
+#
+# Copy this file to config/config.toml and fill in your local paths.
+# config/config.toml is gitignored — never commit it.
+#
+# This file IS committed to the repo as the reference template.
+
+[data]
+# Path to your local EXIOBASE directory (downloaded separately — see data/README.md)
+exiobase_path = "/path/to/exiobase"
+
+# Path where per-player derived IO tables are stored (server-side; local for testing)
+worlds_path = "/path/to/worlds"
+
+# Path to the concordances and tech_choices directories (defaults to data/ in repo root)
+# Uncomment and override only if you store reference data elsewhere.
+# concordances_path = "/path/to/concordances"
+# tech_choices_path = "/path/to/tech_choices"
+
+[server]
+# Used when running as a remote simulation server for the Red Carbon WordPress front end.
+# Leave blank for local/notebook use.
+host = "0.0.0.0"
+port = 8080

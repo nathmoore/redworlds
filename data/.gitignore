@@ -1,0 +1,18 @@
+# data/.gitignore
+#
+# Large or licensed data files are NEVER committed to this repo.
+# Small committed reference data (concordances, tech choices) lives in
+# data/concordances/ and data/tech_choices/ — these are explicitly allowed below.
+#
+# See data/README.md for a full explanation.
+
+# Ignore everything in this directory by default...
+*
+
+# ...but allow these subdirectories and their contents to be committed
+!.gitignore
+!README.md
+!concordances/
+!concordances/**
+!tech_choices/
+!tech_choices/**

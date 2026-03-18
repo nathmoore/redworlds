@@ -1,0 +1,5 @@
+scenario_category,exiobase_sector,weight,notes
+# This file maps game scenario categories to EXIOBASE sectors.
+# See data/README.md for full schema documentation.
+# Placeholder — populate with real sector mappings before first use.
+# Reference: EXIOBASE 3 sector list (163 industries for ixi format)

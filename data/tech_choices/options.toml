@@ -1,0 +1,34 @@
+# data/tech_choices/options.toml
+#
+# Defines the technologies and eco-choices available to players.
+# See docs/design/game_mechanics.md for full schema documentation.
+#
+# Placeholder — populate with real options before first use.
+
+# ─────────────────────────────────────────────
+# BUILD options
+# ─────────────────────────────────────────────
+# [[build]]
+# key = "offshore_wind"
+# label = "Offshore Wind Farm"
+# compatible_scenarios = ["electricity_generation"]
+# regions = ["all"]
+
+# ─────────────────────────────────────────────
+# SWAP options
+# ─────────────────────────────────────────────
+# [[swap]]
+# key = "heat_pumps"
+# label = "Heat Pumps"
+# replaces = "gas_heating"
+# compatible_scenarios = ["residential_heating"]
+# max_replaceable_fraction = 0.65
+
+# ─────────────────────────────────────────────
+# REDUCE options
+# ─────────────────────────────────────────────
+# [[reduce]]
+# key = "thermostat_reduction"
+# label = "Lower Thermostat"
+# compatible_scenarios = ["residential_heating"]
+# max_reducible_fraction = 0.20

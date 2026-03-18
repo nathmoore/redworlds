@@ -8,6 +8,12 @@ nav = [
   { "Home" = "index.md" },
   { "Installation" = "installation.md" },
   { "Usage" = "usage.md" },
+  { "Design" = [
+    { "Architecture" = "design/architecture.md" },
+    { "Assumptions" = "design/assumptions.md" },
+    { "Game Mechanics" = "design/game_mechanics.md" },
+    { "References" = "design/references.md" },
+  ]},
   { "API Reference" = "api.md" },
 ]
 
