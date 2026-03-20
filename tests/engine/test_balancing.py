@@ -8,7 +8,7 @@ When implemented, these tests should verify:
 - Rebalancing a system with no changes returns an effectively identical system
 - The changed sector's new value is preserved after rebalancing
 
-TODO: implement — see GitHub issue #10
+TODO: implement — see GitHub issue #14
 """
 
 import pytest
@@ -16,7 +16,7 @@ import pytest
 from redworlds.engine.balancing import rebalance_economy
 
 
-@pytest.mark.skip(reason="rebalance_economy not yet implemented — see GitHub issue #10")
+@pytest.mark.skip(reason="rebalance_economy not yet implemented — see GitHub issue #14")
 def test_rebalance_conserves_total_output(test_mrio):
     """Total economic output should be conserved (or within tolerance) after rebalancing."""
     result = rebalance_economy(test_mrio, changed_region="reg1", changed_sector="food")

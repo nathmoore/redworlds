@@ -30,6 +30,6 @@ def apply_growth(
     Returns:
         Updated IO system scaled to ``year`` with recalculated baseline emissions.
 
-    TODO: implement — see GitHub issue #5
+    TODO: implement — see GitHub issue #9
     """
     raise NotImplementedError

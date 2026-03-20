@@ -40,6 +40,6 @@ def apply_reduce(
     Returns:
         Updated IO system with demand reduced and no rebalancing applied.
 
-    TODO: implement — see GitHub issue #4
+    TODO: implement — see GitHub issue #8
     """
     raise NotImplementedError

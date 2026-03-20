@@ -29,7 +29,7 @@ def scale_final_demand(
     Returns:
         Updated IO system with the final demand scaled.
 
-    TODO: implement — see GitHub issue #7
+    TODO: implement — see GitHub issue #11
     """
     raise NotImplementedError
 
@@ -55,7 +55,7 @@ def shift_sector_share(
     Returns:
         Updated IO system with sector shares adjusted.
 
-    TODO: implement — see GitHub issue #8
+    TODO: implement — see GitHub issue #12
     """
     raise NotImplementedError
 
@@ -77,6 +77,6 @@ def get_sector_emissions(
     Returns:
         Total GHG emissions in the satellite account's units (typically kt CO2-eq).
 
-    TODO: implement — see GitHub issue #9
+    TODO: implement — see GitHub issue #13
     """
     raise NotImplementedError

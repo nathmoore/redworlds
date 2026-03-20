@@ -44,6 +44,6 @@ def apply_build(
     Returns:
         Updated IO system with construction spending applied for ``current_year``.
 
-    TODO: implement — see GitHub issue #2
+    TODO: implement — see GitHub issue #6
     """
     raise NotImplementedError

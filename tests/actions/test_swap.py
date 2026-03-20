@@ -10,7 +10,7 @@ When implemented, these tests should verify:
 - pct_rollout of 0.0 returns an unchanged IO system
 - pct_rollout outside [0, 1] raises a clear error
 
-TODO: implement — see GitHub issue #3
+TODO: implement — see GitHub issue #7
 """
 
 import pytest
@@ -18,7 +18,7 @@ import pytest
 from redworlds.actions.swap import apply_swap
 
 
-@pytest.mark.skip(reason="apply_swap not yet implemented — see GitHub issue #3")
+@pytest.mark.skip(reason="apply_swap not yet implemented — see GitHub issue #7")
 def test_swap_shifts_sector_share(test_mrio):
     """Demand should shift from from_technology to to_technology proportionally."""
     result = apply_swap(
