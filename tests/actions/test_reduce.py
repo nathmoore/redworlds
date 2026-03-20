@@ -10,7 +10,7 @@ When implemented, these tests should verify:
 - pct_reduction of 0.0 returns an unchanged IO system
 - pct_reduction outside [0, 1] raises a clear error
 
-TODO: implement — see GitHub issue #4
+TODO: implement — see GitHub issue #8
 """
 
 import pytest
@@ -18,7 +18,7 @@ import pytest
 from redworlds.actions.reduce import apply_reduce
 
 
-@pytest.mark.skip(reason="apply_reduce not yet implemented — see GitHub issue #4")
+@pytest.mark.skip(reason="apply_reduce not yet implemented — see GitHub issue #8")
 def test_reduce_decreases_final_demand(test_mrio):
     """Final demand for the target sector should decrease; economy should NOT rebalance."""
     result = apply_reduce(
@@ -30,7 +30,7 @@ def test_reduce_decreases_final_demand(test_mrio):
     assert result is not test_mrio, "apply_reduce should return a new IO system"
 
 
-@pytest.mark.skip(reason="apply_reduce not yet implemented — see GitHub issue #4")
+@pytest.mark.skip(reason="apply_reduce not yet implemented — see GitHub issue #8")
 def test_reduce_does_not_rebalance(test_mrio):
     """Total final demand should be lower after REDUCE — post-growth, no rebalancing."""
     pass

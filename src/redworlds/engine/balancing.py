@@ -35,6 +35,6 @@ def rebalance_economy(
     Returns:
         IO system with money flows rebalanced across the economy.
 
-    TODO: implement — see GitHub issue #10
+    TODO: implement — see GitHub issue #15
     """
     raise NotImplementedError

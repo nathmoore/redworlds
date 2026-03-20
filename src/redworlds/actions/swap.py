@@ -38,6 +38,6 @@ def apply_swap(
     Returns:
         Updated IO system with the sector swap applied.
 
-    TODO: implement — see GitHub issue #3
+    TODO: implement — see GitHub issue #7
     """
     raise NotImplementedError

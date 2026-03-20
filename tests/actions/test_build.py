@@ -9,7 +9,7 @@ When implemented, these tests should verify:
 - Economy is rebalanced after the build (total output conserved)
 - Invalid region or technology raises a clear error
 
-TODO: implement — see GitHub issue #2
+TODO: implement — see GitHub issue #6
 """
 
 import pytest
@@ -17,7 +17,7 @@ import pytest
 from redworlds.actions.build import apply_build
 
 
-@pytest.mark.skip(reason="apply_build not yet implemented — see GitHub issue #2")
+@pytest.mark.skip(reason="apply_build not yet implemented — see GitHub issue #6")
 def test_build_spreads_capex_linearly(test_mrio):
     """CapEx should be evenly distributed across the build period."""
     result = apply_build(

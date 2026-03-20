@@ -9,7 +9,7 @@ When implemented, these tests should verify:
 - shift_sector_share conserves total demand (from + to unchanged in sum)
 - get_sector_emissions returns a non-negative float for a known sector
 
-TODO: implement — see GitHub issues #7, #8, #9
+TODO: implement — see GitHub issues #12, #13, #14
 """
 
 import pytest
@@ -21,20 +21,20 @@ from redworlds.engine.io_tables import (  # noqa: F401
 )
 
 
-@pytest.mark.skip(reason="scale_final_demand not yet implemented — see GitHub issue #7")
+@pytest.mark.skip(reason="scale_final_demand not yet implemented — see GitHub issue #12")
 def test_scale_final_demand_identity(test_mrio):
     """Scaling by 1.0 should return an IO system equivalent to the input."""
     result = scale_final_demand(test_mrio, region="reg1", sector="food", factor=1.0)
     assert result is not test_mrio, "should return a new object"
 
 
-@pytest.mark.skip(reason="shift_sector_share not yet implemented — see GitHub issue #8")
+@pytest.mark.skip(reason="shift_sector_share not yet implemented — see GitHub issue #13")
 def test_shift_sector_share_conserves_total(test_mrio):
     """Total demand across from_sector + to_sector should be unchanged after a shift."""
     pass
 
 
-@pytest.mark.skip(reason="get_sector_emissions not yet implemented — see GitHub issue #9")
+@pytest.mark.skip(reason="get_sector_emissions not yet implemented — see GitHub issue #14")
 def test_get_sector_emissions_non_negative(test_mrio):
     """Emissions for any sector in the test IO world should be >= 0."""
     pass
