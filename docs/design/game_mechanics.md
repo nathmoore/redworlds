@@ -151,15 +151,16 @@ This schema is indicative — the actual structure will evolve as the game is bu
 
 ## Region names
 
-The 6 amalgamated game regions and their labels (see `data/concordances/region_mapping.csv`):
+The 7 amalgamated game regions and their labels (see `data/concordances/region_mapping.csv`):
 
-| Game region label | Approximate coverage |
-|---|---|
-| Europe and Central Asia | EU, UK, Norway, Switzerland, former Soviet states |
-| East Asia and Pacific | China, Japan, South Korea, Australia, SE Asia |
-| South Asia | India, Pakistan, Bangladesh, Sri Lanka |
-| Sub-Saharan Africa | Africa south of the Sahara |
-| Latin America and Caribbean | Mexico, Central and South America |
-| North America and Middle East | USA, Canada, Middle East, North Africa |
+| ID | Game region label | Approximate coverage |
+|---|---|---|
+| 1 | USA and Canada | United States, Canada |
+| 2 | Latin America and the Caribbean | Mexico, Central and South America, Caribbean |
+| 3 | Europe and Central Asia | EU, UK, Norway, Switzerland, Russia, Turkey, former Soviet states |
+| 4 | Africa and Middle East | All of Africa, Middle East, North Africa |
+| 5 | South Asia | India, Pakistan, Bangladesh, Sri Lanka, Nepal, Afghanistan |
+| 6 | Mainland East Asia | China, Japan, South Korea, Taiwan, Mongolia, North Korea, Hong Kong, Macao |
+| 7 | South East Asia and Pacific Ocean | SE Asia, Australia, New Zealand, Pacific islands |
 
 These regions rotate in a fixed order for each new simulation year.

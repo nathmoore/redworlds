@@ -8,9 +8,57 @@ to understand the science behind Red Carbon.
 
 ---
 
-## How to run the notebooks
+## EXIOBASE: what you need and where to get it
 
-You'll need EXIOBASE downloaded first for most notebooks. See [data/README.md](../data/README.md).
+Red Worlds is built on **EXIOBASE 3.8.2**, a global multi-regional input-output
+database. We use the 2011 product-by-product tables (`IOT_2011_pxp.zip`).
+
+**Why 2011?** It is the latest year in 3.8.2 with complete, non-extrapolated
+supply-use tables. Red Worlds performs its own extrapolation from 2011 to reach
+the in-game Baseline year of 2027 (one year ahead of the current year), and
+continues year-by-year from there.
+
+**Why version 3.8.2 specifically?** It is the last release under the
+[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) licence, which
+allows open-source use with attribution. More recent releases include "now-casted"
+years and use CC BY 4.0 (no ShareAlike requirement) — fine for personal and research
+use, but check the terms before redistribution.
+
+### Download
+
+Download `IOT_2011_pxp.zip` from Zenodo:
+
+> **https://zenodo.org/records/5589597**
+
+Extract into `data/exiobase/` (this directory is gitignored — the files are large
+and licensed separately from this repo).
+
+Please cite EXIOBASE as:
+
+> Stadler, K., Wood, R., Bulavskaya, T., Södersten, C.-J., Simas, M., Schmidt, S.,
+> Usubiaga, A., Acosta-Fernández, J., Kuenen, J., Bruckner, M., Giljum, S., Lutter, S.,
+> Merciai, S., Schmidt, J. H., Theurl, M. C., Plutzar, C., Kastner, T., Eisenmenger, N.,
+> Erb, K.-H., … Tukker, A. (2021). EXIOBASE 3 (3.8.2) [Data set]. Zenodo.
+> https://doi.org/10.5281/zenodo.5589597
+
+### A note on monetary units
+
+EXIOBASE values are in **2011 million EUR at basic prices**. Basic prices are
+producer prices — what the seller receives — excluding taxes on products and
+excluding trade and transport margins (roughly: "price at the factory gate, before
+VAT or shipping"). Red Worlds converts these internally to **2026 constant million USD**
+for all player-facing monetary figures (see `engine/currency.py`).
+
+### A note on regions
+
+EXIOBASE covers ~49 countries and regions. Red Worlds aggregates these into **7
+game regions** for legibility. Our calculations are therefore slightly less granular
+than results you would get running EXIOBASE at full country resolution. The mapping
+is in `data/concordances/region_mapping.csv`.
+
+---
+
+## How to run the notebooks
 
 ```bash
 # Install dependencies (including Jupyter)

@@ -23,21 +23,46 @@ option or adjust a sector mapping, edit these files and raise a pull request.
 
 | Directory | Why gitignored |
 |-----------|---------------|
-| `exiobase/` | EXIOBASE files are large (hundreds of MB) and licensed CC BY-SA 4.0. Download separately — see below. |
-| `worlds/` | Per-player IO tables. These are generated at runtime from EXIOBASE and player actions. |
+| `exiobase/` | EXIOBASE files are large (hundreds of MB) and licensed separately. Download — see below. |
+| `worlds/` | Per-player IO tables. Generated at runtime from EXIOBASE and player actions. |
 
 ---
 
 ## How to get EXIOBASE
 
-Red Worlds uses [EXIOBASE 3](https://www.exiobase.eu/), a global multi-regional
-input-output (MRIO) database.
+Red Worlds uses **EXIOBASE 3.8.2**, a global multi-regional input-output (MRIO) database.
 
-1. Register at [exiobase.eu](https://www.exiobase.eu/) (free).
-2. Download the version you need. Red Worlds targets EXIOBASE 3, ixi (industry-by-industry),
-   in pymrio format. The relevant files are typically named `IOT_<year>_ixi.zip`.
-3. Extract the files into `data/exiobase/` (this directory is gitignored).
-4. Update `config/config.toml` to point at your local copy:
+### Which file to download
+
+Download `IOT_2011_pxp.zip` from Zenodo:
+
+> **https://zenodo.org/records/5589597**
+
+This is the 2011 product-by-product (pxp) table. We use 2011 because it is the latest
+year in 3.8.2 with complete, non-extrapolated supply-use data. Red Worlds performs its
+own extrapolation to reach the in-game Baseline year of **2027** and beyond.
+
+### Licence
+
+EXIOBASE 3.8.2 is released under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+— free to use with attribution and share-alike. More recent EXIOBASE releases exist
+(with "now-casted" years) and use CC BY 4.0. Those are fine for personal and research
+use but check the terms before redistribution. Version 3.8.2 is what Red Worlds targets.
+
+### Citation
+
+> Stadler, K., Wood, R., Bulavskaya, T., Södersten, C.-J., Simas, M., Schmidt, S.,
+> Usubiaga, A., Acosta-Fernández, J., Kuenen, J., Bruckner, M., Giljum, S., Lutter, S.,
+> Merciai, S., Schmidt, J. H., Theurl, M. C., Plutzar, C., Kastner, T., Eisenmenger, N.,
+> Erb, K.-H., … Tukker, A. (2021). EXIOBASE 3 (3.8.2) [Data set]. Zenodo.
+> https://doi.org/10.5281/zenodo.5589597
+
+### Installation
+
+1. Download `IOT_2011_pxp.zip` from the Zenodo link above.
+2. Create the directory `data/exiobase/` (it is gitignored — git will never see its contents).
+3. Extract the zip into `data/exiobase/`.
+4. Copy `config/config.example.toml` to `config/config.toml` and set your paths:
 
 ```toml
 [data]
@@ -45,7 +70,19 @@ exiobase_path = "/path/to/redworlds/data/exiobase"
 worlds_path = "/path/to/redworlds/data/worlds"
 ```
 
-Copy `config/config.example.toml` to `config/config.toml` as your starting point.
+### Monetary units
+
+EXIOBASE values are in **2011 million EUR at basic prices**. Basic prices are producer
+prices — what the seller receives — excluding taxes on products and trade/transport
+margins. Red Worlds converts these to **2026 constant million USD** for all player-facing
+figures (see `src/redworlds/engine/currency.py`).
+
+### Regions
+
+EXIOBASE 3.8.2 covers ~49 countries and regions. Red Worlds aggregates these into **7
+game regions**. Our calculations are therefore slightly less granular than results you
+would get running EXIOBASE at full country resolution. The region mapping is in
+`data/concordances/region_mapping.csv`.
 
 ---
 
@@ -84,14 +121,27 @@ Schema:
 
 ### `concordances/region_mapping.csv`
 
-Maps EXIOBASE country/region codes to the 6 amalgamated game regions.
+Maps EXIOBASE country/region codes to the 7 amalgamated game regions.
 
 Schema:
 
 | Column | Description |
 |--------|-------------|
-| `exiobase_region` | EXIOBASE region code (e.g. `DE`, `CN`, `WA`) |
-| `game_region` | Amalgamated game region label |
+| `exiobase_region` | EXIOBASE region code (ISO-2 for countries, e.g. `DE`, `CN`; special codes for rest-of-world blocks, e.g. `WA`, `WF`) |
+| `game_region_id` | Numeric game region ID (1–7) |
+| `game_region_name` | Amalgamated game region label |
+
+The 7 game regions are:
+
+| ID | Name |
+|----|------|
+| 1 | USA and Canada |
+| 2 | Latin America and the Caribbean |
+| 3 | Europe and Central Asia |
+| 4 | Africa and Middle East |
+| 5 | South Asia |
+| 6 | Mainland East Asia |
+| 7 | South East Asia and Pacific Ocean |
 
 ---
 

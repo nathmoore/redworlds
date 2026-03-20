@@ -1,5 +1,67 @@
-exiobase_region,game_region
-# This file maps EXIOBASE region codes to the 6 amalgamated game regions.
-# See data/README.md for full schema documentation.
-# Placeholder — populate with actual EXIOBASE region codes before first use.
-# Reference: EXIOBASE 3 region list (49 regions)
+exiobase_region,game_region_id,game_region_name
+# Maps EXIOBASE 3.8.2 region codes to the 7 Red Worlds game regions.
+# EXIOBASE uses ISO 3166-1 alpha-2 codes for countries.
+# Rest-of-world blocks: WA (Asia-Pacific), WL (Americas), WE (Europe), WF (Africa), WM (Middle East).
+# Verify codes against your loaded mrio.get_regions() output — raise a KeyError means a code is missing here.
+#
+# Game regions:
+#   1 = USA and Canada
+#   2 = Latin America and the Caribbean
+#   3 = Europe and Central Asia
+#   4 = Africa and Middle East
+#   5 = South Asia
+#   6 = Mainland East Asia
+#   7 = South East Asia and Pacific Ocean
+#
+# --- EU28 countries (as classified in EXIOBASE 3) ---
+AT,3,Europe and Central Asia
+BE,3,Europe and Central Asia
+BG,3,Europe and Central Asia
+CY,3,Europe and Central Asia
+CZ,3,Europe and Central Asia
+DE,3,Europe and Central Asia
+DK,3,Europe and Central Asia
+EE,3,Europe and Central Asia
+ES,3,Europe and Central Asia
+FI,3,Europe and Central Asia
+FR,3,Europe and Central Asia
+GR,3,Europe and Central Asia
+HR,3,Europe and Central Asia
+HU,3,Europe and Central Asia
+IE,3,Europe and Central Asia
+IT,3,Europe and Central Asia
+LT,3,Europe and Central Asia
+LU,3,Europe and Central Asia
+LV,3,Europe and Central Asia
+MT,3,Europe and Central Asia
+NL,3,Europe and Central Asia
+PL,3,Europe and Central Asia
+PT,3,Europe and Central Asia
+RO,3,Europe and Central Asia
+SE,3,Europe and Central Asia
+SI,3,Europe and Central Asia
+SK,3,Europe and Central Asia
+GB,3,Europe and Central Asia
+# --- Other individual countries ---
+AU,7,South East Asia and Pacific Ocean
+BR,2,Latin America and the Caribbean
+CA,1,USA and Canada
+CN,6,Mainland East Asia
+ID,7,South East Asia and Pacific Ocean
+IN,5,South Asia
+JP,7,South East Asia and Pacific Ocean
+KR,6,Mainland East Asia
+MX,2,Latin America and the Caribbean
+NO,3,Europe and Central Asia
+RU,3,Europe and Central Asia
+CH,3,Europe and Central Asia
+TR,3,Europe and Central Asia
+TW,7,South East Asia and Pacific Ocean
+US,1,USA and Canada
+ZA,4,Africa and Middle East
+# --- Rest-of-world blocks ---
+WA,7,South East Asia and Pacific Ocean
+WL,2,Latin America and the Caribbean
+WE,3,Europe and Central Asia
+WF,4,Africa and Middle East
+WM,4,Africa and Middle East

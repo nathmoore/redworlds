@@ -125,6 +125,8 @@ See also `docs/design/assumptions.md`.*
 | `jobs/update_scenarios.py` | Generate a new daily scenario | Reads concordances, writes scenario |
 | `engine/io_tables.py` | Low-level IO array operations | None — pure functions |
 | `engine/balancing.py` | Economic rebalancing | None — pure functions |
+| `engine/currency.py` | Convert 2011 MEUR → 2026 constant MUSD | None — pure functions |
+| `engine/regions.py` | Aggregate 49 EXIOBASE regions → 7 game regions | None — pure functions |
 | `config.py` | Load config/config.toml | Reads config file |
 
 ---
@@ -149,7 +151,7 @@ See also `docs/design/assumptions.md`.*
 | Concern | Tool | Why |
 |---------|------|-----|
 | IO table engine | [pymrio](https://pymrio.readthedocs.io) | Standard Python MRIO library; used by EXIOBASE researchers |
-| Data format | EXIOBASE 3 ixi (pymrio format) | CC BY-SA 4.0, industry-standard |
+| Data format | EXIOBASE 3.8.2 pxp (pymrio format) | CC BY-SA 4.0, industry-standard |
 | Job queue | TBC (DB table or lightweight queue) | To be chosen — simple DB table likely sufficient for MVP |
 | Config | TOML | Human-readable, easy to diff |
 | Package manager | uv | Fast, deterministic |

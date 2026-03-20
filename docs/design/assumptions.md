@@ -70,15 +70,28 @@ handled on the Decarbonator Deck, not in this engine.
 
 ---
 
-### Regions are amalgamated into approximately 6 game regions
+### Regions are amalgamated into 7 game regions
 
-EXIOBASE covers ~49 countries and regions. Red Worlds maps these into roughly 6
-amalgamated game regions (e.g. *Europe and Central Asia*, *East Asia and Pacific*).
-The exact mapping is in `data/concordances/region_mapping.csv`.
+EXIOBASE covers ~49 countries and regions. Red Worlds maps these into 7 amalgamated
+game regions:
+
+| ID | Name |
+|----|------|
+| 1 | USA and Canada |
+| 2 | Latin America and the Caribbean |
+| 3 | Europe and Central Asia |
+| 4 | Africa and Middle East |
+| 5 | South Asia |
+| 6 | Mainland East Asia |
+| 7 | South East Asia and Pacific Ocean |
+
+The exact mapping is in `data/concordances/region_mapping.csv`. Aggregation is
+performed by `engine/regions.py` using pymrio's `aggregate()` method.
 
 The rationale is legibility: the game is designed for a general audience, and country-level
 granularity would make scenarios harder to relate to. Actions apply to all EXIOBASE regions
-within a game region, aggregated proportionally.
+within a game region, aggregated proportionally. Results will differ slightly from running
+EXIOBASE at full country resolution.
 
 ---
 
@@ -106,16 +119,49 @@ verified against the pymrio documentation and EXIOBASE structure during implemen
 
 ---
 
-### Monetary IO layer (ixi), not physical layer (pxp)
+### Product-by-product (pxp) IO table
 
-Scenarios are mapped to EXIOBASE's monetary sector table (industry-by-industry, ixi)
-rather than the physical layer (pxp). The monetary layer is more complete across regions
-and easier to work with at this stage of the project. Integrating the physical layer —
-which would allow more precise energy flow modelling — is a reasonable future improvement.
+Red Worlds uses EXIOBASE 3.8.2's **product-by-product (pxp)** monetary table
+(`IOT_2011_pxp.zip`). The 2011 year is the latest in 3.8.2 with complete,
+non-extrapolated supply-use data. Red Worlds extrapolates from 2011 to reach
+the in-game **Baseline year of 2027** (one full year ahead of the current year),
+and continues year-by-year from there.
+
+The pxp table is preferred over the industry-by-industry (ixi) alternative because
+product-level classification maps more naturally to the player actions (building a
+technology, swapping a consumer product) and to the scenario categories in
+`data/concordances/exiobase_to_scenario.csv`.
+
+### Monetary units and currency conversion
+
+EXIOBASE monetary values are in **2011 million EUR at basic prices**. Basic prices
+are producer prices — what the seller receives — excluding taxes on products and
+trade/transport margins.
+
+Red Worlds converts all monetary values to **2026 constant million USD** before
+exposing them to players. The conversion uses:
+- The average 2011 EUR/USD exchange rate (ECB): **1.3917**
+- The US BLS CPI-U deflator ratio 2026/2011: **≈ 1.489**
+- Combined factor: **≈ 2.072** (1 MEUR 2011 ≈ 2.07 MUSD 2026)
+
+This conversion is applied **once, during baseline construction** — the pipeline
+that transforms raw 2011 EXIOBASE into the stored `BASELINE_2027` world. After
+that step, all IO tables on disk are natively in 2026 constant USD. No per-action
+or per-player conversion is needed.
+
+Satellite accounts (physical units, e.g. kg CO2) are not scaled. Total emissions
+(D = M × Y) are scale-invariant and remain correct.
 
 ---
 
 ## Scenario model
+
+### Baseline year is 2027, extrapolated from 2011 EXIOBASE data
+
+The in-game starting point — the Baseline — is **2027**, one full year ahead of the
+current in-game year. We reach 2027 by applying growth extrapolation to the 2011
+EXIOBASE tables. The overnight `apply_growth` job continues this year-by-year for
+every simulation year that follows.
 
 ### Economic growth projections are not yet implemented
 
