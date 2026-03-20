@@ -83,6 +83,25 @@ More notebooks are planned — contributions welcome.
 
 ---
 
+## Using this repo with an AI assistant
+
+The [`prompts/`](prompts/) folder contains context files you can paste into an AI
+conversation (Claude.ai, ChatGPT, Copilot, etc.) to get scientifically grounded
+answers to carbon modelling questions.
+
+Start with [`prompts/red_worlds_context.md`](prompts/red_worlds_context.md) — it
+orients the AI to the project's assumptions, data structures, and current
+implementation status. Example questions you can then ask:
+
+- "Walk me through what happens in the IO tables when a player reduces steel demand by 10%."
+- "Which EXIOBASE sectors would shift if a region swaps 20% of gas heating for heat pumps?"
+- "What are the known limitations of this model?"
+
+The AI will explain methodology and help you understand the science. For actual
+numbers it will need the engine to be run against real EXIOBASE data.
+
+---
+
 ## Want to contribute a notebook?
 
 If you've done something interesting with the Red Worlds engine or EXIOBASE,

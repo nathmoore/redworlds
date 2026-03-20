@@ -100,6 +100,10 @@ See `docs/design/assumptions.md` for the full game design rationale.
    custom matrix operations.
 6. **Leave TODOs with issue refs** — `# TODO: implement — see GitHub issue #N`.
    Don't leave TODOs without a corresponding GitHub issue.
+7. **EXIOBASE is the primary IO database** — engine functions use EXIOBASE 3.8.2 (pxp)
+   as their reference. Where code is EXIOBASE-specific (currency constants, region
+   concordance, price markup), mark it with `# EXIOBASE-specific` so contributors
+   extending to other pymrio databases (WIOD, Eora, Gloria) know what to replace.
 
 ---
 
@@ -153,7 +157,7 @@ functions). Actions in `actions/` can assume valid, authenticated input.
 | File | Purpose |
 |------|---------|
 | `data/concordances/exiobase_to_scenario.csv` | Maps EXIOBASE sectors to game scenario categories |
-| `data/concordances/region_mapping.csv` | Maps EXIOBASE regions to the 6 amalgamated game regions |
+| `data/concordances/region_mapping.csv` | Maps EXIOBASE regions to the 7 amalgamated game regions |
 | `data/tech_choices/options.toml` | BUILD/SWAP/REDUCE tech options with compatible scenario tags |
 | `config/config.example.toml` | Template for personal `config/config.toml` |
 
@@ -177,3 +181,38 @@ just version         # print current version
 Stubs use `raise NotImplementedError`. Always pair a stub with:
 - `# TODO: implement — see GitHub issue #N` (real issue number required)
 - A skipped test stub in the corresponding test file
+
+---
+
+## Git commits
+
+Use conventional commit format: `type(scope): short imperative summary (≤72 chars)`
+
+**Type prefixes:**
+- `feat` — new capability
+- `fix` — bug fix
+- `docs` — documentation only
+- `refactor` — code structure, no behaviour change
+- `test` — tests only
+- `data` — concordances, config, raw data changes
+- `chore` — tooling, deps, CI
+
+**Body rules:**
+1. Body is required whenever a decision could be misread or a scientific assumption is embedded. Explain *why*, not *what* (the diff shows what).
+2. Omit body for genuinely mechanical changes (typos, formatting, version bumps).
+3. If a scientific assumption is embedded, cite the source inline in short form (e.g. `ECB 2011 annual average EUR/USD = 1.3917`). Full citations live in `docs/references.md`.
+4. If Claude wrote the majority of the code, add `Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>` at the end of the body.
+5. If the commit updates `docs/design/assumptions.md`, the body can briefly state the conclusion, pointing to the doc for the full argument.
+
+**Template:**
+```
+type(scope): short summary
+
+Why this change was made — one paragraph. Explain the decision or assumption,
+not the mechanics. Future contributors (and AI tools) should understand the
+reasoning without opening the code.
+
+Source: short-form citation if applicable.
+
+Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+```

@@ -33,6 +33,8 @@ from pathlib import Path
 import pandas as pd
 import pymrio
 
+# EXIOBASE-specific: this concordance maps EXIOBASE 3.8.2 (pxp) region codes to 7 game regions.
+# A different MRIO database (WIOD, Eora, Gloria) would need its own concordance CSV.
 _CONCORDANCE_PATH = Path(__file__).parents[3] / "data" / "concordances" / "region_mapping.csv"
 
 
@@ -48,7 +50,7 @@ def load_region_concordance() -> dict[str, str]:
         names=["exiobase_region", "game_region_id", "game_region_name"],
         skiprows=1,  # skip the header row
     )
-    return dict(zip(df["exiobase_region"], df["game_region_name"]))
+    return dict(zip(df["exiobase_region"], df["game_region_name"], strict=True))
 
 
 def _build_region_agg(regions: list[str], concordance: dict[str, str]) -> dict[str, list[str]]:

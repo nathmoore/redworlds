@@ -34,10 +34,17 @@ import pymrio
 # --- Conversion constants ---
 
 EUR_USD_2011: float = 1.3917
-"""Average EUR/USD exchange rate, 2011 (ECB annual average)."""
+"""Average EUR/USD exchange rate, 2011 (ECB annual average).
+
+# EXIOBASE-specific: EXIOBASE 3.8.2 monetary values are in 2011 million EUR.
+Replace this constant if using a different MRIO database with a different base currency/year.
+"""
 
 CPI_2026_OVER_2011: float = 1.489
-"""US BLS CPI-U ratio: 2026 annual average / 2011 annual average (approximate)."""
+"""US BLS CPI-U ratio: 2026 annual average / 2011 annual average (approximate).
+
+# EXIOBASE-specific: tied to EXIOBASE 3.8.2's 2011 base year and Red Worlds' 2026 display year.
+"""
 
 CONVERSION_FACTOR: float = EUR_USD_2011 * CPI_2026_OVER_2011
 """Combined factor to convert 2011 MEUR → 2026 constant MUSD. ≈ 2.072."""

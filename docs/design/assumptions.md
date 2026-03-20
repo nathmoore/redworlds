@@ -119,6 +119,32 @@ verified against the pymrio documentation and EXIOBASE structure during implemen
 
 ---
 
+### Basic prices vs purchaser prices
+
+EXIOBASE records all monetary values in **basic prices**: what the producer receives,
+excluding taxes on products and trade and transport margins. When a player budgets
+a BUILD project, they are thinking in **purchaser prices** — the full cost to the buyer,
+including taxes, trade margins, and transport.
+
+```
+Purchaser price = Basic price + Taxes on products + Trade margins + Transport margins
+```
+
+The correct implementation uses EXIOBASE's `TT` (taxes and subsidies on products) and
+`TTM` (trade and transport margins) matrices to convert sector-by-sector. This is the
+standard approach in detailed IO modelling.
+
+For now, `engine/prices.py` uses a **universal markup of 1.20** (20%) as an approximation.
+This is in the middle of the typical range for construction and manufactured goods
+(1.15–1.25 for VAT/GST + trade margin + transport). Services tend to be lower; tax-heavy
+energy products can be much higher. The simplification is acceptable for early-stage
+balancing; the TODO for proper TT/TTM conversion is tracked in GitHub issue #N.
+
+Player-facing prices in BUILD, SWAP, and REDUCE should always be quoted in purchaser
+prices. Internal engine calculations use basic prices throughout.
+
+---
+
 ### Product-by-product (pxp) IO table
 
 Red Worlds uses EXIOBASE 3.8.2's **product-by-product (pxp)** monetary table

@@ -3,15 +3,15 @@
 All tests use the ``test_mrio`` fixture from conftest.py — no EXIOBASE needed.
 """
 
-import pytest
 import pymrio
+import pytest
 
 from redworlds.engine.currency import (
     CONVERSION_FACTOR,
-    EUR_USD_2011,
     CPI_2026_OVER_2011,
-    meur_2011_to_musd_2026,
+    EUR_USD_2011,
     convert_mrio_currency,
+    meur_2011_to_musd_2026,
 )
 
 
@@ -56,3 +56,23 @@ def test_mrio_conversion_returns_new_object(test_mrio: pymrio.IOSystem) -> None:
     converted = convert_mrio_currency(test_mrio)
     assert converted is not test_mrio
     assert converted.Z is not test_mrio.Z
+
+
+def test_mrio_conversion_does_not_touch_extension_F(test_mrio: pymrio.IOSystem) -> None:
+    """Raw satellite flows (F) should be unchanged — only monetary matrices are converted."""
+    original_F = test_mrio.emissions.F.copy()
+    converted = convert_mrio_currency(test_mrio)
+    assert converted.emissions.F.values == pytest.approx(original_F.values)
+
+
+def test_mrio_conversion_preserves_total_emissions(test_mrio: pymrio.IOSystem) -> None:
+    """Total emissions D_cba should be scale-invariant under currency conversion.
+
+    Proof: D = S·L·Y. After scaling x and Y by k, S = F·x̂⁻¹ becomes S/k and
+    Y becomes Y·k, so D_new = (S/k)·L·(Y·k) = D. Verified here by recalculating
+    after conversion.
+    """
+    original_D = test_mrio.emissions.D_cba.copy()
+    converted = convert_mrio_currency(test_mrio)
+    converted.calc_all()
+    assert converted.emissions.D_cba.values == pytest.approx(original_D.values)

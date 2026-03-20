@@ -9,12 +9,12 @@ EXIOBASE pxp data.
 TODO: implement — see GitHub issue #N
 """
 
-import pytest
 import pymrio
+import pytest
 
 from redworlds.engine.regions import (
-    load_region_concordance,
     aggregate_regions,
+    load_region_concordance,
 )
 
 
