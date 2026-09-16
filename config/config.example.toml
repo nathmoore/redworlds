@@ -9,7 +9,10 @@
 # Path to your local EXIOBASE directory (downloaded separately — see data/README.md)
 exiobase_path = "/path/to/exiobase"
 
-# Path where per-player derived IO tables are stored (server-side; local for testing)
+# Path to the 2011 capital use matrix for EXIOBASE 3.8.2 pxp (Zenodo record 7073276 — see data/README.md)
+capital_use_path = "/path/to/exiobase/capital/Kbar_exio_v3_8_2_2011_cfc_pxp.mat"
+
+# Path where the cached baseline and (phase 2) per-player worlds are stored
 worlds_path = "/path/to/worlds"
 
 # Path to the concordances and tech_choices directories (defaults to data/ in repo root)

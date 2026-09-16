@@ -7,73 +7,136 @@ order matters. The reference for all game design decisions is **The Art of Game 
 A Book of Lenses** by Jesse Schell — when a design choice is contested, this is the
 common language.
 
-**Balance comes first.** BUILD, SWAP, and REDUCE must all be balanced to feel like genuinely viable,
-rewarding choices. We achieve this through
-playtesting and iteration. The interesting question
-the balancing process will surface is *how much adjustment each choice needs, and why*:
-it might turn out to say something real about the relative tractability of different
-climate strategies in the actual world.
+**Balance comes first.** BUILD, SWAP, and REDUCE must all be balanced to feel like genuinely
+viable, rewarding choices. We achieve this through playtesting and iteration. The
+interesting question the balancing process will surface is *how much adjustment each
+choice needs, and why*: it might turn out to say something real about the relative
+tractability of different climate strategies in the actual world.
 
 **Accuracy serves clarity.** The engine should be as scientifically grounded as
 possible, but not at the cost of the player losing the thread of what their choices
 mean. A simplification that makes the game more legible without being misleading is
 usually the right call.
 
-The specific choices below are all deliberate. If you think one should be revisited,
-raise a GitHub issue — that's exactly what the open-source model is for.
+The specific choices below are all deliberate and dated. Where a choice came from the
+game's design rather than from the modelling literature, it says so. If you think one
+should be revisited, raise a GitHub issue — that's exactly what the open-source model is
+for. The full record of what the game needs from this engine is in
+[`red_carbon_contract.md`](red_carbon_contract.md); open questions are in
+[`../backlog.md`](../backlog.md).
+
+---
+
+## The world being modelled
+
+### The in-game "now" is 2050 and every intervention is scored over 2050–2100
+
+*Game decision, 2026-04-30.* The player acts in 2050, after the 1.5°C and 2°C carbon
+budgets have expired. Each intervention (a "tape") is scored as **cumulative CO₂ abated
+over 2050–2100** against a do-nothing baseline. There is no narrowing window and no
+per-day time block: every tape gets the full fifty years.
+
+*Effect in the model:* the engine needs one baseline world for 2050, a baseline emissions
+trajectory 2050–2100, and for each tape the annual difference that a shock makes,
+accumulated over the window through a deployment curve. Temperature is not modelled;
+the game derives it from cumulative CO₂ (about 0.45 °C per 1000 Gt, Allen et al. 2022).
+
+### The baseline is SSP2, built once from 2011 EXIOBASE data
+
+*Decided 2026-09-16.* EXIOBASE 3.8.2 is a 2011 table. We extrapolate it to a 2050 world
+along a "middle of the road" SSP2 pathway and continue to 2100, following the scenario
+method of Wiebe et al. (2018) and Cap et al. (2024): exogenous population and GDP growth
+drive final demand; technology change enters as coefficient changes with columns rescaled
+to sum to one; stressors scale with coefficients. The baseline is a cacheable artifact
+produced by `jobs/build_baseline.py`, not a per-player nightly tick. The exact
+extrapolation recipe is an open backlog item.
+
+### MVP scoring is a static comparative, one tape at a time
+
+The first working engine is a stateless function: baseline world in, one shock applied,
+one Leontief solve, annual delta multiplied through a deployment curve, fifty-year
+cumulative out. This is exactly the "what if" method of Wiebe et al. (2018), and it means
+a notebook can call the engine without a server, a queue or a per-player world. Results
+are meaningful *relative to the baseline*, never as absolute levels; that is a property of
+the method, not a bug.
+
+Per-player persistent worlds, simultaneous tapes (whose Leontief interactions the game
+treats as a feature) and the job queue are phase 2. The architecture for them is
+sketched in [`architecture.md`](architecture.md).
 
 ---
 
 ## Economic model
 
-### Rebalancing: what happens to money after a player action
+### Where the money goes: three wings, three answers
 
-Three action types, three different assumptions about money:
+The three action types differ in what happens to money, and that difference is a
+deliberate feature of the game's design as much as a modelling choice
+(*game decision, confirmed 2026-09-16*):
 
-**BUILD and SWAP** represent *substitution* — the player is spending or redirecting money,
-not eliminating it. After either action, money flows are rebalanced across the rest of the
-economy to keep the IO system closed. This reflects the standard MRIO assumption that
-expenditure is conserved: if you spend less on gas heating, that money goes somewhere else.
+| Wing | What happens to the money | Rebound |
+|---|---|---|
+| **BUILD** | Construction capex is added to gross fixed capital formation during the build years (an *injection*; a *reallocation* flag that crowds out other investment instead is planned). After completion the electricity sector's technology mix changes. | Construction emissions are real and front-loaded: the J-curve. |
+| **SWAP** | A closed-system rebalance: money not spent on the displaced product is re-spent on the replacement and the rest of the consumption basket. Total spend is preserved. | The re-spend *is* the rebound. A SWAP's benefit is partly eroded by design. |
+| **REDUCE** | The reduced spend leaves the model. Total final demand falls; the economy shrinks in proportion, and the engine reports the GDP impact. | None. REDUCE gets full carbon credit and pays for it in booked GDP. |
 
-**REDUCE** is different by design. It represents *eco-sufficiency* — genuinely consuming
-less, not spending the savings elsewhere. The economy shrinks in that sector. This is a
-deliberate post-growth framing: we want the game to explore what it means to genuinely
-reduce demand, not just shift it. Whether this is the right model for all REDUCE scenarios
-is a reasonable question — raise an issue if you want to discuss it.
+REDUCE is the post-growth wing: genuinely consuming less, not spending the savings
+elsewhere. A cut's carbon still depends on *which* demand is cut — a contraction that
+falls on necessities (heating, food, fuel) removes less carbon per euro than a chosen
+reduction in discretionary goods — so a REDUCE tape is defined by a basket of product
+groups, not a flat percentage of everything.
 
-The specific rebalancing methodology for BUILD and SWAP is not yet implemented.
-See `engine/balancing.py` and GitHub issue #10.
+The rebalancing weighting used by SWAP (and by BUILD under the reallocation flag) is a
+single function with a weighting argument. The placeholder is flat proportional; the
+planned upgrade is income-elasticity weighting per product (Bjelle et al. 2021; Cap et al.
+2024 Eq. 1). See `engine/balancing.py`.
 
----
+### Capital is endogenised in the baseline
 
-### BUILD: CapEx is spread linearly over the build period
+*Decided 2026-09-16.* In a plain IO table, investment sits in its own final-demand column
+and does not respond to changes in consumption: cut household demand for computers and
+the computer factories' capital spending is untouched. We instead endogenise capital at
+baseline construction using the method of Södersten, Wood & Hertwich (2018) and the
+capital use matrices published for EXIOBASE 3.8.2 (Wood & Södersten, Zenodo record
+7073276, product-by-product, CC-BY-4.0): the depreciation-based flow of capital goods into
+each industry moves from the investment column into the technical coefficients, leaving
+only net expansion as final demand.
 
-When a player builds new capacity, the capital expenditure is distributed evenly across
-the build period — the same amount per simulation year, from start to finish. In reality,
-spending profiles tend to be front-loaded. This simplification trades realism for
-predictability: the player can clearly see what each year of the build costs. It may be
-revisited once the engine is further along.
+*Why:* every SWAP and REDUCE tape then carries its capital consequences automatically
+(less demand → less factory capital; more electricity → more grid and generation capital),
+and renewables' in-window replacement cycles are captured without special-casing.
+Construction remains a normal product; it also appears as an input of every
+capital-using sector.
 
-*Effect in the model:* IO construction sector spending increases by `budget / build_years`
-per simulation year during the build period.
+*Consequence for BUILD:* endogenised capital is proportional to output, and a plant under
+construction produces nothing, so the J-curve still needs an explicit capex injection in
+the build years. During operation the coefficients then charge the plant's capital at the
+sector's average maintenance-and-replacement rate, which overcounts a long-lived new plant
+a little. The overcount is roughly the size of the construction hump spread over forty
+years, small against the displacement, and consistent with how the baseline treats every
+other plant. It can be netted out of the injection later if it matters.
 
----
+### BUILD: capex is spread linearly over the build period
+
+Capital expenditure is distributed evenly across the build years. Real spending profiles
+are front-loaded; the simplification trades realism for predictability. The split of
+capex across EXIOBASE products (construction, machinery, electrical equipment, business
+services) follows the technology-specific shares in Wood/Wiebe et al. (2018) SI Table SI1.
+The carbon per euro of that spend is not an assumption: it is what the model returns for
+those products in that region.
 
 ### BUILD: all units are built in parallel
 
-The build period is the same whether the player builds one wind farm or a hundred — all
-units are assumed to be constructed simultaneously by a large coordinated workforce.
-This is intentional: the game is exploring what collective action *could* achieve, and
-we don't want large ambitions to feel mechanically punishing just because the numbers
-are bigger. Larger targets do carry a higher chance of cost and time overrun, but that's
-handled on the Decarbonator Deck, not in this engine.
-
----
+The build period is the same whether the player builds one reactor or ten — all units are
+assumed to be constructed simultaneously by a large coordinated workforce. The game is
+exploring what collective action *could* achieve, and large ambitions should not feel
+mechanically punishing just because the numbers are bigger. Overrun risk is handled by
+the game's variance roll, not in this engine.
 
 ### Regions are amalgamated into 7 game regions
 
-EXIOBASE covers ~49 countries and regions. Red Worlds maps these into 7 amalgamated
-game regions:
+EXIOBASE covers 49 countries and rest-of-world blocks. Red Worlds maps these into 7
+amalgamated game regions:
 
 | ID | Name |
 |----|------|
@@ -86,12 +149,13 @@ game regions:
 | 7 | South East Asia and Pacific Ocean |
 
 The exact mapping is in `data/concordances/region_mapping.csv`. Aggregation is
-performed by `engine/regions.py` using pymrio's `aggregate()` method.
+performed by `engine/regions.py` using pymrio's `aggregate()` method. Japan sits in
+region 7 (the OECD-and-aspiring Pacific grouping); Taiwan's placement (6 or 7) is still
+to be settled against the game's regions doc.
 
-The rationale is legibility: the game is designed for a general audience, and country-level
-granularity would make scenarios harder to relate to. Actions apply to all EXIOBASE regions
-within a game region, aggregated proportionally. Results will differ slightly from running
-EXIOBASE at full country resolution.
+The rationale is legibility: the game is designed for a general audience, and
+country-level granularity would make scenarios harder to relate to. Results will differ
+slightly from running EXIOBASE at full country resolution.
 
 ---
 
@@ -99,25 +163,19 @@ EXIOBASE at full country resolution.
 
 ### Actions target different IO matrices — and that matters for performance
 
-Each action type modifies a different part of the underlying IO system, which has real
-consequences for how much recalculation is required:
+Each action type modifies a different part of the underlying IO system:
 
-- **REDUCE** and **Y-side SWAP** modify the final demand matrix (Y). Recalculating from
-  here is relatively straightforward: update total output `x = L·y`, then recalculate
-  the satellite accounts (S, M, D).
-- **Z-side SWAP**, **BUILD (construction phase)**, and **BUILD (post-build energy mix
-  change)** modify the intermediate demand matrix (Z) or the technical coefficients (A).
-  This requires a full Leontief recalculation — recomputing A, then L = (I − A)⁻¹, then
-  the full downstream chain. Significantly more expensive.
+- **REDUCE** and **Y-side SWAP** modify final demand (Y). Recalculating from here is
+  cheap: total output `x = L·y`, then the satellite accounts. The Leontief inverse is
+  unchanged and can be cached with the baseline.
+- **BUILD (construction phase)** adds to the investment column of Y — also cheap.
+- **BUILD (post-build)** and **Z-side SWAP** change technical coefficients (A) or the
+  stressor matrix (S). These need a full recalculation: A, then L = (I − A)⁻¹, then the
+  downstream chain. On the 9800 × 9800 EXIOBASE system that is seconds to minutes.
 
-In practice this means the engine should not blindly call `calc_all()` after every change.
-Functions in `engine/io_tables.py` should return enough information for the caller to
-choose the minimal recalculation path.
-
-*The exact matrix targets for each action type are a working hypothesis — they should be
-verified against the pymrio documentation and EXIOBASE structure during implementation.*
-
----
+The engine should not blindly call `calc_all()` after every change. Functions in
+`engine/io_tables.py` should return enough information for the caller to choose the
+minimal recalculation path. *Y-side tapes are the MVP path for this reason.*
 
 ### Basic prices vs purchaser prices
 
@@ -131,82 +189,74 @@ Purchaser price = Basic price + Taxes on products + Trade margins + Transport ma
 ```
 
 The correct implementation uses EXIOBASE's `TT` (taxes and subsidies on products) and
-`TTM` (trade and transport margins) matrices to convert sector-by-sector. This is the
-standard approach in detailed IO modelling.
+`TTM` (trade and transport margins) matrices to convert sector-by-sector. For now,
+`engine/prices.py` uses a **universal markup of 1.20** (20%) as an approximation, in the
+middle of the typical range for construction and manufactured goods (1.15–1.25). Services
+tend to be lower; tax-heavy energy products can be much higher. Proper TT/TTM conversion
+is a backlog item.
 
-For now, `engine/prices.py` uses a **universal markup of 1.20** (20%) as an approximation.
-This is in the middle of the typical range for construction and manufactured goods
-(1.15–1.25 for VAT/GST + trade margin + transport). Services tend to be lower; tax-heavy
-energy products can be much higher. The simplification is acceptable for early-stage
-balancing; the TODO for proper TT/TTM conversion is tracked in GitHub issue #N.
-
-Player-facing prices in BUILD, SWAP, and REDUCE should always be quoted in purchaser
-prices. Internal engine calculations use basic prices throughout.
-
----
+Player-facing prices should always be quoted in purchaser prices. Internal engine
+calculations use basic prices throughout.
 
 ### Product-by-product (pxp) IO table
 
 Red Worlds uses EXIOBASE 3.8.2's **product-by-product (pxp)** monetary table
 (`IOT_2011_pxp.zip`). The 2011 year is the latest in 3.8.2 with complete,
-non-extrapolated supply-use data. Red Worlds extrapolates from 2011 to reach
-the in-game **Baseline year of 2027** (one full year ahead of the current year),
-and continues year-by-year from there.
-
-The pxp table is preferred over the industry-by-industry (ixi) alternative because
-product-level classification maps more naturally to the player actions (building a
-technology, swapping a consumer product) and to the scenario categories in
-`data/concordances/exiobase_to_scenario.csv`.
+non-extrapolated supply-use data, and 3.8.2 is the last release under CC BY-SA 4.0. The
+pxp table is preferred over industry-by-industry because product-level classification
+maps more naturally to the player actions (building a technology, swapping a consumer
+product) and to the scenario categories in `data/concordances/exiobase_to_scenario.csv`.
+The capital use matrices are also published at pxp resolution for 2011.
 
 ### Monetary units and currency conversion
 
-EXIOBASE monetary values are in **2011 million EUR at basic prices**. Basic prices
-are producer prices — what the seller receives — excluding taxes on products and
-trade/transport margins.
+EXIOBASE monetary values are in **2011 million EUR at basic prices**. Red Worlds converts
+all monetary values to **2026 constant million USD** before exposing them to players:
 
-Red Worlds converts all monetary values to **2026 constant million USD** before
-exposing them to players. The conversion uses:
 - The average 2011 EUR/USD exchange rate (ECB): **1.3917**
 - The US BLS CPI-U deflator ratio 2026/2011: **≈ 1.489**
 - Combined factor: **≈ 2.072** (1 MEUR 2011 ≈ 2.07 MUSD 2026)
 
-This conversion is applied **once, during baseline construction** — the pipeline
-that transforms raw 2011 EXIOBASE into the stored `BASELINE_2027` world. After
-that step, all IO tables on disk are natively in 2026 constant USD. No per-action
-or per-player conversion is needed.
-
-Satellite accounts (physical units, e.g. kg CO2) are not scaled. Total emissions
-(D = M × Y) are scale-invariant and remain correct.
+This conversion is applied **once, during baseline construction**. After that step, all
+IO tables on disk are natively in 2026 constant USD. Satellite accounts (physical units,
+e.g. kg CO₂) are not scaled; total emissions are scale-invariant and remain correct. A
+separate real-to-nominal step will be needed if the game ever shows prices in a later
+year's money; the 2050 world stays in 2026 constant USD.
 
 ---
 
-## Scenario model
+## What the game sends and what it expects back
 
-### Baseline year is 2027, extrapolated from 2011 EXIOBASE data
+The game's finale resolves dice, variance and civic effects itself and sends this engine a
+tape id, the realised **outcome fraction** of that tape's physical ceiling, and a push
+level. The tape record carries everything physical (region, product groups, ceiling,
+reference cost and build time, deployment curve). The engine derives its own inputs from
+those and returns the cumulative delta, the annual curve and the GDP impact. Full contract:
+[`red_carbon_contract.md`](red_carbon_contract.md) §4; data shapes:
+[`game_mechanics.md`](game_mechanics.md).
 
-The in-game starting point — the Baseline — is **2027**, one full year ahead of the
-current in-game year. We reach 2027 by applying growth extrapolation to the 2011
-EXIOBASE tables. The overnight `apply_growth` job continues this year-by-year for
-every simulation year that follows.
-
-### Economic growth projections are not yet implemented
-
-The overnight `apply_growth` job will eventually use external projections (e.g. from the
-IEA or World Bank) or a simplified endogenous model to advance each player's world by one
-simulation year. For now, it is a stub. See GitHub issue #5 for the planned approach.
+Every tape is pre-sized by the game to the same expected abatement ("one brick" ≈ a
+10-reactor nuclear block ≈ 1 Gt CO₂ cumulative). **How much of each intervention equals a
+brick is a question this engine answers**, per region; the game's current magnitudes are
+placeholders until it does.
 
 ---
 
 ## Known limitations
 
 Every model has boundaries. Here are the main things this engine deliberately does not
-(yet) capture:
+(yet) capture, most of them inherited from the demand-driven MRIO method itself:
 
-- Physical energy constraints: capacity factors, grid balancing, curtailment
-- Technology learning curves and cost reductions over time
-- International trade effects from large regional shifts
-- Non-linear feedback between sectors
-- Political feasibility of player choices — this is handled on the Decarbonator Deck
+- Constant trade shares: production stays where it is today, so a large regional shift
+  does not move supply chains between regions.
+- No price channel: any price response (for instance a vendor raising prices when volumes
+  fall) is an exogenous input, never derived.
+- Physical energy constraints: capacity factors, grid balancing, curtailment. EXIOBASE has
+  transmission and distribution sectors whose coefficients can carry losses, but not
+  curtailment.
+- Technology learning curves and cost reductions over time, beyond what the SSP2 baseline
+  bakes in.
+- Political feasibility of player choices — this is the game's job.
 
 These are not failures of the current model; they are the next layer of depth. The engine
 is designed to be extended, and the assumptions above are the natural starting points for

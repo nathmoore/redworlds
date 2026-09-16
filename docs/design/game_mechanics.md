@@ -1,166 +1,168 @@
 # Game Mechanics — Technical Reference
 
-This document explains how the three Decarbonator Deck actions translate into
-Red Worlds engine inputs and outputs. It is the data contract between the
-Red Carbon WordPress front end and this repo.
+This document explains how a player's action in Red Carbon becomes an input to the Red
+Worlds engine, and what the engine sends back. It is the data contract between the game's
+front end and this repo.
 
-For the game design assumptions underpinning these choices, see
-`docs/design/assumptions.md`.
+For the reasoning behind these shapes, see [`red_carbon_contract.md`](red_carbon_contract.md);
+for the modelling assumptions, see [`assumptions.md`](assumptions.md).
 
 ---
 
 ## Overview
 
-Each day, a player sees a scenario: a specific emissions-producing sector in a
-specific region for a specific simulation year (e.g. *European residential heating,
-Year 3*).
+Each day a player picks one **tape**: a single large-scale intervention in one game region,
+belonging to one of three wings. The game's finale then resolves a push level, a civic
+modifier and a dice roll into an **outcome fraction** — how much of the tape's physical
+ceiling was actually delivered (0 to 1, occasionally negative for a REDUCE backfire).
 
-The player engages with the **Decarbonator Deck** on the Red Carbon website and
-produces an action result — one of BUILD, SWAP, or REDUCE — which is sent to
-Red Worlds.
+| Wing | What the tape does | Money | Matrices touched |
+|---|---|---|---|
+| **BUILD** | Constructs new low-carbon capacity | Capex injected into investment during build years | Y (GFCF), then A and S after completion |
+| **SWAP** | Substitutes one product for another at the same volume | Closed rebalance, total preserved | Y (final demand), later Z for production-side swaps |
+| **REDUCE** | Consumes less of a basket of products | Spend leaves the model | Y (final demand) |
+
+The engine never sees dice or civic modifiers. It sees the tape and how much of it landed.
 
 ---
 
-## BUILD
+## What Red Worlds receives
 
-### What the player does
-The player chooses a compatible low-carbon technology to build in the scenario's
-region (e.g. offshore wind, heat pump manufacturing, nuclear) and a number of units.
-Through a series of Deck interactions (civic engagement rolls, builder bonus, etc.)
-they produce:
-
-- A **budget** (monetary units, in the IO system's currency)
-- A **build period** (simulation years)
-
-### What Red Worlds receives
+One job per played tape. The game's finale-resolution module emits it; transport is a
+shared job-queue table (see [`architecture.md`](architecture.md)).
 
 ```json
 {
-  "action": "build",
-  "player_id": "...",
-  "region": "Europe and Central Asia",
-  "technology": "offshore_wind",
-  "budget": 450000,
-  "build_years": 5,
-  "current_year": 3
+  "job_id": "…",
+  "player_id": "…",
+  "tape_id": "eca_nuclear",
+  "region_id": 3,
+  "outcome_fraction": 0.61,
+  "push_level": 3.0,
+  "modifier_effects": { "build_time_delta_years": 2, "build_cost_delta": 0.03 }
 }
 ```
 
-### What Red Worlds does
-1. Loads the player's IO system.
-2. Spreads `budget / build_years` of CapEx across IO construction sectors for `current_year`.
-3. If `current_year` is the final year of the build period, updates the energy mix to
-   reflect the new capacity.
-4. Rebalances the economy (see `engine/balancing.py`).
-5. Saves the updated IO system and returns updated emissions.
+`region_id` is the numeric game region (1–7), never a label. `modifier_effects` carries
+only the civic modifier's physical consequences (BUILD time and cost deltas); SWAP and
+REDUCE modifiers have none.
 
----
+### The tape record
 
-## SWAP
-
-### What the player does
-The player chooses an eco-choice that substitutes one technology for another within
-the scenario (e.g. heat pumps for gas heating, vegetarian diet for existing diet).
-They roll the Deck to produce:
-
-- A **% rollout** — the fraction of the replaceable share of the scenario that gets swapped
-
-### What Red Worlds receives
-
-```json
-{
-  "action": "swap",
-  "player_id": "...",
-  "region": "Europe and Central Asia",
-  "from_technology": "gas_heating",
-  "to_technology": "heat_pumps",
-  "pct_rollout": 0.32
-}
-```
-
-### What Red Worlds does
-1. Loads the player's IO system.
-2. Shifts `pct_rollout` of `from_technology`'s final demand share to `to_technology`.
-3. Rebalances the economy.
-4. Saves the updated IO system and returns updated emissions.
-
-### Notes on the % rollout
-The scenario definition (in `data/tech_choices/options.toml`) includes a
-`max_replaceable_fraction` for each SWAP option — the maximum share of the scenario
-sector that this technology *could* replace, given physical constraints. The Deck
-output is a % of that replaceable fraction, not of the full scenario.
-
----
-
-## REDUCE
-
-### What the player does
-The player chooses an eco-sufficiency option (e.g. lower thermostat by 2°C, reduce
-excess calorie consumption). They roll the Deck to produce:
-
-- A **% reduction** — how much of the reducible share of the scenario is reduced
-
-### What Red Worlds receives
-
-```json
-{
-  "action": "reduce",
-  "player_id": "...",
-  "region": "Europe and Central Asia",
-  "sector": "residential_heating",
-  "pct_reduction": 0.18
-}
-```
-
-### What Red Worlds does
-1. Loads the player's IO system.
-2. Scales down final demand for `sector` in `region` by `pct_reduction`.
-3. **Does NOT rebalance** — this is a deliberate post-growth assumption (see `docs/design/assumptions.md`).
-4. Saves the updated IO system and returns updated emissions.
-
----
-
-## Scenario definition (in tech_choices/options.toml)
-
-Each technology/eco-choice in `data/tech_choices/options.toml` has:
+Everything physical about a tape lives in a committed tape record in
+`data/tech_choices/options.toml`, keyed by `tape_id`. The engine reads it; the game
+never sends it. Fields:
 
 ```toml
-[[build]]
-key = "offshore_wind"
-label = "Offshore Wind Farm"
-compatible_scenarios = ["electricity_generation", "grid_infrastructure"]
-regions = ["all"]          # or list specific game regions
+[[tape]]
+tape_id = "eca_nuclear"
+wing = "build"
+region_id = 3
+scenario_category = "electricity_generation"   # key into concordances/exiobase_to_scenario.csv
+technology = "nuclear"
+matrix_target = ["GFCF_construction_phase", "A_post_build_energy_mix"]
+capacity_gw = 12.0                                # 10 reactors × 1.2 GW
+budget_musd_2026_purchaser = 100000               # reference capex, purchaser prices
+build_years_reference = 10
+capex_split = { construction = 0.40, machinery = 0.42, electrical_machinery = 0.09, business_services = 0.09 }
+deployment_curve = "s_curve"                      # how the effect ramps over the remaining years
 
-[[swap]]
-key = "heat_pumps"
-label = "Heat Pumps"
-replaces = "gas_heating"
-compatible_scenarios = ["residential_heating", "commercial_heating"]
-max_replaceable_fraction = 0.65   # at most 65% of gas heating can be replaced by heat pumps
+[[tape]]
+tape_id = "eca_electric_vehicle_transition"
+wing = "swap"
+region_id = 3
+scenario_category = "private_road_transport"
+from_product = "motor_fuel"
+to_product = "electricity"
+max_replaceable_fraction = 0.9
+deployment_curve = "s_curve"
 
-[[reduce]]
-key = "thermostat_reduction"
-label = "Lower Thermostat"
-compatible_scenarios = ["residential_heating"]
-max_reducible_fraction = 0.20     # at most 20% of residential heating can be saved this way
+[[tape]]
+tape_id = "eca_buy_less"
+wing = "reduce"
+region_id = 3
+scenario_category = "goods_and_leisure"          # a named basket; see assumptions.md
+max_reducible_fraction = 0.05
+deployment_curve = "linear_10yr"
 ```
 
-This schema is indicative — the actual structure will evolve as the game is built.
+The schema is indicative and will evolve. Two rules are fixed: **a tape's magnitude is an
+engine output** (the game sizes every tape to the same expected abatement, and this engine
+reports what physical quantity that takes per region), and **the record never carries
+game-side text** (names, pitches, characters stay in the game).
+
+### Derived engine inputs
+
+The action functions take plain physical inputs. The job handler derives them:
+
+| Wing | Engine input | Derivation |
+|---|---|---|
+| BUILD | `budget`, `build_years` | `budget_musd_2026_purchaser × (1 + cost_delta)`, converted to basic prices; `build_years_reference + time_delta`; the delivered capacity scales with `outcome_fraction` |
+| SWAP | `pct_rollout` | `outcome_fraction × max_replaceable_fraction` |
+| REDUCE | `pct_reduction` | `outcome_fraction × max_reducible_fraction` |
+
+Function signatures are in `src/redworlds/actions/`.
 
 ---
 
-## Region names
+## What Red Worlds does
 
-The 7 amalgamated game regions and their labels (see `data/concordances/region_mapping.csv`):
+1. Loads the cached SSP2 baseline world for 2050 (with capital endogenised and the
+   Leontief inverse precomputed) and the baseline emissions trajectory 2050–2100.
+2. Reads the tape record and derives the engine inputs above.
+3. Applies the shock: `apply_build`, `apply_swap` or `apply_reduce`. Y-side shocks reuse
+   the cached inverse; coefficient changes trigger a full recalculation.
+4. Takes the annual emissions difference against the baseline and runs it through the
+   tape's deployment curve (and, for BUILD, the construction-then-operation timing) to
+   produce the annual curve and the fifty-year cumulative.
+5. Writes `progress_json` after each step so the game can animate, then `result_json`.
 
-| ID | Game region label | Approximate coverage |
+For the MVP this is a static comparative: one solve, one delta, scaled through time. See
+[`assumptions.md`](assumptions.md) for why.
+
+---
+
+## What Red Worlds sends back
+
+```json
+{
+  "job_id": "…",
+  "status": "done",
+  "co2_delta_cumulative_t": -1.02e9,
+  "baseline_cumulative_t": 8.47e11,
+  "gdp_impact_musd_2026": -125000,
+  "jcurve": [
+    { "year": 2050, "value": 4.1e6 },
+    { "year": 2055, "value": 6.3e6 },
+    { "year": 2060, "value": -1.8e7 },
+    { "year": 2100, "value": -2.9e7 }
+  ],
+  "emissions_unit": "kg CO2-eq",
+  "brick_equivalent": { "unit": "reactors", "quantity_for_one_brick": 9.6 }
+}
+```
+
+- `co2_delta_cumulative_t` is signed; negative means abatement. This is the score.
+- `jcurve` is the annual delta against baseline in the same unit, in five-year blocks; for
+  BUILD it rises during construction then bends down.
+- `gdp_impact_musd_2026` is non-zero for REDUCE (and for BUILD under the injection rule).
+- `brick_equivalent` is the engine's answer to "how much of this intervention equals one
+  brick in this region"; the game uses it to size cover copy.
+
+---
+
+## Region ids
+
+| ID | Game region | EXIOBASE codes (see `data/concordances/region_mapping.csv`) |
 |---|---|---|
-| 1 | USA and Canada | United States, Canada |
-| 2 | Latin America and the Caribbean | Mexico, Central and South America, Caribbean |
-| 3 | Europe and Central Asia | EU, UK, Norway, Switzerland, Russia, Turkey, former Soviet states |
-| 4 | Africa and Middle East | All of Africa, Middle East, North Africa |
-| 5 | South Asia | India, Pakistan, Bangladesh, Sri Lanka, Nepal, Afghanistan |
-| 6 | Mainland East Asia | China, Japan, South Korea, Taiwan, Mongolia, North Korea, Hong Kong, Macao |
-| 7 | South East Asia and Pacific Ocean | SE Asia, Australia, New Zealand, Pacific islands |
+| 1 | USA and Canada | US, CA |
+| 2 | Latin America and the Caribbean | BR, MX, WL |
+| 3 | Europe and Central Asia | EU27, GB, NO, CH, TR, RU, WE |
+| 4 | Africa and Middle East | ZA, WF, WM |
+| 5 | South Asia | IN |
+| 6 | Mainland East Asia | CN, KR |
+| 7 | South East Asia and Pacific Ocean | JP, AU, ID, TW, WA |
 
-These regions rotate in a fixed order for each new simulation year.
+Taiwan's placement (6 or 7) is unsettled against the game's own regions doc; the CSV is
+the engine's source of truth until then. Rest-of-world blocks: `WA` Asia-Pacific, `WL`
+Americas, `WE` Europe, `WF` Africa, `WM` Middle East.

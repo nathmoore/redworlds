@@ -18,6 +18,8 @@ This repo is the science and simulation layer only. It is not the game itself. T
 | Understand how the engine works | [docs/design/architecture.md](docs/design/architecture.md) |
 | Explore the game design assumptions | [docs/design/assumptions.md](docs/design/assumptions.md) |
 | Understand BUILD, SWAP, REDUCE mechanics | [docs/design/game_mechanics.md](docs/design/game_mechanics.md) |
+| See what the game requires of the engine | [docs/design/red_carbon_contract.md](docs/design/red_carbon_contract.md) |
+| See what is being worked on and what is undecided | [docs/backlog.md](docs/backlog.md) |
 | Try the IO table examples or run notebooks | [examples/](examples/) |
 | Understand the data sources and concordances | [data/README.md](data/README.md) |
 | Contribute code or raise an issue | [CONTRIBUTING.md](CONTRIBUTING.md) |
@@ -27,16 +29,16 @@ This repo is the science and simulation layer only. It is not the game itself. T
 
 ## What this project does
 
-Each player in Red Carbon has their own simulated world, represented as an [EXIOBASE](https://www.exiobase.eu/) input-output (IO) table living on a remote server. Red Worlds handles:
+The game is set in 2050. Each day a player plays one large-scale intervention (a "tape") in one of seven world regions, and Red Worlds scores it as **cumulative CO₂ abated over 2050–2100** against a do-nothing baseline built from [EXIOBASE](https://www.exiobase.eu/), a global input-output (IO) model of the economy. Red Worlds handles:
 
-1. **Overnight preparation** — economic growth and population updates are applied to advance the world one simulation year.
-2. **Scenario generation** — a daily scenario is created from a target emissions category (e.g. *European residential heating*), mapped to EXIOBASE sectors via concordance tables in this repo.
-3. **Player actions** — the player interacts with the scenario via the Red Carbon Decarbonator Deck, choosing one of three approaches:
-   - **BUILD** — construct new low-carbon capacity (e.g. wind farms, nuclear). CapEx is spread over a build period; the energy mix shifts after completion.
-   - **SWAP** — replace a fraction of an existing technology with a cleaner alternative (e.g. heat pumps replacing gas boilers). The IO mix is shifted proportionally.
-   - **REDUCE** — reduce consumption of a sector (e.g. lower thermostat settings). The IO demand is reduced; unlike BUILD and SWAP, the economy is *not* rebalanced (a deliberate post-growth design choice).
+1. **The baseline** — a one-off job extrapolates the 2011 EXIOBASE table to a 2050 world along an SSP2 pathway, with capital endogenised, and caches it.
+2. **The three wings** — every tape belongs to one:
+   - **BUILD** — construct new low-carbon capacity (e.g. a 10-reactor nuclear block). Capex is injected into investment during the build years, so the curve rises before it falls; after completion the electricity mix shifts.
+   - **SWAP** — substitute one product for another at the same volume (e.g. motor fuel for electricity in cars). Total spend is preserved; the re-spend is a deliberate rebound.
+   - **REDUCE** — consume less of a basket of products. The spend leaves the model and the economy shrinks in proportion, with no rebound (a deliberate post-growth design choice).
+3. **Scoring** — the annual emissions difference against the baseline, spread across the fifty years through a deployment curve.
 
-All calculations update the player's EXIOBASE-derived IO tables, recalculating emissions at each step.
+The game sizes every tape to the same expected abatement; Red Worlds answers how much of each intervention that takes in each region. What the game requires of the engine is written down in [docs/design/red_carbon_contract.md](docs/design/red_carbon_contract.md).
 
 ---
 

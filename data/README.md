@@ -24,7 +24,7 @@ option or adjust a sector mapping, edit these files and raise a pull request.
 | Directory | Why gitignored |
 |-----------|---------------|
 | `exiobase/` | EXIOBASE files are large (hundreds of MB) and licensed separately. Download — see below. |
-| `worlds/` | Per-player IO tables. Generated at runtime from EXIOBASE and player actions. |
+| `worlds/` | The cached 2050 baseline and (phase 2) per-player IO tables. Generated from EXIOBASE. |
 
 ---
 
@@ -39,8 +39,19 @@ Download `IOT_2011_pxp.zip` from Zenodo:
 > **https://zenodo.org/records/5589597**
 
 This is the 2011 product-by-product (pxp) table. We use 2011 because it is the latest
-year in 3.8.2 with complete, non-extrapolated supply-use data. Red Worlds performs its
-own extrapolation to reach the in-game Baseline year of **2027** and beyond.
+year in 3.8.2 with complete, non-extrapolated supply-use data. Red Worlds extrapolates it
+along an SSP2 pathway to the in-game year of **2050** and on to 2100.
+
+### Capital use matrices
+
+Red Worlds endogenises capital in the baseline (see `docs/design/assumptions.md`). Download
+the 2011 product-by-product capital use matrix from Zenodo:
+
+> **https://zenodo.org/records/7073276** — file `Kbar_exio_v3_8_2_2011_cfc_pxp.mat`
+
+Wood, R. & Södersten, C.-J. (2021). Capital use matrices for EXIOBASE v3.8.2 [Data set].
+Zenodo. Licence CC-BY-4.0. Put it in `data/exiobase/capital/` (gitignored) and set
+`capital_use_path` in `config/config.toml`.
 
 ### Licence
 
@@ -67,6 +78,7 @@ use but check the terms before redistribution. Version 3.8.2 is what Red Worlds 
 ```toml
 [data]
 exiobase_path = "/path/to/redworlds/data/exiobase"
+capital_use_path = "/path/to/redworlds/data/exiobase/capital/Kbar_exio_v3_8_2_2011_cfc_pxp.mat"
 worlds_path = "/path/to/redworlds/data/worlds"
 ```
 

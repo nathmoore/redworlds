@@ -12,12 +12,19 @@ about decarbonisation. It is NOT the game itself — the game's WordPress front 
 lives in a separate private repo.
 
 Red Worlds handles:
-- **Player actions**: BUILD, SWAP, REDUCE — applied to a player's EXIOBASE IO tables
-- **Overnight jobs**: advance the IO world by one simulation year; generate new scenarios
+- **The baseline**: a one-off job builds a 2050 world from 2011 EXIOBASE (SSP2, capital endogenised)
+- **Player actions**: BUILD, SWAP, REDUCE — a tape's shock applied to the baseline
+- **Scoring**: annual delta vs baseline → deployment curve → cumulative CO₂ 2050–2100
 - **IO table maths**: pure functions on pymrio.IOSystem objects
 
-The WordPress front end sends action results to this server; this server stores and
-updates the player's IO world, then returns updated emissions figures.
+The game sends one job per played tape (tape id + outcome fraction); this server returns
+the cumulative delta, the annual curve and the GDP impact. MVP is a stateless function;
+per-player worlds and the job queue are phase 2.
+
+Decisions the game has made that bind this engine (time window, scoring metric, calling
+contract, per-wing rebound rules) are recorded in `docs/design/red_carbon_contract.md`.
+Where it disagrees with the other design docs, it wins. `docs/backlog.md` holds the open
+modelling questions; GitHub issues hold the implementable units.
 
 ---
 
@@ -26,11 +33,11 @@ updates the player's IO world, then returns updated emissions figures.
 ```
 redworlds/
 ├── src/redworlds/
-│   ├── actions/         ← player-triggered: build.py, swap.py, reduce.py
-│   ├── jobs/            ← overnight batch: apply_growth.py, update_scenarios.py
-│   ├── engine/          ← pure functions: io_tables.py, balancing.py
+│   ├── actions/         ← one tape's shock: build.py, swap.py, reduce.py
+│   ├── jobs/            ← reads data, calls engine: build_baseline.py, apply_growth.py, update_scenarios.py
+│   ├── engine/          ← pure functions: io_tables.py, balancing.py, capital.py, scoring.py, currency.py, prices.py, regions.py
 │   └── config.py        ← loads config/config.toml
-├── tests/               ← mirrors src/redworlds/ structure
+├── tests/               ← mirrors src/redworlds/; tests/fixtures/ holds test-world concordances
 ├── examples/            ← Jupyter notebooks for community users
 ├── data/
 │   ├── concordances/    ← COMMITTED: sector and region mapping CSVs
@@ -41,19 +48,22 @@ redworlds/
 │   ├── config.example.toml   ← COMMITTED: template
 │   └── config.toml           ← GITIGNORED: personal paths
 └── docs/
-    ├── design/          ← architecture.md, assumptions.md, game_mechanics.md
-    └── ...
+    ├── backlog.md       ← informal working backlog + open modelling decisions
+    └── design/          ← red_carbon_contract.md, assumptions.md, architecture.md, game_mechanics.md
 ```
 
 ---
 
 ## Three action types
 
-| Action | What it does | Rebalances? | Matrix changed |
-|--------|-------------|-------------|----------------|
-| **BUILD** | CapEx over build period; energy mix shifts after | Yes | Z (construction), then A |
-| **SWAP** | Shifts % of one sector's flows to a replacement | Yes | Y or Z depending on type |
-| **REDUCE** | Reduces final demand — economy shrinks (post-growth) | No | Y |
+| Action | What it does | Money | Matrix changed |
+|--------|-------------|-------|----------------|
+| **BUILD** | Capex injected during build years; electricity mix shifts after | Injected (reallocation flag planned) | Y (GFCF), then A and S |
+| **SWAP** | Shifts % of one product's demand to a replacement | Preserved — re-spend is the rebound | Y (later Z) |
+| **REDUCE** | Cuts demand for a basket — economy shrinks (post-growth) | Leaves the model, no rebound | Y |
+
+Capital is endogenised in the baseline (Södersten et al. 2018), so consumer-demand
+tapes carry their capital consequences automatically.
 
 See `docs/design/assumptions.md` for rationale on all three.
 
@@ -178,8 +188,16 @@ just version         # print current version
 
 ## Backlog approach
 
+Two tiers: `docs/backlog.md` holds sequencing and open modelling decisions (things that
+need thinking or a model run first); GitHub issues hold implementable units (one
+function, one test file, a clear done condition). Promote a backlog item to an issue when
+it becomes that shaped. Decided modelling items graduate into `docs/design/assumptions.md`
+at the next docs pass; there is no separate decisions log here (commit bodies carry the
+reasoning trail).
+
 Stubs use `raise NotImplementedError`. Always pair a stub with:
-- `# TODO: implement — see GitHub issue #N` (real issue number required)
+- `# TODO: implement — see GitHub issue #N`, or, until the issue exists,
+  `# TODO: implement — see docs/backlog.md §Sequencing (GitHub issue pending)`
 - A skipped test stub in the corresponding test file
 
 ---

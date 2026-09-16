@@ -14,9 +14,8 @@ Red Worlds is built on **EXIOBASE 3.8.2**, a global multi-regional input-output
 database. We use the 2011 product-by-product tables (`IOT_2011_pxp.zip`).
 
 **Why 2011?** It is the latest year in 3.8.2 with complete, non-extrapolated
-supply-use tables. Red Worlds performs its own extrapolation from 2011 to reach
-the in-game Baseline year of 2027 (one year ahead of the current year), and
-continues year-by-year from there.
+supply-use tables. Red Worlds extrapolates from 2011 along an SSP2 pathway to the
+in-game year of 2050, and on to 2100 for the baseline trajectory.
 
 **Why version 3.8.2 specifically?** It is the last release under the
 [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) licence, which

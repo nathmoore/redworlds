@@ -12,8 +12,10 @@ nav = [
     { "Architecture" = "design/architecture.md" },
     { "Assumptions" = "design/assumptions.md" },
     { "Game Mechanics" = "design/game_mechanics.md" },
-    { "References" = "design/references.md" },
+    { "Red Carbon Contract" = "design/red_carbon_contract.md" },
   ]},
+  { "References" = "references.md" },
+  { "Backlog" = "backlog.md" },
   { "API Reference" = "api.md" },
   { "Changelog" = "changelog.md" },
 ]
