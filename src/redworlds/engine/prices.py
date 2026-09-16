@@ -17,7 +17,7 @@ simplification used in scenario tools when exact sector breakdown is not the poi
 Typical markup range: 1.15–1.25 for construction/manufactured goods; lower for
 services; higher for tax-heavy energy products.
 
-See GitHub issue #N for proper TT/TTM-based conversion.
+Proper TT/TTM-based conversion is a docs/backlog.md item.
 
 Note: a separate real→nominal (inflation) conversion is needed once the overnight
 growth job advances simulation years past the 2026 base year. That is out of scope

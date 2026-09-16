@@ -17,7 +17,7 @@ Sources:
                          ~224.9 (2011 annual average) / ~335.0 (2026 projection)
 
 This conversion is applied once during baseline construction (the pipeline that
-transforms raw EXIOBASE 2011 into the stored BASELINE_2027 world). After that
+transforms raw EXIOBASE 2011 into the cached 2050 baseline world). After that
 step, all IO tables on disk and in memory are natively in 2026 constant million
 USD — no per-action or per-player conversion is needed.
 

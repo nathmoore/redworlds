@@ -1,13 +1,13 @@
-"""Overnight job: advance a player's IO world by one simulation year.
+"""Step an IO world forward by one year along the SSP2 pathway.
 
-Applies projected economic growth and population changes to the IO tables,
-producing the 'climate emissions of the year with no action taken' baseline.
-
-This job runs once per day, before the new scenario is presented to the player.
+Used inside jobs/build_baseline.py to walk the 2011 table to 2050 and on to 2100
+(population and GDP drive final demand; technology change enters as coefficient
+changes with columns rescaled to one; stressors scale with coefficients — Wiebe et al.
+2018). In phase 2 the same function advances per-player worlds nightly.
 
 References:
-  - docs/design/assumptions.md — growth projection assumptions
-  - docs/design/architecture.md — overnight job flow
+  - docs/design/assumptions.md — the baseline is SSP2, built once
+  - docs/design/architecture.md — two phases
 """
 
 import pymrio
@@ -30,6 +30,6 @@ def apply_growth(
     Returns:
         Updated IO system scaled to ``year`` with recalculated baseline emissions.
 
-    TODO: implement — see GitHub issue #5
+    TODO: implement — see GitHub issue #9
     """
     raise NotImplementedError

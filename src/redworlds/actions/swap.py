@@ -1,12 +1,13 @@
 """SWAP action: shift a fraction of an IO sector's demand to a cleaner alternative.
 
-The player selects an eco-choice (e.g. heat pumps replacing gas boilers, vegetarian
-diet replacing existing diet) and a rollout percentage from the Decarbonator Deck.
+The tape names a from-product and a to-product; the game's outcome fraction times the
+tape's max_replaceable_fraction gives the rollout percentage.
 
 Red Worlds then:
 1. Reduces the target sector's share of the scenario by ``pct_rollout``.
 2. Increases the replacement sector's share by an equivalent amount.
-3. Rebalances money flows across the economy to maintain a closed system.
+3. Rebalances money flows across the economy to maintain a closed system — the
+   re-spend is the rebound, by design (docs/design/assumptions.md).
 
 References:
   - docs/design/game_mechanics.md — SWAP input/output contract
@@ -38,6 +39,6 @@ def apply_swap(
     Returns:
         Updated IO system with the sector swap applied.
 
-    TODO: implement — see GitHub issue #3
+    TODO: implement — see GitHub issue #7
     """
     raise NotImplementedError

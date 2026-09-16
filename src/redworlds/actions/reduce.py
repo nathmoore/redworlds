@@ -1,14 +1,15 @@
 """REDUCE action: decrease consumption of a sector — with no economic rebalancing.
 
-The player selects an eco-sufficiency choice (e.g. reduce thermostat setting,
-reduce excess food consumption) and a reduction percentage from the Decarbonator Deck.
+The tape names a basket of products; the game's outcome fraction times the tape's
+max_reducible_fraction gives the reduction percentage.
 
 Red Worlds then:
 1. Reduces the target sector's final demand by ``pct_reduction``.
-2. Does NOT rebalance the rest of the economy.
+2. Does NOT rebalance the rest of the economy. The spend leaves the model and the
+   caller reports the GDP impact.
 
-This is a deliberate post-growth design choice: reduced consumption is not
-assumed to be redirected elsewhere. The economy shrinks in this sector.
+This is a deliberate post-growth design choice (confirmed 2026-09-16): reduced
+consumption is not redirected elsewhere and takes no rebound haircut.
 See docs/design/assumptions.md for the rationale.
 
 References:
@@ -40,6 +41,6 @@ def apply_reduce(
     Returns:
         Updated IO system with demand reduced and no rebalancing applied.
 
-    TODO: implement — see GitHub issue #4
+    TODO: implement — see GitHub issue #8
     """
     raise NotImplementedError

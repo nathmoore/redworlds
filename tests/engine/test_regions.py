@@ -1,48 +1,73 @@
 """Tests for region aggregation (src/redworlds/engine/regions.py).
 
-Unit tests require the concordance CSV and an mrio whose region codes are all
-present in the mapping. Integration tests require real EXIOBASE data.
-
-These tests are skipped until the concordance is validated against the actual
-EXIOBASE pxp data.
-
-TODO: implement — see GitHub issue #N
+Unit tests use the pymrio test world with a test-only concordance in
+tests/fixtures/test_world_regions.csv. The integration test uses real EXIOBASE data via the
+``exiobase_mrio`` fixture and runs only with ``just test -m integration``.
 """
+
+from pathlib import Path
 
 import pymrio
 import pytest
 
 from redworlds.engine.regions import (
+    DEFAULT_CONCORDANCE_PATH,
     aggregate_regions,
     load_region_concordance,
 )
 
-
-@pytest.mark.skip(reason="concordance not yet validated against real EXIOBASE pxp — see GitHub issue #N")
-def test_concordance_loads() -> None:
-    """load_region_concordance() should return a non-empty dict."""
-    concordance = load_region_concordance()
-    assert len(concordance) > 0
+FIXTURE_PATH = Path(__file__).parents[1] / "fixtures" / "test_world_regions.csv"
 
 
-@pytest.mark.skip(reason="pymrio test mrio uses different region codes than EXIOBASE — see GitHub issue #N")
-def test_aggregate_regions_reduces_count(test_mrio: pymrio.IOSystem) -> None:
-    """Aggregated mrio should have fewer regions than the input."""
-    result = aggregate_regions(test_mrio)
-    assert len(list(result.get_regions())) < len(list(test_mrio.get_regions()))
+@pytest.fixture
+def test_concordance() -> dict[str, str]:
+    return load_region_concordance(FIXTURE_PATH)
 
 
-@pytest.mark.skip(reason="concordance not yet validated against real EXIOBASE pxp — see GitHub issue #N")
-def test_aggregate_regions_is_pure(test_mrio: pymrio.IOSystem) -> None:
+def test_default_concordance_loads_and_names_seven_regions() -> None:
+    """The committed EXIOBASE concordance should parse and cover exactly the 7 game regions."""
+    concordance = load_region_concordance(DEFAULT_CONCORDANCE_PATH)
+    assert len(concordance) == 49
+    assert len(set(concordance.values())) == 7
+
+
+def test_fixture_concordance_loads(test_concordance: dict[str, str]) -> None:
+    """The test-world concordance should map all six test regions."""
+    assert set(test_concordance) == {"reg1", "reg2", "reg3", "reg4", "reg5", "reg6"}
+
+
+def test_aggregate_regions_reduces_count(test_mrio: pymrio.IOSystem, test_concordance: dict[str, str]) -> None:
+    """Aggregated mrio should have five game regions, down from six test regions."""
+    result = aggregate_regions(test_mrio, concordance=test_concordance)
+    assert len(list(result.get_regions())) == 5
+    assert set(result.get_regions()) == set(test_concordance.values())
+
+
+def test_aggregate_regions_is_pure(test_mrio: pymrio.IOSystem, test_concordance: dict[str, str]) -> None:
     """aggregate_regions should not mutate the input mrio."""
     original_regions = list(test_mrio.get_regions())
-    aggregate_regions(test_mrio)
+    aggregate_regions(test_mrio, concordance=test_concordance)
     assert list(test_mrio.get_regions()) == original_regions
 
 
+def test_aggregate_regions_conserves_total_final_demand(
+    test_mrio: pymrio.IOSystem, test_concordance: dict[str, str]
+) -> None:
+    """Summing regions together must not create or destroy final demand."""
+    result = aggregate_regions(test_mrio, concordance=test_concordance)
+    assert result.Y is not None and test_mrio.Y is not None
+    assert result.Y.to_numpy().sum() == pytest.approx(test_mrio.Y.to_numpy().sum())
+
+
+def test_missing_region_raises(test_mrio: pymrio.IOSystem, test_concordance: dict[str, str]) -> None:
+    """A region code absent from the concordance must fail loudly, not silently drop."""
+    incomplete = {k: v for k, v in test_concordance.items() if k != "reg6"}
+    with pytest.raises(KeyError):
+        aggregate_regions(test_mrio, concordance=incomplete)
+
+
 @pytest.mark.integration
-@pytest.mark.skip(reason="concordance not yet validated against real EXIOBASE pxp — see GitHub issue #N")
 def test_aggregate_regions_integration(exiobase_mrio: pymrio.IOSystem) -> None:
-    """Against real EXIOBASE data, aggregated mrio should have exactly 7 regions."""
+    """Against real EXIOBASE data, the committed concordance should yield exactly 7 regions."""
     result = aggregate_regions(exiobase_mrio)
     assert len(list(result.get_regions())) == 7

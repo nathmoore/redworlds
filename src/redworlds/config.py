@@ -30,5 +30,5 @@ def load_config(path: Path | None = None) -> dict:
         FileNotFoundError: If the config file does not exist, with instructions to
             copy config.example.toml.
     """
-    # TODO: implement — see GitHub issue #1
+    # TODO: implement — see GitHub issue #5
     raise NotImplementedError

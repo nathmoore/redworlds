@@ -1,0 +1,9 @@
+region,game_region_id,game_region_name
+# Concordance for pymrio's built-in test world (regions reg1..reg6), used only by tests.
+# Maps six test regions onto five game regions so aggregation visibly reduces the count.
+reg1,1,USA and Canada
+reg2,3,Europe and Central Asia
+reg3,3,Europe and Central Asia
+reg4,6,Mainland East Asia
+reg5,5,South Asia
+reg6,7,South East Asia and Pacific Ocean

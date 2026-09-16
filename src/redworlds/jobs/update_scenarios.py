@@ -1,12 +1,15 @@
-"""Overnight job: generate a new daily scenario for players.
+"""Phase 2 job: generate a new daily scenario for players.
+
+Not on the MVP path: for the MVP the game curates the day's tape shelf itself and
+sends one tape id per job. This job becomes relevant when scenario authoring moves into
+this repo (see docs/backlog.md §Parked ideas).
 
 A scenario represents a specific emissions category (e.g. 'European residential
 heating') for a given simulation year and region. The game designer specifies a
 target category and region; this module maps that to EXIOBASE sectors using the
 concordance tables in data/concordances/.
 
-The scenario output is what the player sees on the Red Carbon website and what
-the Decarbonator Deck acts on.
+The scenario output is what the player sees on the Red Carbon website.
 
 References:
   - docs/design/architecture.md — scenario generation flow
@@ -41,6 +44,6 @@ def generate_scenario(
         A dict containing the scenario data for the front end, including the
         baseline emissions value, region, category, and year.
 
-    TODO: implement — see GitHub issue #6
+    TODO: implement — see docs/backlog.md §Sequencing (GitHub issue pending)
     """
     raise NotImplementedError

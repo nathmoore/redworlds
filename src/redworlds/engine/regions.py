@@ -1,7 +1,7 @@
 """
-Region aggregation: EXIOBASE ~49 regions → 7 Red Worlds game regions.
+Region aggregation: EXIOBASE 49 regions → 7 Red Worlds game regions.
 
-EXIOBASE 3.8.2 (pxp) uses ~49 country and rest-of-world region codes (ISO-2 for
+EXIOBASE 3.8.2 (pxp) uses 49 country and rest-of-world region codes (ISO-2 for
 countries; WA/WL/WE/WF/WM for rest-of-world blocks). Red Worlds aggregates these
 into 7 game regions for legibility.
 
@@ -14,16 +14,15 @@ Game regions:
     6 — Mainland East Asia
     7 — South East Asia and Pacific Ocean
 
-The concordance lives in data/concordances/region_mapping.csv. Any EXIOBASE
-region code not present in that file will raise a KeyError — this is intentional
-so that missing mappings surface during development rather than silently
-producing wrong results.
+The concordance lives in data/concordances/region_mapping.csv. Any region code not
+present in the concordance raises a KeyError — this is intentional so that missing
+mappings surface during development rather than silently producing wrong results.
+
+Tests pass their own concordance (tests/fixtures/test_world_regions.csv) so the pymrio
+test world can exercise the same code path.
 
 Aggregation approach follows the pymrio documentation:
     https://pymrio.readthedocs.io/en/latest/notebooks/aggregation_examples.html
-
-country_converter (coco) is available for future extensions (e.g. dynamically
-building concordances for new EXIOBASE versions) but the CSV is the primary source.
 """
 
 from __future__ import annotations
@@ -35,50 +34,54 @@ import pymrio
 
 # EXIOBASE-specific: this concordance maps EXIOBASE 3.8.2 (pxp) region codes to 7 game regions.
 # A different MRIO database (WIOD, Eora, Gloria) would need its own concordance CSV.
-_CONCORDANCE_PATH = Path(__file__).parents[3] / "data" / "concordances" / "region_mapping.csv"
+DEFAULT_CONCORDANCE_PATH = Path(__file__).parents[3] / "data" / "concordances" / "region_mapping.csv"
 
 
-def load_region_concordance() -> dict[str, str]:
+def load_region_concordance(path: Path | None = None) -> dict[str, str]:
     """
-    Return {exiobase_region_code: game_region_name} from the concordance CSV.
+    Return {region_code: game_region_name} from a concordance CSV.
 
-    Lines beginning with '#' are treated as comments and skipped.
+    The CSV has a header row and columns ``region, game_region_id, game_region_name``.
+    Lines beginning with '#' are comments and skipped.
+
+    Args:
+        path: CSV to read. Defaults to the EXIOBASE concordance in data/concordances/.
     """
     df = pd.read_csv(
-        _CONCORDANCE_PATH,
+        path or DEFAULT_CONCORDANCE_PATH,
         comment="#",
-        names=["exiobase_region", "game_region_id", "game_region_name"],
+        names=["region", "game_region_id", "game_region_name"],
         skiprows=1,  # skip the header row
     )
-    return dict(zip(df["exiobase_region"], df["game_region_name"], strict=True))
+    return dict(zip(df["region"], df["game_region_name"], strict=True))
 
 
-def _build_region_agg(regions: list[str], concordance: dict[str, str]) -> dict[str, list[str]]:
+def _build_region_agg(regions: list[str], concordance: dict[str, str]) -> list[str]:
     """
-    Convert a flat {code: game_region} dict into the inverted format that
-    pymrio.IOSystem.aggregate() expects: {game_region: [codes]}.
+    Return the aggregation vector pymrio.IOSystem.aggregate() expects: the new region name
+    for each existing region, in the order of ``regions``.
 
     Raises KeyError for any region code not in the concordance.
     """
-    result: dict[str, list[str]] = {}
-    for code in regions:
-        game_region = concordance[code]  # intentional KeyError if missing
-        result.setdefault(game_region, []).append(code)
-    return result
+    return [concordance[code] for code in regions]  # intentional KeyError if missing
 
 
-def aggregate_regions(mrio: pymrio.IOSystem) -> pymrio.IOSystem:
+def aggregate_regions(mrio: pymrio.IOSystem, concordance: dict[str, str] | None = None) -> pymrio.IOSystem:
     """
-    Return a copy of mrio with regions aggregated from ~49 EXIOBASE codes
-    to 7 game regions.
+    Return a copy of mrio with regions aggregated to game regions.
 
     The original mrio is not modified (pure function — uses mrio.copy()
     before calling aggregate(), which mutates in place).
 
+    Args:
+        mrio: The IO system to aggregate.
+        concordance: {region_code: game_region_name}. Defaults to the EXIOBASE concordance.
+
     Raises:
-        KeyError: if any region code in mrio is not present in the concordance CSV.
+        KeyError: if any region code in mrio is not present in the concordance.
     """
-    concordance = load_region_concordance()
+    if concordance is None:
+        concordance = load_region_concordance()
     regions = list(mrio.get_regions())
     region_agg = _build_region_agg(regions, concordance)
 
