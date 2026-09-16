@@ -9,6 +9,7 @@ Usage:
     exiobase_path = cfg["data"]["exiobase_path"]
 """
 
+import tomllib
 from pathlib import Path
 
 # Resolve config path relative to repo root (two levels up from this file's package)
@@ -30,5 +31,10 @@ def load_config(path: Path | None = None) -> dict:
         FileNotFoundError: If the config file does not exist, with instructions to
             copy config.example.toml.
     """
-    # TODO: implement — see GitHub issue #5
-    raise NotImplementedError
+    config_path = path or _CONFIG_PATH
+    if not config_path.exists():
+        raise FileNotFoundError(
+            f"No config file at {config_path}. Copy {_EXAMPLE_PATH} to {_CONFIG_PATH} and fill in your local paths."
+        )
+    with config_path.open("rb") as f:
+        return tomllib.load(f)

@@ -41,7 +41,7 @@ def exiobase_mrio() -> pymrio.IOSystem:
     """
     try:
         cfg = load_config()
-    except (FileNotFoundError, NotImplementedError) as exc:
+    except FileNotFoundError as exc:
         pytest.skip(f"integration tests need config/config.toml: {exc}")
     path = Path(cfg["data"]["exiobase_path"]) / "IOT_2011_pxp"
     if not path.exists():

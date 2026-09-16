@@ -21,7 +21,8 @@ Leontief solve, a deployment curve, a 50-year cumulative delta. See
 1. [x] ~~Rewrite `docs/design/game_mechanics.md`, `docs/design/assumptions.md` and
        `examples/prompts/red_worlds_context.md` to the 2050 tape contract.~~ Done 2026-09-16,
        together with `architecture.md`, the READMEs and CLAUDE.md.
-2. [ ] `load_config()` — GitHub issue #5.
+2. [x] ~~`load_config()` — GitHub issue #5.~~ Done 2026-09-17 (`tests/test_config.py`;
+       the `exiobase_mrio` integration fixture is now live).
 3. [ ] `scale_final_demand()` and `get_sector_emissions()` — issues #11, #13. First REDUCE
        runs end to end on `pymrio.load_test()`.
 4. [x] ~~A test-world concordance fixture under `tests/fixtures/` so region aggregation gets
