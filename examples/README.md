@@ -77,6 +77,7 @@ Or open the notebooks in VS Code with the Jupyter extension.
 |----------|---------------|
 | [01_build_io_tables.ipynb](01_build_io_tables.ipynb) | How to download EXIOBASE, load it with pymrio, and build the baseline IO tables used by Red Worlds |
 | [02_sample_payloads.ipynb](02_sample_payloads.ipynb) | Sample BUILD/SWAP/REDUCE JSON payloads from Red Carbon, example result JSON, and manual action testing |
+| [03_first_reduce_number.ipynb](03_first_reduce_number.ipynb) | The first empirical result: a 1% cut in Region 3 household demand, run through `apply_reduce` and scored on the 2011 table |
 
 More notebooks are planned — contributions welcome.
 

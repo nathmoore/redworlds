@@ -23,19 +23,26 @@ Leontief solve, a deployment curve, a 50-year cumulative delta. See
        together with `architecture.md`, the READMEs and CLAUDE.md.
 2. [x] ~~`load_config()` — GitHub issue #5.~~ Done 2026-09-17 (`tests/test_config.py`;
        the `exiobase_mrio` integration fixture is now live).
-3. [ ] `scale_final_demand()` and `get_sector_emissions()` — issues #11, #13. First REDUCE
-       runs end to end on `pymrio.load_test()`.
+3. [x] ~~`scale_final_demand()` and `get_sector_emissions()`. First REDUCE runs end to end
+       on `pymrio.load_test()`.~~ Done 2026-09-17, with `get_region_emissions()`,
+       `recalculate_from_final_demand()` (Y-side path, reuses L) and `apply_reduce()`
+       (issue #8). Emissions are consumption-based (`D_cba`).
 4. [x] ~~A test-world concordance fixture under `tests/fixtures/` so region aggregation gets
        real unit tests.~~ Done 2026-09-16 (`tests/fixtures/test_world_regions.csv`; the
        `exiobase_mrio` integration fixture also exists now). Scenario-mapping fixture still to do.
-5. [ ] Validate `region_mapping.csv` against the real EXIOBASE 3.8.2 download (integration
-       test); settle Taiwan (CSV says region 7, game design says 6).
+5. [x] ~~Validate `region_mapping.csv` against the real EXIOBASE 3.8.2 download (integration
+       test); settle Taiwan (CSV says region 7, game design says 6).~~ Done 2026-09-17:
+       Taiwan is region 6 per the game's regions doc; integration test checks the CSV's
+       codes equal the table's.
 6. [ ] `jobs/build_baseline.py` stub: 2011 EXIOBASE → capital endogenised → SSP2 2050
        world → 2050–2100 trajectory. First check the capital-flow data resolution (see
        Modelling decisions).
 7. [ ] `score_tape()` composition returning the result shape in the contract doc §4.3.
-8. [ ] First empirical notebook: "what does a 0.5% cut in Region 3 household demand do to
-       cumulative CO2 2050–2100?" This is the moment outsiders can use the repo.
+8. [x] ~~First empirical notebook: "what does a 0.5% cut in Region 3 household demand do to
+       cumulative CO2 2050–2100?" This is the moment outsiders can use the repo.~~ Done
+       2026-09-17 on the 2011 table (`examples/03_first_reduce_number.ipynb`): a 1% cut
+       is −59 Mt/yr, one brick ≈ 0.33% at flat deployment. Re-run once the 2050
+       baseline exists.
 9. [x] ~~Fix stub TODO issue numbers (issue #10) and merge the two references files.~~ Done
        2026-09-16 for the five issues that exist (#5–#9). The engine primitives, `capital.py`,
        `scoring.py` and `build_baseline.py` have no issues yet (issue #10 assumed #11–#15,
@@ -75,6 +82,18 @@ trail survives.
       Refine later with per-region splits and explicit steel/cement content.
 
 ### Open
+
+- [ ] **Direct household emissions under a REDUCE.** pymrio recomputes `F_Y` from `S_Y`,
+      which is normalised per final-demand *column* total, so cutting one product's demand
+      scales a region's direct household emissions (fuel burnt in cars and boilers) by the
+      change in total household spend, not by the change in that product. Right for a
+      broad basket, wrong for a vehicle-fuel or gas tape, where `F_Y` should track the fuel
+      row. Fix when the first such tape is sized: scale the `F_Y` column by the fuel
+      product's own change instead.
+- [ ] **GDP impact attribution.** `gdp_impact` books the world total of final demand
+      removed. A Region 3 cut in imported goods also lowers value added abroad; per-region
+      attribution needs the `Value Added` factor input through the Leontief solve
+      (`D_pba` of value added by region). Do it when the game shows GDP per region.
 
 - [x] ~~**BUILD capex (a): is capital endogenous?**~~ **Decided 2026-09-16 (Nathan):
       endogenise capital from the start, as a `build_baseline` step.** Method: Södersten,
@@ -119,6 +138,8 @@ trail survives.
       design conversation; the fictional history stays on the game side.
 - [ ] **Region 3 consumption footprint.** The game's ~7 Gt CO₂e/yr is built up from an EU
       anchor. First number the engine should return; every REDUCE sizing hangs off it.
+      *2011 table, 2026-09-17:* 9.2 Gt CO₂e/yr consumption-based, with Russia and Turkey
+      inside the region (world 44.5 Gt). The 2050 figure waits on the baseline.
 - [ ] **Per-region brick calibration** (one 10-reactor block's abatement on that region's
       grid), and later a global-grid-average anchor.
 - [ ] **Rebalancing weighting scheme.** Flat proportional (placeholder) vs income
