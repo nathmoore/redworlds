@@ -71,3 +71,16 @@ def test_aggregate_regions_integration(exiobase_mrio: pymrio.IOSystem) -> None:
     """Against real EXIOBASE data, the committed concordance should yield exactly 7 regions."""
     result = aggregate_regions(exiobase_mrio)
     assert len(list(result.get_regions())) == 7
+
+
+@pytest.mark.integration
+def test_concordance_covers_exactly_the_exiobase_regions(exiobase_mrio: pymrio.IOSystem) -> None:
+    """Every code in the real table is mapped and the CSV carries no code the table lacks."""
+    concordance = load_region_concordance(DEFAULT_CONCORDANCE_PATH)
+    assert set(concordance) == set(exiobase_mrio.get_regions())
+
+
+def test_taiwan_sits_in_mainland_east_asia() -> None:
+    """Settled 2026-09-17 against the game's regions doc: TW joins CN and KR in region 6."""
+    concordance = load_region_concordance(DEFAULT_CONCORDANCE_PATH)
+    assert concordance["TW"] == concordance["CN"] == "Mainland East Asia"

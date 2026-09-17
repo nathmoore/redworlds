@@ -1,46 +1,63 @@
-"""REDUCE action: decrease consumption of a sector — with no economic rebalancing.
+"""REDUCE action: consume less of a basket of products, with no economic rebalancing.
 
-The tape names a basket of products; the game's outcome fraction times the tape's
-max_reducible_fraction gives the reduction percentage.
+The tape names a basket of products and a consuming region; the game's outcome fraction
+times the tape's ``max_reducible_fraction`` gives ``pct_reduction``.
 
 Red Worlds then:
-1. Reduces the target sector's final demand by ``pct_reduction``.
-2. Does NOT rebalance the rest of the economy. The spend leaves the model and the
-   caller reports the GDP impact.
+1. Scales the basket's final demand in the region's consumption columns (households,
+   NPISH, government) by ``1 − pct_reduction``. Investment (GFCF) is never touched: that
+   is BUILD's currency.
+2. Does NOT rebalance the rest of the economy. The spend leaves the model, the economy
+   shrinks in proportion, and ``engine.scoring.gdp_impact`` books the difference.
+3. Re-solves output and emissions on the cheap Y-side path (the Leontief inverse is
+   reused), so the returned system is ready for scoring.
 
-This is a deliberate post-growth design choice (confirmed 2026-09-16): reduced
-consumption is not redirected elsewhere and takes no rebound haircut.
-See docs/design/assumptions.md for the rationale.
+This is a deliberate post-growth design choice (confirmed 2026-09-16): reduced consumption
+is not redirected elsewhere and takes no rebound haircut. Emissions are credited on a
+consumption basis, so a European cut in imported electronics is credited with the
+abatement in the factories abroad. See docs/design/assumptions.md for the rationale.
 
 References:
-  - docs/design/game_mechanics.md — REDUCE input/output contract
+  - docs/design/red_carbon_contract.md §3 (rule RE2) and §5 (basket design)
   - docs/design/assumptions.md — post-growth rebalancing assumption
-  - data/tech_choices/options.toml — compatible eco-sufficiency choices and scenario tags
+  - data/concordances/exiobase_to_scenario.csv — scenario keys → product baskets (to populate)
 """
 
+from collections.abc import Sequence
+
 import pymrio
+
+from redworlds.engine.io_tables import CONSUMPTION_CATEGORIES, recalculate_from_final_demand, scale_final_demand
 
 
 def apply_reduce(
     mrio: pymrio.IOSystem,
     region: str,
-    sector: str,
+    sector: str | Sequence[str],
     pct_reduction: float,
+    categories: Sequence[str] = CONSUMPTION_CATEGORIES,
 ) -> pymrio.IOSystem:
-    """Apply a REDUCE action to a player's IO system.
-
-    Reduces final demand for ``sector`` in ``region`` by ``pct_reduction``.
-    Unlike BUILD and SWAP, no rebalancing is performed — this is post-growth behaviour.
+    """Apply a REDUCE action: cut a region's demand for a basket of products, no rebalancing.
 
     Args:
-        mrio: The player's current IO system (will not be mutated; a copy is returned).
-        region: Amalgamated game region (e.g. "Europe and Central Asia").
-        sector: Sector key being reduced (e.g. "residential_heating").
-        pct_reduction: Fraction of demand to remove, in [0.0, 1.0].
+        mrio: The calculated baseline world. Not mutated; a calculated copy is returned.
+        region: Consuming region label as it appears in ``mrio.Y`` (an EXIOBASE code, or a
+            game region name after ``aggregate_regions``).
+        sector: One product label or a basket of them. Translating a tape's scenario key
+            into product labels is the job layer's task, not this function's.
+        pct_reduction: Fraction of the basket's demand removed, at most 1.0. A negative
+            value is a backfire (the game's outcome fraction can go below zero for REDUCE):
+            demand rises instead.
+        categories: Final demand categories to cut. Defaults to the three consumption
+            columns; GFCF is excluded by design.
 
     Returns:
-        Updated IO system with demand reduced and no rebalancing applied.
+        A calculated IO system with the basket's demand reduced and nothing re-spent.
 
-    TODO: implement — see GitHub issue #8
+    Raises:
+        ValueError: if ``pct_reduction`` exceeds 1.0 (cannot remove more than all demand).
     """
-    raise NotImplementedError
+    if pct_reduction > 1.0:
+        raise ValueError(f"pct_reduction must be at most 1.0, got {pct_reduction}")
+    cut = scale_final_demand(mrio, region, sector, factor=1.0 - pct_reduction, categories=categories)
+    return recalculate_from_final_demand(cut)
