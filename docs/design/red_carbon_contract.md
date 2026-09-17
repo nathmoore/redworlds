@@ -276,7 +276,7 @@ is worth taking:
 | `docs/design/game_mechanics.md` | Payloads carry raw `budget`/`build_years`/`pct_rollout`; the game now sends tape id + outcome fraction (§4.2). "Regions rotate per simulation year" is gone. The region table puts Japan in region 6; the CSV (correctly, per the game) puts it in 7. |
 | `docs/design/architecture.md` | Overnight-job flow and per-player world retention describe phase 2, not MVP. Queue contract itself still stands. |
 | `examples/prompts/red_worlds_context.md` | Says baseline 2027. |
-| `data/concordances/region_mapping.csv` vs game `REGIONS.md` | Taiwan: CSV says region 7, game says region 6. Game doc also uses ISO-3 codes and lists many non-EXIOBASE countries that fall inside `WA`/`WL`/`WE`/`WF`/`WM` blocks. The game asked for a companion regions doc here with the full code table and cross-model mapping notes. |
+| `data/concordances/region_mapping.csv` vs game `REGIONS.md` | ~~Taiwan: CSV says region 7, game says region 6.~~ Settled 2026-09-17: region 6. Game doc also uses ISO-3 codes and lists many non-EXIOBASE countries that fall inside `WA`/`WL`/`WE`/`WF`/`WM` blocks. The game asked for a companion regions doc here with the full code table and cross-model mapping notes. |
 | `src/…` TODO issue numbers | Stubs cite draft numbers #1–#10; real issues are #5–#9 and #11–#15 (tracked as issue #10). `regions.py` tests and `prices.py` cite `#N`. |
 
 ---

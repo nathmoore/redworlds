@@ -69,6 +69,13 @@ This means you are free to use, share, and adapt this work — including for com
 
 See [LICENSE](LICENSE) for the full text, or visit [creativecommons.org/licenses/by-sa/4.0](https://creativecommons.org/licenses/by-sa/4.0/).
 
+Data used by the engine and its licences (full citations in [docs/references.md](docs/references.md)):
+
+| Data | Licence |
+|---|---|
+| EXIOBASE 3.8.2 (Stadler et al. 2021) | CC BY-SA 4.0 |
+| Capital use matrices for EXIOBASE 3.8.2 (Wood & Södersten 2021) | CC BY 4.0 |
+
 ---
 
 ## About

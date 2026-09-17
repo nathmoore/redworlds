@@ -150,8 +150,8 @@ amalgamated game regions:
 
 The exact mapping is in `data/concordances/region_mapping.csv`. Aggregation is
 performed by `engine/regions.py` using pymrio's `aggregate()` method. Japan sits in
-region 7 (the OECD-and-aspiring Pacific grouping); Taiwan's placement (6 or 7) is still
-to be settled against the game's regions doc.
+region 7 (the OECD-and-aspiring Pacific grouping); Taiwan sits in region 6 with China and
+Korea, following the game's regions doc (settled 2026-09-17).
 
 The rationale is legibility: the game is designed for a general audience, and
 country-level granularity would make scenarios harder to relate to. Results will differ

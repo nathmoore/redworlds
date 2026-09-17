@@ -160,9 +160,9 @@ For the MVP this is a static comparative: one solve, one delta, scaled through t
 | 3 | Europe and Central Asia | EU27, GB, NO, CH, TR, RU, WE |
 | 4 | Africa and Middle East | ZA, WF, WM |
 | 5 | South Asia | IN |
-| 6 | Mainland East Asia | CN, KR |
-| 7 | South East Asia and Pacific Ocean | JP, AU, ID, TW, WA |
+| 6 | Mainland East Asia | CN, KR, TW |
+| 7 | South East Asia and Pacific Ocean | JP, AU, ID, WA |
 
-Taiwan's placement (6 or 7) is unsettled against the game's own regions doc; the CSV is
-the engine's source of truth until then. Rest-of-world blocks: `WA` Asia-Pacific, `WL`
+Taiwan sits in region 6, following the game's regions doc (settled 2026-09-17). The CSV
+is the engine's source of truth. Rest-of-world blocks: `WA` Asia-Pacific, `WL`
 Americas, `WE` Europe, `WF` Africa, `WM` Middle East.

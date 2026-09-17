@@ -22,6 +22,16 @@ monetary table), licensed [CC BY-SA 4.0](https://creativecommons.org/licenses/by
 > Extended Multi-Regional Input-Output Tables. *Journal of Industrial Ecology*, 22(3), 502–515.
 > https://doi.org/10.1111/jiec.12715
 
+**Capital use matrices (for capital endogenisation):**
+
+> Wood, R., & Södersten, C.-J. (2021). Capital use matrices (Version 3.8.2) [Data set].
+> Zenodo. https://doi.org/10.5281/zenodo.7073276
+
+Red Worlds uses the 2011 product-by-product file, `Kbar_exio_v3_8_2_2011_cfc_pxp.mat`
+(consumption of fixed capital, flow form, million EUR), licensed
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The method is Södersten, Wood &
+Hertwich (2018), cited below.
+
 ---
 
 ## pymrio
