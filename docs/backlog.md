@@ -116,8 +116,23 @@ trail survives.
             files for 1995–2020, CC-BY-4.0; the file is `Kbar_exio_v3_8_2_2011_cfc_pxp.mat`
             (flow form, MEUR; coefficient form is Kbar · x̂⁻¹). Reading `.mat` needs scipy
             (add as a dependency when implementing `load_capital_use`).
+      - [x] ~~Implement `load_capital_use` and `endogenise_capital`.~~ Done 2026-09-17.
+            On the real 2011 pxp table Kbar totals 8.90 T EUR against 13.04 T EUR of
+            GFCF (68%). After subtraction, 6,363 of 480,200 GFCF cells go negative,
+            summing to −2.25 T EUR: net investment is negative wherever a region's
+            industries consumed more of a capital good (from a given supplier region)
+            than the region's GFCF column bought from that supplier. Left as it falls
+            for now, so the accounting identity holds.
+      - [ ] Decide what to do with negative net-investment cells: keep (Södersten et
+            al. treat net investment as a residual), clip and rebalance the supplier
+            mix, or clip and accept the small conservation break. Check how much of
+            the −2.25 T is trade-mismatch (supplier region) versus genuine
+            disinvestment (same region, e.g. shrinking capital stock) before choosing.
       - [ ] Carry the capital coefficients through the 2011 → 2050 extrapolation
             consistently.
+      - [ ] Runtime: the full-system integration test (parse, invert, endogenise,
+            re-invert 9800 × 9800) takes ~19 min and 2.9 GB peak on an 8 GB laptop.
+            Fine for a one-off baseline build; cache the result, never run per tape.
 - [ ] **BUILD capex (b): where does the money come from?** Injection (new money, GDP
       rises, strongest J-curve, matches BU1 and Wiebe) vs reallocation within the
       remaining GFCF column (GDP-neutral, crowds out other investment, slightly softens
