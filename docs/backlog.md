@@ -104,11 +104,24 @@ tapes must interact. Contract: `docs/design/red_carbon_contract.md` §4.4.
       Y-only substitution is a cross-check, not the method — industrial electricity sits
       in `Z`. Returns the operating-phase annual delta (negative). *Done when:* nuclear lands
       in the contract's 0.5–1.8 Gt range at the 10-reactor cover.
-- [ ] **T7 Grid tape.** No Y-side form. Express as a coefficient cut on *Transmission
-      services of electricity* and *Distribution and trade services of electricity* own-use
-      inputs (losses 6–8% → ~4%), optionally a 2–3% demand-response cut on every sector's
-      electricity inputs; one full solve. If it cannot reach a brick, report the honest
-      number — that answers the standing "can a coefficient shock compete?" question.
+- [ ] **T7 Grid tape. Hold — the tape's design is under review on the game side.** Two
+      candidate mechanisms, needing different shocks, so building either first risks
+      throwing the work away:
+      *(a) efficiency* — a coefficient cut on *Transmission services of electricity* and
+      *Distribution and trade services of electricity* own-use inputs (losses 6–8% → ~4%),
+      optionally a 2–3% demand-response cut on every sector's electricity inputs; one full
+      solve. This is the version the "enabler" hypothesis in the Modelling decisions section
+      describes, and the one this repo has doubted since it was written, because curtailment
+      is not in the table and the remainder is a few percent of a service sector.
+      *(b) distributed generation* — a shift of the region's generation mix toward
+      *Electricity by solar photovoltaic* at small scale, **plus** reduced transmission and
+      distribution service consumed per kWh delivered, **plus** a capital-mix change toward
+      electrical machinery and away from heavy construction. This carries a real
+      generation-mix change, so it has a far more plausible route to a brick.
+      *Blocked on:* the game confirming which. Ask before building. Whichever lands, the
+      standing question — can a distribution-sector coefficient shock score competitively
+      against a direct tape? — is worth answering for (a) even if (b) is adopted, because it
+      is the general question about enabling infrastructure in an MRIO.
 - [ ] **T8 Fusion.** Nuclear's mechanics with `build_years_reference` 20 and 2× capex per GW;
       the table gets one honest number, the game's outcome band carries the maturity story.
 - [ ] **T9 The export job.** `jobs/export_tape_table.py` (notebook 04 first if faster):
