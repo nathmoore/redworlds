@@ -118,6 +118,21 @@ tapes must interact. Contract: `docs/design/red_carbon_contract.md` §4.4.
       distribution service consumed per kWh delivered, **plus** a capital-mix change toward
       electrical machinery and away from heavy construction. This carries a real
       generation-mix change, so it has a far more plausible route to a brick.
+      *Magnitudes, checked 2026-09-18 — both framings clear a brick, so this tape is not
+      blocked on being too small:* EU curtailment runs ~30 TWh/yr for want of transmission
+      capacity and ~72 TWh/yr including all bottlenecks (2024), at only ~50% renewable
+      share, and rises steeply with penetration — recovering ~100 TWh/yr at ~300 g/kWh
+      marginal is ~30 Mt/yr, ~1.5 Gt over the window. T&D losses are ~6.2% of output in the
+      EU and materially higher across the rest of region 3 (Turkey ~9.5%, parts of the
+      Balkans and Central Asia far higher), so two points saved on ~6,000 TWh is ~120 TWh/yr,
+      ~0.9 Gt at a 2050 average intensity. The regional point matters: this tape is worth
+      more in region 3 than an EU-only reading suggests, because region 3 contains the grids
+      with the most headroom.
+      *Note on method:* this model has no capacity constraints, no dispatch and no time
+      resolution, so an "enabling" effect cannot be derived here — demand for wind
+      electricity is always met. The coefficient change must be **imposed exogenously** and
+      cited, as Wiebe et al. 2018 impose IEA ETP scenario coefficients. Sources: CEER Report
+      on Power Losses; World Bank T&D loss series; EU congestion and curtailment reporting.
       *Blocked on:* the game confirming which. Ask before building. Whichever lands, the
       standing question — can a distribution-sector coefficient shock score competitively
       against a direct tape? — is worth answering for (a) even if (b) is adopted, because it
