@@ -179,6 +179,40 @@ From the game's `TECHNICAL_IMPLEMENTATION.md`, `MAINFRAME_PLAY_MODEL.md` §11 an
 The game currently charts against a canned SSP2-shaped world baseline (~37 Gt/yr in 2050
 falling to ~16 Gt/yr in 2100). It wants the real one back from here.
 
+### 4.4 The Beta Day path: a precomputed table (decided 2026-09-18)
+
+For the game's first scored playtest the queue in §4.1 is **not built**. Because the
+payload varies only in `outcome_fraction` and `push_level`, and Y-side shocks are linear in
+the fraction, each tape is solved **once, offline**, and the results ship to the game as a
+JSON table. The game multiplies the tape's full-deployment annual deltas by the realised
+fraction, runs the deployment curve (its own port of `engine/scoring.cumulative_delta`), and
+computes the score server-side. Per-tape record:
+
+```jsonc
+{ "eca_nuclear": {
+    "region_id": 3, "wing": "build",
+    "annual_delta_construction": 1.2e10,   // kg CO2-eq per build year, full deployment
+    "annual_delta_operating": -3.1e10,     // kg CO2-eq per operating year, full deployment
+    "deltas_by_deployment": { "0.25": ..., "0.5": ..., "0.75": ... },  // BUILD only (A-matrix, non-linear)
+    "gdp_impact_full": 0,
+    "build_years_reference": 10,
+    "deployment_curve": "build_default",
+    "cover_magnitude": { "reactors": 10, "twh_per_year": 95 },
+    "cumulative_full_flat": -1.02e12,
+    "provenance": "jobs/export_tape_table.py @ <commit>" } }
+```
+
+File-level fields: `baseline` (which cached world), `intensity_scalar_2050` (one factor
+applied by the game to every delta, standing in for the 2011 → 2050 intensity decline until
+the SSP2 baseline exists), `units`. The queue/worker path stays the design for tapes that
+must interact; the `result_json` it returns is the same shape the table carries per tape,
+so the game's table code becomes the fallback rather than a rewrite.
+
+Two modelling choices the game made for this path: BUILD's operating phase is an
+**A-matrix electricity-mix change** (Wiebe et al. 2018 §3.3), not a demand-side product
+substitution, because industrial electricity sits in `Z`; and SWAP is **consumer-side
+only** with a flat re-spend. Both are recorded in `docs/backlog.md` §Beta Day tape table.
+
 ---
 
 ## 5. Per-tape modelling notes the game has already worked out

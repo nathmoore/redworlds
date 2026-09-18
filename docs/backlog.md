@@ -57,6 +57,74 @@ interaction, nightly growth.
 
 ---
 
+## Beta Day tape table (the game's next epic, 2026-09-18)
+
+The game's next playtest scores real tapes from **a precomputed table** produced here, not
+from a live worker: the per-play inputs are tape id, outcome fraction and push level, and
+Y-side shocks are linear in the fraction, so each tape's solve runs once and ships as JSON.
+The queue/worker design in `architecture.md` is unchanged and becomes necessary only when
+tapes must interact. Contract: `docs/design/red_carbon_contract.md` §4.4.
+
+- [ ] **T1 Cache the aggregated baseline.** `jobs/build_baseline.py` for now means: load
+      2011 pxp → `aggregate_regions` → `endogenise_capital` → `calc_all` → persist to
+      `data/worlds/baseline_2011_agg7/`; add `just baseline`. *Done when:* a second process
+      loads it in seconds and `total_emissions` matches notebook 03 (44.5 Gt). The SSP2
+      walk stays a TODO in the docstring, not a stub in the way.
+- [ ] **T2 Populate the tape records and the concordance.** `data/tech_choices/options.toml`
+      and `data/concordances/exiobase_to_scenario.csv` are placeholders. One record per game
+      tape (`eca_nuclear`, `eca_geothermal`, `eca_fusion`, `eca_electric_vehicle_transition`,
+      `eca_smart_grid`, `eca_ban_gas_supply`, `eca_extended_product_lifetimes`, `eca_buy_less`,
+      `eca_remote_work_commuters`) with the contract §4.2 fields plus a `beta_day_assumption`
+      text field. Baskets use exact `products.txt` labels. Each record also carries
+      `regional_ceiling` — the physical maximum for that intervention in the region
+      (land, resource or behavioural, MacKay-style) — from which the game derives how
+      many copies of the tape exist. *Done when:* a loader validates every product in
+      every basket against the aggregated table's index, and every record has a
+      ceiling with its basis stated.
+- [ ] **T3 REDUCE tapes through the existing path.** `apply_reduce` works; the three REDUCE
+      tapes need their baskets (T2) and, for the commuting tape, the direct-household
+      emissions fix (scale the `F_Y` row by the fuel product's own change — see Open).
+- [ ] **T4 Consumer-side SWAP.** `apply_swap`: cut product A in the region's household
+      column by `pct_rollout`; add product B at the tape's service-equivalent (COP 3 for gas
+      → heat-pump electricity; ~⅓ energy for petrol → EV electricity), priced; re-spend the
+      remainder flat across the household basket via `rebalance_economy` (flat weighting,
+      as sanctioned above). *Done when:* `gdp_impact` ≈ 0 for a SWAP (the closed-budget check).
+- [ ] **T5 BUILD, construction phase.** GFCF injection in the region across *Construction
+      work (45)* 40%, *Machinery and equipment n.e.c. (29)* 42%, *Electrical machinery (31)*
+      9%, *Other business services (74)* 9% (Wood/Wiebe 2018 SI1), spread over `build_years`.
+      Injection, with the reallocation flag exposed but off. Returns the construction-phase
+      annual delta (positive). *Done when:* nuclear's construction total is a few percent of
+      its operating abatement.
+- [ ] **T6 BUILD, operating phase — A-matrix mix change.** Decided 2026-09-18 (game): for
+      every region-3 column of `A` (and the region's `Y` columns), move the fossil
+      electricity input coefficients (*Electricity by coal / gas / petroleum*) to the built
+      product (*Electricity by nuclear* / *by Geothermal*) sized to the tape's TWh at the
+      table's basic price, keeping each column total; re-invert `L`; rescale nothing in `S`
+      (the target product's own intensity row already exists). Wiebe et al. 2018 §3.3. A
+      Y-only substitution is a cross-check, not the method — industrial electricity sits
+      in `Z`. Returns the operating-phase annual delta (negative). *Done when:* nuclear lands
+      in the contract's 0.5–1.8 Gt range at the 10-reactor cover.
+- [ ] **T7 Grid tape.** No Y-side form. Express as a coefficient cut on *Transmission
+      services of electricity* and *Distribution and trade services of electricity* own-use
+      inputs (losses 6–8% → ~4%), optionally a 2–3% demand-response cut on every sector's
+      electricity inputs; one full solve. If it cannot reach a brick, report the honest
+      number — that answers the standing "can a coefficient shock compete?" question.
+- [ ] **T8 Fusion.** Nuclear's mechanics with `build_years_reference` 20 and 2× capex per GW;
+      the table gets one honest number, the game's outcome band carries the maturity story.
+- [ ] **T9 The export job.** `jobs/export_tape_table.py` (notebook 04 first if faster):
+      for each record, run from the cached baseline and write `data/exports/tape_table_<date>.json`
+      — per tape `annual_delta_construction`, `annual_delta_operating`, `gdp_impact_full`,
+      `build_years_reference`, `deployment_curve`, `cover_magnitude`, `cumulative_full_flat`,
+      `provenance`, `regional_ceiling` and `copies` (ceiling ÷ brick, floored);
+      file-level `baseline`, `intensity_scalar_2050`, `units`. For BUILD (T6 is
+      non-linear) also store deltas at deployment 0.25 / 0.5 / 0.75. A JSON schema beside it;
+      `just export-tapes` regenerates byte-identically. *Done when:* all nine tapes export.
+- [ ] **T10 Docs.** `assumptions.md`: the 2011 → 2050 intensity scalar (0.6 working, source
+      to cite) and the Beta Day simplifications; `game_mechanics.md`: the table shape;
+      close the "GitHub issues for stubs" item above while there.
+
+---
+
 ## Modelling decisions
 
 Each of these changes a number the game shows. Sources and working numbers are in
