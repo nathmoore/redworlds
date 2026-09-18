@@ -177,6 +177,58 @@ trail survives.
       machinery, 9% other business services), run for Region 3, read off the number.
       Refine later with per-region splits and explicit steel/cement content.
 
+### Emissions accounting — which rows to read, and the two traps
+
+**Verified against the real 2011 pxp tables, 2026-09-18.** Recorded here because it is the
+kind of thing that is invisible until a number is wrong by a factor of a million.
+
+**The rule: read one pre-characterised row. Never sum rows.** EXIOBASE's `impacts` extension
+is not a set of disjoint stressors — it contains the same emissions several times over, in
+different characterisations and at different levels of aggregation:
+
+- `Carbon dioxide (CO2) IPCC categories 1 to 4 and 6 to 7 (excl LULUCF)` and
+  `Carbon dioxide (CO2) CO2EQ IPCC categories ...` are **the same number** (CO2's GWP is 1).
+- `Carbon dioxide (CO2) Fuel combustion and cement` and `Carbon dioxide (CO2) Fuel combustion`
+  are **nested subsets** of it.
+- There are at least six GHG GWP variants — CML 2001 baseline, CML 1999 baseline, GWP20,
+  GWP500, and net GWP100 min/max — which are the same emissions re-characterised.
+
+So anything of the form "sum every row whose label contains CO2" multiply-counts. The rows to
+use, both already pre-aggregated:
+
+| Quantity | Extension | Row | Unit |
+|---|---|---|---|
+| All-GHG | `impacts` | `GHG emissions (GWP100) \| Problem oriented approach: baseline (CML, 2001) \| GWP100 (IPCC, 2007)` | **kg CO2 eq.** |
+| CO2 only | `impacts` | `Carbon dioxide (CO2) IPCC categories 1 to 4 and 6 to 7 (excl land use, land use change and forestry)` | **Gg** |
+
+⚠ **Trap 1 — the units differ by 10⁶.** The GHG row is in **kg CO2 eq**; the CO2 row is in
+**Gg** (10⁶ kg). Adding a CO2 field by copying the GHG read path gives an answer a million
+times out, and at these magnitudes that can still look superficially plausible. Read
+`impacts/unit.txt` per row rather than assuming.
+
+⚠ **Trap 2 — `F_Y` is not optional.** Industry emissions (`F`) are 39.4 Gt CO2e; direct
+household emissions (`F_Y`) are another 5.1. The world total only reconciles with both.
+
+**Reconciliation, world 2011, F + F_Y:**
+
+| | Value | Cross-check |
+|---|---|---|
+| All-GHG | **44.5 Gt CO2e** | matches `examples/03_first_reduce_number.ipynb` |
+| CO2 only | **32.5 Gt CO2** | real-world 2011 fossil + cement is ~34 Gt |
+| CO2 share of CO2e | **73%** | — |
+
+The CO2 share is global; it will differ by region and by tape, which is the argument for
+carrying both fields per tape in the export rather than applying one global fraction.
+
+**Two assumptions this bakes in, for `assumptions.md`:** the totals **exclude LULUCF** (it is
+in the row name), and the GWPs are **IPCC 2007 (AR4)** via CML 2001, not AR5 or AR6. Both are
+defensible and neither is the current convention, so both should be stated once rather than
+discovered later.
+
+**Known oddity, not ours:** pymrio issue #72 reports surprising GHG intensities in EXIOBASE 3
+for solar photovoltaic and geothermal electricity. Both are Beta Day tape technologies, so
+check those two sectors' coefficients explicitly at T5/T6 before trusting a BUILD result.
+
 ### Open
 
 - [ ] **Direct household emissions under a REDUCE.** pymrio recomputes `F_Y` from `S_Y`,
@@ -184,8 +236,20 @@ trail survives.
       scales a region's direct household emissions (fuel burnt in cars and boilers) by the
       change in total household spend, not by the change in that product. Right for a
       broad basket, wrong for a vehicle-fuel or gas tape, where `F_Y` should track the fuel
-      row. Fix when the first such tape is sized: scale the `F_Y` column by the fuel
-      product's own change instead.
+      row. Fix: scale the `F_Y` column by the fuel product's own change instead.
+      **Confirmed in scope 2026-09-18 (Nathan): do it in T3, not later.** Two Beta Day
+      tapes are exactly this case — the remote-work tape cuts vehicle fuel and the gas tape
+      cuts household gas — so the broad-basket approximation is wrong for both, and `F_Y` is
+      11% of the world total (5.1 of 44.5 Gt CO2e), not a rounding error.
+- [ ] **Carry CO2 as well as CO2e through to the export.** The game converts cumulative
+      emissions to a 2100 temperature reading, and that conversion (the transient climate
+      response to cumulative emissions) is defined on **CO2 alone** — CO2e hides the
+      difference between a permanent gas and a decade-lived one, so two tapes with equal
+      CO2e can have unequal consequences for 2100. Cheap to fix, because EXIOBASE already
+      publishes both as pre-characterised rows in the `impacts` extension. See **Emissions
+      accounting** below for the row names and the unit trap. Decided in scope 2026-09-18;
+      do it in T9 so the export schema is right first time.
+
 - [ ] **GDP impact attribution.** `gdp_impact` books the world total of final demand
       removed. A Region 3 cut in imported goods also lowers value added abroad; per-region
       attribution needs the `Value Added` factor input through the Leontief solve
@@ -219,22 +283,26 @@ trail survives.
             industries consumed more of a capital good (from a given supplier region)
             than the region's GFCF column bought from that supplier. Left as it falls
             for now, so the accounting identity holds.
-      - [ ] Decide what to do with negative net-investment cells: keep (Södersten et
-            al. treat net investment as a residual), clip and rebalance the supplier
-            mix, or clip and accept the small conservation break. Check how much of
-            the −2.25 T is trade-mismatch (supplier region) versus genuine
-            disinvestment (same region, e.g. shrinking capital stock) before choosing.
+      - [x] ~~Decide what to do with negative net-investment cells.~~ **Decided
+            2026-09-18 (Nathan): keep them**, as Södersten et al. do — net investment is a
+            residual and the accounting identity holds. Still run the diagnostic inside T1
+            (how much of the −2.25 T is supplier-region trade mismatch versus genuine
+            same-region disinvestment) and record it; revisit only if it is mostly the
+            latter, which would mean the subtraction is saying something about capital
+            stocks rather than about trade.
       - [ ] Carry the capital coefficients through the 2011 → 2050 extrapolation
             consistently.
       - [ ] Runtime: the full-system integration test (parse, invert, endogenise,
             re-invert 9800 × 9800) takes ~19 min and 2.9 GB peak on an 8 GB laptop.
             Fine for a one-off baseline build; cache the result, never run per tape.
-- [ ] **BUILD capex (b): where does the money come from?** Injection (new money, GDP
-      rises, strongest J-curve, matches BU1 and Wiebe) vs reallocation within the
-      remaining GFCF column (GDP-neutral, crowds out other investment, slightly softens
-      the hump, matches the game's latest "BUILD GDP-neutral reallocation" framing). Both
-      are one flag on `rebalance_economy`. **Nathan's call, design-flavoured.** MVP can
-      ship injection and expose the flag.
+- [x] ~~**BUILD capex (b): where does the money come from?**~~ **Decided 2026-09-18
+      (Nathan): injection.** New money, GDP rises, strongest J-curve; matches BU1 and Wiebe
+      et al. 2018. The construction phase is a GFCF injection into construction (45),
+      machinery n.e.c. (29), electrical machinery (31) and other business services (74) on
+      the Wood/Södersten SI1 split; the operating phase is a separate A-matrix mix change
+      (T6). The alternative considered was reallocation within the remaining GFCF column
+      (GDP-neutral, crowds out other investment, softens the hump). **Keep the reallocation
+      flag on `rebalance_economy` exposed but off**, so the cross-check stays cheap.
 - [ ] **BUILD phase two: post-build technology mix.** The genuinely hard half of BUILD:
       after the build years, change the electricity sector's coefficient column (more
       nuclear/geothermal product, less coal/gas) with column rescaling to one, and rescale
