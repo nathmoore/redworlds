@@ -1,34 +1,266 @@
 # data/tech_choices/options.toml
 #
-# Defines the technologies and eco-choices available to players.
-# See docs/design/game_mechanics.md for full schema documentation.
+# One record per game tape. The game sends a tape id, an outcome fraction and a push level;
+# everything physical about the tape lives here. Fields follow
+# docs/design/red_carbon_contract.md 4.2, plus two of this repo's own:
 #
-# Placeholder — populate with real options before first use.
+#   beta_day_assumption  - what this record simplifies for the first scored playtest, in a
+#                          sentence, so a number in the export can be traced to a choice.
+#   regional_ceiling     - the physical maximum for the intervention in the region, with
+#     regional_ceiling_basis   its basis stated. The game divides it by the cover magnitude
+#     regional_ceiling_unit    to decide how many copies of a tape exist. That mechanic is
+#                          still tentative on the game side; the ceiling is recorded anyway
+#                          because it is a defensible engine fact either way.
+#
+# Ceilings are Region 3 (Europe and Central Asia) unless a record says otherwise, and every
+# one is an order-of-magnitude authoring anchor, not a forecast. Where a ceiling rests on a
+# literature estimate the source is named inline; full citations live in docs/references.md.
+#
+# Sprint 2 exercises the three REDUCE records only. The BUILD and SWAP records carry their
+# fields so the export schema is right first time, but their numbers are not yet solved and
+# they are marked with status = "pending".
+#
+# Product baskets are NOT here - they live in data/concordances/exiobase_to_scenario.csv,
+# keyed by scenario_category. redworlds.jobs.tape_records loads both and validates that
+# every product in every basket exists in the table being used.
 
 # ─────────────────────────────────────────────
-# BUILD options
+# REDUCE options — solved for Beta Day
 # ─────────────────────────────────────────────
-# [[build]]
-# key = "offshore_wind"
-# label = "Offshore Wind Farm"
-# compatible_scenarios = ["electricity_generation"]
-# regions = ["all"]
+
+[[reduce]]
+key = "eca_buy_less"
+label = "Buy Less"
+status = "ready"
+region_id = 3
+scenario_category = "buy_less_basket_a"
+matrix_target = ["Y"]
+max_reducible_fraction = 0.25
+deployment_curve = "reduce_default"
+build_years_reference = 0
+cover_magnitude = { basket_fraction = 0.014 }
+regional_ceiling = 0.25
+regional_ceiling_unit = "fraction of basket A final demand"
+regional_ceiling_basis = """
+Behavioural, not physical. Basket A is discretionary goods and leisure with housing, food,
+household energy and vehicle fuel deliberately protected, so the ceiling is how much of the
+discretionary basket a society could forgo and still be recognisably itself. A quarter is
+about the gap between current Region 3 discretionary spend per head and that of the
+region's own lower-middle income decile — a level people in the region already live at,
+which is the most defensible floor available without inventing a preference model.
+"""
+beta_day_assumption = """
+The cut is uniform across all thirteen products in the basket, because the game sends one
+outcome fraction. A real behavioural shift would fall unevenly (fast fashion before air
+travel). Uniform is the honest reading of a single-number input.
+"""
+
+[[reduce]]
+key = "eca_extended_product_lifetimes"
+label = "Extended Product Lifetimes"
+status = "ready"
+region_id = 3
+scenario_category = "appliances_and_devices"
+matrix_target = ["Y"]
+max_reducible_fraction = 0.5
+deployment_curve = "reduce_default"
+build_years_reference = 0
+cover_magnitude = { extra_years_of_life = 1 }
+regional_ceiling = 0.5
+regional_ceiling_unit = "fraction of appliance and device final demand"
+regional_ceiling_basis = """
+Physical, from replacement cycles. Typical device life is roughly 3-5 years and typical
+appliance life 8-12; doubling either halves the annual replacement flow, so a halving of
+demand is the ceiling a full repair-and-reuse culture reaches. Beyond that the limit is
+genuine failure rather than replacement, which no repair culture removes.
+"""
+beta_day_assumption = """
+Volume only: fewer units are made and the products' emission intensities are unchanged.
+The contract's price-compensation k is therefore 0. The contract is explicit that the
+volume effect and the intensity effect must never both be applied or the tonne is
+double-counted; volume is the one the Y-side path can represent honestly, and it is the
+conservative of the two. Retooling capex (a small GFCF J-curve) is not modelled.
+"""
+
+[[reduce]]
+key = "eca_remote_work_commuters"
+label = "Remote Work"
+status = "ready"
+region_id = 3
+scenario_category = "commuting_vehicle_fuel"
+matrix_target = ["Y", "F_Y"]
+max_reducible_fraction = 0.28
+deployment_curve = "reduce_default"
+build_years_reference = 0
+direct_emissions_extension = "impacts"
+cover_magnitude = { people = 100_000_000, commute_days_avoided_per_week = 1 }
+regional_ceiling = 140_000_000
+regional_ceiling_unit = "workers who could work remotely"
+regional_ceiling_basis = """
+Behavioural within a physical bound. Dingel & Neiman (2020) find ~37% of jobs can be done
+entirely from home in high-income economies and materially fewer in middle-income ones;
+against a Region 3 workforce of roughly 400 M, ~35% gives ~140 M. The cover magnitude of
+100 M people at one day a week is therefore well inside the ceiling, and the ceiling binds
+on who can telework at all, not on how many days they choose to.
+"""
+beta_day_assumption = """
+This tape opts into the F_Y correction: direct household emissions move by the fuel's own
+change rather than by the household basket's total, which is why the basket is only the two
+fuels households burn themselves. The correction assumes direct emissions are linear in
+fuel spend, so it assumes no rebound in the remaining trips and no shift to a cheaper or
+dirtier fuel. Rebound is the contract's stated dominant uncertainty for this tape.
+Home heating added by staying in is not netted off here; the contract's 0.13 t/person/day
+figure is already net of it, so the two must not be combined without care.
+"""
 
 # ─────────────────────────────────────────────
-# SWAP options
+# BUILD options — sprint 3 (T5, T6, T8)
 # ─────────────────────────────────────────────
-# [[swap]]
-# key = "heat_pumps"
-# label = "Heat Pumps"
-# replaces = "gas_heating"
-# compatible_scenarios = ["residential_heating"]
-# max_replaceable_fraction = 0.65
+
+[[build]]
+key = "eca_nuclear"
+label = "Nuclear Power Stations"
+status = "pending"
+region_id = 3
+scenario_category = "electricity_generation"
+technology = "nuclear"
+matrix_target = ["GFCF_construction_phase", "A_post_build_energy_mix"]
+budget_musd_2026_purchaser = 100_000
+build_years_reference = 10
+deployment_curve = "build_default"
+cover_magnitude = { reactors = 10, gw = 12, capacity_factor = 0.9, twh_per_year = 95 }
+regional_ceiling = 400
+regional_ceiling_unit = "TWh/yr of new nuclear generation"
+regional_ceiling_basis = """
+Industrial, not geological. Uranium supply and sites do not bind at this scale in Region 3;
+the binding constraint is how fast the region can pour concrete and forge pressure vessels.
+Roughly 4x the cover magnitude is about one reactor a year sustained across the region for
+the window, which is close to the peak European build rate of the 1980s.
+"""
+beta_day_assumption = "Not yet solved. Construction phase is a GFCF injection on the Wood/Wiebe 2018 SI1 split; the operating phase is an A-matrix electricity-mix change."
+
+[[build]]
+key = "eca_geothermal"
+label = "Geothermal Power"
+status = "pending"
+region_id = 3
+scenario_category = "electricity_generation"
+technology = "geothermal"
+matrix_target = ["GFCF_construction_phase", "A_post_build_energy_mix"]
+budget_musd_2026_purchaser = 100_000
+build_years_reference = 6
+deployment_curve = "build_default"
+cover_magnitude = { gw = 13, capacity_factor = 0.8, twh_per_year = 91 }
+regional_ceiling = 180
+regional_ceiling_unit = "TWh/yr of new geothermal generation"
+regional_ceiling_basis = """
+Geological, and hotspot-gated. Conventional high-enthalpy resource in Region 3 is
+concentrated in Iceland, Italy, Turkey and the Caucasus; the ceiling above is a proven-
+hotspot floor of roughly twice the cover with enhanced geothermal systems left out. If EGS
+is later admitted the ceiling rises by an order of magnitude and stops being the binding
+constraint, which is why the basis matters more than the number.
+"""
+beta_day_assumption = "Not yet solved. Check EXIOBASE's geothermal electricity intensity before trusting a result — pymrio issue #72 reports surprising values for this sector and for solar PV."
+
+[[build]]
+key = "eca_fusion"
+label = "Fusion Power"
+status = "pending"
+region_id = 3
+scenario_category = "electricity_generation"
+technology = "fusion"
+matrix_target = ["GFCF_construction_phase", "A_post_build_energy_mix"]
+budget_musd_2026_purchaser = 200_000
+build_years_reference = 20
+deployment_curve = "build_default"
+cover_magnitude = { gw = 12, capacity_factor = 0.9, twh_per_year = 95 }
+regional_ceiling = 400
+regional_ceiling_unit = "TWh/yr of new fusion generation"
+regional_ceiling_basis = """
+Same industrial ceiling as nuclear, and for the same reason: if fusion works, what limits
+it is the same heavy forging and construction capacity. The maturity story is carried by
+the game's outcome band and by 20-year build times at twice the capex per GW, not by a
+tighter ceiling — the engine has no honest basis for treating the ceiling as different.
+"""
+beta_day_assumption = "Not yet solved. Modelled as nuclear with double capex per GW and a 20-year reference build; the engine gives one honest number and the game's outcome band carries the risk."
 
 # ─────────────────────────────────────────────
-# REDUCE options
+# SWAP options — sprint 3 (T4, T7)
 # ─────────────────────────────────────────────
-# [[reduce]]
-# key = "thermostat_reduction"
-# label = "Lower Thermostat"
-# compatible_scenarios = ["residential_heating"]
-# max_reducible_fraction = 0.20
+
+[[swap]]
+key = "eca_electric_vehicle_transition"
+label = "Electric Vehicle Transition"
+status = "pending"
+region_id = 3
+scenario_category = "private_motoring"
+from_technology = "petrol_and_diesel_car"
+to_technology = "electric_car"
+matrix_target = ["Y"]
+budget_musd_2026_purchaser = 330_000
+build_years_reference = 0
+max_replaceable_fraction = 0.8
+deployment_curve = "swap_default"
+cover_magnitude = { cars = 11_000_000, tonnes_saved_per_car_year = 2 }
+regional_ceiling = 320_000_000
+regional_ceiling_unit = "cars that could be electrified"
+regional_ceiling_basis = """
+The regional fleet, less the share that cannot realistically electrify this window (heavy
+rural use, and drivers without off-street parking in markets with thin public charging).
+Region 3's fleet is roughly 400 M vehicles; 80% is the same figure as
+max_replaceable_fraction because in this tape the ceiling and the per-play maximum are the
+same constraint seen from two distances.
+"""
+beta_day_assumption = "Not yet solved. Consumer-side only: petrol and diesel demand falls, electricity rises at about a third of the energy, and the remainder re-spends flat across the household basket. The contract flags freed motoring money re-spending toward air travel as this tape's largest unmodelled risk."
+
+[[swap]]
+key = "eca_ban_gas_supply"
+label = "Ban Gas Supply"
+status = "pending"
+region_id = 3
+scenario_category = "residential_heating"
+from_technology = "gas_boiler"
+to_technology = "heat_pump"
+matrix_target = ["Y", "F_Y"]
+budget_musd_2026_purchaser = 150_000
+build_years_reference = 0
+max_replaceable_fraction = 0.9
+deployment_curve = "swap_default"
+direct_emissions_extension = "impacts"
+cover_magnitude = { homes = 12_000_000, tonnes_saved_per_home_year = 1.9 }
+regional_ceiling = 95_000_000
+regional_ceiling_unit = "gas-heated homes that could be converted"
+regional_ceiling_basis = """
+Physical, from the housing stock. Roughly 105 M homes in Region 3 are on mains gas; ~90% is
+the share a heat pump can serve without a fabric upgrade that the tape does not pay for.
+The remainder is the hard tail — solid-wall and high-rise stock where the retrofit, not the
+appliance, is the binding cost.
+"""
+beta_day_assumption = "Not yet solved. Gas burnt at home is direct household emissions, so this tape needs the same F_Y correction the remote-work tape uses — currently wired into apply_reduce only, so apply_swap must gain it at T4. Replacement electricity at COP ~3 gives ~1.9 t net of ~2.8 t gross."
+
+[[swap]]
+key = "eca_smart_grid"
+label = "Smart Grid"
+status = "pending"
+region_id = 3
+scenario_category = "electricity_delivery"
+from_technology = "legacy_grid"
+to_technology = "smart_grid"
+matrix_target = ["A"]
+budget_musd_2026_purchaser = 200_000
+build_years_reference = 5
+max_replaceable_fraction = 1.0
+deployment_curve = "swap_default"
+cover_magnitude = { numberless = true }
+regional_ceiling = 220
+regional_ceiling_unit = "TWh/yr recoverable from losses and curtailment"
+regional_ceiling_basis = """
+Two stacked physical headrooms, both checked 2026-09-18. Transmission and distribution
+losses run ~6.2% of output in the EU and materially higher across the rest of Region 3
+(Turkey ~9.5%, parts of the Balkans and Central Asia far higher), so two points saved on
+~6,000 TWh is ~120 TWh/yr. Curtailment for want of transmission capacity runs ~30 TWh/yr
+in the EU and ~72 TWh/yr including all bottlenecks at only ~50% renewable share, rising
+steeply with penetration; ~100 TWh/yr is the 2050 figure. Region 3 is worth more than an
+EU-only reading suggests because it contains the grids with the most headroom.
+"""
+beta_day_assumption = "HELD, not merely unsolved. Two candidate mechanisms need different shocks and the game has not settled which; see docs/backlog.md T7. Both clear a brick, so the tape is not blocked on being too small. The model has no dispatch or capacity constraints, so whichever lands, the coefficient change must be imposed exogenously and cited, as Wiebe et al. 2018 impose IEA ETP coefficients."
