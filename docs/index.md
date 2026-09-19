@@ -3,10 +3,14 @@
 Open-source Python engine for **Red Carbon**, a game about decarbonisation, economics,
 and climate action.
 
-It is a **data engine**: the carbon numbers the game reports come out of
-[EXIOBASE](https://www.exiobase.eu/), a global economic dataset used by academic
-researchers and cited by the IPCC, run through standard input–output methods. This is
-that layer only — not the game itself.
+It is a **data engine**: the carbon numbers the game reports are computed rather than
+asserted, from [EXIOBASE](https://www.exiobase.eu/) — a global economic dataset built by a
+European research consortium — run through standard input–output methods. This is that
+layer only, not the game itself.
+
+Being computed does not make it true. A model is a set of arguments about how the world
+fits together, and ours are written down where you can read them and disagree:
+[Assumptions](design/assumptions.md) is the place to start.
 
 ## Start here — by audience
 

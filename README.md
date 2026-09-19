@@ -9,178 +9,141 @@
 decarbonisation, economics, and an uncomfortable question sitting just below the surface:
 *is climate change actually controllable?*
 
-It is a **data engine**. When the game tells you an intervention saved a certain amount of
-carbon, that number is not a guess or a designer's opinion — it comes out of
-[EXIOBASE](https://www.exiobase.eu/), a global economic dataset used by academic
-researchers and cited by the IPCC, run through standard input–output methods. This repo is
-that layer and only that layer. It is not the game; the game's front end lives elsewhere.
+It is a **data engine**. When the game says an intervention saved a certain amount of
+carbon, that figure is computed rather than asserted. This repo is that layer only — not
+the game.
 
-You do not need to be a programmer to look inside it. Two ways in, below.
+Being computed does not make it true. A model is a set of arguments about how the world
+fits together, and ours can be read, checked and disagreed with. That is why it is here.
 
 ---
 
-## Explore this with an AI
+## How it works
 
-The fastest way into this project is to hand it to an assistant and start asking. This
-repository is written to be read that way — plain-language documents explaining what the
-model does, what it assumes, and what it deliberately ignores.
+The game is set in 2050. A player picks one large-scale intervention in one of seven
+world regions, and Red Worlds answers: *how much carbon does that avoid, over the fifty
+years to 2100, compared with not doing it?*
 
-**How:** copy this repository's address and paste it into Claude, ChatGPT, Gemini,
-Copilot or whatever you already use, with something like *"read this repository and help
-me understand it"*.
+That last clause matters more than anything else here. Every number this engine produces
+is a **difference against a baseline**, not a forecast of the world in 2050.
+
+### The method, in one idea
+
+Every purchase drags a chain of production behind it. A solar panel needs steel; steel
+needs coal; coal needs machinery; machinery needs steel again. **Input–output analysis**
+is the standard way of solving that loop — a table of who buys what from whom across a
+whole economy, arranged so you can ask what a change in demand does to total output, and
+then to total emissions.
+
+The table we use is [EXIOBASE](https://www.exiobase.eu/): around 200 product categories
+across 49 countries and regions, with physical accounts for CO₂ and other greenhouse
+gases attached. It was built by a European research consortium and its method is set out
+in a [peer-reviewed paper](https://doi.org/10.1111/jiec.12715). It is a serious, widely
+used dataset. It is also a model of an economy in **2011**, with everything that implies.
+
+### The three wings
+
+Every intervention is one of three kinds. They differ in **what happens to the money**,
+and that turns out to decide the answer.
+
+**BUILD — construct new low-carbon capacity**, say a ten-reactor nuclear block. The money
+is *moved*: redirected into investment, which means concrete, steel, machinery and
+electrical equipment, all emitting now, years before the thing generates anything. So
+emissions rise before they fall — the J-curve. How big that hump is against how deep the
+eventual fall goes is the whole argument about building your way out.
+
+**SWAP — substitute one product for another** at the same volume, motor fuel for
+electricity in cars. The money is *kept*: a household spending less on petrol spends it
+on something else, which has a footprint of its own. That re-spend is the **rebound**, and
+we model it deliberately. Leaving it out is the commonest way to flatter a swap.
+
+**REDUCE — consume less of a basket of products.** The money *leaves the model*. The
+economy shrinks in proportion and there is no rebound at all. That is a post-growth
+framing and a real choice, not a neutral default — see below.
+
+### Scoring
+
+The engine takes the annual difference against the baseline, spreads it across the fifty
+years through a deployment curve — things arrive gradually, not all at once — and sums
+the result. The game sizes every intervention to the same expected abatement; Red Worlds
+answers how much of each one that takes, in each region.
+
+---
+
+## What we assume, and where it breaks
+
+The part worth reading slowly, and the reason this is open.
+
+- **The base year is 2011**, the last complete table in EXIOBASE 3.8.2. We walk it forward
+  to 2050 on an SSP2 pathway. Economies change in forty years; ours changes only in the
+  ways we have modelled.
+- **Trade patterns are fixed and prices do not respond.** Demand-driven input–output
+  models have no market clearing: nothing gets dearer because you bought more of it.
+  Standard, and a real limit.
+- **Forty-nine regions are squashed into seven** — legibility bought with resolution.
+- **REDUCE's missing rebound is the most contestable assumption in the engine.** Money not
+  spent leaves entirely. You could argue it is saved, invested, or spent elsewhere, and
+  each gives a different answer. We chose the post-growth reading, wrote down why, and
+  labelled it so you can find it and object.
+- **Plenty is outside this table** — land use, forestry, physical constraints. An
+  intervention the model cannot see is not one the model has disproved.
+
+The full list with the reasoning for each is in
+[docs/design/assumptions.md](docs/design/assumptions.md). If you think one is wrong, that
+is a conversation we would rather have in the open:
+[raise an issue](https://github.com/nathmoore/redworlds/issues).
+
+**Why it is public.** Red Carbon is a game about people disagreeing over what to do about
+climate change, and that only works if the disagreement is honest — not overstating what
+an intervention achieves, not pretending a hard trade-off is easy, not hiding the
+assumption doing the heavy lifting. So the engine is open and the assumptions are in
+plain language. If you arrived sceptical, follow the assumptions rather than the
+conclusions. That is the right instinct, and this repo is built for it.
+
+---
+
+## Explore it with an AI
+
+This repository is written to be read by an assistant. Paste its address into Claude,
+ChatGPT, Gemini, Copilot or whatever you use, with *"read this repository and help me
+understand it"*:
 
 ```
 https://github.com/nathmoore/redworlds
 ```
 
-Nothing to install, no account needed here, nothing to download. Then ask it anything
-below — or your own version of it.
+Then ask — *"is the science here real, or made up for a game?"*, *"why does a BUILD
+intervention make emissions rise before they fall?"*, *"take me through how I'd model
+halving a region's cement use, one decision at a time"*.
 
-### If you are new to all of this
+One thing to know first: an assistant can explain the method, but **it cannot give you a
+number**. Numbers come from running the engine, which needs a 1.9 GB download and a few
+minutes of computation. A confident figure in tonnes that arrived without a run was
+invented.
 
-> "What is this project, in plain English?"
-
-> "Is the science behind this real, or is it made up for a game?"
-
-> "What is an input–output model, and why would you use one to answer a question about
-> carbon?"
-
-> "Where does the underlying data come from, and who else uses it?"
-
-> "The game is set in 2050 but the data is from 2011. How does that work, and is it
-> honest?"
-
-> "What does this model get wrong, or deliberately leave out?"
-
-### If you want to understand how it works
-
-> "Walk me through what happens in the tables when someone cuts a basket of consumer
-> goods by 1.4%, and why it matters that the money leaves the model."
-
-> "Which product categories would I need to change to model eleven million cars moving
-> from petrol to electricity, and where does the rebound effect show up?"
-
-> "Why does a BUILD intervention make emissions rise before they fall, and what decides
-> how big that hump is?"
-
-> "Why does counting capital goods properly change the answer for a consumer-spending
-> intervention?"
-
-> "Explain the difference between BUILD, SWAP and REDUCE as economics, not as game
-> mechanics."
-
-### If you want to work something out
-
-> "I want to know what would happen if a region halved its cement use. Take me through
-> how I'd model that here, one decision at a time, and tell me where you're least sure."
-
-> "Is this intervention even expressible in this kind of model? If not, what would it
-> take?"
-
-> "What's the largest version of this intervention that's physically plausible in this
-> region?"
-
-> "Find the papers in this repo's references that establish the method for what I'm
-> describing."
-
-### What it can answer, and what it can't
-
-An assistant that has read this repository can explain the method, the assumptions and
-the reasoning, and can walk you through what *would* happen under a given intervention.
-
-It cannot give you a number. Numbers come from running the engine, which needs a 1.9 GB
-data download and a few minutes of computation. **If an assistant hands you a confident
-figure in tonnes without having run anything, it made the figure up.** That is the single
-most useful thing to know before you start.
-
-Two other things worth holding: the authoritative documents are
-[docs/design/assumptions.md](docs/design/assumptions.md) (why the model does what it does)
-and [docs/design/red_carbon_contract.md](docs/design/red_carbon_contract.md) (what the game
-requires of it) — if an answer contradicts those, they win. And parts of this engine are
-deliberately unbuilt, so an assistant may describe something as working when it is still a
-stub. [docs/backlog.md](docs/backlog.md) is the honest current state.
-
-### Going further
-
-If you use a coding assistant that can run things — Claude Code, Codex, Cursor and the
-like — it can do more than explain: clone this repo and it can run the tests, build the
-baseline world and try a scenario alongside you.
-[docs/ai-guide.md](docs/ai-guide.md) covers that, plus a glossary, a method for taking a
-modelling decision apart one step at a time, and the five mistakes assistants reliably
-make here.
+[**docs/ai-guide.md**](docs/ai-guide.md) goes further — a glossary, a method for taking a
+modelling decision apart step by step, how to get a coding assistant to run EXIOBASE with
+you, and the five mistakes assistants reliably make here.
 
 ---
 
-## Prefer to read it yourself?
+## Learn more
 
-No AI required. Start with whichever of these matches what you want.
-
-**The data and method**
-
-- [EXIOBASE](https://www.exiobase.eu/) — the global economic dataset underneath everything here
-- [The 3.8.2 release on Zenodo](https://doi.org/10.5281/zenodo.5589597) — the exact version used, and its citation
-- [Stadler et al. 2018](https://doi.org/10.1111/jiec.12715) — the peer-reviewed paper describing how EXIOBASE is built
-- [pymrio](https://pymrio.readthedocs.io/) — the Python library that handles the table maths, with its own tutorials on input–output analysis
-
-**The wider idea**
-
-- [Sustainable Energy — Without the Hot Air](https://www.withouthotair.com/), David MacKay — free online, and the clearest book ever written on sizing climate interventions honestly. Numbers, not adjectives.
-
-**This project**
-
-- [The documentation site](https://nathmoore.github.io/redworlds/) — the same docs as this repo, rendered and searchable
-- [docs/design/assumptions.md](docs/design/assumptions.md) — every design decision and why, including the known limitations
-- [docs/references.md](docs/references.md) — the full bibliography
-
----
-
-## Start here — by audience
-
-| I want to... | Go to |
+| | |
 |---|---|
-| Understand how the engine works | [docs/design/architecture.md](docs/design/architecture.md) |
-| Explore the modelling assumptions and their limits | [docs/design/assumptions.md](docs/design/assumptions.md) |
-| Understand BUILD, SWAP, REDUCE mechanics | [docs/design/game_mechanics.md](docs/design/game_mechanics.md) |
-| See what the game requires of the engine | [docs/design/red_carbon_contract.md](docs/design/red_carbon_contract.md) |
-| See what is being worked on and what is undecided | [docs/backlog.md](docs/backlog.md) |
-| Try the IO table examples or run notebooks | [examples/](examples/) |
-| Understand the data sources and concordances | [data/README.md](data/README.md) |
-| Work on this repo, with or without an AI | [AGENTS.md](AGENTS.md) |
-| Browse the Python API | [the docs site](https://nathmoore.github.io/redworlds/api/) |
-| Contribute code or raise an issue | [CONTRIBUTING.md](CONTRIBUTING.md) |
+| Why the model does what it does, and its limits | [assumptions.md](docs/design/assumptions.md) |
+| How the pieces fit together | [architecture.md](docs/design/architecture.md) |
+| BUILD, SWAP and REDUCE in technical detail | [game_mechanics.md](docs/design/game_mechanics.md) |
+| What the game requires of the engine | [red_carbon_contract.md](docs/design/red_carbon_contract.md) |
+| What is built, in progress, or undecided | [backlog.md](docs/backlog.md) |
+| Worked examples you can run | [examples/](examples/) |
+| Where the data comes from and how to get it | [data/README.md](data/README.md) |
 
----
-
-## What this project does
-
-The game is set in 2050. Each day a player plays one large-scale intervention (a "tape")
-in one of seven world regions, and Red Worlds scores it as **cumulative CO₂ abated over
-2050–2100** against a do-nothing baseline. Red Worlds handles:
-
-1. **The baseline** — a one-off job extrapolates the 2011 EXIOBASE table to a 2050 world
-   along an SSP2 pathway, with capital endogenised, and caches the result. Building it
-   takes minutes; loading the cache takes seconds.
-2. **The three wings** — every tape belongs to one, and they differ in what happens to
-   the money:
-   - **BUILD** — construct new low-carbon capacity (say, a ten-reactor nuclear block).
-     Capital expenditure is injected into investment during the build years, so the curve
-     rises before it falls; after completion the electricity mix shifts. *The money moves.*
-   - **SWAP** — substitute one product for another at the same volume (motor fuel for
-     electricity in cars). Total spend is preserved and the re-spend is a deliberate
-     rebound. *The money stays.*
-   - **REDUCE** — consume less of a basket of products. The spend leaves the model and
-     the economy shrinks in proportion, with no rebound — a deliberate post-growth design
-     choice. *The money goes.*
-3. **Scoring** — the annual emissions difference against the baseline, spread across the
-   fifty years through a deployment curve.
-
-Because every player-facing shock is linear in how much of the intervention gets
-deployed, each tape is solved **once, offline**, and ships to the game as a small table of
-numbers. There is no live server in the loop.
-
-The game sizes every tape to the same expected abatement; Red Worlds answers how much of
-each intervention that takes, in each region. What the game requires of the engine is
-written down in [docs/design/red_carbon_contract.md](docs/design/red_carbon_contract.md).
+On the method itself: [pymrio](https://pymrio.readthedocs.io/), the library doing the
+table maths, has a good tutorial introduction to input–output analysis; David MacKay's
+[Sustainable Energy — Without the Hot Air](https://www.withouthotair.com/) is free online
+and still the clearest book written on sizing climate interventions honestly. Full
+bibliography: [docs/references.md](docs/references.md).
 
 ---
 
@@ -195,10 +158,9 @@ just test        # tests only — uses pymrio's built-in test world, no EXIOBASE
 just docs-serve  # live docs at http://localhost:8000
 ```
 
-The default test suite needs no data at all, so a fresh clone proves itself in under a
-minute. Everything beyond that — the integration tests, the baseline build, the
-notebooks — needs the real EXIOBASE download (~1.9 GB, instructions in
-[data/README.md](data/README.md)) and a `config/config.toml` copied from
+The default tests need no data, so a fresh clone proves itself in under a minute. The
+baseline build, the integration tests and the notebooks need the real EXIOBASE download
+(~1.9 GB — see [data/README.md](data/README.md)) and a `config/config.toml` copied from
 `config/config.example.toml`:
 
 ```bash
@@ -207,33 +169,18 @@ just test -m integration   # the tests that use real data
 ```
 
 Before changing anything, read [AGENTS.md](AGENTS.md) — the working agreement for this
-repo, written for human and AI contributors alike.
+repo, written for human and AI contributors alike. Contributions welcome:
+[CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
 ## License
 
-Red Worlds is licensed under **Creative Commons Attribution-ShareAlike 4.0 International
-(CC BY-SA 4.0)**, matching the license of EXIOBASE v3.8, the data this engine is built on.
+**CC BY-SA 4.0**, matching EXIOBASE v3.8, the data this engine is built on. Use, share and
+adapt freely, including commercially, provided you credit and share alike. See
+[LICENSE](LICENSE). EXIOBASE 3.8.2 (Stadler et al. 2021) is CC BY-SA 4.0; the capital use
+matrices (Wood & Södersten 2021) are CC BY 4.0. Full citations:
+[docs/references.md](docs/references.md).
 
-This means you are free to use, share, and adapt this work — including for commercial
-purposes — provided you give appropriate credit and distribute any adaptations under the
-same license.
-
-See [LICENSE](LICENSE) for the full text, or visit
-[creativecommons.org/licenses/by-sa/4.0](https://creativecommons.org/licenses/by-sa/4.0/).
-
-Data used by the engine and its licences (full citations in
-[docs/references.md](docs/references.md)):
-
-| Data | Licence |
-|---|---|
-| EXIOBASE 3.8.2 (Stadler et al. 2021) | CC BY-SA 4.0 |
-| Capital use matrices for EXIOBASE 3.8.2 (Wood & Södersten 2021) | CC BY 4.0 |
-
----
-
-## About
-
-Red Worlds was created in 2026 by [Nathan Moore](https://github.com/nathmoore).
-Built from the [audreyfeldroy/cookiecutter-pypackage](https://github.com/audreyfeldroy/cookiecutter-pypackage) template.
+Created in 2026 by [Nathan Moore](https://github.com/nathmoore). Built from the
+[audreyfeldroy/cookiecutter-pypackage](https://github.com/audreyfeldroy/cookiecutter-pypackage) template.
