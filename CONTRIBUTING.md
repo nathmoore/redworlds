@@ -2,6 +2,8 @@
 
 Contributions are welcome, and they are greatly appreciated! Every little bit helps, and credit will always be given.
 
+**Before you write code, read [AGENTS.md](AGENTS.md)** — it is the working agreement for this repo (how to run it, code and testing standards, modelling discipline, what must never be committed to a public repo, and how commits are written). It is written for humans and AI assistants alike.
+
 You can contribute in many ways:
 
 ## Types of Contributions
