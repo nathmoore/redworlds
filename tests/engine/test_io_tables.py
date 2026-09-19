@@ -16,9 +16,11 @@ from redworlds.engine.io_tables import (
     GFCF,
     GHG_EXTENSION,
     GHG_STRESSOR,
+    HOUSEHOLDS,
     get_region_emissions,
     get_sector_emissions,
     recalculate_from_final_demand,
+    scale_direct_emissions,
     scale_final_demand,
     shift_sector_share,
 )
@@ -124,6 +126,94 @@ def test_emissions_default_labels_are_exiobase(test_mrio: pymrio.IOSystem) -> No
     assert GHG_STRESSOR.startswith("GHG emissions (GWP100)")
     with pytest.raises(AttributeError):
         get_region_emissions(test_mrio, "reg1")
+
+
+# ``manufactoring`` is ~90% of reg1's household spend in pymrio's test world, so cutting it
+# moves the column total a long way from the product's own factor. That gap is exactly what
+# ``scale_direct_emissions`` exists to separate.
+FAT_SECTOR = "manufactoring"
+
+
+def _direct(mrio: pymrio.IOSystem, region: str) -> float:
+    """The region's direct household emissions (F_Y) for the test stressor."""
+    return float(_account(mrio).F_Y.loc[TEST_STRESSOR, region].sum())
+
+
+def _household_spend_factor(before: pymrio.IOSystem, after: pymrio.IOSystem, region: str) -> float:
+    """How much the region's whole household basket shrank — the ride we do NOT want.
+
+    In pymrio's test world (as in EXIOBASE) direct emissions sit only in the households
+    column, so this column's total is what pymrio would otherwise drag F_Y along with.
+    """
+    assert before.Y is not None and after.Y is not None
+    return float(after.Y[(region, HOUSEHOLDS)].sum() / before.Y[(region, HOUSEHOLDS)].sum())
+
+
+def test_direct_emissions_ride_the_column_total_by_default(test_mrio: pymrio.IOSystem) -> None:
+    """Without the fix, F_Y follows total household spend — right for a basket, wrong for fuel."""
+    cut = scale_final_demand(test_mrio, "reg1", FAT_SECTOR, factor=0.5, categories=CONSUMPTION_CATEGORIES)
+    result = recalculate_from_final_demand(cut)
+    ride = _household_spend_factor(test_mrio, result, "reg1")
+    assert _direct(result, "reg1") == pytest.approx(ride * _direct(test_mrio, "reg1"))
+    assert ride != pytest.approx(0.5)  # the column total is not the product's own factor
+
+
+def test_scale_direct_emissions_uses_the_products_own_factor(test_mrio: pymrio.IOSystem) -> None:
+    """With the fix, F_Y moves by the fuel's own change and ignores the column total."""
+    cut = scale_final_demand(test_mrio, "reg1", FAT_SECTOR, factor=0.5, categories=CONSUMPTION_CATEGORIES)
+    fixed = scale_direct_emissions(cut, "reg1", 0.5, TEST_EXTENSION, CONSUMPTION_CATEGORIES)
+    result = recalculate_from_final_demand(fixed)
+    assert _direct(result, "reg1") == pytest.approx(0.5 * _direct(test_mrio, "reg1"))
+    ride = _household_spend_factor(test_mrio, result, "reg1")
+    assert _direct(result, "reg1") != pytest.approx(ride * _direct(test_mrio, "reg1"))
+
+
+def test_scale_direct_emissions_survives_recalculation(test_mrio: pymrio.IOSystem) -> None:
+    """F_Y is rebuilt from S_Y on every recalculation, so the fix must be written into both."""
+    fixed = scale_direct_emissions(test_mrio, "reg1", 0.5, TEST_EXTENSION)
+    before_recalc = _direct(fixed, "reg1")
+    assert before_recalc == pytest.approx(0.5 * _direct(test_mrio, "reg1"))
+    once = recalculate_from_final_demand(fixed)
+    twice = recalculate_from_final_demand(once)
+    assert _direct(once, "reg1") == pytest.approx(before_recalc)
+    assert _direct(twice, "reg1") == pytest.approx(before_recalc)
+
+
+def test_scale_direct_emissions_leaves_other_regions_alone(test_mrio: pymrio.IOSystem) -> None:
+    result = recalculate_from_final_demand(scale_direct_emissions(test_mrio, "reg1", 0.0, TEST_EXTENSION))
+    assert _direct(result, "reg1") == pytest.approx(0.0)
+    assert _direct(result, "reg2") == pytest.approx(_direct(test_mrio, "reg2"))
+
+
+def test_scale_direct_emissions_does_not_mutate_input(test_mrio: pymrio.IOSystem) -> None:
+    before = _account(test_mrio).F_Y.copy()
+    scale_direct_emissions(test_mrio, "reg1", 0.25, TEST_EXTENSION)
+    assert _account(test_mrio).F_Y.equals(before)
+
+
+def test_scale_direct_emissions_of_one_is_identity(test_mrio: pymrio.IOSystem) -> None:
+    """Factor 1.0 changes no number, so it cannot quietly disturb a recalculated system."""
+    result = recalculate_from_final_demand(scale_direct_emissions(test_mrio, "reg1", 1.0, TEST_EXTENSION))
+    assert np.allclose(_account(result).F_Y.to_numpy(), _account(test_mrio).F_Y.to_numpy())
+    assert np.allclose(_account(result).D_cba_reg.to_numpy(), _account(test_mrio).D_cba_reg.to_numpy())
+
+
+def test_regional_footprint_still_equals_embodied_plus_direct(test_mrio: pymrio.IOSystem) -> None:
+    """The identity D_cba_reg = sum(D_cba) + F_Y must hold after the operation."""
+    cut = scale_final_demand(test_mrio, "reg1", FAT_SECTOR, factor=0.5, categories=CONSUMPTION_CATEGORIES)
+    result = recalculate_from_final_demand(scale_direct_emissions(cut, "reg1", 0.5, TEST_EXTENSION))
+    account = _account(result)
+    embodied = account.D_cba.T.groupby(level="region", sort=False).sum().T
+    for region in ("reg1", "reg2"):
+        assert get_region_emissions(result, region, TEST_EXTENSION, TEST_STRESSOR) == pytest.approx(
+            embodied.loc[TEST_STRESSOR, region] + _direct(result, region)
+        )
+
+
+def test_scale_direct_emissions_default_extension_is_exiobase(test_mrio: pymrio.IOSystem) -> None:
+    """The default names EXIOBASE's impacts account, so the test world must pass its own."""
+    with pytest.raises(AttributeError):
+        scale_direct_emissions(test_mrio, "reg1", 0.5)
 
 
 @pytest.mark.skip(reason="shift_sector_share not yet implemented — see docs/backlog.md")

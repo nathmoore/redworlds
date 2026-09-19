@@ -10,6 +10,12 @@ happens. This is what the game's contract asks for: a REDUCE tape in Europe that
 demand for imported electronics is credited with the abatement in the factories abroad.
 Production-based figures would silently make every such tape look smaller.
 
+Direct household emissions (``F_Y`` — fuel burnt in cars and boilers rather than bought
+embodied in a product) are the one account that does not follow from the product rows.
+pymrio rebuilds them from a per-column coefficient on every recalculation, so a tape that
+wants them to move with one product rather than with total spend has to say so:
+see ``scale_direct_emissions``.
+
 References:
   - docs/design/red_carbon_contract.md §5 — consumption-based accounting credits imports
   - docs/design/architecture.md — data layer overview
@@ -93,6 +99,59 @@ def recalculate_from_final_demand(mrio: pymrio.IOSystem) -> pymrio.IOSystem:
     result.reset_all_to_coefficients()  # keeps A, L, S; drops every flow table, Y included
     result.Y = final_demand
     result.calc_all()
+    return result
+
+
+def scale_direct_emissions(
+    mrio: pymrio.IOSystem,
+    region: str,
+    factor: float,
+    extension: str = GHG_EXTENSION,
+    categories: Sequence[str] | None = None,
+) -> pymrio.IOSystem:
+    """Scale a region's direct household emissions (``F_Y``) by an explicit factor.
+
+    ``F_Y`` is the fuel people burn themselves — petrol in cars, gas in boilers. It is
+    not attributable to any product row, so pymrio carries it as a coefficient ``S_Y``
+    normalised per final demand *column* total. Left alone, that means a tape which cuts
+    one product drags direct emissions down by the change in the household's **whole**
+    shopping basket. For a broad basket that is right: cut 5% of everything and the fuel
+    falls 5% too. For a fuel tape it is wrong, and badly so — ``F_Y`` is 11% of the world
+    total (5.1 of 44.5 Gt CO2e). A tape that bans household gas should move ``F_Y`` by the
+    change in gas, not by the change in total spend.
+
+    This function lets the caller say so. Only the tape knows which product drives the
+    fuel, so the factor is passed in rather than inferred.
+
+    **Order matters.** Call this *after* ``scale_final_demand`` and *before*
+    ``recalculate_from_final_demand``. The recalculation throws ``F_Y`` away and rebuilds
+    it from ``S_Y``, so the fix only survives if it is written into ``S_Y`` as well — and
+    ``S_Y`` is only meaningful against the final demand that is in the system right now.
+    Call this before the demand cut and the cut will re-apply the column-total ride on top.
+
+    Args:
+        mrio: The IO system to modify, with its final demand already cut. Not mutated;
+            a copy is returned.
+        region: Region code of the consumer whose direct emissions move.
+        factor: Multiplicative scale factor — the driving product's own change. 0.9 means
+            the fuel's demand fell 10%, so its direct emissions fall 10%.
+        extension: Name of the satellite account. EXIOBASE: ``"impacts"``.
+        categories: Final demand categories (``F_Y`` column labels) to scale. Defaults to
+            every category in the region's column block. Pass the same categories the
+            demand cut used, so the emissions that move are the ones whose spend moved.
+
+    Returns:
+        A copy of ``mrio`` whose ``F_Y`` and ``S_Y`` both carry the new figure and agree
+        with each other. Call ``recalculate_from_final_demand`` next.
+    """
+    result = mrio.copy()
+    account = getattr(result, extension)
+    columns = (region, list(categories)) if categories is not None else (region, slice(None))
+    # pymrio's test world stores F_Y as int64, which refuses a scaled float in place.
+    direct = account.F_Y.astype(float)
+    direct.loc[:, columns] = direct.loc[:, columns] * factor
+    account.F_Y = direct
+    account.S_Y = pymrio.calc_S_Y(direct, result.Y.sum(axis=0))
     return result
 
 
