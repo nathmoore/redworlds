@@ -8,9 +8,10 @@ asserted, from [EXIOBASE](https://www.exiobase.eu/) — a global economic datase
 European research consortium — run through standard input–output methods. This is that
 layer only, not the game itself.
 
-Being computed does not make it true. A model is a set of arguments about how the world
-fits together, and ours are written down where you can read them and disagree:
-[Assumptions](design/assumptions.md) is the place to start.
+> *All models are wrong, but some are useful.* — George Box
+
+Which is why the method, the assumptions and the judgement calls are all written down in
+plain language. [Assumptions](design/assumptions.md) is the place to start.
 
 ## Start here — by audience
 

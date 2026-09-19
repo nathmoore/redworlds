@@ -13,8 +13,12 @@ It is a **data engine**. When the game says an intervention saved a certain amou
 carbon, that figure is computed rather than asserted. This repo is that layer only — not
 the game.
 
-Being computed does not make it true. A model is a set of arguments about how the world
-fits together, and ours can be read, checked and disagreed with. That is why it is here.
+> *All models are wrong, but some are useful.*
+> — George Box
+
+Which is why everything here is written down in plain language: the method, the
+assumptions, and the judgement calls that could have gone another way. Have a look and
+see what you think.
 
 ---
 
@@ -72,7 +76,7 @@ answers how much of each one that takes, in each region.
 
 ## What we assume, and where it breaks
 
-The part worth reading slowly, and the reason this is open.
+Every model makes choices. Here are ours, and the places they pinch.
 
 - **The base year is 2011**, the last complete table in EXIOBASE 3.8.2. We walk it forward
   to 2050 on an SSP2 pathway. Economies change in forty years; ours changes only in the
@@ -96,9 +100,8 @@ is a conversation we would rather have in the open:
 **Why it is public.** Red Carbon is a game about people disagreeing over what to do about
 climate change, and that only works if the disagreement is honest — not overstating what
 an intervention achieves, not pretending a hard trade-off is easy, not hiding the
-assumption doing the heavy lifting. So the engine is open and the assumptions are in
-plain language. If you arrived sceptical, follow the assumptions rather than the
-conclusions. That is the right instinct, and this repo is built for it.
+assumption doing the heavy lifting. So the engine is open. Follow the assumptions rather
+than the conclusions — it is the more interesting route anyway.
 
 ---
 
