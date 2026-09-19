@@ -131,3 +131,69 @@ def endogenise_capital(mrio: pymrio.IOSystem, capital_use: pd.DataFrame) -> pymr
     result.Y = final_demand
     result.Z = None  # forces calc_all() down the "A and Y given" path: L, then x, then Z
     return result
+
+
+def aggregate_capital_use(capital_use: pd.DataFrame, concordance: dict[str, str], index: pd.MultiIndex) -> pd.DataFrame:
+    """Aggregate a Kbar matrix's regions to game regions, aligned to an aggregated table.
+
+    Endogenising after aggregation is far cheaper than before it — the Leontief inversion
+    is on 1,400 rows rather than 9,800 — and gives the same answer, because both A and K
+    are flows divided by output and flows aggregate linearly.
+
+    ``index`` is the aggregated system's own ``A`` index. Grouping alone would return the
+    regions in alphabetical order, while pymrio's ``aggregate`` keeps them in the order the
+    concordance first mentions them, so the result is reindexed onto the real thing. A label
+    the aggregated Kbar cannot supply raises rather than arriving as a silent NaN.
+
+    Args:
+        capital_use: Flow-form Kbar at the source database's region resolution.
+        concordance: {region_code: game_region_name}, as ``engine.regions`` loads it.
+        index: The (region, sector) MultiIndex of the aggregated system to conform to.
+
+    Returns:
+        Flow-form Kbar with both axes aggregated to game regions and ordered like ``index``.
+
+    Raises:
+        ValueError: If the aggregated matrix does not cover every label in ``index``.
+    """
+    renamed = capital_use.rename(index=concordance, columns=concordance, level="region")
+    by_region = renamed.groupby(level=["region", "sector"]).sum()
+    by_region = by_region.T.groupby(level=["region", "sector"]).sum().T
+
+    aligned = by_region.reindex(index=index, columns=index)
+    if aligned.isna().to_numpy().any():
+        missing = sorted(set(index) - set(by_region.index))
+        raise ValueError(f"Aggregated capital use does not cover the table's index; missing e.g. {missing[:5]}")
+    return aligned
+
+
+def negative_net_investment(mrio: pymrio.IOSystem) -> pd.DataFrame:
+    """Return the GFCF cells left negative by endogenisation, one row per cell.
+
+    A cell goes negative where a region's gross investment in a capital good was smaller
+    than the depreciation of that good already in use by its industries. Södersten et al.
+    treat net investment as a residual and the accounting identity holds either way, so
+    these are kept (decided 2026-09-18) — but they are worth looking at, because the two
+    causes mean different things. ``same_region`` separates them: ``False`` is a
+    trade-mismatch artefact, where the capital good was bought from abroad in one year and
+    depreciates for decades afterwards; ``True`` is genuine disinvestment, a region running
+    its own capital stock down. Only the second would be a reason to revisit the decision.
+
+    Args:
+        mrio: A system with capital endogenised (its ``Y`` already has capital withdrawn).
+
+    Returns:
+        Columns ``consuming_region``, ``supplying_region``, ``product``, ``value``,
+        ``same_region`` — empty if nothing went negative.
+    """
+    assert mrio.Y is not None
+    gfcf = mrio.Y.xs(GFCF_COLUMN, axis="columns", level=1)
+    # Rows are the capital good (supplying region, product); the remaining column level is
+    # the region investing. Both are called "region", which stacking will not tolerate.
+    gfcf.index = gfcf.index.set_names(["supplying_region", "product"])
+    gfcf.columns = gfcf.columns.set_names("consuming_region")
+
+    tidy = gfcf.stack().rename("value").reset_index()
+    negative = tidy[tidy["value"] < 0].copy()
+    negative["same_region"] = negative["supplying_region"] == negative["consuming_region"]
+    return negative[["consuming_region", "supplying_region", "product", "value", "same_region"]]

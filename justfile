@@ -49,6 +49,11 @@ coverage:
     uv run --python=3.13 coverage report
     uv run --python=3.13 coverage html
 
+# Build the baseline world from the configured EXIOBASE download and cache it
+# Needs config/config.toml and the EXIOBASE + Kbar downloads. Minutes, not seconds.
+baseline:
+    uv run --python=3.13 python -m redworlds.jobs.build_baseline
+
 # Serve docs locally with live reload
 docs-serve:
     -lsof -ti :8000 | xargs kill

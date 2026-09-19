@@ -290,6 +290,43 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
             same-region disinvestment) and record it; revisit only if it is mostly the
             latter, which would mean the subtraction is saying something about capital
             stocks rather than about trade.
+      - [x] ~~Diagnostic, run in T1 2026-09-19.~~ **It is mostly the latter, and the
+            decision still holds — for a different reason than the one it was made on.**
+            At EXIOBASE's own 49 regions, of the −2.25 T EUR across 6,363 cells:
+
+            | | Cells | Value |
+            |---|---|---|
+            | same-country (genuine disinvestment) | 361 | **−2.03 T EUR (90%)** |
+            | cross-country (trade mismatch) | 6,002 | −0.22 T EUR (10%) |
+
+            So trade mismatch is almost all of the *cells* and almost none of the *value*.
+            The value is concentrated: the US alone is −1.00 T (44% of the total) and
+            *Construction work (45)* is the largest cell in nearly every affected country
+            (US −704 bn, BR −103 bn, RU −90 bn, MX −82 bn, DE −63 bn).
+
+            That pattern is not an artefact — it is 2011. Consumption of fixed capital on
+            structures is large and steady because it depreciates a stock accumulated over
+            decades, while gross investment in construction collapsed after 2008 and had
+            not recovered by 2011. A negative net investment in US structures in 2011 is
+            the table correctly reporting that the US was running its building stock down
+            that year. Keeping it is right: clipping it would invent investment that did
+            not happen, and the identity would break.
+
+            **What it does mean** is that the 2011 basis is a construction trough, and two
+            things downstream touch exactly that cell. (a) The SSP2 walk (5b) is where a
+            trough year should be normalised, if it is going to be — worth an explicit
+            decision there rather than inheriting 2011 silently. (b) T5 injects BUILD capex
+            into *Construction work (45)*, whose baseline net investment is negative in the
+            anchor year; the injection is a delta against baseline so the arithmetic is
+            unaffected, but the J-curve story is told against an unusually depressed base.
+            Neither blocks sprint 2.
+
+            *Caveat on method:* the diagnostic in `jobs/build_baseline.py` runs on the
+            aggregated world, where "same region" means same *game* region and so counts
+            DE→FR as domestic. It reported 96% same-region against the true 90%, close
+            enough to be a usable smoke test but not the number to quote. The 49-region
+            figures above come from the unaggregated table (the GFCF subtraction alone —
+            no Leontief inversion needed, so it is a cheap check to repeat).
       - [ ] Carry the capital coefficients through the 2011 → 2050 extrapolation
             consistently.
       - [ ] Runtime: the full-system integration test (parse, invert, endogenise,
