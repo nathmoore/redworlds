@@ -28,8 +28,8 @@ The game is set in 2050. A player picks one large-scale intervention in one of s
 world regions, and Red Worlds answers: *how much carbon does that avoid, over the fifty
 years to 2100, compared with not doing it?*
 
-That last clause matters more than anything else here. Every number this engine produces
-is a **difference against a baseline**, not a forecast of the world in 2050.
+That last clause matters more than anything else here. Every number is a **difference
+against a baseline**, never a forecast of the world in 2050.
 
 ### The method, in one idea
 
@@ -39,11 +39,11 @@ is the standard way of solving that loop — a table of who buys what from whom 
 whole economy, arranged so you can ask what a change in demand does to total output, and
 then to total emissions.
 
-The table we use is [EXIOBASE](https://www.exiobase.eu/): around 200 product categories
-across 49 countries and regions, with physical accounts for CO₂ and other greenhouse
-gases attached. It was built by a European research consortium and its method is set out
-in a [peer-reviewed paper](https://doi.org/10.1111/jiec.12715). It is a serious, widely
-used dataset. It is also a model of an economy in **2011**, with everything that implies.
+Our table is [EXIOBASE](https://www.exiobase.eu/): 200 product categories across 49
+countries and regions, with CO₂ and other greenhouse gases attached. Built by a European
+research consortium, its method set out in a
+[peer-reviewed paper](https://doi.org/10.1111/jiec.12715). A serious, widely used
+dataset — and a model of an economy in **2011**, with everything that implies.
 
 ### The three wings
 
@@ -51,26 +51,26 @@ Every intervention is one of three kinds. They differ in **what happens to the m
 and that turns out to decide the answer.
 
 **BUILD — construct new low-carbon capacity**, say a ten-reactor nuclear block. The money
-is *moved*: redirected into investment, which means concrete, steel, machinery and
-electrical equipment, all emitting now, years before the thing generates anything. So
-emissions rise before they fall — the J-curve. How big that hump is against how deep the
-eventual fall goes is the whole argument about building your way out.
+is *moved* into investment: concrete, steel, machinery, electrical equipment, all emitting
+now, years before the thing generates anything. So emissions rise before they fall — the
+J-curve. That hump against the eventual fall is the whole argument about building your
+way out.
 
 **SWAP — substitute one product for another** at the same volume, motor fuel for
 electricity in cars. The money is *kept*: a household spending less on petrol spends it
-on something else, which has a footprint of its own. That re-spend is the **rebound**, and
-we model it deliberately. Leaving it out is the commonest way to flatter a swap.
+elsewhere, and that has a footprint too. The re-spend is the **rebound**, and we model it
+deliberately — leaving it out is the commonest way to flatter a swap.
 
-**REDUCE — consume less of a basket of products.** The money *leaves the model*. The
-economy shrinks in proportion and there is no rebound at all. That is a post-growth
-framing and a real choice, not a neutral default — see below.
+**REDUCE — consume less of a basket of products.** The money *leaves the model*, the
+economy shrinks in proportion, and there is no rebound at all. A post-growth framing, and
+a real choice rather than a neutral default — see below.
 
 ### Scoring
 
-The engine takes the annual difference against the baseline, spreads it across the fifty
-years through a deployment curve — things arrive gradually, not all at once — and sums
-the result. The game sizes every intervention to the same expected abatement; Red Worlds
-answers how much of each one that takes, in each region.
+The annual difference against the baseline, spread across the fifty years through a
+deployment curve — things arrive gradually, not all at once — then summed. The game sizes
+every intervention to the same expected abatement; Red Worlds answers how much of each
+one that takes, in each region.
 
 ---
 
@@ -105,48 +105,65 @@ than the conclusions — it is the more interesting route anyway.
 
 ---
 
-## Explore it with an AI
+## Want to learn more? Drop a link to your AI and talk it through
 
-This repository is written to be read by an assistant. Paste its address into Claude,
-ChatGPT, Gemini, Copilot or whatever you use, with *"read this repository and help me
-understand it"*:
+We built this place with that in mind. The documents are in plain language, the
+assumptions are stated rather than buried, and the whole thing is small enough for an
+assistant to read in one sitting. Point one at it and you can:
+
+- ask what any of this means, in whatever words make sense to you
+- have it walk you through a modelling decision, one step at a time
+- hold our assumptions up against what you already know
+- get a coding assistant to clone the repo and run the engine alongside you
+
+Simply copy this address:
 
 ```
 https://github.com/nathmoore/redworlds
 ```
 
-Then ask — *"is the science here real, or made up for a game?"*, *"why does a BUILD
-intervention make emissions rise before they fall?"*, *"take me through how I'd model
-halving a region's cement use, one decision at a time"*.
+paste it into Claude, ChatGPT, Gemini, Copilot or whatever you already use, and say
+*"read this repository and help me understand it"*. Then ask away — *"is the science here
+real, or made up for a game?"*, *"why does a BUILD intervention make emissions rise before
+they fall?"*, *"take me through how I'd model halving a region's cement use."*
 
-One thing to know first: an assistant can explain the method, but **it cannot give you a
-number**. Numbers come from running the engine, which needs a 1.9 GB download and a few
+One thing worth knowing: an assistant can explain the method, but it can't give you a
+number. Those come from running the engine, which needs a 1.9 GB download and a few
 minutes of computation. A confident figure in tonnes that arrived without a run was
 invented.
 
-[**docs/ai-guide.md**](docs/ai-guide.md) goes further — a glossary, a method for taking a
-modelling decision apart step by step, how to get a coding assistant to run EXIOBASE with
-you, and the five mistakes assistants reliably make here.
+[**docs/ai-guide.md**](docs/ai-guide.md) has more — a glossary, a way of taking a
+modelling decision apart step by step, how to get an assistant to run EXIOBASE with you,
+and the handful of mistakes they reliably make here.
 
 ---
 
-## Learn more
+## Prefer learning things old school? Here's some further reading we recommend 🤓
+
+Ours, roughly in the order they are worth reading:
 
 | | |
 |---|---|
 | Why the model does what it does, and its limits | [assumptions.md](docs/design/assumptions.md) |
-| How the pieces fit together | [architecture.md](docs/design/architecture.md) |
 | BUILD, SWAP and REDUCE in technical detail | [game_mechanics.md](docs/design/game_mechanics.md) |
+| How the pieces fit together | [architecture.md](docs/design/architecture.md) |
 | What the game requires of the engine | [red_carbon_contract.md](docs/design/red_carbon_contract.md) |
 | What is built, in progress, or undecided | [backlog.md](docs/backlog.md) |
-| Worked examples you can run | [examples/](examples/) |
+| Worked examples you can run yourself | [examples/](examples/) |
 | Where the data comes from and how to get it | [data/README.md](data/README.md) |
 
-On the method itself: [pymrio](https://pymrio.readthedocs.io/), the library doing the
-table maths, has a good tutorial introduction to input–output analysis; David MacKay's
-[Sustainable Energy — Without the Hot Air](https://www.withouthotair.com/) is free online
-and still the clearest book written on sizing climate interventions honestly. Full
-bibliography: [docs/references.md](docs/references.md).
+And further afield:
+
+- **[pymrio's documentation](https://pymrio.readthedocs.io/)** — the library doing the
+  table maths, with the friendliest introduction to input–output analysis we know of.
+- **[Sustainable Energy — Without the Hot Air](https://www.withouthotair.com/)**, David
+  MacKay — free online, and still the clearest book written on sizing climate
+  interventions honestly. If you read one thing on this list, read this.
+- **[Stadler et al. 2018](https://doi.org/10.1111/jiec.12715)** — the peer-reviewed paper
+  on how EXIOBASE is built, for when you want it from the source.
+- **[EXIOBASE itself](https://www.exiobase.eu/)**, and
+  [the exact release we use](https://doi.org/10.5281/zenodo.5589597).
+- [docs/references.md](docs/references.md) — the full bibliography behind the engine.
 
 ---
 
