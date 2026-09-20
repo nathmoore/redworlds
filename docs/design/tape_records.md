@@ -275,8 +275,8 @@ so in its `regional_ceiling_basis`, and the physically-derived figure stays besi
 **The 2011 → 2050 intensity correction.** These are 2011 intensities. A euro removed in 2011
 carries more carbon than the same euro removed in 2050 will, because the grid gets cleaner.
 [`engine/intensity.py`](../../src/redworlds/engine/intensity.py) corrects for it in two
-stages — an **observed** 2011 → 2027 factor of 0.71, from the ~2.1%/yr fall in the carbon
-intensity of world output, and a **scenario** 2027 → 2050 factor of 0.62 continuing that rate.
+stages — an **observed** 2011 → 2026 factor of 0.73, from the ~2.1%/yr fall in the carbon
+intensity of world output, and a **scenario** 2026 → 2050 factor of 0.60 continuing that rate.
 The first is checkable against published data and the second is not, which is exactly why
 they are separate numbers.
 

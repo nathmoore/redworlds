@@ -33,6 +33,18 @@ import pymrio
 
 # --- Conversion constants ---
 
+DISPLAY_YEAR: int = 2026
+"""The year all player-facing money is expressed in, and the base year for the CPI ratio.
+
+Kept in step with ``engine/intensity.py``'s ``PRESENT_YEAR``: the two answer different
+questions — what a euro buys, and what a euro emits — but having them differ buys nothing and
+costs a reader one more thing to remember. A test asserts they match.
+
+Money stays in this year's dollars even for 2050 figures. There is no further inflation step,
+because inventing a 2050 price level would add a made-up number and make a cost less legible
+to a player, not more. See docs/design/units_and_currency.md.
+"""
+
 EUR_USD_2011: float = 1.3917
 """Average EUR/USD exchange rate, 2011 (ECB annual average).
 

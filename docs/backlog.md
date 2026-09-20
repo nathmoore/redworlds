@@ -388,22 +388,23 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
       Only `eca_remote_work_commuters` depends on these today. `eca_buy_less` and
       `eca_extended_product_lifetimes` derive their fractions from their own stated
       ceilings and need no external figure. Full citations in `docs/references.md`.
-- [ ] **The 2011 → 2027 → 2050 walk, replacing the intensity scalars.** Split into its two
+- [ ] **The 2011 → 2026 → 2050 walk, replacing the intensity scalars.** Split into its two
       stages 2026-09-21; `engine/intensity.py` now holds one factor for each, composing by
       multiplication. Both are stand-ins for walking the table forward, but they are at very
       different stages of being defensible and should be retired separately:
-      - **2011 → 2027, currently 0.71. OBSERVED, and sourced** to the ~2.1%/yr fall in the
-        carbon intensity of world output (Enerdata; 27% below 2010 by 2025). Good enough to
+      - **2011 → 2026, currently 0.73. OBSERVED, and sourced** to the ~2.1%/yr fall in the
+        carbon intensity of world output (Enerdata; 27% below 2010 by 2025, the same fifteen
+        year span, so the published figure carries over directly). Good enough to
         ship. The improvement available is to stop using one economy-wide factor and correct
         the actual rows — the 2011 table predates the collapse in solar and wind cost and most
         of European coal retirement, so its *electricity* rows are much further out than its
         average. Per-sector correction against IEA *Electricity* / EEA series would be a
         genuine gain and needs no scenario agreement.
-      - **2027 → 2050, currently 0.62. SCENARIO**, and simply the observed rate run on.
+      - **2026 → 2050, currently 0.60. SCENARIO**, and simply the observed rate run on.
         Replace with a real SSP2 run — `jobs/apply_growth.py`, sequencing item 5b. This is the
         half nobody can check and the one to do properly first.
       *Worth recording, because the split surfaced it:* the single 0.6 these replaced implied
-      the observed 0.71 followed by 0.85 — decarbonisation slowing to ~0.7%/yr after 2027,
+      the observed 0.73 followed by 0.82 — decarbonisation slowing to ~0.8%/yr after 2026,
       about a third of the rate actually being managed before it. Nobody had argued for that;
       it was an artefact of picking one round number. Composed honestly the correction is
       ~0.44, so **every headline figure is ~27% smaller than under 0.6.**

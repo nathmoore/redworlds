@@ -148,8 +148,8 @@ citable; the scenario stage is a trend continuation and has no source by constru
 > https://yearbook.enerdata.net/co2/world-CO2-intensity.html
 
 Global CO₂ intensity of GDP fell an average of 2.2% a year over 2010–2019 and stood 27% below
-its 2010 level by 2025 — about −2.1%/yr compounded, which is the rate Red Worlds uses for
-2011 → 2027.
+its 2010 level by 2025 — about −2.1%/yr compounded. Red Worlds uses the 0.73 directly for its
+2011 → 2026 stage, which spans the same fifteen years.
 
 > European Environment Agency. *Greenhouse gas emission intensity of electricity generation.*
 > https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity

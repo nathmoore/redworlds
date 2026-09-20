@@ -8,11 +8,12 @@ above all that the two stages stay separable, because one is observation and one
 
 import pytest
 
+from redworlds.engine.currency import DISPLAY_YEAR
 from redworlds.engine.intensity import (
     BASE_YEAR,
-    OBSERVED_2011_TO_2027,
-    PIVOT_YEAR,
-    SCENARIO_2027_TO_2050,
+    OBSERVED_2011_TO_2026,
+    PRESENT_YEAR,
+    SCENARIO_2026_TO_2050,
     TARGET_YEAR,
     intensity_scalar,
 )
@@ -34,8 +35,8 @@ def test_the_stages_compose_by_multiplication() -> None:
     If this ever stops holding, the two stages have been entangled and replacing one without
     the other has become impossible — which is the whole thing the split exists to prevent.
     """
-    assert intensity_scalar(TARGET_YEAR) == pytest.approx(intensity_scalar(PIVOT_YEAR) * SCENARIO_2027_TO_2050)
-    assert intensity_scalar(PIVOT_YEAR) == OBSERVED_2011_TO_2027
+    assert intensity_scalar(TARGET_YEAR) == pytest.approx(intensity_scalar(PRESENT_YEAR) * SCENARIO_2026_TO_2050)
+    assert intensity_scalar(PRESENT_YEAR) == OBSERVED_2011_TO_2026
 
 
 def test_each_stage_makes_the_world_cleaner_per_euro() -> None:
@@ -44,9 +45,19 @@ def test_each_stage_makes_the_world_cleaner_per_euro() -> None:
     Above 1.0 claims the world gets dirtier per unit of demand; at or below 0 flips the sign
     of every abatement in the export.
     """
-    assert 0.0 < OBSERVED_2011_TO_2027 < 1.0
-    assert 0.0 < SCENARIO_2027_TO_2050 < 1.0
-    assert 0.0 < intensity_scalar(TARGET_YEAR) < intensity_scalar(PIVOT_YEAR) < 1.0
+    assert 0.0 < OBSERVED_2011_TO_2026 < 1.0
+    assert 0.0 < SCENARIO_2026_TO_2050 < 1.0
+    assert 0.0 < intensity_scalar(TARGET_YEAR) < intensity_scalar(PRESENT_YEAR) < 1.0
+
+
+def test_the_present_year_matches_the_money_base_year() -> None:
+    """One "now" across the whole engine.
+
+    What a euro emits and what a euro buys are different questions and need not share a year,
+    but having them differ buys nothing and costs a reader one more thing to remember. They
+    drifted apart once already; this is the guard against it happening again.
+    """
+    assert PRESENT_YEAR == DISPLAY_YEAR
 
 
 def test_an_unsupported_year_raises_rather_than_interpolating() -> None:
