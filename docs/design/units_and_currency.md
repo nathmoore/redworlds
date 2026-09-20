@@ -8,7 +8,7 @@ them produces a number that is wrong by a factor nobody can spot:
 | **Which currency?** | EUR or USD |
 | **Which year's money?** | 2011 or 2026 (inflation) |
 | **Which price basis?** | basic (what the producer receives) or purchaser (what the buyer pays) |
-| **Which year's physical world?** | 2011, 2026 or 2050 intensities and technology |
+| **Which year's physical world?** | 2011, 2027 or 2050 intensities and technology |
 
 EXIOBASE answers the first three one way — **2011 basic-price million EUR** — and the game
 needs the other end of all three. The fourth is not a currency question at all and is the one
@@ -22,11 +22,11 @@ most often mistaken for one; it lives in
 ```
   2011 EXIOBASE table            the only measured thing in the chain
         │
-        │  (a) correct the physical world 2011 → 2026
+        │  (a) correct the physical world 2011 → 2027   [observation]
         ▼
-  2026 world                     emissions and energy mix as actually reported
+  2027 world                     emissions and energy mix as actually reported
         │
-        │  (b) walk forward 2026 → 2050 along SSP2
+        │  (b) walk forward 2027 → 2050 along SSP2      [scenario]
         ▼
   2050 baseline                  the world the game's "now" sits in
         │
@@ -43,6 +43,11 @@ most often mistaken for one; it lives in
 does not change what a euro is worth, and converting euros to dollars does not change a
 tonne. Keeping them in separate modules is deliberate.
 
+**The physical pivot is 2027 and the money base year is 2026, and that mismatch is fine.**
+They are answering different questions — what a euro emits versus what a euro buys — and
+forcing them onto the same year would be cosmetic. The money year is fixed by the CPI series
+`engine/currency.py` uses; the physical pivot is simply "now", where observation runs out.
+
 **Money stays in 2026 constant USD throughout, including for 2050.** There is no further
 inflation step between 2026 and 2050, and there should not be: the game shows a player what
 a nuclear build *costs*, and "2026 dollars" is a unit they can feel. Inventing a 2050 price
@@ -58,7 +63,8 @@ correct reading of a 2050 cost in this system is **"what this would cost if you 
 |---|---|---|---|
 | 2011 MEUR → 2026 MUSD | [`engine/currency.py`](../../src/redworlds/engine/currency.py) | ×2.072 (ECB 2011 EUR/USD 1.3917 × CPI ratio 1.489) | implemented, **unused by the tape path** |
 | basic → purchaser | [`engine/prices.py`](../../src/redworlds/engine/prices.py) | ×1.20 universal markup | implemented, **unused by the tape path** |
-| 2011 → 2050 intensity | [`engine/intensity.py`](../../src/redworlds/engine/intensity.py) | ×0.6 provisional | seam only, **not yet sourced** |
+| 2011 → 2027 intensity | [`engine/intensity.py`](../../src/redworlds/engine/intensity.py) | ×0.71 | **observed**, sourced |
+| 2027 → 2050 intensity | same | ×0.62 | **scenario**, trend continuation standing in for SSP2 |
 
 Combined money factor, 2011 basic MEUR → 2026 purchaser MUSD: **×2.49**.
 
@@ -110,21 +116,40 @@ Three reasons this boundary is where it is:
 has left the mix and industry is more efficient. That is a change in kg CO₂e per euro, not in
 what a euro is worth.
 
-The correct treatment is to walk the table forward. Today a single scalar stands in for it,
-living in [`engine/intensity.py`](../../src/redworlds/engine/intensity.py) so that replacing
-it is one edit in one file.
+The correct treatment is to walk the table forward. Until that exists,
+[`engine/intensity.py`](../../src/redworlds/engine/intensity.py) holds it as **two stages,
+kept apart because they are different kinds of claim**:
 
-**The two stages want different evidence and should not be collapsed.**
+```
+2011 ──── observation ────▶ 2027 ──── scenario ────▶ 2050
+          ×0.71                       ×0.62
+```
 
-- **2011 → 2026 is observation.** We know what happened: solar and wind costs collapsed,
-  European coal generation fell sharply, gas and renewables displaced it. The 2011 table is
-  measurably dirtier than the world already is, and correcting it is a matter of matching
-  reported energy-mix and emissions trends, not of choosing a scenario.
-- **2026 → 2050 is scenario.** Nobody knows; SSP2 is a defensible choice and is the one the
-  game's baseline already assumes.
+- **2011 → 2027 is a matter of record.** The carbon intensity of world output fell about
+  2.1% a year through the period — 27% below 2010 by 2025 — which compounds to 0.71 over
+  sixteen years. Checkable against published series, and improvable without anyone agreeing
+  about the future.
+- **2027 → 2050 is a scenario.** The same rate run on, which is roughly what a
+  middle-of-the-road SSP2 world does. Nobody can check it, and a real SSP2 run should replace
+  it first.
 
-Collapsing both into one factor buries a thing we can check inside a thing we cannot. Both
-stages are in [`../backlog.md`](../backlog.md).
+They compose by multiplication, so the split costs nothing and buys two things: the observed
+half can be replaced with real data long before the scenario half needs the full walk, and a
+disagreement about the number can be localised to whichever half it is actually about.
+
+**A world figure is used rather than a European one**, even though the tapes act on Region 3.
+The accounting is consumption-based, so a European household's footprint is mostly the
+intensity of the supply chains it buys from, and those are global. Region 3's own grid
+decarbonised faster (EU electricity intensity fell 26% in the decade to 2024, to 213
+gCO₂/kWh) but applying that rate would overstate how fast the imported half of the footprint
+cleaned up.
+
+**The split immediately paid for itself.** The single factor it replaced was 0.6, chosen for
+being "about right". Decomposed, 0.6 implies the observed 0.71 followed by 0.85 — a
+decarbonisation rate of 0.7%/yr after 2027, about a third of the 2.1%/yr actually being
+managed before it. That is a substantive claim about the future that nobody had made
+deliberately. Stated as two stages the arithmetic is visible; buried in one number it was
+not. See [`../backlog.md`](../backlog.md).
 
 ---
 

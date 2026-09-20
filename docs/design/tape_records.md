@@ -274,11 +274,16 @@ so in its `regional_ceiling_basis`, and the physically-derived figure stays besi
 
 **The 2011 → 2050 intensity correction.** These are 2011 intensities. A euro removed in 2011
 carries more carbon than the same euro removed in 2050 will, because the grid gets cleaner.
-One provisional factor stands in for that — see
-[`engine/intensity.py`](../../src/redworlds/engine/intensity.py), which is the only place it
-lives and the only place it will be replaced. It is the weakest number in the whole export.
-It scales every tape equally, so it cannot make one tape look better than another, which is
-what makes it safe to ship while the real correction is built.
+[`engine/intensity.py`](../../src/redworlds/engine/intensity.py) corrects for it in two
+stages — an **observed** 2011 → 2027 factor of 0.71, from the ~2.1%/yr fall in the carbon
+intensity of world output, and a **scenario** 2027 → 2050 factor of 0.62 continuing that rate.
+The first is checkable against published data and the second is not, which is exactly why
+they are separate numbers.
+
+Neither is the real answer, which is to walk the table forward year by year. Both scale every
+tape equally, so they cannot make one tape look better than another — that is what makes
+shipping them safe while the walk is built, and it is the test for whether any simplification
+here is shippable.
 
 **Money.** All monetary figures are 2011 basic-price million EUR, EXIOBASE's own units. See
 [`units_and_currency.md`](units_and_currency.md) for the chain to 2026 dollars.

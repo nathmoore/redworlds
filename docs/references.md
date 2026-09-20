@@ -139,3 +139,28 @@ daily distance in Germany to 47% in Croatia. Red Worlds uses ~30% for commuting'
 household car distance, at the low end deliberately: annual distance carries more
 long-distance leisure travel than daily distance does.
 
+## Emissions intensity over time
+
+Behind the two-stage correction in `src/redworlds/engine/intensity.py`. The observed stage is
+citable; the scenario stage is a trend continuation and has no source by construction.
+
+> Enerdata. *World CO₂ intensity of GDP.* Global Energy & CO₂ Data yearbook.
+> https://yearbook.enerdata.net/co2/world-CO2-intensity.html
+
+Global CO₂ intensity of GDP fell an average of 2.2% a year over 2010–2019 and stood 27% below
+its 2010 level by 2025 — about −2.1%/yr compounded, which is the rate Red Worlds uses for
+2011 → 2027.
+
+> European Environment Agency. *Greenhouse gas emission intensity of electricity generation.*
+> https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity
+
+EU electricity emission intensity fell 26% in the decade to 2024, reaching 213 g CO₂/kWh.
+Recorded as context rather than used directly: consumption-based accounting makes the world
+rate the relevant one, because most of a European footprint is imported.
+
+> World Bank. *Carbon intensity of GDP.* Indicator EN.GHG.CO2.RT.GDP.KD.
+> https://data.worldbank.org/indicator/EN.GHG.CO2.RT.GDP.KD
+
+An alternative series for the same quantity, for anyone wanting to check the figure above
+against a different compiler.
+

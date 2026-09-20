@@ -5,78 +5,115 @@ of demand removed in 2011 carries more carbon than the same euro removed in 2050
 because the grid gets cleaner, coal leaves the mix and industry gets more efficient. Without
 a correction, every number the game shows is a 2011 number wearing a 2050 label.
 
-**This module is a deliberate stand-in.** The correct answer is to walk the table forward —
-population and GDP driving final demand, technology change entering as coefficient changes,
-stressors scaling with coefficients — which is `jobs/apply_growth.py` and the SSP2 baseline
-that does not exist yet. Until it does, one documented scalar multiplies every tape's annual
-delta.
+**The correction is in two stages, and they are kept apart on purpose.**
 
-**Why the simplification is safe to ship.** It moves every tape by the same factor, so it
-cannot tilt one wing against another, and game balance is the thing a wrong number here
-would damage. It changes the absolute figure on the board, which is an accuracy question,
-not a fairness one. That is a very different risk from, say, getting one basket wrong.
+    2011 ──── observation ────▶ 2027 ──── scenario ────▶ 2050
 
-**Why it is one function and not a constant sprinkled through the jobs.** Everything that
-needs the correction asks here, so replacing the stand-in with a real walk is one edit in one
-file with one test, and nothing downstream has to know it happened. That is the pattern this
-repo uses for every deliberate simplification: give it a named seam, say in the docstring
-what the real method is and why it was deferred, and leave a backlog item. A simplification
-with a name is a decision; the same number inlined in three jobs is technical debt.
+The two halves are different kinds of claim and deserve different amounts of trust:
+
+- **2011 → 2027 is a matter of record.** We know what happened. Solar and wind costs
+  collapsed, European coal generation fell sharply, and the carbon intensity of world output
+  fell by about 2% a year throughout. This half is checkable against published series, and it
+  can be improved without anyone agreeing about the future.
+- **2027 → 2050 is a scenario.** Nobody knows. SSP2 is the defensible choice and is what the
+  game's baseline assumes, but it is a choice.
+
+Collapsing them into one number buries the half we can verify inside the half we cannot, and
+hides which part of a disagreement is actually in dispute. Splitting them costs nothing —
+they compose by multiplication — and it lets the observed half be replaced with real data
+long before the scenario half needs the full SSP2 walk.
+
+**Both are still stand-ins.** The right answer is to walk the table forward year by year,
+with population and GDP driving final demand and technology change entering as coefficient
+changes — `jobs/apply_growth.py`, which does not exist yet. These scalars stand in until it
+does.
+
+**Why shipping a stand-in is safe here.** It scales every tape by the same factor, so it
+cannot make one tape look better than another, and it cannot tilt a wing. A wrong value costs
+accuracy on the headline figure, not fairness between choices — a different order of risk
+from, say, a wrong product basket. That is the test for whether a simplification is
+shippable.
+
+**Why this is a module and not a constant in a job.** Everything that needs the correction
+asks here, so replacing a stand-in with real data is one edit in one file with one test, and
+nothing downstream has to know it happened. That is the pattern for every deliberate
+simplification in this repo: give it a named seam, say what the real method is and why it was
+deferred, and leave a backlog item. A simplification with a name is a decision; the same
+number inlined in three jobs is debt.
 
 References:
-  - docs/design/tape_records.md §6 — what every solved number is still missing
-  - docs/design/assumptions.md — the intensity correction as a stated assumption
-  - docs/backlog.md — the 2011 → 2026 → 2050 walk that replaces this
-  - docs/design/red_carbon_contract.md §4.4 — `intensity_scalar_2050` in the export
+  - docs/design/units_and_currency.md §4 — why this is not a currency conversion
+  - docs/design/tape_records.md §8 — what every solved number is still missing
+  - docs/backlog.md — the walk that replaces both stages
+  - docs/references.md — the sources behind the observed stage
 
 TODO: replace with the real walk — see docs/backlog.md §Sequencing item 5b (GitHub issue pending)
 """
 
-# The baseline table's year. EXIOBASE 3.8.2 pxp, the year the Kbar capital matrix also covers.
+# The baseline table's year: EXIOBASE 3.8.2 pxp, and the year the Kbar capital matrix covers.
 BASE_YEAR: int = 2011
+
+# The present day, where observation stops and scenario begins. Deliberately a year ahead of
+# the money base year (2026, engine/currency.py): what a euro is worth and what a euro emits
+# are independent axes, and pinning them to the same year would only be cosmetic.
+PIVOT_YEAR: int = 2027
 
 # The game's "now", and the year every tape is scored from.
 TARGET_YEAR: int = 2050
 
-# Emissions intensity of demand in 2050 relative to 2011, as one factor on every tape.
+# Stage one, 2011 → 2027. OBSERVED.
 #
-# 0.6 is a working figure, NOT yet sourced — it stands for "roughly a 40% fall in tonnes per
-# euro over forty years", which is the order an SSP2-style CO2-intensity-of-GDP decline
-# gives. It is the single least defensible number in the whole export and it scales every
-# headline the game shows, so it should not survive contact with a real source.
+# The carbon intensity of world economic output fell about 2.1% a year through this period:
+# global CO2 intensity of GDP was 27% below its 2010 level by 2025 (Enerdata), which is
+# -2.08%/yr compounded, consistent with the -2.2%/yr Enerdata reports for 2010-2019 directly.
+# Compounded over the sixteen years from 2011 to 2027 that gives 0.71.
 #
-# Two things worth knowing before replacing it. First, the honest replacement is not a better
-# scalar but the walk itself, in two stages: 2011 to 2026 corrected against what actually
-# happened to the energy system (the 2011 table predates the collapse in solar and wind cost
-# and most of Europe's coal retirement, so it is dirtier than the world already is), then
-# 2026 to 2050 along SSP2. Second, the two stages want different evidence — the first is
-# observation and the second is scenario — so they should not be collapsed into one factor
-# even when both exist.
-INTENSITY_SCALAR_2050: float = 0.6
-"""Provisional. See the module docstring; the real correction is the SSP2 walk."""
+# Why a *world* figure and not a European one, when the tapes act on Region 3: the accounting
+# here is consumption-based, so a European household's footprint is mostly the intensity of
+# the supply chains it buys from, which are global. Region 3's own grid decarbonised faster
+# than the world's (EU electricity intensity fell 26% in the decade to 2024, reaching
+# 213 gCO2/kWh — EEA), but using that rate would overstate how fast the imported half of the
+# footprint cleaned up.
+OBSERVED_2011_TO_2027: float = 0.71
+"""Sourced and checkable. See docs/references.md."""
+
+# Stage two, 2027 → 2050. SCENARIO.
+#
+# Continues the observed 2.08%/yr decline across the twenty-three years to 2050, which is
+# roughly what a middle-of-the-road SSP2 world does: no collapse, no breakthrough, the
+# existing trend running on. This is the half nobody can check, and the half a real SSP2 run
+# should replace first.
+SCENARIO_2027_TO_2050: float = 0.62
+"""Trend continuation standing in for SSP2. The weakest number in the export."""
 
 
 def intensity_scalar(year: int = TARGET_YEAR) -> float:
-    """Return the factor converting a 2011-basis emissions delta to ``year``.
+    """Return the factor converting a 2011-basis emissions figure to ``year``.
 
-    Multiply a tape's annual delta by this to state it in the target year's intensities.
-    The sign is unaffected: the factor is positive and abatement stays negative.
+    Multiply a tape's annual delta by this to state it in the target year's intensities. The
+    factor is positive, so abatement stays negative.
 
     Args:
-        year: The year to correct to. Only ``TARGET_YEAR`` is supported while the correction
-            is a single scalar; the argument exists so callers are already written against
-            the interface the real walk will need.
+        year: The year to correct to. ``BASE_YEAR`` (no correction), ``PIVOT_YEAR`` (the
+            observed half alone) or ``TARGET_YEAR`` (both stages). Years in between need the
+            real walk.
 
     Returns:
-        A positive multiplier. 1.0 would mean 2050 is as carbon-intense per euro as 2011.
+        A positive multiplier. 1.0 means as carbon-intense per euro as 2011.
 
     Raises:
-        ValueError: If asked for a year the stand-in cannot answer for. Failing loudly beats
-            silently returning the 2050 factor for 2035 and being wrong by a decade.
+        ValueError: If asked for a year these two stages cannot answer for. Interpolating
+            would invent a number; returning the 2050 factor for 2035 would be wrong by a
+            decade with nothing to show for it.
     """
-    if year != TARGET_YEAR:
-        raise ValueError(
-            f"intensity_scalar only answers for {TARGET_YEAR} while the correction is one scalar; "
-            f"asked for {year}. The per-year answer needs the SSP2 walk — see docs/backlog.md."
-        )
-    return INTENSITY_SCALAR_2050
+    if year == BASE_YEAR:
+        return 1.0
+    if year == PIVOT_YEAR:
+        return OBSERVED_2011_TO_2027
+    if year == TARGET_YEAR:
+        return OBSERVED_2011_TO_2027 * SCENARIO_2027_TO_2050
+    raise ValueError(
+        f"intensity_scalar answers for {BASE_YEAR}, {PIVOT_YEAR} and {TARGET_YEAR} while the "
+        f"correction is two scalars; asked for {year}. Per-year answers need the SSP2 walk — "
+        f"see docs/backlog.md."
+    )
