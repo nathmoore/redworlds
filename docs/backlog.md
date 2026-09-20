@@ -368,6 +368,26 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
       demand are spared.
 - [ ] **Lifetime extension apportionment `k`** per durable product group: split the effect
       between a volume fall in `y` and an intensity fall in `S`. Never both.
+- [ ] **Tape sizing figures — firm up the external numbers.** Three numbers in
+      `data/tech_choices/options.toml` come from outside the IO table and convert a tape's
+      real-world cover into a fraction of a product basket. They are sourced and stated,
+      but they are order-of-magnitude and each is the largest single uncertainty in its
+      tape's `max_reducible_fraction`:
+      - **Commuting's share of household car distance, ~30%** (Eurostat passenger mobility
+        gives 27% in Germany to 47% in Croatia, of *daily* distance). Wanted: a share of
+        *annual* vehicle-km, for Region 3 rather than the EU, and ideally by fuel spend
+        rather than distance, since EXIOBASE's basket is money.
+      - **Teleworkable share of the Region 3 workforce, ~35%** (Dingel & Neiman 2020 and
+        Sostero et al. 2020 both give 37% for the US and the EU; shaded down for the
+        region's middle-income economies). Wanted: the non-EU parts of Region 3 sized
+        properly rather than by judgement.
+      - **Do teleworkable workers commute by car at the regional average?** Assumed yes.
+        Unlikely to be exactly true in either direction — office work is more urban, where
+        car mode share is lower, but office commutes are longer. A mode-share-by-occupation
+        source would settle it.
+      Only `eca_remote_work_commuters` depends on these today. `eca_buy_less` and
+      `eca_extended_product_lifetimes` derive their fractions from their own stated
+      ceilings and need no external figure. Full citations in `docs/references.md`.
 - [ ] **Multiple simultaneous tapes.** MVP scores one tape vs baseline. When does the
       engine score against baseline plus the day's other tapes?
 - [ ] **Net-zero threshold and scope** if the game ever displays "reached net zero":

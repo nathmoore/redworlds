@@ -109,3 +109,33 @@ Red Carbon game design by Nathan Moore. The engine design draws on:
 
 > MacKay, D. J. C. (2008). *Sustainable Energy — Without the Hot Air*. UIT Cambridge.
 > https://www.withouthotair.com/
+
+## Tape sizing — external figures
+
+These do not come from the IO table. They convert a tape's real-world cover magnitude into
+a fraction of a product basket, so they sit in `data/tech_choices/options.toml` as a
+`regional_ceiling_basis` and are only as good as the source. See `docs/backlog.md`
+§Tape sizing figures for the work item to firm them up.
+
+> Dingel, J. I., & Neiman, B. (2020). How many jobs can be done at home?
+> *Journal of Public Economics*, 189, 104235. https://doi.org/10.1016/j.jpubeco.2020.104235
+
+37% of US jobs can be performed entirely at home. The replication code and the
+occupational classification are at https://github.com/jdingel/DingelNeiman-workathome.
+
+> Sostero, M., Milasi, S., Hurley, J., Fernández-Macías, E., & Bisello, M. (2020).
+> *Teleworkability and the COVID-19 crisis: a new digital divide?* JRC Working Papers
+> Series on Labour, Education and Technology 2020/05. European Commission, Seville.
+
+Applies the Dingel–Neiman classification to Europe and reaches the same 37% for EU
+dependent employment. Red Worlds shades this to ~35% for Region 3, which also contains
+middle-income economies that Dingel & Neiman's cross-country extension scores lower.
+
+> Eurostat. *Passenger mobility statistics.* Statistics Explained.
+> https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Passenger_mobility_statistics
+
+Commuting is the largest single reason for daily distance travelled, ranging from 27% of
+daily distance in Germany to 47% in Croatia. Red Worlds uses ~30% for commuting's share of
+household car distance, at the low end deliberately: annual distance carries more
+long-distance leisure travel than daily distance does.
+

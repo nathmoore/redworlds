@@ -66,6 +66,10 @@ redworlds = "redworlds.cli:app"
 
 [tool.ruff]
 line-length = 120
+# Notebooks are prose for community readers, not source. Formatting them rewrites every
+# cell (ids, source reflowed into arrays) for no change in content, so `just qa` would
+# leave the examples dirty on every run.
+extend-exclude = ["*.ipynb"]
 
 [tool.ruff.lint]
 select = [

@@ -89,7 +89,7 @@ status = "ready"
 region_id = 3
 scenario_category = "commuting_vehicle_fuel"
 matrix_target = ["Y", "F_Y"]
-max_reducible_fraction = 0.28
+max_reducible_fraction = 0.11
 deployment_curve = "reduce_default"
 build_years_reference = 0
 direct_emissions_extension = "impacts"
@@ -97,11 +97,19 @@ cover_magnitude = { people = 100_000_000, commute_days_avoided_per_week = 1 }
 regional_ceiling = 140_000_000
 regional_ceiling_unit = "workers who could work remotely"
 regional_ceiling_basis = """
-Behavioural within a physical bound. Dingel & Neiman (2020) find ~37% of jobs can be done
-entirely from home in high-income economies and materially fewer in middle-income ones;
-against a Region 3 workforce of roughly 400 M, ~35% gives ~140 M. The cover magnitude of
-100 M people at one day a week is therefore well inside the ceiling, and the ceiling binds
-on who can telework at all, not on how many days they choose to.
+Behavioural within a physical bound. Dingel & Neiman (2020) find 37% of US jobs can be done
+entirely from home, and Sostero et al. (2020) get the same 37% for EU dependent employment
+applying their classification; lower-income economies score materially lower, and Region 3
+contains several. Shading to ~35% against a Region 3 workforce of roughly 400 M gives
+~140 M. The ceiling binds on who can telework at all, not on how many days they choose to.
+
+max_reducible_fraction is that same ceiling seen from the table's side, and the two are in
+different units because the tape's ceiling is in people and its shock is in fuel. The chain
+is: commuting is ~30% of household car distance (Eurostat passenger mobility puts work
+travel at 27% of daily distance in Germany to 47% in Croatia, and annual distance carries
+more non-commuting leisure than daily distance does, so the low end is the honest read),
+times the ~35% of workers who could stop doing it, giving 0.30 x 0.35 = 0.105, rounded to
+0.11 of household motor fuel.
 """
 beta_day_assumption = """
 This tape opts into the F_Y correction: direct household emissions move by the fuel's own
@@ -111,6 +119,12 @@ fuel spend, so it assumes no rebound in the remaining trips and no shift to a ch
 dirtier fuel. Rebound is the contract's stated dominant uncertainty for this tape.
 Home heating added by staying in is not netted off here; the contract's 0.13 t/person/day
 figure is already net of it, so the two must not be combined without care.
+
+max_reducible_fraction rests on two external figures rather than on the table, and both are
+order-of-magnitude. It also assumes teleworkable workers commute by car at the regional
+average, which is unlikely to be exactly true in either direction: office work is more
+urban, where car mode share is lower, but office commutes are also longer. See
+docs/backlog.md for the work item to firm this up.
 """
 
 # ─────────────────────────────────────────────
