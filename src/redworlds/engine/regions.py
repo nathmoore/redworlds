@@ -56,6 +56,24 @@ def load_region_concordance(path: Path | None = None) -> dict[str, str]:
     return dict(zip(df["region"], df["game_region_name"], strict=True))
 
 
+def load_region_names(path: Path | None = None) -> dict[int, str]:
+    """Return {game_region_id: game_region_name} from a concordance CSV.
+
+    Tape records name their region by id, because the game does; the table names it by
+    label. This is the one place that translation lives.
+
+    Args:
+        path: CSV to read. Defaults to the EXIOBASE concordance in data/concordances/.
+    """
+    df = pd.read_csv(
+        path or DEFAULT_CONCORDANCE_PATH,
+        comment="#",
+        names=["region", "game_region_id", "game_region_name"],
+        skiprows=1,
+    )
+    return dict(zip(df["game_region_id"].astype(int), df["game_region_name"], strict=True))
+
+
 def _build_region_agg(regions: list[str], concordance: dict[str, str]) -> list[str]:
     """
     Return the aggregation vector pymrio.IOSystem.aggregate() expects: the new region name

@@ -93,6 +93,7 @@ max_reducible_fraction = 0.11
 deployment_curve = "reduce_default"
 build_years_reference = 0
 direct_emissions_extension = "impacts"
+final_demand_categories = ["Final consumption expenditure by households"]
 cover_magnitude = { people = 100_000_000, commute_days_avoided_per_week = 1 }
 regional_ceiling = 140_000_000
 regional_ceiling_unit = "workers who could work remotely"
@@ -119,6 +120,12 @@ fuel spend, so it assumes no rebound in the remaining trips and no shift to a ch
 dirtier fuel. Rebound is the contract's stated dominant uncertainty for this tape.
 Home heating added by staying in is not netted off here; the contract's 0.13 t/person/day
 figure is already net of it, so the two must not be combined without care.
+
+Households only, unlike the other two REDUCE tapes, which cut all three consumption
+columns. Commuting fuel is a household purchase; the motor fuel in the government column is
+public fleet fuel, which nobody stops buying because office workers stayed home. It matters
+for the F_Y correction too: direct household emissions are a household-column quantity, so
+cutting the government column would move spend that the correction does not follow.
 
 max_reducible_fraction rests on two external figures rather than on the table, and both are
 order-of-magnitude. It also assumes teleworkable workers commute by car at the regional

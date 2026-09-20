@@ -82,14 +82,45 @@ the magnitudes, which are labelled provisional either way.
        being a post-crisis construction trough rather than an artefact. The decision to keep
        the cells stands; the trough is worth an explicit decision at 5b and worth knowing
        about at T5.
-2. [ ] **T2 — tape records and concordance, REDUCE rows first.**
-       `data/tech_choices/options.toml` and `data/concordances/exiobase_to_scenario.csv`.
-       Populate all nine records' *fields* but only the three REDUCE baskets need to be
-       complete for sprint 2. Baskets use exact `products.txt` labels; the loader validates
-       every product against the aggregated table's index. Each record carries
-       `regional_ceiling` with its basis stated.
-3. [ ] **T3 — the three REDUCE tapes through the existing path.** `apply_reduce` already
-       works; this is baskets plus the `F_Y` fix below.
+2. [x] **T2 — tape records and concordance. Done 2026-09-19.** All nine records in
+       `options.toml`, eight named baskets in `exiobase_to_scenario.csv`, and
+       `jobs/tape_records.py` to load and check them. Three REDUCE records are `ready`; the
+       other six carry their fields and are `pending`, so the export schema is right first
+       time. Every ceiling states its basis.
+
+       Records name a `scenario_category` and the concordance says what is in it, so two
+       tapes can share a basket and every product label sits in one file. `validate_baskets`
+       checks them against the table the tapes will actually run on, because a label is only
+       right or wrong relative to a particular table — and a mistyped one is invisible:
+       pandas selects nothing and the tape ships a plausible zero.
+
+       **The cross-check worth knowing about:** the contract estimated basket A at "~1.4% of
+       the basket per brick" from literature. The table says **1.34%**. Two independent
+       routes, same number.
+
+3. [x] **T3 — the three REDUCE tapes through the existing path. Done 2026-09-20.**
+       `jobs/run_tapes.py` turns a record into an engine call and returns the tape's numbers.
+       All three solve against the cached baseline, at full ceiling, flat curve:
+
+       | Tape | Cut | Annual | Cumulative | Booked GDP |
+       |---|---|---|---|---|
+       | `eca_buy_less` | 25% of 13 products | −389 Mt/yr | **−19.8 Gt** | −0.55 T EUR |
+       | `eca_remote_work_commuters` | 11% of 2 products | −155 Mt/yr | **−7.9 Gt** | −0.02 T EUR |
+       | `eca_extended_product_lifetimes` | 50% of 4 products | −64 Mt/yr | **−3.3 Gt** | −0.08 T EUR |
+
+       Remote work removes a twenty-fifth of the spend buy-less does and abates two fifths as
+       much: a basket of nothing but burnt fuel behaving exactly as it should, which is the
+       clearest evidence the `F_Y` correction and the tight basket both work.
+
+       **Linearity is now asserted, not assumed.** The precomputed-table design (contract
+       §4.4) rests on solving each tape once at full deployment and letting the game multiply
+       by the outcome fraction. `test_annual_delta_is_linear_in_the_fraction` pins it to
+       1e-9, with and without the `F_Y` correction. If it were only approximately true every
+       score the game computes would be wrong by an amount nobody could see.
+
+       One modelling call T3 forced: remote work cuts **households only**, where the other
+       two cut all three consumption columns. The motor fuel in the government column is
+       public fleet fuel, which nobody stops buying because office workers stayed home.
 4. [ ] **T9-partial — the export job, three tapes.** `jobs/export_tape_table.py` writing
        `data/exports/tape_table_<date>.json` with the full per-tape schema and file-level
        `baseline`, `intensity_scalar_2050`, `units`. Records for the six unbuilt tapes are
@@ -101,7 +132,15 @@ the magnitudes, which are labelled provisional either way.
        T9 afterwards; the game gets a second table and changes no code.
 
 **Also in this sprint, cheap and unblocking:** `gh auth login`, then create the issues for
-the stubs that have none (backlog item 10) so the TODOs stop pointing at a file.
+the stubs that have none (backlog item 10) so the TODOs stop pointing at a file. Still to do
+— `gh auth login` is interactive and has not been run.
+
+**Two corrections to this plan, found while building it.** Decision 2 below says the gas
+tape's `F_Y` fix bites at T3. It does not: the contract's tape table has
+`eca_ban_gas_supply` as a SWAP, so it bites at T4 in sprint 3. The fix itself is built and
+wired into `apply_reduce`; `apply_swap` will need the same wiring. And the three REDUCE
+tapes are therefore `eca_buy_less`, `eca_extended_product_lifetimes` and
+`eca_remote_work_commuters`.
 
 ---
 
