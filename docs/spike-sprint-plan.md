@@ -164,6 +164,14 @@ tapes are therefore `eca_buy_less`, `eca_extended_product_lifetimes` and
 
 ## Sprint 3 — the other two wings
 
+**Starting cold.** Read [`AGENTS.md`](../AGENTS.md), then
+[`docs/design/tape_records.md`](design/tape_records.md) §2 (where this work sits) and §4–6
+(the ceiling method), then [`red_carbon_contract.md`](design/red_carbon_contract.md) §4.4
+(why the table is precomputed) and §5 (the per-tape anchors). The three shocks sprint 3 needs
+— `apply_swap`, `apply_build`, `rebalance_economy` — are all still `NotImplementedError`
+stubs with their docstrings written, so each task starts from a described function rather
+than a blank file. Nothing in sprint 3 is blocked on a decision except T7.
+
 **What sprint 2 changed about this sprint.** Four things carry over and are worth holding
 before picking up a task, because each one either makes a step cheaper or makes a step
 riskier than the original plan assumed.
