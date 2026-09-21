@@ -10,6 +10,10 @@ The informal working backlog for Red Worlds. Two tiers:
 Dated entries, newest at the top of each section. Strike or move items rather than deleting
 them, so the reasoning trail survives.
 
+The ordered execution view for completing all nine tapes is
+[`tape-completion-plan.md`](tape-completion-plan.md). This backlog remains the authority for
+the modelling questions that plan routes into implementation work.
+
 ---
 
 ## Sequencing (MVP path)

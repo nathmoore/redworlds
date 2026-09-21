@@ -1,5 +1,9 @@
 # Sprint plan — the next few steps out of backlog.md, and why in this order
 
+Sprint 3 is implemented. The successor plan for taking every tape to at least a numerical
+provisional result, then retiring the remaining limitations, is
+[`tape-completion-plan.md`](tape-completion-plan.md).
+
 The principle: get one number out of the real model as early as possible, on the cheapest
 path, and only then build the expensive parts. Each step is one function, one test file,
 sized for a single session with the backlog entry as its brief.
