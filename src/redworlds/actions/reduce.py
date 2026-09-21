@@ -25,6 +25,10 @@ everything and they fall 5%, which is right. But a tape that cuts vehicle fuel o
 household gas is cutting the fuel itself, and those emissions should fall by the change
 in the fuel, not by the change in total spend. Such a tape passes
 ``direct_emissions_extension`` and gets that behaviour; every other tape is untouched.
+The characterised account does not separate those household emissions by fuel, so the tape
+also supplies the attributed share. The action scales the whole selected ``F_Y`` column by
+a factor that leaves the un-attributed share fixed; see ``scale_direct_emissions`` and the
+fuel-apportionment backlog item.
 
 With uneven weights those two ideas meet: "the basket's change" is no longer one number, so a
 fuel tape must also name the product its direct emissions follow (``direct_emissions_driver``)
@@ -62,6 +66,7 @@ def apply_reduce(
     direct_emissions_extension: str | None = None,
     weights: Mapping[str, float] | None = None,
     direct_emissions_driver: str | None = None,
+    direct_emissions_share: float = 1.0,
 ) -> pymrio.IOSystem:
     """Apply a REDUCE action: cut a region's demand for a basket of products, no rebalancing.
 
@@ -89,14 +94,19 @@ def apply_reduce(
             moves together and this can be left ``None``; with uneven weights it cannot,
             because "the basket's change" is then several different numbers and the fuel
             burnt at home follows the fuel row, not the average.
+        direct_emissions_share: Share of the selected direct-emissions column attributable
+            to the driver. The rest is held unchanged; defaults to the former whole-column
+            behaviour for callers that know the selected account is all in scope.
 
     Returns:
         A calculated IO system with the basket's demand reduced and nothing re-spent.
 
     Raises:
-        ValueError: if any realised cut exceeds 1.0 (cannot remove more than all demand), or
-            if ``direct_emissions_driver`` is not in the basket.
+        ValueError: if a share is invalid, any realised cut exceeds 1.0 (cannot remove more
+            than all demand), or ``direct_emissions_driver`` is not in the basket.
     """
+    if not 0.0 <= direct_emissions_share <= 1.0:
+        raise ValueError(f"direct_emissions_share must be in [0, 1]; got {direct_emissions_share}")
     sectors = [sector] if isinstance(sector, str) else list(sector)
     factors = {product: 1.0 - pct_reduction * (weights or {}).get(product, 1.0) for product in sectors}
 
@@ -108,11 +118,12 @@ def apply_reduce(
 
     if direct_emissions_extension is not None:
         if direct_emissions_driver is None:
-            direct_factor = 1.0 - pct_reduction
+            realised_cut = pct_reduction
         elif direct_emissions_driver in factors:
-            direct_factor = factors[direct_emissions_driver]
+            realised_cut = 1.0 - factors[direct_emissions_driver]
         else:
             raise ValueError(f"direct_emissions_driver {direct_emissions_driver!r} is not in the basket {sectors}")
+        direct_factor = 1.0 - realised_cut * direct_emissions_share
         cut = scale_direct_emissions(cut, region, direct_factor, direct_emissions_extension, categories)
 
     return recalculate_from_final_demand(cut)

@@ -27,6 +27,12 @@ from redworlds.jobs.tape_records import (
 )
 
 HELD_TAPES = ("eca_smart_grid",)
+PROVISIONAL_TAPES = (
+    "eca_remote_work_commuters",
+    "eca_geothermal",
+    "eca_electric_vehicle_transition",
+    "eca_ban_gas_supply",
+)
 
 
 def _write_records(path: Path, key: str = "test_tape", **overrides: Any) -> Path:
@@ -93,6 +99,11 @@ def test_duplicate_key_raises(tmp_path) -> None:
         load_tape_records(path)
 
 
+def test_unknown_status_raises(tmp_path) -> None:
+    with pytest.raises(ValueError, match="unknown status"):
+        load_tape_records(_write_records(tmp_path / "options.toml", status="mvp-ish"))
+
+
 def test_mistyped_product_label_raises(tmp_path, test_mrio) -> None:
     """The failure this module exists to stop: a label that selects nothing."""
     sectors = list(test_mrio.get_sectors())
@@ -133,14 +144,30 @@ def test_valid_records_pass_quietly(tmp_path, test_mrio) -> None:
 
 
 def test_committed_files_hold_all_nine_tapes() -> None:
-    """The committed records cover nine tapes; only the mechanism-gated grid tape is held."""
+    """All nine records have an explicit readiness state and every solvable basket exists."""
     records = load_tape_records(DEFAULT_OPTIONS_PATH)
     baskets = load_scenario_concordance(DEFAULT_SCENARIO_PATH)
 
     assert len(records) == 9
-    ready = {key for key, record in records.items() if record["status"] == "ready"}
-    assert set(records) - ready == set(HELD_TAPES)
-    assert all(basket_for(records[key], baskets) for key in ready)
+    by_status = {
+        status: {key for key, record in records.items() if record["status"] == status}
+        for status in ("ready", "provisional", "held")
+    }
+    assert by_status["held"] == set(HELD_TAPES)
+    assert by_status["provisional"] == set(PROVISIONAL_TAPES)
+    assert set().union(*by_status.values()) == set(records)
+    assert all(basket_for(records[key], baskets) for key in by_status["ready"] | by_status["provisional"])
+
+
+def test_consumer_swaps_name_physical_replacement_energy() -> None:
+    records = load_tape_records(DEFAULT_OPTIONS_PATH)
+    baskets = load_scenario_concordance(DEFAULT_SCENARIO_PATH)
+    for key in ("eca_electric_vehicle_transition", "eca_ban_gas_supply"):
+        record = records[key]
+        assert record["service_energy_ratio"] == pytest.approx(1 / 3)
+        assert record["replacement_category"] == "household_electricity_generation"
+        assert baskets[record["replacement_category"]]
+        assert record["delivery_sector"] not in baskets[record["replacement_category"]]
 
 
 def test_committed_ceilings_all_state_their_basis() -> None:

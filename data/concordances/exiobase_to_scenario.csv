@@ -94,6 +94,19 @@ electricity_generation,Electricity by Geothermal,1.0,BUILD target for eca_geothe
 fossil_electricity,Electricity by coal,1.0,displaced by a BUILD operating phase
 fossil_electricity,Electricity by gas,1.0,displaced by a BUILD operating phase
 fossil_electricity,Electricity by petroleum and other oil derivatives,1.0,displaced by a BUILD operating phase
+# Household replacement electricity is added in the baseline generation mix. The delivery
+# margin is a separate product named by each SWAP record; it is not itself electricity.
+household_electricity_generation,Electricity by coal,1.0,SWAP replacement generation mix
+household_electricity_generation,Electricity by gas,1.0,SWAP replacement generation mix
+household_electricity_generation,Electricity by nuclear,1.0,SWAP replacement generation mix
+household_electricity_generation,Electricity by hydro,1.0,SWAP replacement generation mix
+household_electricity_generation,Electricity by wind,1.0,SWAP replacement generation mix
+household_electricity_generation,Electricity by petroleum and other oil derivatives,1.0,SWAP replacement generation mix
+household_electricity_generation,Electricity by biomass and waste,1.0,SWAP replacement generation mix
+household_electricity_generation,Electricity by solar photovoltaic,1.0,SWAP replacement generation mix
+household_electricity_generation,Electricity by solar thermal,1.0,SWAP replacement generation mix
+household_electricity_generation,"Electricity by tide, wave, ocean",1.0,SWAP replacement generation mix
+household_electricity_generation,Electricity by Geothermal,1.0,SWAP replacement generation mix
 residential_heating,Distribution services of gaseous fuels through mains,1.0,SWAP source for eca_ban_gas_supply
 private_motoring,Motor Gasoline,1.0,SWAP source for eca_electric_vehicle_transition
 private_motoring,Gas/Diesel Oil,1.0,SWAP source for eca_electric_vehicle_transition

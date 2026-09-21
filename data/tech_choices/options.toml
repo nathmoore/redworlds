@@ -102,7 +102,7 @@ uncertainty. They want checking against Vita et al. 2019.
 [[reduce]]
 key = "eca_remote_work_commuters"
 label = "Remote Work"
-status = "ready"
+status = "provisional"
 region_id = 3
 scenario_category = "commuting_vehicle_fuel"
 matrix_target = ["Y", "F_Y"]
@@ -111,6 +111,7 @@ deployment_curve = "reduce_default"
 build_years_reference = 0
 direct_emissions_extension = "impacts"
 direct_emissions_driver = "Motor Gasoline"
+direct_emissions_share = 0.329
 final_demand_categories = ["Final consumption expenditure by households"]
 cover_magnitude = { people = 100_000_000, commute_days_avoided_per_week = 1 }
 regional_ceiling = 140_000_000
@@ -131,9 +132,11 @@ times the ~35% of workers who could stop doing it, giving 0.30 x 0.35 = 0.105, r
 0.11 of household motor fuel.
 """
 beta_day_assumption = """
-This tape opts into the F_Y correction: direct household emissions move by Motor Gasoline's
-own change rather than by the household basket's total. Naming the driving product is what
-lets the basket hold the forecourt margin and public transport as well as the fuels — before
+This tape opts into the F_Y correction: the 32.9% road-transport share of direct household
+emissions moves by Motor Gasoline's own change rather than by the household basket's total.
+The share is proxied by Region 3 `Energy Carrier Net TROA / Total`, so the record is
+provisional until a fuel-resolved GHG account replaces the energy share. Naming the driving
+product is what lets the basket hold the forecourt margin and public transport as well as the fuels — before
 weights existed the basket was held to the two fuels alone so that "the basket's change" and
 "the fuel's change" were the same number. The correction assumes direct emissions are linear in
 fuel spend, so it assumes no rebound in the remaining trips and no shift to a cheaper or
@@ -171,6 +174,7 @@ budget_musd_2026_purchaser = 100_000
 build_years_reference = 10
 deployment_curve = "build_default"
 cover_magnitude = { reactors = 10, gw = 12, capacity_factor = 0.9, twh_per_year = 95 }
+ceiling_cover_key = "reactors"
 regional_ceiling = 650
 regional_ceiling_unit = "reactors commissioned in a ten-year mobilisation"
 regional_ceiling_basis = """
@@ -197,7 +201,7 @@ beta_day_assumption = "Construction phase is a GFCF injection on the Wood/Wiebe 
 [[build]]
 key = "eca_geothermal"
 label = "Geothermal Power"
-status = "ready"
+status = "provisional"
 region_id = 3
 scenario_category = "electricity_generation"
 technology = "geothermal"
@@ -207,6 +211,7 @@ budget_musd_2026_purchaser = 100_000
 build_years_reference = 6
 deployment_curve = "build_default"
 cover_magnitude = { gw = 13, capacity_factor = 0.8, twh_per_year = 91 }
+ceiling_cover_key = "twh_per_year"
 regional_ceiling = 180
 regional_ceiling_unit = "TWh/yr of new geothermal generation"
 regional_ceiling_basis = """
@@ -230,7 +235,8 @@ matrix_target = ["GFCF_construction_phase", "A_post_build_energy_mix"]
 budget_musd_2026_purchaser = 200_000
 build_years_reference = 20
 deployment_curve = "build_default"
-cover_magnitude = { gw = 12, capacity_factor = 0.9, twh_per_year = 95 }
+cover_magnitude = { plants = 10, gw = 12, capacity_factor = 0.9, twh_per_year = 95 }
+ceiling_cover_key = "plants"
 regional_ceiling = 650
 regional_ceiling_unit = "plants commissioned in a ten-year mobilisation"
 regional_ceiling_basis = """
@@ -260,17 +266,23 @@ beta_day_assumption = "Modelled as nuclear operation with double capex per GW an
 [[swap]]
 key = "eca_electric_vehicle_transition"
 label = "Electric Vehicle Transition"
-status = "ready"
+status = "provisional"
 region_id = 3
 scenario_category = "private_motoring"
 from_technology = "petrol_and_diesel_car"
 to_technology = "electric_car"
-replacement_sector = "Distribution and trade services of electricity"
-replacement_ratio = 0.3333333333333333
-matrix_target = ["Y"]
+replacement_category = "household_electricity_generation"
+delivery_sector = "Distribution and trade services of electricity"
+service_energy_ratio = 0.3333333333333333
+energy_extension = "satellite"
+energy_stressor = "Energy Carrier Supply: Total"
+matrix_target = ["Y", "F_Y"]
 budget_musd_2026_purchaser = 330_000
 build_years_reference = 0
 max_replaceable_fraction = 0.8
+direct_emissions_extension = "impacts"
+direct_emissions_driver = "Motor Gasoline"
+direct_emissions_share = 0.329
 deployment_curve = "swap_default"
 cover_magnitude = { cars = 11_000_000, tonnes_saved_per_car_year = 2 }
 regional_ceiling = 320_000_000
@@ -282,18 +294,21 @@ Region 3's fleet is roughly 400 M vehicles; 80% is the same figure as
 max_replaceable_fraction because in this tape the ceiling and the per-play maximum are the
 same constraint seen from two distances.
 """
-beta_day_assumption = "Consumer-side only: petrol and diesel demand falls, retail electricity spend rises by one third as the service-equivalent proxy, and the remainder re-spends proportionally across the household basket. The contract flags freed motoring money re-spending toward air travel as this tape's largest unmodelled risk."
+beta_day_assumption = "Consumer-side only: petrol and diesel spend is converted to physical energy at each product's EXIOBASE price; one third as much electricity is then priced from the baseline household generation mix and its delivery margin. The remaining money re-spends proportionally across the household basket. Direct household emissions move only by the 32.9% road-transport share of Region 3 household Energy Carrier Use: Net Total, rather than treating every household chimney and vehicle as a car. The contract flags freed motoring money re-spending toward air travel as this tape's largest unmodelled risk."
 
 [[swap]]
 key = "eca_ban_gas_supply"
 label = "Ban Gas Supply"
-status = "ready"
+status = "provisional"
 region_id = 3
 scenario_category = "residential_heating"
 from_technology = "gas_boiler"
 to_technology = "heat_pump"
-replacement_sector = "Distribution and trade services of electricity"
-replacement_ratio = 0.3333333333333333
+replacement_category = "household_electricity_generation"
+delivery_sector = "Distribution and trade services of electricity"
+service_energy_ratio = 0.3333333333333333
+energy_extension = "satellite"
+energy_stressor = "Energy Carrier Supply: Total"
 matrix_target = ["Y", "F_Y"]
 budget_musd_2026_purchaser = 150_000
 build_years_reference = 0
@@ -301,6 +316,7 @@ max_replaceable_fraction = 0.9
 deployment_curve = "swap_default"
 direct_emissions_extension = "impacts"
 direct_emissions_driver = "Distribution services of gaseous fuels through mains"
+direct_emissions_share = 0.274
 cover_magnitude = { homes = 12_000_000, tonnes_saved_per_home_year = 1.9 }
 regional_ceiling = 95_000_000
 regional_ceiling_unit = "gas-heated homes that could be converted"
@@ -310,7 +326,7 @@ the share a heat pump can serve without a fabric upgrade that the tape does not 
 The remainder is the hard tail — solid-wall and high-rise stock where the retrofit, not the
 appliance, is the binding cost.
 """
-beta_day_assumption = "Gas burnt at home follows the gas product through the F_Y correction. Retail electricity spend rises by one third as a COP-3 service-equivalent proxy and the remainder re-spends proportionally across the household basket."
+beta_day_assumption = "Gas spend is converted to physical energy at the EXIOBASE mains-gas price; one third as much electricity is then priced from the baseline household generation mix and its delivery margin, as a COP-3 service proxy. The remainder re-spends proportionally. The 27.4% share of direct household emissions attributed to gas is inferred from the tape's 2.8 tCO2e/home gross physical anchor divided by the baseline Region 3 F_Y total, because the characterised account does not split household combustion by fuel. That proxy makes this result provisional."
 
 [[swap]]
 key = "eca_smart_grid"

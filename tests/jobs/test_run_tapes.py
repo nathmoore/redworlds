@@ -11,6 +11,7 @@ approximately true, every score the game computes would be wrong by an amount no
 see, so it is asserted rather than assumed.
 """
 
+import math
 from pathlib import Path
 from typing import Any
 
@@ -18,6 +19,7 @@ import pymrio
 import pytest
 
 from redworlds.config import load_config
+from redworlds.engine.intensity import intensity_scalar
 from redworlds.engine.regions import load_region_concordance
 from redworlds.engine.scoring import WINDOW_END, WINDOW_START
 from redworlds.jobs.build_baseline import BASELINE_NAME, build_baseline
@@ -48,7 +50,10 @@ def game_world(test_mrio: pymrio.IOSystem) -> pymrio.IOSystem:
 def test_baskets(game_world: pymrio.IOSystem) -> dict[str, dict[str, float]]:
     """A two-product basket drawn from the test world's own sectors, flat weights."""
     sectors = list(game_world.get_sectors())
-    return {"test_basket": {sectors[0]: 1.0, sectors[1]: 1.0}}
+    return {
+        "test_basket": {sectors[0]: 1.0, sectors[1]: 1.0},
+        "test_replacement": {sectors[2]: 1.0},
+    }
 
 
 def _record(**overrides: Any) -> dict[str, Any]:
@@ -176,12 +181,13 @@ def test_jcurve_runs_the_window_in_five_year_blocks(game_world, test_baskets) ->
 
 
 def test_solves_a_swap_tape_with_a_closed_budget(game_world, test_baskets) -> None:
-    sectors = list(game_world.get_sectors())
     record = {
         **_record(wing="swap"),
         "max_replaceable_fraction": 0.2,
-        "replacement_sector": sectors[2],
-        "replacement_ratio": 1 / 3,
+        "replacement_category": "test_replacement",
+        "service_energy_ratio": 1 / 3,
+        "energy_extension": TEST_EXTENSION,
+        "energy_stressor": TEST_STRESSOR,
     }
     result = run_swap_tape(
         game_world,
@@ -257,3 +263,28 @@ def test_remote_work_is_far_more_carbon_intense_than_buying_less() -> None:
         return result.annual_delta / result.gdp_impact
 
     assert intensity("eca_remote_work_commuters") > 3 * intensity("eca_buy_less")
+
+
+@pytest.mark.integration
+def test_the_two_consumer_swaps_solve_with_closed_budgets() -> None:
+    world = _cached_baseline()
+    records = load_tape_records()
+    baskets = load_scenario_weights()
+    for key in ("eca_electric_vehicle_transition", "eca_ban_gas_supply"):
+        result = run_swap_tape(world, records[key], baskets)
+        assert math.isfinite(result.annual_delta), key
+        assert result.gdp_impact == pytest.approx(0.0, abs=1e-6), key
+
+
+@pytest.mark.integration
+def test_nuclear_cover_meets_the_build_done_conditions() -> None:
+    """Ten reactors land in the contract range and construction is a few percent."""
+    world = _cached_baseline()
+    result = run_build_tape(world, load_tape_records()["eca_nuclear"])
+    target_curve_gt = -result.cumulative_curve * intensity_scalar() / 1e12
+    construction_total = result.annual_delta_construction * result.build_years
+    operating_abatement = -result.cumulative_curve + construction_total
+
+    assert 0.5 <= target_curve_gt <= 1.8
+    assert 0.01 <= construction_total / operating_abatement <= 0.05
+    assert set(result.deltas_by_deployment) == {"0.25", "0.5", "0.75", "1.0"}

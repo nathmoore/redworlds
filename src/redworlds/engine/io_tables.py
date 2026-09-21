@@ -36,6 +36,14 @@ CO2_STRESSOR: str = (
     "Carbon dioxide (CO2) IPCC categories 1 to 4 and 6 to 7 (excl land use, land use change and forestry)"
 )
 
+_TONNES_PER_UNIT: dict[str, float] = {
+    "kg": 1e-3,
+    "kg CO2 eq.": 1e-3,
+    "kg CO2-eq": 1e-3,
+    "Gg": 1e3,
+    "Gg CO2-eq": 1e3,
+}
+
 # EXIOBASE-specific final demand categories. Households, NPISH and government together
 # are the "non-capital" demand a REDUCE tape may cut; GFCF is BUILD's currency and is
 # never touched by REDUCE (docs/design/red_carbon_contract.md §5).
@@ -186,7 +194,11 @@ def scale_direct_emissions(
     change in gas, not by the change in total spend.
 
     This function lets the caller say so. Only the tape knows which product drives the
-    fuel, so the factor is passed in rather than inferred.
+    fuel, so the factor is passed in rather than inferred. One important limit: EXIOBASE's
+    characterised ``F_Y`` is resolved by region and final-demand category, not by purchased
+    fuel. The factor therefore scales the whole selected household direct-emissions column.
+    At a large gas rollout that also moves petrol combustion; fuel-share apportionment is a
+    documented backlog item and the current gas result is an upper bound.
 
     **Order matters.** Call this *after* ``scale_final_demand`` and *before*
     ``recalculate_from_final_demand``. The recalculation throws ``F_Y`` away and rebuilds
@@ -232,10 +244,10 @@ def shift_sector_share(
 ) -> pymrio.IOSystem:
     """Move consumer demand from products to a replacement product.
 
-    The source products are cut across all producing regions. ``replacement_ratio`` says
-    how much replacement spend buys the same service: one third for both heat-pump heat and
-    EV travel in the Beta Day records. Any remainder is deliberately left unspent here for
-    :func:`redworlds.engine.balancing.rebalance_economy` to distribute.
+    The source products are cut across all producing regions. ``replacement_ratio`` is a
+    purely monetary multiplier. It must not be used for a physical efficiency such as heat-
+    pump COP or EV energy use; :func:`redworlds.actions.swap.apply_swap` prices those from
+    the energy account. Any remainder is deliberately left unspent here for balancing.
 
     Args:
         mrio: The IO system to modify (a copy is returned; original is not mutated).
@@ -251,12 +263,12 @@ def shift_sector_share(
         A copy with ``Y`` adjusted but not recalculated or rebalanced.
 
     Raises:
-        ValueError: If either fraction is outside [0, 1].
+        ValueError: If the fraction is outside [0, 1] or the monetary ratio is negative.
     """
     if not 0.0 <= fraction <= 1.0:
         raise ValueError(f"fraction must be in [0, 1]; got {fraction}")
-    if not 0.0 <= replacement_ratio <= 1.0:
-        raise ValueError(f"replacement_ratio must be in [0, 1]; got {replacement_ratio}")
+    if replacement_ratio < 0.0:
+        raise ValueError(f"replacement_ratio must be non-negative; got {replacement_ratio}")
 
     sources = [from_sector] if isinstance(from_sector, str) else list(from_sector)
     factors = {sector: 1.0 - fraction * (weights or {}).get(sector, 1.0) for sector in sources}
@@ -284,6 +296,27 @@ def shift_sector_share(
 def _stressor_row(frame: pd.DataFrame, stressor: str | tuple[str, ...]) -> pd.Series:
     """Select one stressor's row from a pymrio account table, whatever the index depth."""
     return frame.loc[stressor]
+
+
+def emissions_to_tonnes(
+    mrio: pymrio.IOSystem,
+    value: float,
+    extension: str = GHG_EXTENSION,
+    stressor: str | tuple[str, ...] = GHG_STRESSOR,
+) -> float:
+    """Convert one emissions value to tonnes using its extension's declared unit.
+
+    EXIOBASE's headline GHG row is kg while its CO2-only row is Gg, a factor of one
+    million between their tonne conversions. Reading the unit table here prevents a caller
+    from silently applying one row's conversion to the other.
+    """
+    account = getattr(mrio, extension)
+    unit = str(account.unit.loc[stressor, "unit"])
+    try:
+        factor = _TONNES_PER_UNIT[unit]
+    except KeyError as exc:
+        raise ValueError(f"unsupported emissions unit {unit!r} for {extension}/{stressor}") from exc
+    return value * factor
 
 
 def get_region_emissions(

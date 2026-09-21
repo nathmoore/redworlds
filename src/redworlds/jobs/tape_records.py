@@ -38,6 +38,7 @@ DEFAULT_SCENARIO_PATH = _REPO_ROOT / "data" / "concordances" / "exiobase_to_scen
 
 # The three wings, as options.toml spells them at the top level.
 WINGS: tuple[str, ...] = ("build", "swap", "reduce")
+STATUSES: tuple[str, ...] = ("ready", "provisional", "held")
 
 # Fields every record carries whatever its wing. The ceiling is here because the game's
 # "tapes in stock" mechanic wants it; recording it with its basis is worth doing even while
@@ -119,6 +120,10 @@ def load_tape_records(path: Path | None = None) -> dict[str, dict[str, Any]]:
             missing = [field for field in REQUIRED_FIELDS if field not in record]
             if missing:
                 raise ValueError(f"Tape record {record.get('key', '<no key>')!r} is missing {missing}")
+            if record["status"] not in STATUSES:
+                raise ValueError(
+                    f"Tape record {record['key']!r} has unknown status {record['status']!r}; expected one of {STATUSES}"
+                )
             if record["key"] in records:
                 raise ValueError(f"Two tape records share the key {record['key']!r}")
             records[record["key"]] = {**record, "wing": wing}
@@ -160,6 +165,9 @@ def validate_baskets(
     for key, record in records.items():
         if record["scenario_category"] not in baskets:
             problems.append(f"tape {key!r} names unknown scenario_category {record['scenario_category']!r}")
+        replacement_category = record.get("replacement_category")
+        if replacement_category is not None and replacement_category not in baskets:
+            problems.append(f"tape {key!r} names unknown replacement_category {replacement_category!r}")
 
     if problems:
         raise ValueError("Tape records do not match the table:\n  " + "\n  ".join(problems))

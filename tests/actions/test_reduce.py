@@ -121,6 +121,24 @@ def test_reduce_fuel_tape_moves_direct_emissions_by_the_fuel(test_mrio: pymrio.I
     assert _direct(result, "reg1") == pytest.approx(0.5 * _direct(test_mrio, "reg1"))
 
 
+def test_reduce_only_moves_the_drivers_share_of_direct_emissions(test_mrio: pymrio.IOSystem) -> None:
+    result = apply_reduce(
+        test_mrio,
+        region="reg1",
+        sector=FAT_SECTOR,
+        pct_reduction=0.5,
+        direct_emissions_extension=TEST_EXTENSION,
+        direct_emissions_share=0.25,
+    )
+    assert _direct(result, "reg1") == pytest.approx((1 - 0.5 * 0.25) * _direct(test_mrio, "reg1"))
+
+
+@pytest.mark.parametrize("share", [-0.1, 1.1])
+def test_reduce_rejects_invalid_direct_emissions_share(test_mrio: pymrio.IOSystem, share: float) -> None:
+    with pytest.raises(ValueError, match="direct_emissions_share"):
+        apply_reduce(test_mrio, "reg1", "food", 0.1, direct_emissions_share=share)
+
+
 def test_reduce_fuel_tape_only_moves_the_named_region(test_mrio: pymrio.IOSystem) -> None:
     result = apply_reduce(
         test_mrio, region="reg1", sector=FAT_SECTOR, pct_reduction=1.0, direct_emissions_extension=TEST_EXTENSION

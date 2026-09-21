@@ -1,6 +1,7 @@
 """Solve the committed tapes and write the deterministic table consumed by Red Carbon.
 
-Eight records are executable. The smart-grid record is exported as ``status: held`` because
+Eight records are executable. A provisional result is usable for the MVP but carries a
+named material limitation. The smart-grid record is exported as ``status: held`` because
 its mechanism gate has not been settled; no plausible-looking zero is invented for it.
 BUILD operating shocks are sampled at four deployment fractions because changing ``A`` and
 re-inverting the Leontief matrix is non-linear.
@@ -17,7 +18,7 @@ import pymrio
 
 from redworlds.config import load_config
 from redworlds.engine.intensity import TARGET_YEAR, intensity_scalar
-from redworlds.engine.io_tables import CO2_STRESSOR, GHG_STRESSOR
+from redworlds.engine.io_tables import CO2_STRESSOR, GHG_STRESSOR, emissions_to_tonnes
 from redworlds.jobs.build_baseline import BASELINE_NAME
 from redworlds.jobs.run_tapes import (
     BuildTapeResult,
@@ -33,7 +34,7 @@ _REPO_ROOT = Path(__file__).parents[3]
 DEFAULT_EXPORT_DIR = _REPO_ROOT / "data" / "exports"
 SCHEMA_PATH = _REPO_ROOT / "data" / "tech_choices" / "tape_table.schema.json"
 BRICK_TONNES: float = 1e9
-KG_TO_TONNES: float = 1e-3
+SOLVABLE_STATUSES: tuple[str, ...] = ("ready", "provisional")
 
 
 def _provenance() -> str:
@@ -46,13 +47,22 @@ def _provenance() -> str:
             capture_output=True,
             text=True,
         ).stdout.strip()
+        dirty = subprocess.run(
+            ["git", "status", "--porcelain", "--untracked-files=no"],
+            cwd=_REPO_ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout
+        if dirty:
+            commit += "+dirty"
     except (FileNotFoundError, subprocess.CalledProcessError):
         commit = "unknown"
     return f"jobs/export_tape_table.py @ {commit}"
 
 
 def _common(record: dict[str, Any], provenance: str) -> dict[str, Any]:
-    return {
+    common = {
         "status": record["status"],
         "region_id": record["region_id"],
         "wing": record["wing"],
@@ -63,67 +73,82 @@ def _common(record: dict[str, Any], provenance: str) -> dict[str, Any]:
         "regional_ceiling_unit": record["regional_ceiling_unit"],
         "provenance": provenance,
     }
+    if record["status"] == "provisional":
+        common["limitation"] = record["beta_day_assumption"].strip()
+    return common
 
 
 def _copies(cumulative_curve_t: float) -> int:
-    """Whole 2050-intensity bricks delivered by the full regional ceiling."""
-    return max(0, math.floor(abs(cumulative_curve_t) * intensity_scalar(TARGET_YEAR) / BRICK_TONNES))
+    """Whole abatement bricks delivered; a backfire cannot become positive via ``abs``."""
+    return max(0, math.floor(-cumulative_curve_t * intensity_scalar(TARGET_YEAR) / BRICK_TONNES))
 
 
 def _y_side_payload(
     record: dict[str, Any],
     result: ReduceTapeResult | SwapTapeResult,
     provenance: str,
+    co2e_to_tonnes: float,
 ) -> dict[str, Any]:
     assert result.annual_delta_co2_t is not None
     assert result.cumulative_full_flat_co2_t is not None
     assert result.cumulative_curve_co2_t is not None
-    cumulative_curve_t = result.cumulative_curve * KG_TO_TONNES
+    cumulative_curve_t = result.cumulative_curve * co2e_to_tonnes
     return {
         **_common(record, provenance),
         "annual_delta_construction_co2e_t": 0.0,
-        "annual_delta_operating_co2e_t": result.annual_delta * KG_TO_TONNES,
+        "annual_delta_operating_co2e_t": result.annual_delta * co2e_to_tonnes,
         "annual_delta_construction_co2_t": 0.0,
         "annual_delta_operating_co2_t": result.annual_delta_co2_t,
         "gdp_impact_full": result.gdp_impact,
-        "cumulative_full_flat_co2e_t": result.cumulative_full_flat * KG_TO_TONNES,
+        "cumulative_full_flat_co2e_t": result.cumulative_full_flat * co2e_to_tonnes,
         "cumulative_full_flat_co2_t": result.cumulative_full_flat_co2_t,
         "cumulative_curve_co2e_t": cumulative_curve_t,
         "cumulative_curve_co2_t": result.cumulative_curve_co2_t,
         "copies": _copies(cumulative_curve_t),
-        "copies_basis": "floor(abs(cumulative_curve_co2e_t) * intensity_scalar_2050 / 1e9)",
+        "copies_basis": "max(0, floor(-cumulative_curve_co2e_t * intensity_scalar_2050 / 1e9))",
         "jcurve_co2e_t": [
-            {"year": int(point["year"]), "value": point["value"] * KG_TO_TONNES} for point in result.jcurve
+            {"year": int(point["year"]), "value": point["value"] * co2e_to_tonnes} for point in result.jcurve
         ],
     }
 
 
-def _build_payload(record: dict[str, Any], result: BuildTapeResult, provenance: str) -> dict[str, Any]:
+def _build_payload(
+    record: dict[str, Any], result: BuildTapeResult, provenance: str, co2e_to_tonnes: float
+) -> dict[str, Any]:
     assert result.annual_delta_construction_co2_t is not None
     assert result.annual_delta_operating_co2_t is not None
     assert result.deltas_by_deployment_co2_t is not None
     assert result.cumulative_full_flat_co2_t is not None
     assert result.cumulative_curve_co2_t is not None
-    cumulative_curve_t = result.cumulative_curve * KG_TO_TONNES
+    cumulative_curve_t = result.cumulative_curve * co2e_to_tonnes
+    ceiling_scale = None
+    copies = None
+    if record["regional_ceiling"] > 0.0:
+        cover_key = record["ceiling_cover_key"]
+        ceiling_scale = record["regional_ceiling"] / record["cover_magnitude"][cover_key]
+        copies = _copies(cumulative_curve_t * ceiling_scale)
     return {
         **_common(record, provenance),
-        "annual_delta_construction_co2e_t": result.annual_delta_construction * KG_TO_TONNES,
-        "annual_delta_operating_co2e_t": result.annual_delta_operating * KG_TO_TONNES,
+        "annual_delta_construction_co2e_t": result.annual_delta_construction * co2e_to_tonnes,
+        "annual_delta_operating_co2e_t": result.annual_delta_operating * co2e_to_tonnes,
         "annual_delta_construction_co2_t": result.annual_delta_construction_co2_t,
         "annual_delta_operating_co2_t": result.annual_delta_operating_co2_t,
         "deltas_by_deployment_co2e_t": {
-            fraction: value * KG_TO_TONNES for fraction, value in result.deltas_by_deployment.items()
+            fraction: value * co2e_to_tonnes for fraction, value in result.deltas_by_deployment.items()
         },
         "deltas_by_deployment_co2_t": result.deltas_by_deployment_co2_t,
         "gdp_impact_full": result.gdp_impact,
-        "cumulative_full_flat_co2e_t": result.cumulative_full_flat * KG_TO_TONNES,
+        "cumulative_full_flat_co2e_t": result.cumulative_full_flat * co2e_to_tonnes,
         "cumulative_full_flat_co2_t": result.cumulative_full_flat_co2_t,
         "cumulative_curve_co2e_t": cumulative_curve_t,
         "cumulative_curve_co2_t": result.cumulative_curve_co2_t,
-        "copies": _copies(cumulative_curve_t),
-        "copies_basis": "floor(abs(cumulative_curve_co2e_t) * intensity_scalar_2050 / 1e9)",
+        "regional_ceiling_scale": ceiling_scale,
+        "copies": copies,
+        "copies_basis": (
+            "max(0, floor(-cumulative_curve_co2e_t * intensity_scalar_2050 * regional_ceiling_scale / 1e9))"
+        ),
         "jcurve_co2e_t": [
-            {"year": int(point["year"]), "value": point["value"] * KG_TO_TONNES} for point in result.jcurve
+            {"year": int(point["year"]), "value": point["value"] * co2e_to_tonnes} for point in result.jcurve
         ],
     }
 
@@ -137,26 +162,47 @@ def build_tape_table(
     extension: str = "impacts",
     stressor: str | tuple[str, ...] = GHG_STRESSOR,
     co2_stressor: str | tuple[str, ...] = CO2_STRESSOR,
+    region_names: dict[int, str] | None = None,
 ) -> dict[str, Any]:
-    """Solve every ready tape and retain held records without assigning them a score."""
+    """Solve ready and provisional tapes; retain held records without assigning a score."""
     provenance = provenance or _provenance()
+    co2e_to_tonnes = emissions_to_tonnes(world, 1.0, extension, stressor)
     tapes: dict[str, Any] = {}
     for key, record in records.items():
-        if record["status"] != "ready":
+        if record["status"] not in SOLVABLE_STATUSES:
             tapes[key] = {**_common(record, provenance), "held_reason": record["beta_day_assumption"].strip()}
         elif record["wing"] == "reduce":
             result = run_reduce_tape(
-                world, record, baskets, extension=extension, stressor=stressor, co2_stressor=co2_stressor
+                world,
+                record,
+                baskets,
+                region_names=region_names,
+                extension=extension,
+                stressor=stressor,
+                co2_stressor=co2_stressor,
             )
-            tapes[key] = _y_side_payload(record, result, provenance)
+            tapes[key] = _y_side_payload(record, result, provenance, co2e_to_tonnes)
         elif record["wing"] == "swap":
             result = run_swap_tape(
-                world, record, baskets, extension=extension, stressor=stressor, co2_stressor=co2_stressor
+                world,
+                record,
+                baskets,
+                region_names=region_names,
+                extension=extension,
+                stressor=stressor,
+                co2_stressor=co2_stressor,
             )
-            tapes[key] = _y_side_payload(record, result, provenance)
+            tapes[key] = _y_side_payload(record, result, provenance, co2e_to_tonnes)
         else:
-            result = run_build_tape(world, record, extension=extension, stressor=stressor, co2_stressor=co2_stressor)
-            tapes[key] = _build_payload(record, result, provenance)
+            result = run_build_tape(
+                world,
+                record,
+                region_names=region_names,
+                extension=extension,
+                stressor=stressor,
+                co2_stressor=co2_stressor,
+            )
+            tapes[key] = _build_payload(record, result, provenance, co2e_to_tonnes)
 
     return {
         "$schema": str(SCHEMA_PATH.relative_to(_REPO_ROOT)),

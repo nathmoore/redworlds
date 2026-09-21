@@ -17,6 +17,7 @@ from redworlds.engine.io_tables import (
     GHG_EXTENSION,
     GHG_STRESSOR,
     HOUSEHOLDS,
+    emissions_to_tonnes,
     get_region_emissions,
     get_sector_emissions,
     recalculate_from_final_demand,
@@ -126,6 +127,17 @@ def test_emissions_default_labels_are_exiobase(test_mrio: pymrio.IOSystem) -> No
     assert GHG_STRESSOR.startswith("GHG emissions (GWP100)")
     with pytest.raises(AttributeError):
         get_region_emissions(test_mrio, "reg1")
+
+
+def test_emissions_to_tonnes_reads_the_declared_unit(test_mrio: pymrio.IOSystem) -> None:
+    assert emissions_to_tonnes(test_mrio, 2_000.0, TEST_EXTENSION, TEST_STRESSOR) == 2.0
+
+
+def test_emissions_to_tonnes_rejects_an_unknown_unit(test_mrio: pymrio.IOSystem) -> None:
+    account = _account(test_mrio)
+    account.unit.loc[TEST_STRESSOR, "unit"] = "mystery"
+    with pytest.raises(ValueError, match="unsupported emissions unit"):
+        emissions_to_tonnes(test_mrio, 1.0, TEST_EXTENSION, TEST_STRESSOR)
 
 
 # ``manufactoring`` is ~90% of reg1's household spend in pymrio's test world, so cutting it

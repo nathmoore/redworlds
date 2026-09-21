@@ -27,6 +27,7 @@ from redworlds.engine.io_tables import (
     GHG_EXTENSION,
     GHG_STRESSOR,
     HOUSEHOLDS,
+    emissions_to_tonnes,
 )
 from redworlds.engine.regions import load_region_names
 from redworlds.engine.scoring import (
@@ -45,7 +46,6 @@ from redworlds.jobs.tape_records import weights_for
 # itself, so what the table ships is the flat figure and the shape is the game's business.
 FLAT_CURVE: tuple[float, ...] = tuple(1.0 for _ in range(WINDOW_START, WINDOW_END + 1))
 BUILD_DEPLOYMENT_SAMPLES: tuple[float, ...] = (0.25, 0.5, 0.75, 1.0)
-GG_TO_TONNES: float = 1e3
 
 
 @dataclass(frozen=True)
@@ -161,6 +161,7 @@ def run_reduce_tape(
         direct_emissions_extension=record.get("direct_emissions_extension"),
         weights=weights,
         direct_emissions_driver=record.get("direct_emissions_driver"),
+        direct_emissions_share=record.get("direct_emissions_share", 1.0),
     )
 
     delta = annual_delta(world, shocked, extension, stressor)
@@ -170,7 +171,9 @@ def run_reduce_tape(
     co2_flat_t = None
     co2_curve_t = None
     if co2_stressor is not None:
-        co2_delta_t = annual_delta(world, shocked, extension, co2_stressor) * GG_TO_TONNES
+        co2_delta_t = emissions_to_tonnes(
+            world, annual_delta(world, shocked, extension, co2_stressor), extension, co2_stressor
+        )
         co2_flat_t = cumulative_delta(co2_delta_t, FLAT_CURVE)["co2_delta_cumulative"]
         co2_curve_t = cumulative_delta(co2_delta_t, deployment_curve())["co2_delta_cumulative"]
     return ReduceTapeResult(
@@ -204,18 +207,23 @@ def run_swap_tape(
     region_names = load_region_names() if region_names is None else region_names
     region = region_names[record["region_id"]]
     weights = weights_for(record, baskets)
+    replacement_weights = baskets[record["replacement_category"]]
     rollout = record["max_replaceable_fraction"]
     shocked = apply_swap(
         world,
         region,
         list(weights),
-        record["replacement_sector"],
+        list(replacement_weights),
         rollout,
-        replacement_ratio=record["replacement_ratio"],
+        service_energy_ratio=record["service_energy_ratio"],
         categories=record.get("final_demand_categories", (HOUSEHOLDS,)),
+        delivery_sector=record.get("delivery_sector"),
         direct_emissions_extension=record.get("direct_emissions_extension"),
         weights=weights,
         direct_emissions_driver=record.get("direct_emissions_driver"),
+        direct_emissions_share=record.get("direct_emissions_share", 1.0),
+        energy_extension=record.get("energy_extension", "satellite"),
+        energy_stressor=record.get("energy_stressor", "Energy Carrier Supply: Total"),
     )
     delta = annual_delta(world, shocked, extension, stressor)
     flat = cumulative_delta(delta, FLAT_CURVE)
@@ -224,7 +232,9 @@ def run_swap_tape(
     co2_flat_t = None
     co2_curve_t = None
     if co2_stressor is not None:
-        co2_delta_t = annual_delta(world, shocked, extension, co2_stressor) * GG_TO_TONNES
+        co2_delta_t = emissions_to_tonnes(
+            world, annual_delta(world, shocked, extension, co2_stressor), extension, co2_stressor
+        )
         co2_flat_t = cumulative_delta(co2_delta_t, FLAT_CURVE)["co2_delta_cumulative"]
         co2_curve_t = cumulative_delta(co2_delta_t, deployment_curve())["co2_delta_cumulative"]
     return SwapTapeResult(
@@ -306,9 +316,13 @@ def run_build_tape(
     flat_co2_t = None
     curve_co2_t = None
     if co2_stressor is not None:
-        construction_co2_t = annual_delta(world, construction, extension, co2_stressor) * GG_TO_TONNES
+        construction_co2_t = emissions_to_tonnes(
+            world, annual_delta(world, construction, extension, co2_stressor), extension, co2_stressor
+        )
         sample_co2_t = {
-            str(fraction): annual_delta(world, shocked, extension, co2_stressor) * GG_TO_TONNES
+            str(fraction): emissions_to_tonnes(
+                world, annual_delta(world, shocked, extension, co2_stressor), extension, co2_stressor
+            )
             for fraction, shocked in operating_worlds.items()
         }
         operating_co2_t = sample_co2_t["1.0"]
@@ -344,11 +358,11 @@ def run_ready_reduce_tapes(
     extension: str = GHG_EXTENSION,
     stressor: str | tuple[str, ...] = GHG_STRESSOR,
 ) -> dict[str, ReduceTapeResult]:
-    """Solve every REDUCE tape marked ready, keyed by tape id.
+    """Solve every usable REDUCE tape, keyed by tape id.
 
-    Records marked ``pending`` are skipped rather than failed: the BUILD and SWAP records
-    carry their fields so the export schema is right first time, but nothing can solve them
-    until sprint 3.
+    This compatibility helper remains REDUCE-only. The full export dispatches ready and
+    provisional records to :func:`run_reduce_tape`, :func:`run_swap_tape` or
+    :func:`run_build_tape` and retains held records without assigning them a score.
 
     Args:
         world: The calculated baseline.
@@ -358,11 +372,11 @@ def run_ready_reduce_tapes(
         stressor: Row label within the account.
 
     Returns:
-        One result per ready REDUCE tape.
+        One result per ready or provisional REDUCE tape.
     """
     region_names = load_region_names()
     return {
         key: run_reduce_tape(world, record, baskets, region_names, extension, stressor)
         for key, record in records.items()
-        if record["wing"] == "reduce" and record["status"] == "ready"
+        if record["wing"] == "reduce" and record["status"] in ("ready", "provisional")
     }
