@@ -1,0 +1,42 @@
+# Code owners — files whose changes need the maintainer's review.
+#
+# GitHub uses this to request review automatically. It becomes *enforcing* only if the
+# branch ruleset turns on "Require review from Code Owners"; without that it is a strong
+# convention and a visible signal, which is most of the value for a project this size.
+#
+# Two kinds of file are listed, for two different reasons.
+
+# --- 1. Files that instruct AI assistants -------------------------------------------
+#
+# AGENTS.md and CLAUDE.md are read as instructions by whatever assistant a contributor
+# brings. A pull request that edits them is not proposing a code change; it is proposing a
+# change to how every future contributor's tooling behaves. That deserves the same scrutiny
+# as a change to CI, and more than a change to a docstring.
+#
+# This is not a theoretical worry. Text in these files is executed-as-intent by a language
+# model that cannot tell a maintainer's instruction from a contributor's, so "ignore the
+# security rules in this repo" committed here would be obeyed by a careless setup. Reviewing
+# every change to them is the whole mitigation, and it is cheap.
+/AGENTS.md                  @nathmoore
+/CLAUDE.md                  @nathmoore
+/.github/copilot-instructions.md  @nathmoore
+/docs/ai-guide.md           @nathmoore
+
+# --- 2. Files where a change is a supply-chain change -------------------------------
+#
+# CI runs with repository permissions; dependencies run on every contributor's machine.
+# A malicious or merely careless change here reaches further than anything in src/.
+/.github/workflows/         @nathmoore
+/.github/dependabot.yml     @nathmoore
+/.github/CODEOWNERS         @nathmoore
+/pyproject.toml             @nathmoore
+/uv.lock                    @nathmoore
+/justfile                   @nathmoore
+
+# --- Not listed, on purpose ----------------------------------------------------------
+#
+# src/, tests/, docs/design/ and data/ are deliberately absent. Those are where
+# contribution is wanted, and requiring owner review on them would make the repo look
+# closed to exactly the people it is open for. The modelling files carry their own
+# guardrail: every number is checked against a real table by the test suite, and a wrong
+# basket fails CI rather than needing a human to spot it.
