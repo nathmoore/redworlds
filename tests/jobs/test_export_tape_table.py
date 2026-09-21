@@ -100,6 +100,39 @@ def test_build_table_solves_ready_y_side_tapes_and_keeps_held_record(test_mrio: 
     assert table["tapes"]["build"]["regional_ceiling_scale"] == 10.0
 
 
+def test_build_table_dispatches_a_provisional_grid_record(test_mrio: pymrio.IOSystem) -> None:
+    sectors = list(test_mrio.get_sectors())
+    grid = {
+        **_common("grid", "swap", "provisional"),
+        "mechanism": "grid_efficiency",
+        "matrix_target": ["A"],
+        "baseline_loss_fraction": 0.062,
+        "target_loss_fraction": 0.04,
+        "demand_response_fraction": 0.02,
+        "generation_sectors": [sectors[0]],
+        "delivery_sectors": [sectors[1]],
+        "ceiling_cover_key": "things",
+    }
+
+    table = build_tape_table(
+        test_mrio,
+        {"grid": grid},
+        {},
+        baseline="test",
+        provenance="test @ abc123",
+        extension=TEST_EXTENSION,
+        stressor=TEST_STRESSOR,
+        co2_stressor=TEST_STRESSOR,
+        region_names={1: "reg1"},
+    )
+
+    payload = table["tapes"]["grid"]
+    assert payload["status"] == "provisional"
+    assert payload["annual_delta_operating_co2e_t"] < 0.0
+    assert set(payload["deltas_by_deployment_co2e_t"]) == {"0.25", "0.5", "0.75", "1.0"}
+    assert payload["limitation"] == "test"
+
+
 def test_write_table_is_byte_identical(tmp_path: Path) -> None:
     table = {"z": 1, "a": {"b": 2}}
     first = tmp_path / "first.json"

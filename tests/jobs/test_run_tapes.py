@@ -4,11 +4,10 @@ Unit tests build their own records against the pymrio test world, so they check 
 record-to-engine translation rather than the committed numbers. The integration tests run
 the three real REDUCE tapes against the cached baseline.
 
-The load-bearing test here is ``test_annual_delta_is_linear_in_the_fraction``. The whole
-precomputed-table design (contract §4.4) rests on solving each tape once at full deployment
-and letting the game multiply by the realised outcome fraction. If that were only
-approximately true, every score the game computes would be wrong by an amount nobody could
-see, so it is asserted rather than assumed.
+The load-bearing Y-side test here is ``test_annual_delta_is_linear_in_the_fraction``. The
+precomputed-table design (contract §4.4) rests on solving each linear tape once at full
+deployment and letting the game multiply by the realised outcome fraction. BUILD and grid
+A-matrix shocks are non-linear and therefore carry four sampled deployment points.
 """
 
 import math
@@ -23,7 +22,14 @@ from redworlds.engine.intensity import intensity_scalar
 from redworlds.engine.regions import load_region_concordance
 from redworlds.engine.scoring import WINDOW_END, WINDOW_START
 from redworlds.jobs.build_baseline import BASELINE_NAME, build_baseline
-from redworlds.jobs.run_tapes import FLAT_CURVE, run_build_tape, run_ready_reduce_tapes, run_reduce_tape, run_swap_tape
+from redworlds.jobs.run_tapes import (
+    FLAT_CURVE,
+    run_build_tape,
+    run_grid_tape,
+    run_ready_reduce_tapes,
+    run_reduce_tape,
+    run_swap_tape,
+)
 from redworlds.jobs.tape_records import load_scenario_weights, load_tape_records
 
 BETA_DAY_REDUCE_TAPES = ("eca_buy_less", "eca_extended_product_lifetimes", "eca_remote_work_commuters")
@@ -222,6 +228,36 @@ def test_build_samples_the_non_linear_operating_solve(game_world) -> None:
     assert set(result.deltas_by_deployment) == {"0.25", "0.5", "0.75", "1.0"}
     assert result.annual_delta_construction > 0.0
     assert result.jcurve[0]["value"] == pytest.approx(result.annual_delta_construction)
+
+
+def test_grid_samples_the_coefficient_solve(game_world) -> None:
+    sectors = list(game_world.get_sectors())
+    record = {
+        **_record(wing="swap", mechanism="grid_efficiency"),
+        "baseline_loss_fraction": 0.062,
+        "target_loss_fraction": 0.04,
+        "demand_response_fraction": 0.02,
+        "generation_sectors": [sectors[0]],
+        "delivery_sectors": [sectors[1]],
+    }
+    result = run_grid_tape(game_world, record, extension=TEST_EXTENSION, stressor=TEST_STRESSOR)
+    assert set(result.deltas_by_deployment) == {"0.25", "0.5", "0.75", "1.0"}
+    assert result.gdp_impact == pytest.approx(0.0)
+    assert result.annual_delta_operating < 0.0
+
+
+@pytest.mark.integration
+def test_smart_grid_abates_without_changing_final_demand() -> None:
+    """The committed coefficient shock produces a finite, beneficial real-world result."""
+    world = _cached_baseline()
+    record = load_tape_records()["eca_smart_grid"]
+
+    result = run_grid_tape(world, record)
+
+    assert result.region == "Europe and Central Asia"
+    assert result.annual_delta_operating < 0.0
+    assert result.gdp_impact == pytest.approx(0.0, abs=1e-6)
+    assert all(math.isfinite(delta) for delta in result.deltas_by_deployment.values())
 
 
 def _cached_baseline() -> pymrio.IOSystem:

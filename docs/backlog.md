@@ -109,39 +109,16 @@ tapes must interact. Contract: `docs/design/red_carbon_contract.md` §4.4.
       Y-only substitution is a cross-check, not the method — industrial electricity sits
       in `Z`. Returns the operating-phase annual delta (negative). *Done when:* nuclear lands
       in the contract's 0.5–1.8 Gt range at the 10-reactor cover.
-- [ ] **T7 Grid tape. Hold — the tape's design is under review on the game side.** Two
-      candidate mechanisms, needing different shocks, so building either first risks
-      throwing the work away:
-      *(a) efficiency* — a coefficient cut on *Transmission services of electricity* and
-      *Distribution and trade services of electricity* own-use inputs (losses 6–8% → ~4%),
-      optionally a 2–3% demand-response cut on every sector's electricity inputs; one full
-      solve. This is the version the "enabler" hypothesis in the Modelling decisions section
-      describes, and the one this repo has doubted since it was written, because curtailment
-      is not in the table and the remainder is a few percent of a service sector.
-      *(b) distributed generation* — a shift of the region's generation mix toward
-      *Electricity by solar photovoltaic* at small scale, **plus** reduced transmission and
-      distribution service consumed per kWh delivered, **plus** a capital-mix change toward
-      electrical machinery and away from heavy construction. This carries a real
-      generation-mix change, so it has a far more plausible route to a brick.
-      *Magnitudes, checked 2026-09-18 — both framings clear a brick, so this tape is not
-      blocked on being too small:* EU curtailment runs ~30 TWh/yr for want of transmission
-      capacity and ~72 TWh/yr including all bottlenecks (2024), at only ~50% renewable
-      share, and rises steeply with penetration — recovering ~100 TWh/yr at ~300 g/kWh
-      marginal is ~30 Mt/yr, ~1.5 Gt over the window. T&D losses are ~6.2% of output in the
-      EU and materially higher across the rest of region 3 (Turkey ~9.5%, parts of the
-      Balkans and Central Asia far higher), so two points saved on ~6,000 TWh is ~120 TWh/yr,
-      ~0.9 Gt at a 2050 average intensity. The regional point matters: this tape is worth
-      more in region 3 than an EU-only reading suggests, because region 3 contains the grids
-      with the most headroom.
-      *Note on method:* this model has no capacity constraints, no dispatch and no time
-      resolution, so an "enabling" effect cannot be derived here — demand for wind
-      electricity is always met. The coefficient change must be **imposed exogenously** and
-      cited, as Wiebe et al. 2018 impose IEA ETP scenario coefficients. Sources: CEER Report
-      on Power Losses; World Bank T&D loss series; EU congestion and curtailment reporting.
-      *Blocked on:* the game confirming which. Ask before building. Whichever lands, the
-      standing question — can a distribution-sector coefficient shock score competitively
-      against a direct tape? — is worth answering for (a) even if (b) is adopted, because it
-      is the general question about enabling infrastructure in an MRIO.
+- [x] **T7 Grid tape — efficiency and demand response, completed 2026-09-21.** The game-side
+      decision excludes distributed solar and defines Smart Grid as lower grid losses plus
+      demand response. The pure A-matrix action lowers generation inputs to transmission and
+      distribution for a 6.2% → 4% loss change, then lowers electricity inputs to other
+      industries by a provisional 2%. It does not change generation shares or claim avoided
+      curtailment: this MRIO has no dispatch, capacity or time resolution from which to
+      derive that effect. The cached-world result is −0.074 Gt CO₂e at 0% demand response,
+      −0.476 Gt at 2% (0.86 brick), and −0.677 Gt at 3% (1.22 bricks). The record is
+      numerical and `provisional`; firmer evidence for the demand-response saving is the
+      promotion gate.
 - [x] **T8 Fusion.** Nuclear's mechanics with `build_years_reference` 20 and 2× capex per GW;
       the table gets one honest number, the game's outcome band carries the maturity story.
 - [x] **T9 The export job.** `jobs/export_tape_table.py` (notebook 04 first if faster):
@@ -357,13 +334,9 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
       nuclear/geothermal product, less coal/gas) with column rescaling to one, and rescale
       the matching stressor entries. Wiebe et al. 2018 §3.3 is the recipe. Needs a
       deployment curve (S-curve) over the remaining years.
-- [ ] **Grid tape design (Delta) with the engine in the room.** The current "enabler"
-      hypothesis is not a finished design. What EXIOBASE can express: lower losses as a
-      coefficient change on the transmission and distribution service sectors' own
-      electricity inputs; interconnectors as inter-regional electricity trade coefficients.
-      Curtailment is not in the table, so storage/curtailment stories need another lever,
-      possibly a ceiling lift on other tapes at the game layer. Schedule a dedicated
-      design conversation; the fictional history stays on the game side.
+- [x] **Grid tape design (Delta) — decided and implemented 2026-09-21.** Lower losses and
+      demand response are coefficient changes; distributed solar and curtailment are out of
+      scope. See T7 above and `docs/design/assumptions.md` for the operational definition.
 - [ ] **Region 3 consumption footprint.** The game's ~7 Gt CO₂e/yr is built up from an EU
       anchor. First number the engine should return; every REDUCE sizing hangs off it.
       *2011 table, 2026-09-17:* 9.2 Gt CO₂e/yr consumption-based, with Russia and Turkey

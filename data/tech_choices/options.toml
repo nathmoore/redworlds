@@ -16,7 +16,8 @@
 # one is an order-of-magnitude authoring anchor, not a forecast. Where a ceiling rests on a
 # literature estimate the source is named inline; full citations live in docs/references.md.
 #
-# BUILD, SWAP and REDUCE are solved. The smart-grid record remains held at its mechanism gate.
+# BUILD, SWAP, REDUCE and grid-efficiency records are solved. Material limitations are named
+# on provisional records rather than blocking numerical use.
 #
 # Product baskets are NOT here - they live in data/concordances/exiobase_to_scenario.csv,
 # keyed by scenario_category. redworlds.jobs.tape_records loads both and validates that
@@ -339,35 +340,30 @@ beta_day_assumption = "Gas spend is converted to physical energy at the EXIOBASE
 [[swap]]
 key = "eca_smart_grid"
 label = "Smart Grid"
-status = "held"
+status = "provisional"
 region_id = 3
 scenario_category = "electricity_delivery"
 from_technology = "legacy_grid"
 to_technology = "smart_grid"
+mechanism = "grid_efficiency"
 matrix_target = ["A"]
 budget_musd_2026_purchaser = 200_000
 build_years_reference = 5
 max_replaceable_fraction = 1.0
 deployment_curve = "swap_default"
-cover_magnitude = { numberless = true }
-regional_ceiling = 220
-regional_ceiling_unit = "TWh/yr recoverable from losses and curtailment"
+baseline_loss_fraction = 0.062
+target_loss_fraction = 0.040
+demand_response_fraction = 0.020
+cover_magnitude = { grid_fraction = 1.0 }
+ceiling_cover_key = "grid_fraction"
+regional_ceiling = 1.0
+regional_ceiling_unit = "fraction of the regional grid upgraded"
 regional_ceiling_basis = """
-How much grid is there to upgrade, before every line worth doing has been done and the rest
-is diminishing returns. That question does not depend on which mechanism does the upgrading,
-which is why the ceiling stands even though T7's shock is still being designed: the headroom
-is a property of the grid, not of the intervention.
-
-Losses have a technical floor - resistance is physics, and no grid reaches zero - so the
-ceiling is the gap between today's losses and that floor, plus the curtailment that better
-transmission would recover.
-
-Two stacked physical headrooms, both checked 2026-09-18. Transmission and distribution
-losses run ~6.2% of output in the EU and materially higher across the rest of Region 3
-(Turkey ~9.5%, parts of the Balkans and Central Asia far higher), so two points saved on
-~6,000 TWh is ~120 TWh/yr. Curtailment for want of transmission capacity runs ~30 TWh/yr
-in the EU and ~72 TWh/yr including all bottlenecks at only ~50% renewable share, rising
-steeply with penetration; ~100 TWh/yr is the 2050 figure. Region 3 is worth more than an
-EU-only reading suggests because it contains the grids with the most headroom.
+The ceiling is one complete Region 3 grid-efficiency programme. Transmission and
+distribution losses fall from the observed EU anchor of 6.2% toward a 4% technical floor,
+and demand response saves 2% of other industries' annual electricity inputs. The former
+corresponds to roughly 120 TWh/yr on a 6,000 TWh system. Distributed solar and curtailment
+credit are excluded by decision: this MRIO has no dispatch or capacity constraints from
+which avoided curtailment can be derived.
 """
-beta_day_assumption = "HELD, not merely unsolved. Two candidate mechanisms need different shocks and the game has not settled which; see docs/backlog.md T7. Both clear a brick, so the tape is not blocked on being too small. The model has no dispatch or capacity constraints, so whichever lands, the coefficient change must be imposed exogenously and cited, as Wiebe et al. 2018 impose IEA ETP coefficients."
+beta_day_assumption = "Grid efficiency only: generation inputs to transmission and distribution fall by the factor implied by losses moving from 6.2% to 4%; electricity inputs to other Region 3 industries fall 2% for demand response. No solar, generation-mix shift or curtailment credit is included. The 2% annual demand-response saving is the material provisional assumption and is exported with 0% and 3% sensitivity points documented in the sprint result."

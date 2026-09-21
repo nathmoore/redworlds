@@ -20,6 +20,7 @@ from typing import Any
 import pymrio
 
 from redworlds.actions.build import apply_build_construction, apply_build_operation
+from redworlds.actions.grid import ELECTRICITY_DELIVERY, ELECTRICITY_GENERATION, apply_grid_efficiency
 from redworlds.actions.reduce import apply_reduce
 from redworlds.actions.swap import apply_swap
 from redworlds.engine.io_tables import (
@@ -116,6 +117,71 @@ class BuildTapeResult:
     deltas_by_deployment_co2_t: dict[str, float] | None = None
     cumulative_full_flat_co2_t: float | None = None
     cumulative_curve_co2_t: float | None = None
+
+
+def run_grid_tape(
+    world: pymrio.IOSystem,
+    record: dict[str, Any],
+    region_names: dict[int, str] | None = None,
+    extension: str = GHG_EXTENSION,
+    stressor: str | tuple[str, ...] = GHG_STRESSOR,
+    co2_stressor: str | tuple[str, ...] | None = None,
+) -> BuildTapeResult:
+    """Solve the Smart Grid coefficient shock at four deployment points."""
+    if record.get("mechanism") != "grid_efficiency":
+        raise ValueError(f"{record['key']!r} is not a grid-efficiency tape")
+    region_names = load_region_names() if region_names is None else region_names
+    region = region_names[record["region_id"]]
+    worlds = {
+        fraction: apply_grid_efficiency(
+            world,
+            region,
+            fraction,
+            baseline_loss_fraction=record["baseline_loss_fraction"],
+            target_loss_fraction=record["target_loss_fraction"],
+            demand_response_fraction=record["demand_response_fraction"],
+            generation_sectors=record.get("generation_sectors", None) or ELECTRICITY_GENERATION,
+            delivery_sectors=record.get("delivery_sectors", None) or ELECTRICITY_DELIVERY,
+        )
+        for fraction in BUILD_DEPLOYMENT_SAMPLES
+    }
+    samples = {str(fraction): annual_delta(world, shocked, extension, stressor) for fraction, shocked in worlds.items()}
+    full = worlds[1.0]
+    delta = samples["1.0"]
+    curved = cumulative_delta(delta, deployment_curve())
+
+    delta_co2_t = None
+    sample_co2_t = None
+    flat_co2_t = None
+    curve_co2_t = None
+    if co2_stressor is not None:
+        sample_co2_t = {
+            str(fraction): emissions_to_tonnes(
+                world, annual_delta(world, shocked, extension, co2_stressor), extension, co2_stressor
+            )
+            for fraction, shocked in worlds.items()
+        }
+        delta_co2_t = sample_co2_t["1.0"]
+        flat_co2_t = cumulative_delta(delta_co2_t, FLAT_CURVE)["co2_delta_cumulative"]
+        curve_co2_t = cumulative_delta(delta_co2_t, deployment_curve())["co2_delta_cumulative"]
+
+    return BuildTapeResult(
+        key=record["key"],
+        region=region,
+        build_years=0,
+        annual_delta_construction=0.0,
+        annual_delta_operating=delta,
+        deltas_by_deployment=samples,
+        gdp_impact=gdp_impact(world, full),
+        cumulative_full_flat=cumulative_delta(delta, FLAT_CURVE)["co2_delta_cumulative"],
+        cumulative_curve=curved["co2_delta_cumulative"],
+        jcurve=curved["jcurve"],
+        annual_delta_construction_co2_t=0.0,
+        annual_delta_operating_co2_t=delta_co2_t,
+        deltas_by_deployment_co2_t=sample_co2_t,
+        cumulative_full_flat_co2_t=flat_co2_t,
+        cumulative_curve_co2_t=curve_co2_t,
+    )
 
 
 def run_reduce_tape(
@@ -361,8 +427,8 @@ def run_ready_reduce_tapes(
     """Solve every usable REDUCE tape, keyed by tape id.
 
     This compatibility helper remains REDUCE-only. The full export dispatches ready and
-    provisional records to :func:`run_reduce_tape`, :func:`run_swap_tape` or
-    :func:`run_build_tape` and retains held records without assigning them a score.
+    provisional records to the appropriate REDUCE, SWAP, BUILD or grid runner and retains
+    held records without assigning them a score.
 
     Args:
         world: The calculated baseline.

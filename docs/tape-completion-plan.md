@@ -43,7 +43,7 @@ promise that every intervention abates.
 | Fusion | ready | No completion work; shares nuclear’s industrial ceiling |
 | Electric Vehicle Transition | provisional, currently backfires | Source margin, direct GHG share, 2050 grid and rebound sensitivity |
 | Ban Gas Supply | provisional | Replace physical-anchor `F_Y` share with fuel-resolved direct GHG |
-| Smart Grid | held | Implement the now-decided efficiency and demand-response mechanism |
+| Smart Grid | provisional, 0.86 brick | Strengthen the 2% demand-response evidence |
 
 The current brick is the ten-reactor nuclear peg: **0.555 Gt CO₂e** after the 2050
 intensity correction and real deployment curve.
@@ -62,18 +62,23 @@ not include distributed solar, a generation-mix shift, or curtailment credit. Ex
 curtailment is necessary because this MRIO has no dispatch, capacity or hourly constraints
 from which avoided curtailment could be derived.
 
-Implement a pure A-matrix action, sampled at 0.25, 0.5, 0.75 and 1.0 deployment:
+The implementation is a pure A-matrix action, sampled at 0.25, 0.5, 0.75 and 1.0 deployment:
 
 - For the Region 3 columns of *Transmission services of electricity* and *Distribution and
   trade services of electricity*, multiply all electricity-generation input coefficients by
   `(1 − 0.062) / (1 − 0.040) = 0.977083…` at full deployment. This represents losses falling
   from 6.2% to 4% while delivered electricity is unchanged.
 - Apply the existing backlog’s conservative **2%** demand-response energy-saving assumption
-  to electricity-generation inputs of other Region 3 industries. Also run 0% and 3% as a
+  to generation and delivery inputs of other Region 3 industries. Also run 0% and 3% as a
   sensitivity. Do not apply demand response to the delivery columns a second time.
 - Do not rescale the affected A columns back to their old totals: the missing input is the
   efficiency saving. Keep stressor intensities unchanged and rebuild the Leontief inverse.
 - Do not add a Y-side solar purchase or claim the old 100 TWh curtailment component.
+
+**Completed 2026-09-21.** The cached-world sensitivity is −0.074 Gt CO₂e with loss
+reduction alone, −0.476 Gt at the selected 2% demand response (0.86 brick), and −0.677 Gt
+at 3% (1.22 bricks). The record exports four deployment samples and remains provisional
+because the 2% saving, not the implemented mechanism, needs firmer evidence.
 
 Record changes:
 
@@ -240,7 +245,7 @@ These do not block a complete provisional table.
 
 ## Completion checklist
 
-- [ ] Smart Grid has a numerical provisional result and no solar/curtailment credit.
+- [x] Smart Grid has a numerical provisional result and no solar/curtailment credit.
 - [ ] Extended Product Lifetimes has an exact cover solve.
 - [ ] All nine ids export; none is `held`.
 - [ ] Every provisional record names the evidence needed for promotion.

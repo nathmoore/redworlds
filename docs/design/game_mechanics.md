@@ -130,11 +130,12 @@ flat and real-curve cumulatives, and all nine tape records. Status has three mea
 
 - `ready`: usable without a known material qualification beyond the documented model assumptions;
 - `provisional`: usable for the MVP, with a material named limitation in `limitation`, and expected to be revised;
-- `held`: no numerical score because the mechanism itself is not settled.
+- `held`: no numerical score because the mechanism itself is not settled. The exporter
+  retains support for this state, although no committed tape currently uses it.
 
-Smart grid is deliberately present as `held`, rather than absent: consumers can distinguish
-an intentionally blocked tape from a missing or misspelled record, while all nine contract
-ids remain enumerable.
+All nine committed tape ids now have numerical results. Smart Grid is provisional because
+its 2% demand-response saving still needs firmer evidence, not because its mechanism is
+unsettled.
 
 ---
 

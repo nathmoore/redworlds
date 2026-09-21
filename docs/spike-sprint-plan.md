@@ -283,10 +283,10 @@ the export weeks before the A-matrix work is finished.
       `tape_records.md` §10 with BUILD numbers in hand: the flat-curve finding was derived
       from curve arithmetic alone and deserves confirming against a real BUILD solve.
 
-**T7, the grid tape, stays held** — two candidate mechanisms need different shocks and the
-game has not settled which. Building either first risks throwing the work away. It is stopped
-at the mechanism gate rather than failing, which is that gate working. It remains in the
-export without a score so absence cannot be mistaken for a typo or incomplete catalog.
+**T7, the grid tape, was completed after the sprint gate cleared on 2026-09-21.** The chosen
+mechanism is grid efficiency and demand response, excluding distributed solar and
+curtailment. Its coefficient shock now has a provisional numerical result; details and
+sensitivity are in `docs/design/assumptions.md` and `docs/tape-completion-plan.md`.
 
 **Sprint 3 result.** Both SWAPs preserve final demand to floating-point precision. The
 one-third efficiency is now applied to physical TJ and each side is priced independently;
@@ -297,9 +297,9 @@ ten-reactor nuclear cover produces a 2.20 Mt CO₂e/yr construction hump and −
 at full operation on the 2011 basis; after the real build curve and the 0.438 intensity
 scalar it is **−0.55 Gt**, at the bottom of the contract's 0.5–1.8 Gt range. Construction
 is 1.7% of the operating abatement. Fusion is −0.40 Gt after its 20-year delay; geothermal
-is −0.32 Gt and is provisional because of the EXIOBASE coefficient warning. The generated
-table has eight solved tapes (four ready, four provisional) and the grid record marked
-`held`, with no fabricated zero.
+is −0.32 Gt and is provisional because of the EXIOBASE coefficient warning. The subsequent
+T7 implementation brings the table to nine solved tapes: Smart Grid is −0.48 Gt at the
+provisional 2% demand-response assumption, with no solar or curtailment credit.
 
 ---
 
@@ -345,9 +345,9 @@ table has eight solved tapes (four ready, four provisional) and the grid record 
    total. The existing code is already right about this (it reads one characterised row); the
    point is to keep it that way. *Bites at T9.*
 
-5. [x] **T7, the grid tape — status decided 2026-09-21.** Still correctly held: two candidate mechanisms needing different
-   shocks, and the game side has an open design conversation. Nothing to do here until that
-   lands. Include the record with no score so the catalog remains complete. *Bites at sprint 3, or not at all this epic.*
+5. [x] **T7, the grid tape — decided and implemented 2026-09-21.** Grid efficiency and
+   demand response, excluding solar and curtailment. The 2% demand-response saving remains
+   a named provisional assumption. *Completed after the original sprint gate cleared.*
 6. **`regional_ceiling` per tape** (T2). The game wants these for a proposed "tapes in
    stock" mechanic that is still tentative on its side. Record the ceiling and its basis
    regardless — it is a defensible engine fact either way — but do not let the game's

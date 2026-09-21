@@ -1,10 +1,8 @@
 """Solve the committed tapes and write the deterministic table consumed by Red Carbon.
 
-Eight records are executable. A provisional result is usable for the MVP but carries a
-named material limitation. The smart-grid record is exported as ``status: held`` because
-its mechanism gate has not been settled; no plausible-looking zero is invented for it.
-BUILD operating shocks are sampled at four deployment fractions because changing ``A`` and
-re-inverting the Leontief matrix is non-linear.
+All nine records are executable. A provisional result is usable for the MVP but carries a
+named material limitation. BUILD and grid operating shocks are sampled at four deployment
+fractions because changing ``A`` and re-inverting the Leontief matrix is non-linear.
 """
 
 import json
@@ -25,6 +23,7 @@ from redworlds.jobs.run_tapes import (
     ReduceTapeResult,
     SwapTapeResult,
     run_build_tape,
+    run_grid_tape,
     run_reduce_tape,
     run_swap_tape,
 )
@@ -221,6 +220,16 @@ def build_tape_table(
     for key, record in records.items():
         if record["status"] not in SOLVABLE_STATUSES:
             tapes[key] = {**_common(record, provenance), "held_reason": record["beta_day_assumption"].strip()}
+        elif record.get("mechanism") == "grid_efficiency":
+            result = run_grid_tape(
+                world,
+                record,
+                region_names=region_names,
+                extension=extension,
+                stressor=stressor,
+                co2_stressor=co2_stressor,
+            )
+            tapes[key] = _build_payload(record, result, provenance, co2e_to_tonnes)
         elif record["wing"] == "reduce":
             result = run_reduce_tape(
                 world,

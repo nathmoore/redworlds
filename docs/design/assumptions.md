@@ -169,6 +169,22 @@ pymrio issue #72 warned; it is retained rather than tuned away. The table is rep
 its geothermal sector contains. Its score is therefore exported as **provisional**, not
 ready, until the coefficient can be reconciled with the technology literature.
 
+### Smart Grid is an efficiency shock, not new generation
+
+Smart Grid lowers technical electricity coefficients in Region 3 without changing final
+demand or the generation mix. At full deployment, generation inputs to transmission and
+distribution are multiplied by `(1 − 0.062) / (1 − 0.040)`: grid losses move from a 6.2%
+anchor to a 4% technical floor while delivered output is held constant. A separate 2%
+demand-response assumption lowers generation and delivery inputs to other industries. The
+2% figure is provisional; 0% and 3% are retained as sensitivities.
+
+The action does not add solar, change technology shares, or credit avoided curtailment.
+EXIOBASE has neither dispatch nor hourly capacity constraints, so curtailment cannot be
+derived from this model. On the cached baseline, the loss-only case is −0.074 Gt CO₂e over
+2050–2100 after the intensity scalar and deployment curve; 2% demand response makes the
+result −0.476 Gt, and 3% makes it −0.677 Gt. The full grid programme is therefore usable as
+a provisional 0.86-brick result, with the demand-response saving as its material limitation.
+
 ### Regions are amalgamated into 7 game regions
 
 EXIOBASE covers 49 countries and rest-of-world blocks. Red Worlds maps these into 7

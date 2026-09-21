@@ -26,12 +26,13 @@ from redworlds.jobs.tape_records import (
     weights_for,
 )
 
-HELD_TAPES = ("eca_smart_grid",)
+HELD_TAPES: tuple[str, ...] = ()
 PROVISIONAL_TAPES = (
     "eca_remote_work_commuters",
     "eca_geothermal",
     "eca_electric_vehicle_transition",
     "eca_ban_gas_supply",
+    "eca_smart_grid",
 )
 
 

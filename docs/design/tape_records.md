@@ -331,7 +331,7 @@ emissions are no longer all treated as road transport. That is the engine report
 cover needing to move, which is how this is
 meant to work (§1).
 
-### BUILD and SWAP — solved, except the held grid mechanism
+### BUILD, SWAP and Smart Grid — solved
 
 | Tape | Shock at one cover or full ceiling | 2050 cumulative, real curve | Ceiling / status |
 |---|---|---:|---|
@@ -340,7 +340,7 @@ meant to work (§1).
 | `eca_fusion` | 10-plant nuclear proxy, 2× capex and 20-year build | **−0.40 Gt CO₂e** | 650 plants; shared with nuclear, not additive |
 | `eca_electric_vehicle_transition` | 80% of household petrol and diesel demand | **+1.41 Gt CO₂e** | **provisional:** 320 M cars; 0 abatement copies |
 | `eca_ban_gas_supply` | 90% of household mains-gas demand, including apportioned `F_Y` | **−5.91 Gt CO₂e** | **provisional:** 95 M homes |
-| `eca_smart_grid` | — | — | **held:** mechanism undecided |
+| `eca_smart_grid` | full regional grid; losses 6.2% → 4%, plus 2% demand response | **−0.48 Gt CO₂e** | **provisional:** 2% demand-response saving |
 
 The BUILD construction humps are 2.20 Mt CO₂e/yr for nuclear and fusion and 3.67 Mt/yr
 for geothermal on the 2011 basis. Nuclear's ten-year construction total is about 1.7% of
@@ -351,6 +351,11 @@ intensity scalar, so the anchor survives without tuning.
 The gas result now moves 27.4% of `impacts.F_Y`, inferred from the gross 2.8 t/home physical
 anchor and the baseline direct-household total, rather than moving all household combustion.
 That removes the known upper-bound error but remains a proxy, so the score is provisional.
+
+Smart Grid does not move the generation mix. Its loss-only sensitivity is −0.074 Gt CO₂e;
+the 2% central demand-response assumption raises that to −0.476 Gt (0.86 brick), and 3%
+produces −0.677 Gt (1.22 bricks). Solar and curtailment credit are excluded because this
+MRIO has no dispatch or capacity constraints from which to derive them.
 
 The EV sign is a result, not a target. Removed petrol/diesel averages €11.59/GJ in the table;
 household generation averages €30.25/GJ and delivery nearly doubles that spend. One third of
