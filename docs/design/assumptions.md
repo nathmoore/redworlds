@@ -13,6 +13,39 @@ interesting question the balancing process will surface is *how much adjustment 
 choice needs, and why*: it might turn out to say something real about the relative
 tractability of different climate strategies in the actual world.
 
+<a id="keeping-the-wings-in-line"></a>
+### Keeping the wings in line
+
+A player who finds that building always beats reducing will build every time, and the game
+stops being about the choice. So the three wings are kept close enough in value that picking
+one is a question about *how you want to act* rather than arithmetic. That is a design
+target, and playtesting is what measures it — no amount of modelling can tell you whether a
+choice feels worth making.
+
+Honest modelling does not cooperate with this. Run the numbers straight and some
+interventions come out several times others. Where that happens, the game designer adjusts
+something — a ceiling, a cover magnitude, a mechanism — and it is done **here, in the open,
+labelled, with the physically-derived figure kept beside it**.
+
+That record is worth having for its own sake. *How much* a model has to be bent to make three
+climate strategies feel equally worthwhile is a real finding about those strategies, not just
+about the game. If building needs no help and reducing needs a thumb on the scale, that is
+telling you something about the world. Hiding the adjustments would throw it away.
+
+**Further reading, if you want the theory behind the target:**
+
+- [*The Art of Game Design: A Book of Lenses*](https://schellgames.com/art-of-game-design),
+  Jesse Schell — this project's reference for game design decisions generally. The balance
+  chapter sets out the twelve kinds of game balance, of which "fairness between strategies"
+  is only one.
+- [Game Balance Concepts](https://gamebalanceconcepts.wordpress.com/2010/07/07/level-1-intro-to-game-balance/),
+  Ian Schreiber — a free ten-week course, online in full, on balancing as a practical craft.
+  Schreiber and Brenda Romero later wrote [*Game Balance*](https://www.routledge.com/Game-Balance/Schreiber-Romero/p/book/9781498799577)
+  as the book-length version.
+
+How this lands per tape — which ceilings were derived and which were adjusted — is in
+[`tape_records.md`](tape_records.md).
+
 **Accuracy serves clarity.** The engine should be as scientifically grounded as
 possible, but not at the cost of the player losing the thread of what their choices
 mean. A simplification that makes the game more legible without being misleading is

@@ -266,21 +266,16 @@ solve them are still being built.
 ## 7. Balance, and why we do it in the open
 
 Every tape is normalised to roughly the same value — about one "brick", 1 Gt of CO₂ — so that
-building, swapping and reducing all feel like real choices. Real modelling does not
-cooperate: run the numbers honestly and some tapes come out three times others.
+building, swapping and reducing all feel like real choices. Honest modelling does not
+cooperate: run the numbers straight and some tapes come out several times others.
 
-When that happens, the game designer adjusts something — a ceiling, a cover magnitude, a
-mechanism — and the game gets more playable. **That adjustment happens here, in public, and
-it is recorded as what it is.**
+When that happens the game designer adjusts something — a ceiling, a cover magnitude, a
+mechanism — and it happens here, in public, labelled, with the physically-derived figure kept
+beside it. **The one thing we will not do is adjust a number quietly.** A ceiling changed for
+balance says so in its `regional_ceiling_basis`.
 
-We think that record is one of the more interesting things this project will produce. *How
-much* a model has to be bent to make three climate strategies feel equally worthwhile is a
-real finding about those strategies. If BUILD needs no help and REDUCE needs a thumb on the
-scale, that is telling you something about the world, not just about the game. Hiding the
-adjustments would throw that away; keeping them visible turns a design chore into evidence.
-
-The one thing we will not do is adjust a number quietly. A ceiling changed for balance says
-so in its `regional_ceiling_basis`, and the physically-derived figure stays beside it.
+Why that record is worth keeping, and the game-design reading behind the target, is in
+[`assumptions.md` § Keeping the wings in line](assumptions.md#keeping-the-wings-in-line).
 
 ---
 
