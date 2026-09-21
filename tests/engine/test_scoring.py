@@ -13,7 +13,10 @@ from redworlds.engine.scoring import (
     WINDOW_END,
     WINDOW_START,
     annual_delta,
+    build_deployment_curves,
+    combine_jcurves,
     cumulative_delta,
+    deployment_curve,
     gdp_impact,
 )
 
@@ -98,6 +101,28 @@ def test_cumulative_delta_build_is_two_phases_summed() -> None:
     assert jcurve[0]["value"] > 0.0
     assert jcurve[-1]["value"] < 0.0
     assert total == pytest.approx(10 * 2.0e8 - 41 * 1.0e9)
+
+
+def test_default_deployment_curve_matches_documented_fraction() -> None:
+    curve = deployment_curve()
+    assert curve[:3] == pytest.approx((0.1, 0.2, 0.3))
+    assert curve[-1] == 1.0
+    assert sum(curve) / WINDOW_LENGTH == pytest.approx(0.912, abs=0.0005)
+
+
+@pytest.mark.parametrize("build_years, expected", [(10, 0.765), (20, 0.569)])
+def test_build_operating_curve_matches_documented_fraction(build_years: int, expected: float) -> None:
+    construction, operating = build_deployment_curves(build_years)
+    assert sum(construction) == build_years
+    assert operating[:build_years] == (0.0,) * build_years
+    assert operating[build_years : build_years + 5] == pytest.approx((0.2, 0.4, 0.6, 0.8, 1.0))
+    assert sum(operating) / WINDOW_LENGTH == pytest.approx(expected, abs=0.0005)
+
+
+def test_combine_jcurves_adds_aligned_values() -> None:
+    left = [{"year": 2050, "value": 2.0}, {"year": 2055, "value": 3.0}]
+    right = [{"year": 2050, "value": -1.0}, {"year": 2055, "value": -4.0}]
+    assert combine_jcurves(left, right) == [{"year": 2050, "value": 1.0}, {"year": 2055, "value": -1.0}]
 
 
 def test_gdp_impact_of_identical_systems_is_zero(test_mrio) -> None:

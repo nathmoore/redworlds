@@ -54,6 +54,10 @@ coverage:
 baseline:
     uv run --python=3.13 python -m redworlds.jobs.build_baseline
 
+# Solve all ready tapes against the cached baseline and write the deterministic game table
+export-tapes:
+    uv run --python=3.13 python -m redworlds.jobs.export_tape_table
+
 # Serve docs locally with live reload
 docs-serve:
     -lsof -ti :8000 | xargs kill

@@ -30,6 +30,57 @@ WINDOW_END: int = 2100
 # The game charts the J-curve in five-year blocks, not year by year
 # (docs/design/red_carbon_contract.md §4.3).
 JCURVE_STEP_YEARS: int = 5
+DEFAULT_RAMP_YEARS: int = 10
+BUILD_OPERATION_RAMP_YEARS: int = 5
+
+
+def deployment_curve(ramp_years: int = DEFAULT_RAMP_YEARS) -> tuple[float, ...]:
+    """Return the default SWAP/REDUCE ramp across the scoring window.
+
+    Deployment reaches 10%, 20%, ... 100% in the first ten years and stays there. Its
+    multipliers sum to 46.5 over the 51-year inclusive window, or 0.912 of a flat curve.
+    """
+    if ramp_years <= 0:
+        raise ValueError(f"ramp_years must be positive; got {ramp_years}")
+    years = range(WINDOW_START, WINDOW_END + 1)
+    return tuple(min((year - WINDOW_START + 1) / ramp_years, 1.0) for year in years)
+
+
+def build_deployment_curves(
+    build_years: int,
+    operating_ramp_years: int = BUILD_OPERATION_RAMP_YEARS,
+) -> tuple[tuple[float, ...], tuple[float, ...]]:
+    """Return separate construction and operating curves for a BUILD tape.
+
+    Construction is flat for ``build_years``. Operation is zero until completion, then
+    reaches 20%, 40%, ... 100% over five years. For a ten-year build the operating curve
+    sums to 39, or 0.765 of a 51-year flat solve; for fusion's twenty years it sums to 29,
+    or 0.569. These are the sizing corrections documented in tape_records.md §9.2.
+    """
+    if build_years <= 0:
+        raise ValueError(f"build_years must be positive; got {build_years}")
+    if operating_ramp_years <= 0:
+        raise ValueError(f"operating_ramp_years must be positive; got {operating_ramp_years}")
+    window_length = WINDOW_END - WINDOW_START + 1
+    if build_years >= window_length:
+        raise ValueError(f"build_years must be shorter than the {window_length}-year scoring window")
+
+    construction = tuple(1.0 if offset < build_years else 0.0 for offset in range(window_length))
+    operating = tuple(
+        0.0 if offset < build_years else min((offset - build_years + 1) / operating_ramp_years, 1.0)
+        for offset in range(window_length)
+    )
+    return construction, operating
+
+
+def combine_jcurves(*curves: Sequence[dict[str, float]]) -> list[dict[str, float]]:
+    """Add aligned five-yearly J-curves, preserving their shared years."""
+    if not curves:
+        return []
+    years = [point["year"] for point in curves[0]]
+    if any([point["year"] for point in curve] != years for curve in curves[1:]):
+        raise ValueError("jcurves must contain the same years in the same order")
+    return [{"year": year, "value": sum(curve[index]["value"] for curve in curves)} for index, year in enumerate(years)]
 
 
 def total_emissions(

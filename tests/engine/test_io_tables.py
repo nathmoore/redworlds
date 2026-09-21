@@ -216,10 +216,12 @@ def test_scale_direct_emissions_default_extension_is_exiobase(test_mrio: pymrio.
         scale_direct_emissions(test_mrio, "reg1", 0.5)
 
 
-@pytest.mark.skip(reason="shift_sector_share not yet implemented — see docs/backlog.md")
 def test_shift_sector_share_conserves_total(test_mrio: pymrio.IOSystem) -> None:
     """Total demand across from_sector + to_sector should be unchanged after a shift."""
-    shift_sector_share(test_mrio, "reg1", "food", "mining", 0.1)
+    assert test_mrio.Y is not None
+    result = shift_sector_share(test_mrio, "reg1", "food", "mining", 0.1)
+    assert result.Y is not None
+    assert result.Y.to_numpy().sum() == pytest.approx(test_mrio.Y.to_numpy().sum())
 
 
 @pytest.mark.integration

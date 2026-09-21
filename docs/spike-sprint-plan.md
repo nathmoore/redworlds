@@ -118,9 +118,9 @@ the magnitudes, which are labelled provisional either way.
        Records realigned against the game's tape modelling sheet, which an earlier pass had
        not read. Buy-less to households only; lifetimes to eight products at
        `N / (life + N)` with N = 4; remote work widened to four products with Motor Gasoline
-       driving `F_Y`; **fusion and smart grid stripped of ceilings** — fusion because its
-       uncertainty belongs in the outcome band, smart grid because its mechanism is
-       undecided; nuclear raised from 400 TWh/yr to 650 reactors on the France anchor.
+       driving `F_Y`; fusion and smart grid briefly stripped of ceilings and then
+       **given real ones** (2026-09-21) — every tape has a ceiling, because a tape without one
+       drops out of the stack, and stacking is how "can a region solve this?" gets answered; nuclear raised from 400 TWh/yr to 650 reactors on the France anchor.
 
        **Re-solved, 2011 basis and 2050 basis:**
 
@@ -190,8 +190,9 @@ riskier than the original plan assumed.
    workarounds sprint 2 needed, and `apply_swap` must gain the `F_Y` correction that
    `apply_reduce` has — the gas tape burns fuel at home and is a SWAP.
 4. **The ceiling method is settled** — a rate times a mobilisation window, per-person units,
-   economics and acceptability left out (`tape_records.md` §4–6). T5 and T8 can use it
-   directly. Fusion needs no ceiling at all, which removes a step.
+   economics and acceptability left out, and **every tape has one** (`tape_records.md` §4–6).
+   T5 and T8 can use it directly. Fusion's is nuclear's, because if it works the binding
+   constraint is the same forging capacity — which also means the two must never be summed.
 
 **Order, and why.** SWAP before BUILD: `apply_swap` is two `scale_final_demand` calls plus a
 flat re-spend, so it lands on machinery that already exists, and it gets a second wing into
@@ -216,7 +217,9 @@ the export weeks before the A-matrix work is finished.
       *Check first:* pymrio issue #72 reports surprising GHG intensities for solar PV and
       geothermal in EXIOBASE 3 — verify both sectors' coefficients before trusting a result.
 - [ ] **T8 — fusion.** Nuclear's mechanics at 20 build years and 2× capex per GW. Cheap once
-      T5 and T6 exist, and it carries no ceiling, so it is mostly a record and a re-run.
+      T5 and T6 exist — its ceiling is nuclear's, for the same forging reason, so it is mostly a
+      record and a re-run. Do not add its ceiling to nuclear's in any stack: they compete for
+      the same industrial capacity.
 - [ ] **T9 in full** — all nine tapes, with the BUILD deployment samples and both CO₂ and
       CO₂e per tape.
 - [ ] **T10 — docs.** Fold sprint 3's assumptions into `assumptions.md`, and revisit

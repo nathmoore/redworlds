@@ -159,17 +159,48 @@ Every ceiling in §7 carries a per-person reading. Where one is missing, that is
 
 ---
 
-## 5. Two rules a ceiling has to obey
+## 5. Three rules a ceiling has to obey
 
-**It carries only what we are confident about.** A constraint you would defend to someone who
-knows the sector belongs in the ceiling. An uncertainty about whether a technology works at
-all does not — that is what the game's outcome odds are for, and putting it in both places
-counts the same doubt twice.
+**Every tape has one. No exceptions.**
 
-Worked example: **fusion carries no ceiling.** It is not limited by land, by materials, or by
-industrial capacity in any way we could defend. What is genuinely uncertain is whether it
-works at scale, and that is already the widest band of outcomes in the game. Giving it a
-tight ceiling as well would be dressing a narrative intuition as a physical fact.
+This is the rule that does the most work, and the one most often argued away. It is tempting
+to say a technology is "not really limited" — but a tape with no ceiling cannot be added up,
+and adding them up is the point.
+
+The question the whole exercise is aimed at is *can we solve this?*, and that is answered by
+**stacking**: how many interventions can a region run at once, how far does each one go, and
+does the total close the gap. It is MacKay's method exactly. He never writes "unlimited"
+against a source; he writes 0.017 W/m² against geothermal and lets the number argue. A bar
+with no height silently drops out of the stack, and the stack is what the reader came for.
+
+So when a ceiling feels impossible to state, the discipline is to ask the question more
+precisely rather than to skip it:
+
+- *Fusion* is not limited by fuel or land, so the honest question is **how many could we build
+  if the technology worked as well as anyone credibly hopes** — and that is the same heavy
+  forging, construction and skilled-labour constraint nuclear runs into.
+- *Grid upgrades* have no obvious "how many", so the question is **how much grid is there to
+  upgrade** before every line worth doing has been done and the rest is diminishing returns.
+  Losses have a technical floor; the gap between today and that floor is the ceiling.
+
+Both of those are answerable. "No ceiling" almost always means the question has not been
+asked sharply enough.
+
+**A ceiling carries only what we are confident about.** A constraint you would defend to
+someone who knows the sector belongs in the ceiling. Doubt about whether a technology *works*
+does not — that lives in the game's outcome odds, and putting it in both places counts the
+same doubt twice.
+
+Fusion is the worked example of both rules at once, and they pull in different directions
+until you separate the questions. *How many could be built if it works?* is a physical
+question with a defensible answer, and it goes in the ceiling. *Will it work?* is not, and it
+goes in the band. An earlier pass here concluded fusion should carry no ceiling at all — that
+collapsed the two questions into one and cost the stack a bar.
+
+> **Not the same question as "should this tape be scarce in play".** The game may gate a
+> tape's availability on its ceiling, and for most tapes that ceiling is far larger than any
+> playthrough reaches, so it never binds. Fusion's ceiling is real and also never binding;
+> geothermal's is real and binds hard. The engine's job is to state the number either way.
 
 **A region is treated as one actor.** Region 3 is Europe and Central Asia: dozens of
 countries that do not, in reality, coordinate. The ceiling asks what the region *could* do if
@@ -179,6 +210,20 @@ That is deliberate, and it is not laziness. Working out how a continent could ac
 without getting bogged down in whose parliament votes when — is part of what the game is for.
 It also keeps the modelling honest, because the alternative is a political forecast dressed
 as physics, and we have no business making one.
+
+### Ceilings that share a constraint do not stack
+
+A caution that follows directly from taking the stack seriously. Two ceilings can each be
+correct and still not be additive, because they are limited by the same thing.
+
+Nuclear and fusion are the clear case: both are bounded by heavy forging and construction
+capacity, so a region cannot have all of both. Electrifying cars and banning gas boilers are a
+softer case — each is bounded by its own stock, but both land their new demand on the same
+grid. A stack that adds every ceiling is an upper bound on the upper bound, and should be
+read as one.
+
+The engine states each ceiling independently, because that is what is checkable. Knowing
+which of them compete is a reader's job, and this note is here so it is not forgotten.
 
 ---
 
@@ -286,13 +331,13 @@ solve them are still being built.
 |---|---|---|
 | `eca_nuclear` | 650 reactors in a ten-year push, **19 kWh/d/p** | Industrial, not geological. Uranium and sites do not bind at this scale; concrete, forging and skilled labour do. See §6 |
 | `eca_geothermal` | 180 TWh/yr, **0.55 kWh/d/p** | Geological and hotspot-gated: Iceland, Larderello, western Turkey, the Caucasus. A proven-hotspot floor, with enhanced geothermal deliberately excluded — admitting EGS raises it an order of magnitude and it stops binding |
-| `eca_fusion` | **none, deliberately** | Not ceiling-limited. Its uncertainty is whether it works, which belongs in the game's outcome odds, not here. See §5 |
+| `eca_fusion` | 650 plants in a ten-year push, **19 kWh/d/p** | *How many could we build if it worked as well as anyone hopes* — the same forging and construction constraint as fission, since a fusion plant is also a large pressure vessel and a lot of concrete. Deliberately the same number as nuclear and deliberately **not additive with it**. Whether it works lives in the band, not here |
 | `eca_electric_vehicle_transition` | 320 M cars, **0.36 cars/person** | The regional fleet, less the share that cannot electrify this window: heavy rural use, and drivers without off-street parking where public charging is thin |
 | `eca_ban_gas_supply` | 95 M homes, **~1 home per 9.5 people** | Housing stock. ~105 M homes on mains gas; ~90% can take a heat pump without a fabric upgrade the tape does not pay for |
-| `eca_smart_grid` | **held** | The mechanism is still being designed, and a ceiling on an unspecified shock is a limit on nothing. The headroom is recorded in the record; it becomes a ceiling when the mechanism lands |
+| `eca_smart_grid` | 220 TWh/yr, **0.67 kWh/d/p** | How much grid there is to upgrade before the rest is diminishing returns. Losses have a technical floor — resistance is physics — so the ceiling is the gap to that floor plus recoverable curtailment. Independent of which mechanism does the upgrading, which is why it stands while T7's shock is still being designed |
 
-A ceiling of `0` in `options.toml` means *not ceiling-limited* or *held*, never *impossible* —
-read `regional_ceiling_unit`, which says which.
+**Every tape has a ceiling.** Where one looks impossible to state, the question has usually
+not been asked sharply enough — see §5.
 
 ---
 

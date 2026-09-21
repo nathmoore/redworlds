@@ -32,6 +32,9 @@ import pymrio
 # ("emission_type1", "air"); pass those explicitly in tests.
 GHG_EXTENSION: str = "impacts"
 GHG_STRESSOR: str = "GHG emissions (GWP100) | Problem oriented approach: baseline (CML, 2001) | GWP100 (IPCC, 2007)"
+CO2_STRESSOR: str = (
+    "Carbon dioxide (CO2) IPCC categories 1 to 4 and 6 to 7 (excl land use, land use change and forestry)"
+)
 
 # EXIOBASE-specific final demand categories. Households, NPISH and government together
 # are the "non-capital" demand a REDUCE tape may cut; GFCF is BUILD's currency and is
@@ -140,6 +143,30 @@ def recalculate_from_final_demand(mrio: pymrio.IOSystem) -> pymrio.IOSystem:
     return result
 
 
+def recalculate_from_technical_coefficients(mrio: pymrio.IOSystem) -> pymrio.IOSystem:
+    """Recalculate a system whose ``A`` coefficients and possibly ``Y`` have changed.
+
+    Keeps the stressor intensities (``S`` and ``S_Y``), invalidates the old Leontief
+    inverse, and rebuilds every flow account. This is the expensive path used by BUILD's
+    operating phase.
+
+    Args:
+        mrio: A calculated system carrying the changed ``A`` and ``Y``. Not mutated.
+
+    Returns:
+        A fully calculated copy with a new Leontief inverse.
+    """
+    result = mrio.copy()
+    coefficients = result.A
+    final_demand = result.Y
+    result.reset_all_to_coefficients()
+    result.A = coefficients
+    result.L = None
+    result.Y = final_demand
+    result.calc_all()
+    return result
+
+
 def scale_direct_emissions(
     mrio: pymrio.IOSystem,
     region: str,
@@ -196,27 +223,62 @@ def scale_direct_emissions(
 def shift_sector_share(
     mrio: pymrio.IOSystem,
     region: str,
-    from_sector: str,
+    from_sector: str | Sequence[str],
     to_sector: str,
     fraction: float,
+    categories: Sequence[str] = (HOUSEHOLDS,),
+    replacement_ratio: float = 1.0,
+    weights: Mapping[str, float] | None = None,
 ) -> pymrio.IOSystem:
-    """Shift a fraction of one sector's IO flows to another sector in the same region.
+    """Move consumer demand from products to a replacement product.
 
-    Used by SWAP actions to move demand from one technology to another.
+    The source products are cut across all producing regions. ``replacement_ratio`` says
+    how much replacement spend buys the same service: one third for both heat-pump heat and
+    EV travel in the Beta Day records. Any remainder is deliberately left unspent here for
+    :func:`redworlds.engine.balancing.rebalance_economy` to distribute.
 
     Args:
         mrio: The IO system to modify (a copy is returned; original is not mutated).
         region: EXIOBASE region code.
-        from_sector: Sector losing share.
+        from_sector: One product, or a basket of products, losing share.
         to_sector: Sector gaining share.
         fraction: Fraction of ``from_sector`` flows to shift, in [0.0, 1.0].
+        categories: Final-demand categories to change.
+        replacement_ratio: Replacement spend per unit of source spend removed.
+        weights: Optional multiplier on ``fraction`` for each source product.
 
     Returns:
-        Updated IO system with sector shares adjusted.
+        A copy with ``Y`` adjusted but not recalculated or rebalanced.
 
-    TODO: implement — see GitHub issue #16
+    Raises:
+        ValueError: If either fraction is outside [0, 1].
     """
-    raise NotImplementedError
+    if not 0.0 <= fraction <= 1.0:
+        raise ValueError(f"fraction must be in [0, 1]; got {fraction}")
+    if not 0.0 <= replacement_ratio <= 1.0:
+        raise ValueError(f"replacement_ratio must be in [0, 1]; got {replacement_ratio}")
+
+    sources = [from_sector] if isinstance(from_sector, str) else list(from_sector)
+    factors = {sector: 1.0 - fraction * (weights or {}).get(sector, 1.0) for sector in sources}
+    if any(factor < 0.0 for factor in factors.values()):
+        raise ValueError("fraction times a product weight cannot exceed 1.0")
+    result = scale_final_demand_per_product(mrio, region, factors, categories)
+    assert mrio.Y is not None and result.Y is not None
+    columns = (region, list(categories))
+    source_rows = (slice(None), sources)
+    removed = float((mrio.Y.loc[source_rows, columns] - result.Y.loc[source_rows, columns]).to_numpy().sum())
+    replacement = removed * replacement_ratio
+    if replacement == 0.0:
+        return result
+
+    target_rows = (slice(None), to_sector)
+    target = result.Y.loc[target_rows, columns].clip(lower=0.0)
+    target_total = float(target.to_numpy().sum())
+    if target_total > 0.0:
+        result.Y.loc[target_rows, columns] = result.Y.loc[target_rows, columns] + target * (replacement / target_total)
+    else:
+        result.Y.loc[(region, to_sector), (region, categories[0])] += replacement
+    return result
 
 
 def _stressor_row(frame: pd.DataFrame, stressor: str | tuple[str, ...]) -> pd.Series:

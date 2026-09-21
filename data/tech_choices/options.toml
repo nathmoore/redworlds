@@ -16,9 +16,7 @@
 # one is an order-of-magnitude authoring anchor, not a forecast. Where a ceiling rests on a
 # literature estimate the source is named inline; full citations live in docs/references.md.
 #
-# Sprint 2 exercises the three REDUCE records only. The BUILD and SWAP records carry their
-# fields so the export schema is right first time, but their numbers are not yet solved and
-# they are marked with status = "pending".
+# BUILD, SWAP and REDUCE are solved. The smart-grid record remains held at its mechanism gate.
 #
 # Product baskets are NOT here - they live in data/concordances/exiobase_to_scenario.csv,
 # keyed by scenario_category. redworlds.jobs.tape_records loads both and validates that
@@ -163,10 +161,11 @@ docs/backlog.md for the work item to firm this up.
 [[build]]
 key = "eca_nuclear"
 label = "Nuclear Power Stations"
-status = "pending"
+status = "ready"
 region_id = 3
 scenario_category = "electricity_generation"
 technology = "nuclear"
+technology_sector = "Electricity by nuclear"
 matrix_target = ["GFCF_construction_phase", "A_post_build_energy_mix"]
 budget_musd_2026_purchaser = 100_000
 build_years_reference = 10
@@ -193,15 +192,16 @@ concentrated in a handful of plants worldwide, and is the constraint the literat
 names. Population scaling is fine while the tape is effectively unlimited at the cohort sizes
 the game uses. See docs/design/tape_records.md 5.
 """
-beta_day_assumption = "Not yet solved. Construction phase is a GFCF injection on the Wood/Wiebe 2018 SI1 split; the operating phase is an A-matrix electricity-mix change."
+beta_day_assumption = "Construction phase is a GFCF injection on the Wood/Wiebe 2018 SI1 split; the operating phase moves Region 3 fossil-electricity A and Y coefficients to nuclear, priced from EXIOBASE's own output and Energy Carrier Supply: Total row."
 
 [[build]]
 key = "eca_geothermal"
 label = "Geothermal Power"
-status = "pending"
+status = "ready"
 region_id = 3
 scenario_category = "electricity_generation"
 technology = "geothermal"
+technology_sector = "Electricity by Geothermal"
 matrix_target = ["GFCF_construction_phase", "A_post_build_energy_mix"]
 budget_musd_2026_purchaser = 100_000
 build_years_reference = 6
@@ -216,32 +216,42 @@ hotspot floor of roughly twice the cover with enhanced geothermal systems left o
 is later admitted the ceiling rises by an order of magnitude and stops being the binding
 constraint, which is why the basis matters more than the number.
 """
-beta_day_assumption = "Not yet solved. Check EXIOBASE's geothermal electricity intensity before trusting a result — pymrio issue #72 reports surprising values for this sector and for solar PV."
+beta_day_assumption = "Construction uses the nuclear SI1 capex split as a proxy. Operation moves Region 3 fossil-electricity A and Y coefficients to geothermal. EXIOBASE's geothermal coefficient is reported with the export diagnostic because pymrio issue #72 flags surprising values for this sector and solar PV."
 
 [[build]]
 key = "eca_fusion"
 label = "Fusion Power"
-status = "pending"
+status = "ready"
 region_id = 3
 scenario_category = "electricity_generation"
 technology = "fusion"
+technology_sector = "Electricity by nuclear"
 matrix_target = ["GFCF_construction_phase", "A_post_build_energy_mix"]
 budget_musd_2026_purchaser = 200_000
 build_years_reference = 20
 deployment_curve = "build_default"
 cover_magnitude = { gw = 12, capacity_factor = 0.9, twh_per_year = 95 }
-regional_ceiling = 0
-regional_ceiling_unit = "not ceiling-limited"
+regional_ceiling = 650
+regional_ceiling_unit = "plants commissioned in a ten-year mobilisation"
 regional_ceiling_basis = """
-None, deliberately. Fusion is not limited by land, by materials, or by industrial capacity in
-any way this engine could defend. What is genuinely uncertain about it is whether it works at
-scale, and that already sits in the game's outcome band as the widest spread on the shelf.
+The question is *how many could we build if the technology worked as well as anyone credibly
+hopes* - not *will it work*, which is the band's job. Asked that way it has an answer, and it
+is the same answer as nuclear's: a fusion plant is a large pressure vessel, a great deal of
+concrete and a superconducting magnet set, so the binding constraint is heavy forging,
+construction and skilled labour, exactly as for fission. France's peak scaled per head to
+Region 3 gives ~65 units a year, ~650 over a ten-year push, ~19 kWh/d per person.
 
-Giving it a ceiling as well would count the same doubt twice and dress a narrative intuition
-as a physical fact. A ceiling of 0 means "not ceiling-limited", not "impossible" - consumers
-should read regional_ceiling_unit, not the number. See docs/design/tape_records.md 4.
+Deliberately the same number as nuclear, and deliberately *not* additive with it: both draw
+on the same forging capacity, so a region cannot have all of both. See
+docs/design/tape_records.md 5, "Ceilings that share a constraint do not stack".
+
+What this leaves out, and where a sceptic should push: no fusion supply chain exists, so a
+first decade at France's peak fission rate assumes an industrial ramp nobody has done. That
+is a real objection to the *rate*, and the honest place for it is the band rather than a
+quietly discounted ceiling - the ceiling answers what is physically buildable, and shading it
+for "but probably not" is the failure mode this repo is trying to avoid.
 """
-beta_day_assumption = "Not yet solved. Modelled as nuclear with double capex per GW and a 20-year reference build; the engine gives one honest number and the game's outcome band carries the risk."
+beta_day_assumption = "Modelled as nuclear operation with double capex per GW and a 20-year reference build; the engine gives one honest number and the game's outcome band carries the risk."
 
 # ─────────────────────────────────────────────
 # SWAP options — sprint 3 (T4, T7)
@@ -250,11 +260,13 @@ beta_day_assumption = "Not yet solved. Modelled as nuclear with double capex per
 [[swap]]
 key = "eca_electric_vehicle_transition"
 label = "Electric Vehicle Transition"
-status = "pending"
+status = "ready"
 region_id = 3
 scenario_category = "private_motoring"
 from_technology = "petrol_and_diesel_car"
 to_technology = "electric_car"
+replacement_sector = "Distribution and trade services of electricity"
+replacement_ratio = 0.3333333333333333
 matrix_target = ["Y"]
 budget_musd_2026_purchaser = 330_000
 build_years_reference = 0
@@ -270,22 +282,25 @@ Region 3's fleet is roughly 400 M vehicles; 80% is the same figure as
 max_replaceable_fraction because in this tape the ceiling and the per-play maximum are the
 same constraint seen from two distances.
 """
-beta_day_assumption = "Not yet solved. Consumer-side only: petrol and diesel demand falls, electricity rises at about a third of the energy, and the remainder re-spends flat across the household basket. The contract flags freed motoring money re-spending toward air travel as this tape's largest unmodelled risk."
+beta_day_assumption = "Consumer-side only: petrol and diesel demand falls, retail electricity spend rises by one third as the service-equivalent proxy, and the remainder re-spends proportionally across the household basket. The contract flags freed motoring money re-spending toward air travel as this tape's largest unmodelled risk."
 
 [[swap]]
 key = "eca_ban_gas_supply"
 label = "Ban Gas Supply"
-status = "pending"
+status = "ready"
 region_id = 3
 scenario_category = "residential_heating"
 from_technology = "gas_boiler"
 to_technology = "heat_pump"
+replacement_sector = "Distribution and trade services of electricity"
+replacement_ratio = 0.3333333333333333
 matrix_target = ["Y", "F_Y"]
 budget_musd_2026_purchaser = 150_000
 build_years_reference = 0
 max_replaceable_fraction = 0.9
 deployment_curve = "swap_default"
 direct_emissions_extension = "impacts"
+direct_emissions_driver = "Distribution services of gaseous fuels through mains"
 cover_magnitude = { homes = 12_000_000, tonnes_saved_per_home_year = 1.9 }
 regional_ceiling = 95_000_000
 regional_ceiling_unit = "gas-heated homes that could be converted"
@@ -295,12 +310,12 @@ the share a heat pump can serve without a fabric upgrade that the tape does not 
 The remainder is the hard tail — solid-wall and high-rise stock where the retrofit, not the
 appliance, is the binding cost.
 """
-beta_day_assumption = "Not yet solved. Gas burnt at home is direct household emissions, so this tape needs the same F_Y correction the remote-work tape uses — currently wired into apply_reduce only, so apply_swap must gain it at T4. Replacement electricity at COP ~3 gives ~1.9 t net of ~2.8 t gross."
+beta_day_assumption = "Gas burnt at home follows the gas product through the F_Y correction. Retail electricity spend rises by one third as a COP-3 service-equivalent proxy and the remainder re-spends proportionally across the household basket."
 
 [[swap]]
 key = "eca_smart_grid"
 label = "Smart Grid"
-status = "pending"
+status = "held"
 region_id = 3
 scenario_category = "electricity_delivery"
 from_technology = "legacy_grid"
@@ -311,12 +326,17 @@ build_years_reference = 5
 max_replaceable_fraction = 1.0
 deployment_curve = "swap_default"
 cover_magnitude = { numberless = true }
-regional_ceiling = 0
-regional_ceiling_unit = "held - mechanism undecided"
+regional_ceiling = 220
+regional_ceiling_unit = "TWh/yr recoverable from losses and curtailment"
 regional_ceiling_basis = """
-Held, not computed. Two candidate mechanisms are under design and they need different
-shocks, so a ceiling assigned now would be a limit on a shock nobody has specified. The
-headroom below is real and worth recording; it becomes a ceiling once the mechanism lands.
+How much grid is there to upgrade, before every line worth doing has been done and the rest
+is diminishing returns. That question does not depend on which mechanism does the upgrading,
+which is why the ceiling stands even though T7's shock is still being designed: the headroom
+is a property of the grid, not of the intervention.
+
+Losses have a technical floor - resistance is physics, and no grid reaches zero - so the
+ceiling is the gap between today's losses and that floor, plus the curtailment that better
+transmission would recover.
 
 Two stacked physical headrooms, both checked 2026-09-18. Transmission and distribution
 losses run ~6.2% of output in the EU and materially higher across the rest of Region 3

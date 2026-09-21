@@ -26,8 +26,7 @@ from redworlds.jobs.tape_records import (
     weights_for,
 )
 
-# The three tapes sprint 2 solves. The other six carry their fields but are not run.
-BETA_DAY_REDUCE_TAPES = ("eca_buy_less", "eca_extended_product_lifetimes", "eca_remote_work_commuters")
+HELD_TAPES = ("eca_smart_grid",)
 
 
 def _write_records(path: Path, key: str = "test_tape", **overrides: Any) -> Path:
@@ -134,15 +133,13 @@ def test_valid_records_pass_quietly(tmp_path, test_mrio) -> None:
 
 
 def test_committed_files_hold_all_nine_tapes() -> None:
-    """The committed records cover the game's nine tapes, three of them ready to solve."""
+    """The committed records cover nine tapes; only the mechanism-gated grid tape is held."""
     records = load_tape_records(DEFAULT_OPTIONS_PATH)
     baskets = load_scenario_concordance(DEFAULT_SCENARIO_PATH)
 
     assert len(records) == 9
     ready = {key for key, record in records.items() if record["status"] == "ready"}
-    assert ready == set(BETA_DAY_REDUCE_TAPES)
-    assert all(record["wing"] == "reduce" for key, record in records.items() if key in ready)
-    # Every ready tape's basket must be non-empty, or sprint 2 exports a zero.
+    assert set(records) - ready == set(HELD_TAPES)
     assert all(basket_for(records[key], baskets) for key in ready)
 
 
@@ -196,3 +193,20 @@ def test_committed_baskets_match_the_cached_baseline() -> None:
         pytest.skip(f"no cached baseline at {worlds_path} — run `just baseline`")
 
     validate_baskets(pymrio.load_all(worlds_path))
+
+
+def test_every_tape_has_a_real_ceiling() -> None:
+    """No tape may opt out of having a physical ceiling.
+
+    A tape with no ceiling cannot be added into the stack, and stacking is the point — "can
+    a region solve this?" is answered by how far each intervention goes and whether the total
+    closes the gap. MacKay never writes "unlimited" against a source; he writes 0.017 W/m²
+    against geothermal and lets the number argue.
+
+    Fusion is the case this guards. It was briefly given no ceiling on the grounds that its
+    real uncertainty is whether it works — but that collapses two questions. *How many could
+    be built if it works* is physical and belongs here; *will it work* belongs in the game's
+    outcome odds. See docs/design/tape_records.md §5.
+    """
+    for key, record in load_tape_records(DEFAULT_OPTIONS_PATH).items():
+        assert record["regional_ceiling"] > 0, f"{key} has no ceiling — see tape_records.md §5"

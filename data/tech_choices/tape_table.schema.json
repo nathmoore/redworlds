@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/nathmoore/redworlds/data/tech_choices/tape_table.schema.json",
+  "title": "Red Worlds precomputed tape table",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "baseline",
+    "basis_year",
+    "target_year",
+    "intensity_scalar_2050",
+    "units",
+    "tapes"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "baseline": { "type": "string" },
+    "basis_year": { "type": "integer" },
+    "target_year": { "type": "integer" },
+    "intensity_scalar_2050": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+    "units": {
+      "type": "object",
+      "required": ["co2e", "co2", "money"],
+      "additionalProperties": false,
+      "properties": {
+        "co2e": { "const": "tonnes CO2-eq" },
+        "co2": { "const": "tonnes CO2" },
+        "money": { "type": "string" }
+      }
+    },
+    "tapes": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/tape" }
+    }
+  },
+  "$defs": {
+    "common": {
+      "type": "object",
+      "required": [
+        "status",
+        "region_id",
+        "wing",
+        "build_years_reference",
+        "deployment_curve",
+        "cover_magnitude",
+        "regional_ceiling",
+        "regional_ceiling_unit",
+        "provenance"
+      ],
+      "properties": {
+        "status": { "enum": ["ready", "held"] },
+        "region_id": { "type": "integer", "minimum": 1, "maximum": 7 },
+        "wing": { "enum": ["build", "swap", "reduce"] },
+        "build_years_reference": { "type": "integer", "minimum": 0 },
+        "deployment_curve": { "type": "string" },
+        "cover_magnitude": { "type": "object" },
+        "regional_ceiling": { "type": "number", "minimum": 0 },
+        "regional_ceiling_unit": { "type": "string" },
+        "provenance": { "type": "string" }
+      }
+    },
+    "solved": {
+      "allOf": [
+        { "$ref": "#/$defs/common" },
+        {
+          "type": "object",
+          "required": [
+            "annual_delta_construction_co2e_t",
+            "annual_delta_operating_co2e_t",
+            "annual_delta_construction_co2_t",
+            "annual_delta_operating_co2_t",
+            "gdp_impact_full",
+            "cumulative_full_flat_co2e_t",
+            "cumulative_full_flat_co2_t",
+            "cumulative_curve_co2e_t",
+            "cumulative_curve_co2_t",
+            "copies",
+            "copies_basis",
+            "jcurve_co2e_t"
+          ]
+        }
+      ]
+    },
+    "tape": {
+      "oneOf": [
+        {
+          "allOf": [
+            { "$ref": "#/$defs/common" },
+            {
+              "type": "object",
+              "required": ["held_reason"],
+              "properties": { "status": { "const": "held" } }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            { "$ref": "#/$defs/solved" },
+            { "type": "object", "properties": { "status": { "const": "ready" } } }
+          ]
+        }
+      ]
+    }
+  }
+}

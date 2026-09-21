@@ -21,7 +21,7 @@ from redworlds.config import load_config
 from redworlds.engine.regions import load_region_concordance
 from redworlds.engine.scoring import WINDOW_END, WINDOW_START
 from redworlds.jobs.build_baseline import BASELINE_NAME, build_baseline
-from redworlds.jobs.run_tapes import FLAT_CURVE, run_ready_reduce_tapes, run_reduce_tape
+from redworlds.jobs.run_tapes import FLAT_CURVE, run_build_tape, run_ready_reduce_tapes, run_reduce_tape, run_swap_tape
 from redworlds.jobs.tape_records import load_scenario_weights, load_tape_records
 
 BETA_DAY_REDUCE_TAPES = ("eca_buy_less", "eca_extended_product_lifetimes", "eca_remote_work_commuters")
@@ -171,7 +171,51 @@ def test_jcurve_runs_the_window_in_five_year_blocks(game_world, test_baskets) ->
 
     assert result.jcurve[0]["year"] == WINDOW_START
     assert result.jcurve[-1]["year"] == WINDOW_END
-    assert all(point["value"] == pytest.approx(result.annual_delta) for point in result.jcurve)
+    assert result.jcurve[0]["value"] == pytest.approx(0.1 * result.annual_delta)
+    assert result.jcurve[-1]["value"] == pytest.approx(result.annual_delta)
+
+
+def test_solves_a_swap_tape_with_a_closed_budget(game_world, test_baskets) -> None:
+    sectors = list(game_world.get_sectors())
+    record = {
+        **_record(wing="swap"),
+        "max_replaceable_fraction": 0.2,
+        "replacement_sector": sectors[2],
+        "replacement_ratio": 1 / 3,
+    }
+    result = run_swap_tape(
+        game_world,
+        record,
+        test_baskets,
+        extension=TEST_EXTENSION,
+        stressor=TEST_STRESSOR,
+    )
+    assert result.gdp_impact == pytest.approx(0.0, abs=1e-9)
+    assert result.cumulative_curve == pytest.approx(result.annual_delta * 46.5)
+
+
+def test_build_samples_the_non_linear_operating_solve(game_world) -> None:
+    sectors = list(game_world.get_sectors())
+    record = {
+        **_record(wing="build"),
+        "build_years_reference": 10,
+        "budget_musd_2026_purchaser": 100.0,
+        "technology_sector": sectors[1],
+        "cover_magnitude": {"twh_per_year": 0.001},
+        "capex_split": {sectors[0]: 1.0},
+        "fossil_sectors": [sectors[0]],
+        "energy_extension": TEST_EXTENSION,
+        "energy_stressor": TEST_STRESSOR,
+    }
+    result = run_build_tape(
+        game_world,
+        record,
+        extension=TEST_EXTENSION,
+        stressor=TEST_STRESSOR,
+    )
+    assert set(result.deltas_by_deployment) == {"0.25", "0.5", "0.75", "1.0"}
+    assert result.annual_delta_construction > 0.0
+    assert result.jcurve[0]["value"] == pytest.approx(result.annual_delta_construction)
 
 
 def _cached_baseline() -> pymrio.IOSystem:
