@@ -47,10 +47,11 @@ Leontief solve, a deployment curve, a 50-year cumulative delta. See
        2026-09-16 for the five issues that exist (#5–#9). The engine primitives, `capital.py`,
        `scoring.py` and `build_baseline.py` have no issues yet (issue #10 assumed #11–#15,
        which Dependabot took): their TODOs point here.
-10. [ ] Create GitHub issues for the stubs without one (`scale_final_demand`,
-       `shift_sector_share`, `get_sector_emissions`, `rebalance_economy`, `generate_scenario`,
-       `load_capital_use`, `endogenise_capital`, `annual_delta`, `cumulative_delta`,
-       `build_baseline`), update their TODO lines, close #10. Needs `gh auth login`.
+10. [x] ~~Create GitHub issues for the stubs without one.~~ Done 2026-09-21. Every
+       `TODO: implement` in `src/` now names a real issue: #15 `rebalance_economy`,
+       #16 `shift_sector_share`, #17 the SSP2 walk (replacing `intensity.py`'s two
+       stand-in scalars and finishing `build_baseline`), #18 `update_scenarios`.
+       #5 `load_config` and #8 `apply_reduce` closed as shipped.
 
 Phase 2, not on the MVP path: per-player worlds, the shared job queue, multi-tape
 interaction, nightly growth.

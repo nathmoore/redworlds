@@ -53,7 +53,7 @@ References:
   - docs/backlog.md — the walk that replaces both stages
   - docs/references.md — the sources behind the observed stage
 
-TODO: replace with the real walk — see docs/backlog.md §Sequencing item 5b (GitHub issue pending)
+TODO: replace with the real walk — see GitHub issue #17
 """
 
 # The baseline table's year: EXIOBASE 3.8.2 pxp, and the year the Kbar capital matrix covers.

@@ -214,7 +214,7 @@ def shift_sector_share(
     Returns:
         Updated IO system with sector shares adjusted.
 
-    TODO: implement — see docs/backlog.md §Sequencing (GitHub issue pending)
+    TODO: implement — see GitHub issue #16
     """
     raise NotImplementedError
 

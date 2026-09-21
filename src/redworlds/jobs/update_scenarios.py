@@ -44,6 +44,6 @@ def generate_scenario(
         A dict containing the scenario data for the front end, including the
         baseline emissions value, region, category, and year.
 
-    TODO: implement — see docs/backlog.md §Sequencing (GitHub issue pending)
+    TODO: implement — see GitHub issue #18
     """
     raise NotImplementedError

@@ -149,9 +149,9 @@ the magnitudes, which are labelled provisional either way.
        judgement-heavy step, now with real REDUCE numbers to sanity-check against. Re-run
        T9 afterwards; the game gets a second table and changes no code.
 
-**Also in this sprint, cheap and unblocking:** `gh auth login`, then create the issues for
-the stubs that have none (backlog item 10) so the TODOs stop pointing at a file. Still to do
-— `gh auth login` is interactive and has not been run.
+**Also in this sprint, cheap and unblocking:** ~~create the issues for the stubs that have
+none, so the TODOs stop pointing at a file.~~ Done 2026-09-21 — #15 to #18, with #5 and #8
+closed as shipped.
 
 **Two corrections to this plan, found while building it.** Decision 2 below says the gas
 tape's `F_Y` fix bites at T3. It does not: the contract's tape table has

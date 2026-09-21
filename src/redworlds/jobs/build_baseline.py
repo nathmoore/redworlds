@@ -36,7 +36,7 @@ References:
   - docs/design/architecture.md — data retained
   - docs/backlog.md — T1, and the negative net-investment decision of 2026-09-18
 
-TODO: the SSP2 2011 → 2050 walk — see docs/backlog.md §Sequencing item 5b (GitHub issue pending)
+TODO: the SSP2 2011 → 2050 walk — see GitHub issue #17
 """
 
 from pathlib import Path
