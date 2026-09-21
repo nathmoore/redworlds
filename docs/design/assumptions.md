@@ -87,6 +87,23 @@ single function with a weighting argument. The placeholder is flat proportional;
 planned upgrade is income-elasticity weighting per product (Bjelle et al. 2021; Cap et al.
 2024 Eq. 1). See `engine/balancing.py`.
 
+For the two consumer-side SWAP tapes, one third is an **energy ratio**, never a spend ratio:
+COP 3 for heat-pump heat and the same order-of-magnitude energy ratio for EV travel. Removed
+fuel spend is converted to TJ at each source product's EXIOBASE basic price. One third of
+those TJ is then priced from the region's existing household electricity-generation mix,
+with *Distribution and trade services of electricity* added separately at its baseline
+margin. The budget remainder is re-spent; when electricity plus delivery costs more than
+the removed fuel, balancing withdraws the difference from the rest of household demand.
+
+This distinction changes the EV result materially. On the 2011 Region 3 table, the removed
+petrol/diesel basket averages €11.59/GJ; generation averages €30.25/GJ and its delivery
+margin is almost another euro per euro of generation. Even at one third of the energy, the
+electricity purchase costs more than the displaced fuel. With only the directly observed
+32.9% road-transport share of household net energy used to apportion `F_Y`, the flat-rebound
+MVP result is a small emissions increase. It is reported as such and marked provisional;
+changing its sign requires better fuel-resolved direct emissions or a different, documented
+rebound rule, not an `abs()` or a tuned efficiency.
+
 ### Capital is endogenised in the baseline
 
 *Decided 2026-09-16.* In a plain IO table, investment sits in its own final-demand column
@@ -104,13 +121,16 @@ and renewables' in-window replacement cycles are captured without special-casing
 Construction remains a normal product; it also appears as an input of every
 capital-using sector.
 
-*Consequence for BUILD:* endogenised capital is proportional to output, and a plant under
+*Consequence for BUILD — decided for the MVP:* endogenised capital is proportional to output, and a plant under
 construction produces nothing, so the J-curve still needs an explicit capex injection in
 the build years. During operation the coefficients then charge the plant's capital at the
 sector's average maintenance-and-replacement rate, which overcounts a long-lived new plant
-a little. The overcount is roughly the size of the construction hump spread over forty
-years, small against the displacement, and consistent with how the baseline treats every
-other plant. It can be netted out of the injection later if it matters.
+a little by applying the steady-state average from its first operating year. We deliberately
+do **not** net this out: the cached `A` matrix does not retain a separable capital component,
+and subtracting an invented amount would treat the new plant differently from every baseline
+plant. The likely bias is roughly the construction hump spread over forty years and is small
+against displacement (the nuclear construction total is 1.7% of operating abatement). Revisit
+only when the baseline stores capital coefficients separately or the model gains cohorts.
 
 ### BUILD: capex is spread linearly over the build period
 
@@ -128,6 +148,26 @@ assumed to be constructed simultaneously by a large coordinated workforce. The g
 exploring what collective action *could* achieve, and large ambitions should not feel
 mechanically punishing just because the numbers are bigger. Overrun risk is handled by
 the game's variance roll, not in this engine.
+
+### BUILD: operation replaces fossil electricity coefficients
+
+After construction, the built TWh is priced from EXIOBASE's own technology row: monetary
+output divided by the `Energy Carrier Supply: Total` satellite row. That amount is moved
+proportionally out of coal-, gas- and oil-electricity inputs to every Region 3 industry and
+final-demand column and into the built product. Every affected A or Y column keeps the same
+total. The technology's existing stressor intensity is left alone, then the Leontief inverse
+is rebuilt (Wiebe et al. 2018 §3.3).
+
+Changing A is non-linear after inversion. BUILD is therefore solved at 0.25, 0.5, 0.75 and
+1.0 deployment and the export carries all four values. The construction phase remains
+linear because it changes Y only.
+
+The EXIOBASE 2011 coefficient diagnostic requested before trusting the BUILD result gives
+Region 3 lifecycle intensities of about **44 g CO₂e/kWh for nuclear, 57 for solar PV, 211
+for geothermal, 669 for gas and 1,152 for coal**. Geothermal is surprisingly high, as
+pymrio issue #72 warned; it is retained rather than tuned away. The table is reporting what
+its geothermal sector contains. Its score is therefore exported as **provisional**, not
+ready, until the coefficient can be reconciled with the technology literature.
 
 ### Regions are amalgamated into 7 game regions
 
@@ -213,11 +253,11 @@ all monetary values to **2026 constant million USD** before exposing them to pla
 - The US BLS CPI-U deflator ratio 2026/2011: **≈ 1.489**
 - Combined factor: **≈ 2.072** (1 MEUR 2011 ≈ 2.07 MUSD 2026)
 
-This conversion is applied **once, during baseline construction**. After that step, all
-IO tables on disk are natively in 2026 constant USD. Satellite accounts (physical units,
-e.g. kg CO₂) are not scaled; total emissions are scale-invariant and remain correct. A
-separate real-to-nominal step will be needed if the game ever shows prices in a later
-year's money; the 2050 world stays in 2026 constant USD.
+The cached 2011 baseline stays one step from source, in 2011 MEUR. Player-facing BUILD
+budgets are converted back through the purchaser-price markup and the 2.072 currency factor
+before being injected into that table. Exported GDP impacts state the table unit explicitly.
+A future walked 2050 baseline may choose to persist in 2026 MUSD, but the unit must travel
+with the artifact rather than be assumed.
 
 ---
 

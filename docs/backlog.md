@@ -85,18 +85,18 @@ tapes must interact. Contract: `docs/design/red_carbon_contract.md` §4.4.
 - [ ] **T3 REDUCE tapes through the existing path.** `apply_reduce` works; the three REDUCE
       tapes need their baskets (T2) and, for the commuting tape, the direct-household
       emissions fix (scale the `F_Y` row by the fuel product's own change — see Open).
-- [ ] **T4 Consumer-side SWAP.** `apply_swap`: cut product A in the region's household
+- [x] **T4 Consumer-side SWAP.** `apply_swap`: cut product A in the region's household
       column by `pct_rollout`; add product B at the tape's service-equivalent (COP 3 for gas
       → heat-pump electricity; ~⅓ energy for petrol → EV electricity), priced; re-spend the
       remainder flat across the household basket via `rebalance_economy` (flat weighting,
       as sanctioned above). *Done when:* `gdp_impact` ≈ 0 for a SWAP (the closed-budget check).
-- [ ] **T5 BUILD, construction phase.** GFCF injection in the region across *Construction
+- [x] **T5 BUILD, construction phase.** GFCF injection in the region across *Construction
       work (45)* 40%, *Machinery and equipment n.e.c. (29)* 42%, *Electrical machinery (31)*
       9%, *Other business services (74)* 9% (Wood/Wiebe 2018 SI1), spread over `build_years`.
       Injection, with the reallocation flag exposed but off. Returns the construction-phase
       annual delta (positive). *Done when:* nuclear's construction total is a few percent of
       its operating abatement.
-- [ ] **T6 BUILD, operating phase — A-matrix mix change.** Decided 2026-09-18 (game): for
+- [x] **T6 BUILD, operating phase — A-matrix mix change.** Decided 2026-09-18 (game): for
       every region-3 column of `A` (and the region's `Y` columns), move the fossil
       electricity input coefficients (*Electricity by coal / gas / petroleum*) to the built
       product (*Electricity by nuclear* / *by Geothermal*) sized to the tape's TWh at the
@@ -138,9 +138,9 @@ tapes must interact. Contract: `docs/design/red_carbon_contract.md` §4.4.
       standing question — can a distribution-sector coefficient shock score competitively
       against a direct tape? — is worth answering for (a) even if (b) is adopted, because it
       is the general question about enabling infrastructure in an MRIO.
-- [ ] **T8 Fusion.** Nuclear's mechanics with `build_years_reference` 20 and 2× capex per GW;
+- [x] **T8 Fusion.** Nuclear's mechanics with `build_years_reference` 20 and 2× capex per GW;
       the table gets one honest number, the game's outcome band carries the maturity story.
-- [ ] **T9 The export job.** `jobs/export_tape_table.py` (notebook 04 first if faster):
+- [x] **T9 The export job.** `jobs/export_tape_table.py` (notebook 04 first if faster):
       for each record, run from the cached baseline and write `data/exports/tape_table_<date>.json`
       — per tape `annual_delta_construction`, `annual_delta_operating`, `gdp_impact_full`,
       `build_years_reference`, `deployment_curve`, `cover_magnitude`, `cumulative_full_flat`,
@@ -148,7 +148,7 @@ tapes must interact. Contract: `docs/design/red_carbon_contract.md` §4.4.
       file-level `baseline`, `intensity_scalar_2050`, `units`. For BUILD (T6 is
       non-linear) also store deltas at deployment 0.25 / 0.5 / 0.75. A JSON schema beside it;
       `just export-tapes` regenerates byte-identically. *Done when:* all nine tapes export.
-- [ ] **T10 Docs.** `assumptions.md`: the 2011 → 2050 intensity scalar (0.6 working, source
+- [x] **T10 Docs.** `assumptions.md`: the 2011 → 2050 intensity scalar (0.6 working, source
       to cite) and the Beta Day simplifications; `game_mechanics.md`: the table shape;
       close the "GitHub issues for stubs" item above while there.
 
@@ -232,17 +232,21 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
 
 ### Open
 
-- [ ] **Direct household emissions under a REDUCE.** pymrio recomputes `F_Y` from `S_Y`,
+- [x] ~~**Direct household emissions under a REDUCE.**~~ Done 2026-09-21. pymrio recomputes `F_Y` from `S_Y`,
       which is normalised per final-demand *column* total, so cutting one product's demand
       scales a region's direct household emissions (fuel burnt in cars and boilers) by the
       change in total household spend, not by the change in that product. Right for a
       broad basket, wrong for a vehicle-fuel or gas tape, where `F_Y` should track the fuel
-      row. Fix: scale the `F_Y` column by the fuel product's own change instead.
+      row. The action now scales only a named share of `F_Y` by the fuel product's own
+      change; the remaining direct emissions stay fixed.
       **Confirmed in scope 2026-09-18 (Nathan): do it in T3, not later.** Two Beta Day
       tapes are exactly this case — the remote-work tape cuts vehicle fuel and the gas tape
       cuts household gas — so the broad-basket approximation is wrong for both, and `F_Y` is
-      11% of the world total (5.1 of 44.5 Gt CO2e), not a rounding error.
-- [ ] **Carry CO2 as well as CO2e through to the export.** The game converts cumulative
+      11% of the world total (5.1 of 44.5 Gt CO2e), not a rounding error. Region 3's 32.9%
+      road share comes from `Energy Carrier Net TROA / Total`; gas uses the tape's gross
+      physical heating anchor. Both records are provisional because these are apportionment
+      proxies rather than fuel-resolved characterised emissions.
+- [x] ~~**Carry CO2 as well as CO2e through to the export.**~~ Done 2026-09-21. The game converts cumulative
       emissions to a 2100 temperature reading, and that conversion (the transient climate
       response to cumulative emissions) is defined on **CO2 alone** — CO2e hides the
       difference between a permanent gas and a decade-lived one, so two tapes with equal
@@ -269,8 +273,11 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
       build years because endogenised capital is proportional to output and a plant under
       construction produces nothing; the operating-years capital charge then overcounts a
       long-lived new plant a little (roughly the hump spread over 40 years, small against
-      displacement, consistent with the baseline's treatment of every other plant; net it
-      out of the injection later if it matters). The REDUCE "non-capital Y" basket excludes
+      displacement, consistent with the baseline's treatment of every other plant).
+      **MVP decision 2026-09-21: keep that steady-state charge.** The cached `A` matrix does
+      not retain the capital component separately, so an exact net-out is unavailable and
+      a guessed one would treat new plants unlike the baseline. Revisit only with stored
+      capital coefficients or a cohort model. The REDUCE "non-capital Y" basket excludes
       only the remaining net-investment column. *Checks before building:*
       - [x] ~~Confirm the published capital-flow matrices exist at this repo's resolution.~~
             Confirmed 2026-09-16: Zenodo record 7073276 (Wood & Södersten) has pxp and ixi
@@ -416,6 +423,15 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
       `direct_emissions_driver`. The lifetimes tape runs on eight products at `N/(life+N)`
       with N = 4, and remote work widened to four products with Motor Gasoline driving `F_Y`.
       Linearity in the headline fraction holds with uneven weights and is tested.
+- [ ] **Replace the provisional direct-household (`F_Y`) shares with fuel-resolved emissions.** The characterised impacts
+      account is resolved by region and final-demand category, not by purchased product.
+      The MVP now scales only a named share: road transport uses the 32.9% share of Region 3
+      household `Energy Carrier Net Total` reported as `TROA`; gas uses 27.4%, inferred from
+      the tape's gross heating anchor against total direct GHG. This removes the known whole-
+      column overstatement, but energy share is not emissions share and the gas figure is an
+      external-anchor proxy. Derive gas, petrol and diesel GHG shares from a regional energy
+      balance and carrier-specific combustion factors, then promote the affected records
+      from provisional if the result is stable.
 - [ ] **Mean product lifetimes, against Vita et al. 2019.** The weights in
       `appliances_and_devices` are `N / (mean life + N)`, and the mean lives behind them
       (~4 yr devices and clothing, ~7 medical/precision, ~11 white goods, ~12 furniture) are
@@ -480,6 +496,23 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
       consumption-based REDUCE tape on Region 3 the two coincide almost exactly. For a BUILD
       tape that changes Region 3's electricity recipe they may not, because output shifts
       across borders — worth measuring rather than assuming the REDUCE result carries over.
+- [ ] **Tape interactions — start with the ones that share a constraint.** Ceilings are
+      currently stated independently and are not all additive: nuclear and fusion compete for
+      the same heavy forging capacity, and electrifying cars and banning gas boilers land
+      their new demand on the same grid. A stack that adds every ceiling is an upper bound on
+      an upper bound.
+      This may be cheaper to model than it looks. The full version — re-solving a world with
+      several shocks applied together — is the queue/worker design and is far off. But the
+      **pairwise** version is close: a table of `(tape A played) → (tape B's ceiling or delta
+      reduced by X)`, applied by whoever assembles the score. Most pairs are independent and
+      need no entry; the interesting ones are few and nameable.
+      *Worth deciding first:* whether an interaction reduces the other tape's **ceiling** (you
+      cannot build both) or its **delta** (you can, but the second one abates less because the
+      first already cleaned the grid). Those are different claims and probably both occur —
+      forging capacity is the first kind, a decarbonised grid the second.
+      *Start by writing the assumption down*, even with no numbers: which pairs interact, in
+      which direction, and roughly how strongly. That is useful before it is implemented, and
+      it is what stops the export's independence being mistaken for a finding.
 - [ ] **Multiple simultaneous tapes.** MVP scores one tape vs baseline. When does the
       engine score against baseline plus the day's other tapes?
 - [ ] **Net-zero threshold and scope** if the game ever displays "reached net zero":

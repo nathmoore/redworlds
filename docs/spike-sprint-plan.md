@@ -139,11 +139,13 @@ the magnitudes, which are labelled provisional either way.
        **remote work comes in at 3 against ~9**. That is the engine reporting and the cover
        needing to move, which is the handshake working. It follows from a sourced 0.11
        ceiling where the earlier guess was 0.28.
-4. [ ] **T9-partial — the export job, three tapes.** `jobs/export_tape_table.py` writing
+4. [x] **T9-partial — the export job, three tapes. Done 2026-09-21.** `jobs/export_tape_table.py` writing
        `data/exports/tape_table_<date>.json` with the full per-tape schema and file-level
        `baseline`, `intensity_scalar_2050`, `units`. Records for the six unbuilt tapes are
-       either absent or present with a `status: "pending"` field — **decide which, because
-       the game has to handle it either way and absent is probably kinder.** A JSON schema
+       present with an explicit status. The final choice is to include all nine: `ready` is
+       usable, `provisional` is MVP-usable with a named limitation, and `held` has no score
+       because its mechanism is unsettled. This makes an intentional hold distinguishable
+       from a missing id. A JSON schema
        beside it; `just export-tapes` regenerates byte-identically.
 5. [ ] **5b — `build_baseline` composition and the SSP2 2011 → 2050 walk.** The
        judgement-heavy step, now with real REDUCE numbers to sanity-check against. Re-run
@@ -198,37 +200,51 @@ riskier than the original plan assumed.
 flat re-spend, so it lands on machinery that already exists, and it gets a second wing into
 the export weeks before the A-matrix work is finished.
 
-- [ ] **T4 — consumer-side SWAP** (`eca_electric_vehicle_transition`, `eca_ban_gas_supply`).
+- [x] **T4 — consumer-side SWAP. Done 2026-09-21** (`eca_electric_vehicle_transition`, `eca_ban_gas_supply`).
       Cut product A in the region's household column, add product B at the tape's
       service-equivalent (COP 3 for gas → heat-pump electricity, ~⅓ energy for petrol → EV
       electricity), priced; re-spend the remainder flat across the household basket. Both
       tapes need `F_Y` wired through `apply_swap`. *Done when:* `gdp_impact` ≈ 0 — the
       closed-budget check, and the cleanest possible test that a SWAP preserves money.
-- [ ] **T5 — BUILD, construction phase.** GFCF injection across *Construction work (45)* 40%,
+- [x] **T5 — BUILD, construction phase. Done 2026-09-21.** GFCF injection across *Construction work (45)* 40%,
       *Machinery and equipment n.e.c. (29)* 42%, *Electrical machinery (31)* 9%, *Other
       business services (74)* 9%, spread over `build_years`. Returns a *positive* annual
       delta. Still Y-side, so still linear. *Done when:* nuclear's construction total is a
       few percent of its operating abatement — and note it lands on a 2011 construction
       trough, which is deliberate and recorded, not a bug.
-- [ ] **T6 — BUILD, operating phase.** The A-matrix electricity-mix change, and the hardest
+- [x] **T6 — BUILD, operating phase. Done 2026-09-21.** The A-matrix electricity-mix change, and the hardest
       step in the project so far. Re-inverting `L` per tape is minutes, not seconds, which is
       what makes the four-point deployment sampling a real cost rather than a detail.
       *Done when:* nuclear lands in the contract's 0.5–1.8 Gt range at the ten-reactor cover.
       *Check first:* pymrio issue #72 reports surprising GHG intensities for solar PV and
       geothermal in EXIOBASE 3 — verify both sectors' coefficients before trusting a result.
-- [ ] **T8 — fusion.** Nuclear's mechanics at 20 build years and 2× capex per GW. Cheap once
+- [x] **T8 — fusion. Done 2026-09-21.** Nuclear's mechanics at 20 build years and 2× capex per GW. Cheap once
       T5 and T6 exist — its ceiling is nuclear's, for the same forging reason, so it is mostly a
       record and a re-run. Do not add its ceiling to nuclear's in any stack: they compete for
       the same industrial capacity.
-- [ ] **T9 in full** — all nine tapes, with the BUILD deployment samples and both CO₂ and
+- [x] **T9 in full. Done 2026-09-21** — all nine tapes, with the BUILD deployment samples and both CO₂ and
       CO₂e per tape.
-- [ ] **T10 — docs.** Fold sprint 3's assumptions into `assumptions.md`, and revisit
+- [x] **T10 — docs. Done 2026-09-21.** Fold sprint 3's assumptions into `assumptions.md`, and revisit
       `tape_records.md` §10 with BUILD numbers in hand: the flat-curve finding was derived
       from curve arithmetic alone and deserves confirming against a real BUILD solve.
 
 **T7, the grid tape, stays held** — two candidate mechanisms need different shocks and the
 game has not settled which. Building either first risks throwing the work away. It is stopped
-at the mechanism gate rather than failing, which is that gate working.
+at the mechanism gate rather than failing, which is that gate working. It remains in the
+export without a score so absence cannot be mistaken for a typo or incomplete catalog.
+
+**Sprint 3 result.** Both SWAPs preserve final demand to floating-point precision. The
+one-third efficiency is now applied to physical TJ and each side is priced independently;
+it is not multiplied by spend. On the provisional direct-emissions shares, EVs produce a
+**+1.41 Gt CO₂e backfire** (zero copies) and the gas conversion produces **−5.91 Gt** after
+the 2050 scalar and real curve. These are exposed findings, not tuned toward game targets. A
+ten-reactor nuclear cover produces a 2.20 Mt CO₂e/yr construction hump and −33.05 Mt/yr
+at full operation on the 2011 basis; after the real build curve and the 0.438 intensity
+scalar it is **−0.55 Gt**, at the bottom of the contract's 0.5–1.8 Gt range. Construction
+is 1.7% of the operating abatement. Fusion is −0.40 Gt after its 20-year delay; geothermal
+is −0.32 Gt and is provisional because of the EXIOBASE coefficient warning. The generated
+table has eight solved tapes (four ready, four provisional) and the grid record marked
+`held`, with no fabricated zero.
 
 ---
 
@@ -245,8 +261,9 @@ at the mechanism gate rather than failing, which is that gate working.
    T3.** The backlog said *"fix when the first such tape is sized"*. That time is now: **two Beta Day tapes are exactly
    this case** — the remote-work tape cuts vehicle fuel, and the gas tape cuts household gas.
    Both are wrong under the current normalisation, and `F_Y` is 11% of the world total
-   (5.1 of 44.5 Gt CO₂e), not a rounding error. Scale the `F_Y` column by the fuel product's
-   own change. *Bites at T3.*
+   (5.1 of 44.5 Gt CO₂e), not a rounding error. Scale only the attributed share of `F_Y` by
+   the fuel product's own change. The MVP shares are explicit proxies, so affected tapes are
+   provisional rather than silently ready. *Bites at T3.*
 3. [x] **Negative net-investment cells — decided 2026-09-18: keep them.** −2.25 T EUR across
    6,363 cells. Södersten et al. treat net investment as a residual and the accounting identity
    holds, so leave it as it falls. Still run the diagnostic inside T1 and record it — how much
@@ -273,13 +290,20 @@ at the mechanism gate rather than failing, which is that gate working.
    total. The existing code is already right about this (it reads one characterised row); the
    point is to keep it that way. *Bites at T9.*
 
-5. **T7, the grid tape.** Still correctly held: two candidate mechanisms needing different
+5. [x] **T7, the grid tape — status decided 2026-09-21.** Still correctly held: two candidate mechanisms needing different
    shocks, and the game side has an open design conversation. Nothing to do here until that
-   lands. *Bites at sprint 3, or not at all this epic.*
+   lands. Include the record with no score so the catalog remains complete. *Bites at sprint 3, or not at all this epic.*
 6. **`regional_ceiling` per tape** (T2). The game wants these for a proposed "tapes in
    stock" mechanic that is still tentative on its side. Record the ceiling and its basis
    regardless — it is a defensible engine fact either way — but do not let the game's
    undecided mechanic hold up T2.
+7. [x] **BUILD capital overlap — decided 2026-09-21: keep the steady-state operating
+   charge.** Explicit GFCF is the new cohort's construction; endogenised capital in `A` is
+   the sector-average maintenance and replacement flow. Applying that average from the
+   first operating year slightly overcharges a new long-lived plant, but the cached matrix
+   does not preserve a separable capital component that could be netted exactly. The nuclear
+   construction total is only 1.7% of operating abatement. Do not invent a correction;
+   revisit with stored capital coefficients or a cohort model.
 
 ---
 

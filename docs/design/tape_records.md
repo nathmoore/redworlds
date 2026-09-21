@@ -161,7 +161,7 @@ Every ceiling in §7 carries a per-person reading. Where one is missing, that is
 
 ## 5. Three rules a ceiling has to obey
 
-**Every tape has one. No exceptions.**
+**Every tape has one.**
 
 This is the rule that does the most work, and the one most often argued away. It is tempting
 to say a technology is "not really limited" — but a tape with no ceiling cannot be added up,
@@ -201,6 +201,10 @@ collapsed the two questions into one and cost the stack a bar.
 > tape's availability on its ceiling, and for most tapes that ceiling is far larger than any
 > playthrough reaches, so it never binds. Fusion's ceiling is real and also never binding;
 > geothermal's is real and binds hard. The engine's job is to state the number either way.
+>
+> A large number is not a wasted one. "650 remaining" and "3 remaining" on the same shelf
+> teach the difference in scale between two interventions better than any sentence could —
+> which is another reason the engine should produce a number even where nothing gates on it.
 
 **A region is treated as one actor.** Region 3 is Europe and Central Asia: dozens of
 countries that do not, in reality, coordinate. The ceiling asks what the region *could* do if
@@ -283,9 +287,10 @@ uses, but if this ceiling ever needs to bind, forging is where to look first.
 
 ## 7. The nine tapes
 
-Solved figures come from the 2011 cached baseline at full ceiling with flat deployment, and
-carry no 2050 intensity correction yet (§9). Items marked **open** are known-weak and are
-being reconciled.
+Solved figures come from the 2011 cached baseline. The export carries both flat and real-curve
+cumulatives, plus the explicit 0.438 intensity scalar from 2011 to 2050 (§9). `ready` means
+usable; `provisional` means usable for the MVP with a named material limitation and expected
+revision; `held` means no score because the mechanism is unsettled.
 
 ### REDUCE — solved
 
@@ -297,9 +302,10 @@ being reconciled.
 | **Columns** | households only | households, NPISH, government | households only |
 | **Ceiling** | 25% of the basket | 4 extra years of life per product | 140 M teleworkable workers |
 | **Basis** | Behavioural. The gap between Region 3 discretionary spend per head and that of the region's own lower-middle income decile — a level people in the region already live at | Physical, from replacement cycles. Adding N years removes `N/(life+N)` of annual replacement demand; four years roughly doubles a short-lived product's life and is about as far as a repair culture reaches | Dingel & Neiman (2020) and Sostero et al. (2020) both find 37% of jobs teleworkable in the US and EU; shaded to ~35% for the region's middle-income economies |
-| **Cumulative, 2011 basis** | −18.6 Gt | −12.2 Gt | −8.1 Gt |
-| **Cumulative, 2050 basis** | **−8.2 Gt** | **−5.3 Gt** | **−3.6 Gt** |
-| **Copies** ⌊Gt⌋ | 8 | 5 | 3 |
+| **Cumulative, 2011 basis** | −18.6 Gt | −12.2 Gt | −4.1 Gt |
+| **Cumulative, 2050 basis, real curve** | **−7.4 Gt** | **−4.9 Gt** | **−1.6 Gt** |
+| **Copies** ⌊Gt⌋ | 7 | 4 | 1 |
+| **Status** | ready | ready | provisional: road `F_Y` uses an energy-share proxy |
 
 **A cross-check worth keeping.** Basket A was estimated at "~1.4% of the basket per brick"
 from the literature, before the table was run. The table says **1.34%**. Two independent
@@ -311,33 +317,53 @@ culture removes half their replacement demand. White goods last a decade and los
 That spread is the tape's whole mechanism, and cutting all eight products by the same
 percentage would have described none of them.
 
-**Why remote work is far more carbon-intense per euro than buying less:** most of its basket
-is fuel burnt at home, so nearly every euro removed is combustion. Basket A is mostly
-manufactured goods whose emissions sit in supply chains abroad — and are still credited to
-the buyer, because all accounting here is consumption-based.
+**Why remote work is more carbon-intense per euro than buying less:** its basket is dominated
+by motor fuel. Basket A is mostly manufactured goods whose emissions sit in supply chains
+abroad — and are still credited to the buyer, because all accounting here is consumption-
+based. The provisional result attributes 32.9% of direct household emissions to road travel,
+matching road transport's share of household net energy; energy share is not yet a fuel-
+resolved GHG account.
 
 **Where these disagree with the game's own expectations.** The game sized buy-less at ~10
-copies and lifetimes at 3–5; the table says 8 and 5. Remote work was expected at ~9 and comes
-out at **3**, because its ceiling is now derived from a sourced teleworkable share rather than
-estimated. That is the engine reporting and a cover needing to move, which is how this is
+copies and lifetimes at 3–5; the table says 7 and 4. Remote work was expected at ~9 and comes
+out at **1**, because its ceiling is now derived from a sourced teleworkable share and direct
+emissions are no longer all treated as road transport. That is the engine reporting and a
+cover needing to move, which is how this is
 meant to work (§1).
 
-### BUILD and SWAP — not yet solved
+### BUILD and SWAP — solved, except the held grid mechanism
 
-These carry their fields so the export format is right first time, but the mechanisms that
-solve them are still being built.
+| Tape | Shock at one cover or full ceiling | 2050 cumulative, real curve | Ceiling / status |
+|---|---|---:|---|
+| `eca_nuclear` | 10 reactors, 95 TWh/yr; 10-year build | **−0.55 Gt CO₂e** | 650 reactors |
+| `eca_geothermal` | 13 GW, 91 TWh/yr; 6-year build | **−0.32 Gt CO₂e** | **provisional:** 180 TWh/yr |
+| `eca_fusion` | 10-plant nuclear proxy, 2× capex and 20-year build | **−0.40 Gt CO₂e** | 650 plants; shared with nuclear, not additive |
+| `eca_electric_vehicle_transition` | 80% of household petrol and diesel demand | **+1.41 Gt CO₂e** | **provisional:** 320 M cars; 0 abatement copies |
+| `eca_ban_gas_supply` | 90% of household mains-gas demand, including apportioned `F_Y` | **−5.91 Gt CO₂e** | **provisional:** 95 M homes |
+| `eca_smart_grid` | — | — | **held:** mechanism undecided |
 
-| Tape | Ceiling | Basis |
-|---|---|---|
-| `eca_nuclear` | 650 reactors in a ten-year push, **19 kWh/d/p** | Industrial, not geological. Uranium and sites do not bind at this scale; concrete, forging and skilled labour do. See §6 |
-| `eca_geothermal` | 180 TWh/yr, **0.55 kWh/d/p** | Geological and hotspot-gated: Iceland, Larderello, western Turkey, the Caucasus. A proven-hotspot floor, with enhanced geothermal deliberately excluded — admitting EGS raises it an order of magnitude and it stops binding |
-| `eca_fusion` | 650 plants in a ten-year push, **19 kWh/d/p** | *How many could we build if it worked as well as anyone hopes* — the same forging and construction constraint as fission, since a fusion plant is also a large pressure vessel and a lot of concrete. Deliberately the same number as nuclear and deliberately **not additive with it**. Whether it works lives in the band, not here |
-| `eca_electric_vehicle_transition` | 320 M cars, **0.36 cars/person** | The regional fleet, less the share that cannot electrify this window: heavy rural use, and drivers without off-street parking where public charging is thin |
-| `eca_ban_gas_supply` | 95 M homes, **~1 home per 9.5 people** | Housing stock. ~105 M homes on mains gas; ~90% can take a heat pump without a fabric upgrade the tape does not pay for |
-| `eca_smart_grid` | 220 TWh/yr, **0.67 kWh/d/p** | How much grid there is to upgrade before the rest is diminishing returns. Losses have a technical floor — resistance is physics — so the ceiling is the gap to that floor plus recoverable curtailment. Independent of which mechanism does the upgrading, which is why it stands while T7's shock is still being designed |
+The BUILD construction humps are 2.20 Mt CO₂e/yr for nuclear and fusion and 3.67 Mt/yr
+for geothermal on the 2011 basis. Nuclear's ten-year construction total is about 1.7% of
+its operating abatement through the real curve: the expected few-percent check. Its
+ten-reactor result lands at the bottom of the contract's 0.5–1.8 Gt range after the 2050
+intensity scalar, so the anchor survives without tuning.
 
-**Every tape has a ceiling.** Where one looks impossible to state, the question has usually
-not been asked sharply enough — see §5.
+The gas result now moves 27.4% of `impacts.F_Y`, inferred from the gross 2.8 t/home physical
+anchor and the baseline direct-household total, rather than moving all household combustion.
+That removes the known upper-bound error but remains a proxy, so the score is provisional.
+
+The EV sign is a result, not a target. Removed petrol/diesel averages €11.59/GJ in the table;
+household generation averages €30.25/GJ and delivery nearly doubles that spend. One third of
+the energy therefore costs more than the fuel it replaces, so balancing withdraws money from
+the rest of consumption. With road transport represented by 32.9% of direct-household energy,
+the model's grid and rebound effects slightly exceed tailpipe savings. A better fuel-resolved
+`F_Y` share may change the sign; until then the table exposes the backfire and awards zero
+copies rather than taking its absolute value.
+
+Geothermal carries a separate warning: EXIOBASE reports about 211 g CO₂e/kWh lifecycle in
+Region 3, far above the usual technology literature and the 44 g/kWh table result for
+nuclear. The engine retains the coefficient and marks the result provisional. See the
+diagnostic in `assumptions.md`.
 
 ---
 
@@ -375,10 +401,11 @@ here is shippable.
 **Money.** All monetary figures are 2011 basic-price million EUR, EXIOBASE's own units. See
 [`units_and_currency.md`](units_and_currency.md) for the chain to 2026 dollars.
 
-**Where a contributor would help most, in order:** the intensity correction (§9), weighted
-baskets so the lifetimes tape can use real replacement rates (§7), and Region 3's population
-and workforce, which several ceilings scale by and which are currently round numbers. All
-three are in [`../backlog.md`](../backlog.md) with what "done" looks like.
+**Where a contributor would help most, in order:** the intensity correction (§9), replacing
+the provisional energy/anchor shares with fuel-resolved direct household GHG, and Region 3's
+population and workforce, which several ceilings scale by and which
+are currently round numbers. All three are in [`../backlog.md`](../backlog.md) with what
+"done" looks like.
 
 ---
 
@@ -395,24 +422,26 @@ Now that there are real numbers to test it against, three things about it need s
 None is fatal, none blocks a first playtest, and all three are cheap to fix. They are here
 rather than in a backlog because anyone reasoning about balance needs to know them.
 
-### 9.1 "The brick reading" and "copies" are currently the same number
+### 10.1 "The brick reading" and "copies" are separated in the export
 
-A tape's `cumulative_full_flat` is solved at its **full ceiling**. If the brick reading is
-that figure divided by 1 Gt, and `copies` is the ceiling divided by the brick, then the two
-are the same quantity computed twice — and the cover's own value never appears.
+The export now gives the intervention's real-curve cumulative separately from `copies`.
+For Y-side tapes the solve is at the physical ceiling. For BUILD the solve is at one cover,
+then `regional_ceiling_scale` converts that cover to the physical ceiling (650 / 10 for
+nuclear and fusion, 180 / 91 for geothermal). `copies` is the whole number of positive 1 Gt
+abatement bricks the full ceiling delivers after the 2050 intensity scalar. A backfire
+produces zero, never a positive count through an absolute value. Its exact formula travels
+beside it as `copies_basis`.
 
-What is presumably meant is that the **cover** is sized so its cumulative equals one brick,
-and `copies` is then how many covers fit inside the ceiling. Those are different numbers and
-both are wanted. Because Y-side shocks are exactly linear in the deployed fraction, one solve
-yields both, so this is a definitional fix rather than extra computation — but until it is
-written down precisely, "the brick reading" means two things depending on who is reading.
+One issue remains: several inherited **cover magnitudes** do not yet equal one curve-corrected
+brick. The export makes that mismatch visible rather than using `copies` to hide it. Moving a
+cover is game-side calibration after these engine numbers land, not a modelling adjustment.
 
-### 9.2 Sizing on a flat curve systematically favours REDUCE over BUILD
+### 10.2 Sizing on a flat curve systematically favours REDUCE over BUILD
 
-This is the one with teeth. Covers are sized on `cumulative_full_flat` — fully deployed from
-2050. Scores use the real deployment curves, which differ sharply by wing: consumption
-changes ramp in over about ten years, while a BUILD tape contributes nothing until its plants
-are finished and then ramps over five more.
+This was the one with teeth. Legacy covers were sized on `cumulative_full_flat` — fully
+deployed from 2050. Scores use the real deployment curves, which differ sharply by wing:
+consumption changes ramp in over about ten years, while a BUILD tape contributes nothing
+until its plants are finished and then ramps over five more.
 
 Delivered cumulative, as a fraction of the flat figure each tape is sized on:
 
@@ -423,15 +452,15 @@ Delivered cumulative, as a fraction of the flat figure each tape is sized on:
 | BUILD, 10 build years | **0.765** |
 | BUILD, 20 build years (fusion) | **0.569** |
 
-**A BUILD tape delivers about 16% less than a REDUCE tape sized to the same flat brick**, and
-a 20-year build about 43% less — before construction emissions, which add another two to
-three percent for nuclear.
+The real solve confirms the arithmetic: nuclear's construction hump is 1.7% of its
+curve-delivered operating abatement, and its ten-year operating curve delivers 0.765 of the
+flat figure. **A BUILD tape therefore delivers about 16% less than a REDUCE tape sized to the
+same flat brick**, and a 20-year build about 43% less.
 
-That is a systematic bias, not noise, and it points the wrong way: it makes building look
-better on paper than it will play. The danger is not the gap itself but its invisibility. If
-it shows up in playtesting as "BUILD feels weak", the tempting fix is a thumb on a ceiling,
-which would be treating a sizing artefact as a physical finding — exactly the confusion §8
-exists to prevent.
+The export now carries both flat and curve-corrected cumulatives and computes `copies` from
+the latter, so the bias is no longer invisible. The legacy cover magnitudes still need game
+calibration against those curve-corrected values; no physical ceiling was changed to make a
+wing look better.
 
 The fix is to size covers on the curve the tape will actually run, not the flat one. The flat
 figure stays useful as a wing-neutral comparison, and should be labelled as that rather than

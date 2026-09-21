@@ -117,8 +117,24 @@ Function signatures are in `src/redworlds/actions/`.
    produce the annual curve and the fifty-year cumulative.
 5. Writes `progress_json` after each step so the game can animate, then `result_json`.
 
-For the MVP this is a static comparative: one solve, one delta, scaled through time. See
-[`assumptions.md`](assumptions.md) for why.
+For the MVP this is a static comparative. Y-side SWAP and REDUCE need one solve each. BUILD's
+A-matrix operation is sampled at 0.25, 0.5, 0.75 and 1.0 because re-inverting the Leontief
+matrix is non-linear; the game interpolates those points. See [`assumptions.md`](assumptions.md)
+for why.
+
+For the first scored playtest these results are generated offline by
+`just export-tapes`. The JSON schema is
+[`data/tech_choices/tape_table.schema.json`](../../data/tech_choices/tape_table.schema.json).
+The file carries both CO₂e and CO₂ in tonnes, the 2011 basis and 2050 intensity scalar,
+flat and real-curve cumulatives, and all nine tape records. Status has three meanings:
+
+- `ready`: usable without a known material qualification beyond the documented model assumptions;
+- `provisional`: usable for the MVP, with a material named limitation in `limitation`, and expected to be revised;
+- `held`: no numerical score because the mechanism itself is not settled.
+
+Smart grid is deliberately present as `held`, rather than absent: consumers can distinguish
+an intentionally blocked tape from a missing or misspelled record, while all nine contract
+ids remain enumerable.
 
 ---
 
