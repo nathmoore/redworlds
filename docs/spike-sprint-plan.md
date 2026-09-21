@@ -164,10 +164,60 @@ tapes are therefore `eca_buy_less`, `eca_extended_product_lifetimes` and
 
 ## Sprint 3 — the other two wings
 
-T4 (consumer-side SWAP), T5 (BUILD construction phase), T6 (BUILD operating phase, the
-A-matrix mix change), T8 (fusion as nuclear with different build years and capex). Then T9
-in full and T10's docs. T7 (grid) stays held until the game settles the tape's mechanism —
-see Decisions below.
+**What sprint 2 changed about this sprint.** Four things carry over and are worth holding
+before picking up a task, because each one either makes a step cheaper or makes a step
+riskier than the original plan assumed.
+
+1. **BUILD breaks the linearity everything else relies on.** Y-side shocks are exactly linear
+   in the deployed fraction, which is why one solve per tape serves every outcome fraction —
+   asserted to 1e-9 in sprint 2. An A-matrix change is not linear: re-inverting `L` after a
+   coefficient shift does not scale. So BUILD tapes need solving at 0.25 / 0.5 / 0.75 / 1.0
+   and interpolating, the export schema has to carry all four, and **the linearity test must
+   not be copied across to BUILD** — it would pass at the endpoints and lie in between.
+2. **The flat-curve sizing bias bites BUILD hardest** (`tape_records.md` §10.2). A 10-year
+   BUILD delivers 0.765 of its flat figure against REDUCE's 0.912. Produce curve-corrected
+   cumulatives from the start rather than retrofitting them, or T5/T6 will look ~16% better
+   than they play and the error will be invisible until playtesting misattributes it.
+3. **Weighted baskets exist**, so SWAP can move products at their own rates without the
+   workarounds sprint 2 needed, and `apply_swap` must gain the `F_Y` correction that
+   `apply_reduce` has — the gas tape burns fuel at home and is a SWAP.
+4. **The ceiling method is settled** — a rate times a mobilisation window, per-person units,
+   economics and acceptability left out (`tape_records.md` §4–6). T5 and T8 can use it
+   directly. Fusion needs no ceiling at all, which removes a step.
+
+**Order, and why.** SWAP before BUILD: `apply_swap` is two `scale_final_demand` calls plus a
+flat re-spend, so it lands on machinery that already exists, and it gets a second wing into
+the export weeks before the A-matrix work is finished.
+
+- [ ] **T4 — consumer-side SWAP** (`eca_electric_vehicle_transition`, `eca_ban_gas_supply`).
+      Cut product A in the region's household column, add product B at the tape's
+      service-equivalent (COP 3 for gas → heat-pump electricity, ~⅓ energy for petrol → EV
+      electricity), priced; re-spend the remainder flat across the household basket. Both
+      tapes need `F_Y` wired through `apply_swap`. *Done when:* `gdp_impact` ≈ 0 — the
+      closed-budget check, and the cleanest possible test that a SWAP preserves money.
+- [ ] **T5 — BUILD, construction phase.** GFCF injection across *Construction work (45)* 40%,
+      *Machinery and equipment n.e.c. (29)* 42%, *Electrical machinery (31)* 9%, *Other
+      business services (74)* 9%, spread over `build_years`. Returns a *positive* annual
+      delta. Still Y-side, so still linear. *Done when:* nuclear's construction total is a
+      few percent of its operating abatement — and note it lands on a 2011 construction
+      trough, which is deliberate and recorded, not a bug.
+- [ ] **T6 — BUILD, operating phase.** The A-matrix electricity-mix change, and the hardest
+      step in the project so far. Re-inverting `L` per tape is minutes, not seconds, which is
+      what makes the four-point deployment sampling a real cost rather than a detail.
+      *Done when:* nuclear lands in the contract's 0.5–1.8 Gt range at the ten-reactor cover.
+      *Check first:* pymrio issue #72 reports surprising GHG intensities for solar PV and
+      geothermal in EXIOBASE 3 — verify both sectors' coefficients before trusting a result.
+- [ ] **T8 — fusion.** Nuclear's mechanics at 20 build years and 2× capex per GW. Cheap once
+      T5 and T6 exist, and it carries no ceiling, so it is mostly a record and a re-run.
+- [ ] **T9 in full** — all nine tapes, with the BUILD deployment samples and both CO₂ and
+      CO₂e per tape.
+- [ ] **T10 — docs.** Fold sprint 3's assumptions into `assumptions.md`, and revisit
+      `tape_records.md` §10 with BUILD numbers in hand: the flat-curve finding was derived
+      from curve arithmetic alone and deserves confirming against a real BUILD solve.
+
+**T7, the grid tape, stays held** — two candidate mechanisms need different shocks and the
+game has not settled which. Building either first risks throwing the work away. It is stopped
+at the mechanism gate rather than failing, which is that gate working.
 
 ---
 
