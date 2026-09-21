@@ -78,7 +78,9 @@ The implementation is a pure A-matrix action, sampled at 0.25, 0.5, 0.75 and 1.0
 **Completed 2026-09-21.** The cached-world sensitivity is −0.074 Gt CO₂e with loss
 reduction alone, −0.476 Gt at the selected 2% demand response (0.86 brick), and −0.677 Gt
 at 3% (1.22 bricks). The record exports four deployment samples and remains provisional
-because the 2% saving, not the implemented mechanism, needs firmer evidence.
+because the 2% saving, not the implemented mechanism, needs firmer evidence. Its cover is
+the full physical grid programme: the engine does not inflate it beyond 100% merely to make
+the result equal one brick.
 
 Record changes:
 

@@ -207,17 +207,20 @@ def test_the_brick_is_the_peg() -> None:
 
 
 @pytest.mark.integration
-def test_every_solved_cover_lands_on_the_peg() -> None:
-    """Covers are derived from the brick, so a solved tape should measure one.
+def test_every_brick_calibrated_cover_lands_on_the_peg() -> None:
+    """Covers derived from the brick should measure one.
 
     Excludes tapes that cannot be sized by scaling: a backfiring tape has no positive cover,
-    a held tape has no solve, and the lifetimes cover is non-linear in years so its figure
-    needs its own run.
+    a held tape has no solve, the lifetimes cover needs its own non-linear solve, and a
+    physical-ceiling cover honestly reports what is available even when that is sub-brick.
     """
     world = _cached_baseline()
-    table = build_tape_table(world, load_tape_records(), load_scenario_weights())
+    records = load_tape_records()
+    table = build_tape_table(world, records, load_scenario_weights())
 
     for key, payload in table["tapes"].items():
+        if records[key].get("cover_calibration", "brick") != "brick":
+            continue
         bricks = payload.get("bricks_at_cover")
         if bricks is None or bricks <= 0.0:
             continue

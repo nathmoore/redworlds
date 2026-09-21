@@ -34,9 +34,11 @@ DEFAULT_EXPORT_DIR = _REPO_ROOT / "data" / "exports"
 SCHEMA_PATH = _REPO_ROOT / "data" / "tech_choices" / "tape_table.schema.json"
 # A brick is what the peg delivers, not a round billion.
 #
-# eca_nuclear's ten-reactor cover is the peg (red_carbon_contract.md §2): every other tape is
-# sized to match it, so the unit has to *be* it. Ten reactors measure 1.267 Gt CO2e on the
-# 2011 table, which the 2050 intensity correction takes to 0.555 Gt — and that is the brick.
+# eca_nuclear's ten-reactor cover is the peg (red_carbon_contract.md §2): brick-calibrated
+# covers are sized to match it, so the unit has to *be* it. Ten reactors measure 1.267 Gt
+# CO2e on the 2011 table, which the 2050 intensity correction takes to 0.555 Gt — and that
+# is the brick. A record may instead name a physical-ceiling cover when one brick is not
+# physically available; Smart Grid is the first such case.
 #
 # Declared rather than derived from nuclear's solve, to keep the unit from moving underfoot
 # whenever the table is rebuilt: a brick that silently re-based itself would re-scale every
@@ -120,14 +122,18 @@ def _cover_reading(record: dict[str, Any], cumulative_curve_t: float, solved_at:
 
     scale = record["regional_ceiling"] / record["cover_magnitude"][cover_key]
     at_cover = cumulative_curve_t if solved_at == "cover" else cumulative_curve_t / scale
+    calibration = record.get("cover_calibration", "brick")
+    basis = (
+        f"solved at {solved_at}; ceiling is {scale:g}x the cover of "
+        f"{record['cover_magnitude'][cover_key]:g} {cover_key}"
+    )
+    if calibration == "physical_ceiling":
+        basis += "; cover is the full physical programme, not calibrated to one brick"
     return {
         "cumulative_at_cover_co2e_t": at_cover,
         "bricks_at_cover": -at_cover * intensity_scalar(TARGET_YEAR) / BRICK_TONNES,
         "regional_ceiling_scale": scale,
-        "cover_basis": (
-            f"solved at {solved_at}; ceiling is {scale:g}x the cover of "
-            f"{record['cover_magnitude'][cover_key]:g} {cover_key}"
-        ),
+        "cover_basis": basis,
     }
 
 

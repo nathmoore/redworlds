@@ -356,6 +356,7 @@ target_loss_fraction = 0.040
 demand_response_fraction = 0.020
 cover_magnitude = { grid_fraction = 1.0 }
 ceiling_cover_key = "grid_fraction"
+cover_calibration = "physical_ceiling"
 regional_ceiling = 1.0
 regional_ceiling_unit = "fraction of the regional grid upgraded"
 regional_ceiling_basis = """
