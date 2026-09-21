@@ -162,13 +162,35 @@ the magnitudes, which are labelled provisional either way.
        `N / (life + N)`, so the +1 year cover is not the +4 year ceiling divided by four, and
        getting it honestly needs a second solve.
 
-       **What the first reading says, and it is one finding rather than nine.** Every cover
-       comes in under a brick — nuclear 0.55, gas 0.75, buy-less 0.42, fusion 0.40, geothermal
-       0.32, remote work 0.23, EV −0.05. Divide out the 2050 intensity correction and they
-       cluster on a **median of 0.94**. The covers were sized on the 2011 basis, before that
-       correction existed. So before re-sizing nine covers individually at §D.2, settle
-       whether covers should be restated on the 2050 basis — one factor of about 2.3, which is
-       most of the gap.
+       **Read these against the peg, not against 1 Gt.** Nuclear is the peg: a brick is
+       defined as whatever ten reactors delivers, and "~1 Gt" is a round description of that
+       rather than the target. Measured that way the covers are already close —
+
+       | Tape | vs 1 Gt | vs the peg |
+       |---|---|---|
+       | `eca_nuclear` *(the peg)* | 0.55 | **1.00** |
+       | `eca_ban_gas_supply` | 0.75 | 1.36 |
+       | `eca_buy_less` | 0.42 | 0.76 |
+       | `eca_fusion` | 0.40 | 0.73 |
+       | `eca_geothermal` | 0.32 | 0.58 |
+       | `eca_remote_work_commuters` | 0.23 | 0.42 |
+       | `eca_electric_vehicle_transition` | −0.05 | −0.09 |
+
+       Per wing that is BUILD 0.77, REDUCE 0.59, and a SWAP column that is really just the gas
+       tape until EV is fixed and the grid lands. A 1.3x gap between BUILD and REDUCE is a
+       long way from broken and well inside what re-sizing covers can close.
+
+       **The intensity correction cancels out of all of this**, because it scales the peg
+       too. It changes the absolute figure on the board, never the ratios — which is the same
+       reason it is safe to ship while unfinished.
+
+       **The separate question it does raise:** three things cannot all hold — ten reactors is
+       the cover, a brick is ~1 Gt, and the engine says ten reactors is 0.55 Gt on the 2050
+       basis. The absolute number is load-bearing because the board converts cumulative CO₂ to
+       a 2100 temperature. So either a brick becomes 0.55 Gt and the temperature mapping
+       absorbs it, or nuclear's cover grows to about eighteen reactors, or the board's Gt
+       figure is knowingly about half what a brick claims. That is a game-side call, and it is
+       about the *peg*, not about calibrating nine tapes.
 
 **The engine has stopped being the long pole.** The game's backlog 6 says every open item in
 its §B/§C/§D consumes this export, and §D's gate was "the engine export has run at least
