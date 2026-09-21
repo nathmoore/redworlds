@@ -35,6 +35,7 @@ status = "ready"
 region_id = 3
 scenario_category = "buy_less_basket_a"
 matrix_target = ["Y"]
+final_demand_categories = ["Final consumption expenditure by households"]
 max_reducible_fraction = 0.25
 deployment_curve = "reduce_default"
 build_years_reference = 0
@@ -53,6 +54,10 @@ beta_day_assumption = """
 The cut is uniform across all thirteen products in the basket, because the game sends one
 outcome fraction. A real behavioural shift would fall unevenly (fast fashion before air
 travel). Uniform is the honest reading of a single-number input.
+
+Households only. Government and NPISH buy some of basket A too, but a tape that asks people
+to buy less does not ask a health ministry to buy fewer instruments, and cutting those
+columns would book a contraction nobody chose.
 """
 
 [[reduce]]
@@ -62,17 +67,23 @@ status = "ready"
 region_id = 3
 scenario_category = "appliances_and_devices"
 matrix_target = ["Y"]
-max_reducible_fraction = 0.5
+max_reducible_fraction = 1.0
 deployment_curve = "reduce_default"
 build_years_reference = 0
 cover_magnitude = { extra_years_of_life = 1 }
-regional_ceiling = 0.5
-regional_ceiling_unit = "fraction of appliance and device final demand"
+regional_ceiling = 4
+regional_ceiling_unit = "extra years of life per product"
 regional_ceiling_basis = """
-Physical, from replacement cycles. Typical device life is roughly 3-5 years and typical
-appliance life 8-12; doubling either halves the annual replacement flow, so a halving of
-demand is the ceiling a full repair-and-reuse culture reaches. Beyond that the limit is
-genuine failure rather than replacement, which no repair culture removes.
+Physical, from replacement cycles. Adding N years to a product's life removes N / (life + N)
+of its annual replacement flow, so the ceiling is the N beyond which returns vanish into
+genuine failure rather than replacement. Four years roughly doubles a short-lived product's
+life and adds a third to a long-lived one, which is about as far as a full repair-and-reuse
+culture reaches.
+
+The ceiling is expressed in *years*, not as a demand fraction, because the fraction differs
+per product — that is the whole point of this tape. The per-product fractions at N = 4 live
+in the weight column of exiobase_to_scenario.csv, which is why max_reducible_fraction is 1.0
+here: the weights already carry the full ceiling.
 """
 beta_day_assumption = """
 Volume only: fewer units are made and the products' emission intensities are unchanged.
@@ -80,6 +91,14 @@ The contract's price-compensation k is therefore 0. The contract is explicit tha
 volume effect and the intensity effect must never both be applied or the tonne is
 double-counted; volume is the one the Y-side path can represent honestly, and it is the
 conservative of the two. Retooling capex (a small GFCF J-curve) is not modelled.
+
+Deployment is linear in the outcome fraction, standing in for the true N / (life + N) curve,
+which is mildly concave. The endpoints are exact and partial deployments are slightly
+understated. Worth the exactness it buys elsewhere: a linear shock is what lets one solve
+serve every outcome fraction.
+
+Mean lifetimes behind the weights are order-of-magnitude and are this tape's largest
+uncertainty. They want checking against Vita et al. 2019.
 """
 
 [[reduce]]
@@ -93,6 +112,7 @@ max_reducible_fraction = 0.11
 deployment_curve = "reduce_default"
 build_years_reference = 0
 direct_emissions_extension = "impacts"
+direct_emissions_driver = "Motor Gasoline"
 final_demand_categories = ["Final consumption expenditure by households"]
 cover_magnitude = { people = 100_000_000, commute_days_avoided_per_week = 1 }
 regional_ceiling = 140_000_000
@@ -113,9 +133,11 @@ times the ~35% of workers who could stop doing it, giving 0.30 x 0.35 = 0.105, r
 0.11 of household motor fuel.
 """
 beta_day_assumption = """
-This tape opts into the F_Y correction: direct household emissions move by the fuel's own
-change rather than by the household basket's total, which is why the basket is only the two
-fuels households burn themselves. The correction assumes direct emissions are linear in
+This tape opts into the F_Y correction: direct household emissions move by Motor Gasoline's
+own change rather than by the household basket's total. Naming the driving product is what
+lets the basket hold the forecourt margin and public transport as well as the fuels — before
+weights existed the basket was held to the two fuels alone so that "the basket's change" and
+"the fuel's change" were the same number. The correction assumes direct emissions are linear in
 fuel spend, so it assumes no rebound in the remaining trips and no shift to a cheaper or
 dirtier fuel. Rebound is the contract's stated dominant uncertainty for this tape.
 Home heating added by staying in is not netted off here; the contract's 0.13 t/person/day
@@ -150,13 +172,26 @@ budget_musd_2026_purchaser = 100_000
 build_years_reference = 10
 deployment_curve = "build_default"
 cover_magnitude = { reactors = 10, gw = 12, capacity_factor = 0.9, twh_per_year = 95 }
-regional_ceiling = 400
-regional_ceiling_unit = "TWh/yr of new nuclear generation"
+regional_ceiling = 650
+regional_ceiling_unit = "reactors commissioned in a ten-year mobilisation"
 regional_ceiling_basis = """
-Industrial, not geological. Uranium supply and sites do not bind at this scale in Region 3;
-the binding constraint is how fast the region can pour concrete and forge pressure vessels.
-Roughly 4x the cover magnitude is about one reactor a year sustained across the region for
-the window, which is close to the peak European build rate of the 1980s.
+Industrial, not geological. Uranium supply and sites do not bind at this scale; how fast the
+region can pour concrete and forge pressure vessels does.
+
+France went from 15 to 55 reactors in commercial operation during the 1980s - about four grid
+connections a year sustained for a decade, off a population of ~55 M, and the fastest buildout
+any country has achieved. Scaled per head to Region 3's ~900 M that is ~65 a year, ~650 over
+a ten-year mobilisation window. In MacKay's units, ~19 kWh/d per person against his European
+consumption stack of 125.
+
+The window is ten years of *commissioning*, which is not the same as build_years_reference:
+that is how long one plant takes. France had about six under construction at any moment while
+connecting four a year.
+
+What this misses, and would lower it: heavy forging capacity for pressure vessels is
+concentrated in a handful of plants worldwide, and is the constraint the literature actually
+names. Population scaling is fine while the tape is effectively unlimited at the cohort sizes
+the game uses. See docs/design/tape_records.md 5.
 """
 beta_day_assumption = "Not yet solved. Construction phase is a GFCF injection on the Wood/Wiebe 2018 SI1 split; the operating phase is an A-matrix electricity-mix change."
 
@@ -195,13 +230,16 @@ budget_musd_2026_purchaser = 200_000
 build_years_reference = 20
 deployment_curve = "build_default"
 cover_magnitude = { gw = 12, capacity_factor = 0.9, twh_per_year = 95 }
-regional_ceiling = 400
-regional_ceiling_unit = "TWh/yr of new fusion generation"
+regional_ceiling = 0
+regional_ceiling_unit = "not ceiling-limited"
 regional_ceiling_basis = """
-Same industrial ceiling as nuclear, and for the same reason: if fusion works, what limits
-it is the same heavy forging and construction capacity. The maturity story is carried by
-the game's outcome band and by 20-year build times at twice the capex per GW, not by a
-tighter ceiling — the engine has no honest basis for treating the ceiling as different.
+None, deliberately. Fusion is not limited by land, by materials, or by industrial capacity in
+any way this engine could defend. What is genuinely uncertain about it is whether it works at
+scale, and that already sits in the game's outcome band as the widest spread on the shelf.
+
+Giving it a ceiling as well would count the same doubt twice and dress a narrative intuition
+as a physical fact. A ceiling of 0 means "not ceiling-limited", not "impossible" - consumers
+should read regional_ceiling_unit, not the number. See docs/design/tape_records.md 4.
 """
 beta_day_assumption = "Not yet solved. Modelled as nuclear with double capex per GW and a 20-year reference build; the engine gives one honest number and the game's outcome band carries the risk."
 
@@ -273,9 +311,13 @@ build_years_reference = 5
 max_replaceable_fraction = 1.0
 deployment_curve = "swap_default"
 cover_magnitude = { numberless = true }
-regional_ceiling = 220
-regional_ceiling_unit = "TWh/yr recoverable from losses and curtailment"
+regional_ceiling = 0
+regional_ceiling_unit = "held - mechanism undecided"
 regional_ceiling_basis = """
+Held, not computed. Two candidate mechanisms are under design and they need different
+shocks, so a ceiling assigned now would be a limit on a shock nobody has specified. The
+headroom below is real and worth recording; it becomes a ceiling once the mechanism lands.
+
 Two stacked physical headrooms, both checked 2026-09-18. Transmission and distribution
 losses run ~6.2% of output in the EU and materially higher across the rest of Region 3
 (Turkey ~9.5%, parts of the Balkans and Central Asia far higher), so two points saved on

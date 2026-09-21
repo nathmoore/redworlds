@@ -410,15 +410,29 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
       ~0.44, so **every headline figure is ~27% smaller than under 0.6.**
       *Done when:* `intensity_scalar` reads from a walked baseline rather than constants, and
       the constants are deleted rather than left beside it.
-- [ ] **Weighted baskets.** `apply_reduce` takes one fraction for the whole basket; the
-      `weight` column in `exiobase_to_scenario.csv` exists for per-product rates and is 1.0
-      everywhere. Two tapes need it: extended product lifetimes wants `1 / (mean life + 1)`
-      per product group (devices ~25%, white goods ~8%, clothing ~20%, from Vita et al. 2019),
-      and remote work wants a wider basket than two fuels. It also forces a decision the
-      single-factor version hides: with per-product weights, the basket's factor and the
-      *fuel's* factor stop being the same number, and `scale_direct_emissions` must follow the
-      fuel row specifically — so a fuel tape has to name which product drives `F_Y`.
-      *Done when:* the lifetimes tape runs on eight products at their own rates.
+- [x] ~~**Weighted baskets.**~~ Done 2026-09-21. `scale_final_demand_per_product` is the
+      general form and the flat one delegates to it; `apply_reduce` gained `weights` and
+      `direct_emissions_driver`. The lifetimes tape runs on eight products at `N/(life+N)`
+      with N = 4, and remote work widened to four products with Motor Gasoline driving `F_Y`.
+      Linearity in the headline fraction holds with uneven weights and is tested.
+- [ ] **Mean product lifetimes, against Vita et al. 2019.** The weights in
+      `appliances_and_devices` are `N / (mean life + N)`, and the mean lives behind them
+      (~4 yr devices and clothing, ~7 medical/precision, ~11 white goods, ~12 furniture) are
+      order-of-magnitude figures, not sourced. They are the largest uncertainty in the tape
+      and it is now the second-largest REDUCE tape, so they matter more than they did. Vita
+      et al. 2019 is already in `docs/references.md`.
+- [ ] **Is four extra years the right lifetimes ceiling?** The ceiling is expressed in years
+      rather than as a demand fraction, which is right — the fraction differs per product. But
+      N = 4 is a judgement about where repair stops paying, not a measurement, and it sets the
+      tape's whole magnitude. The cover (+1 year) and the ceiling (+4) are also related
+      non-linearly, so the linear deployment curve understates partial rollouts slightly; the
+      endpoints are exact.
+- [ ] **Remote work's cover needs re-sizing, or its ceiling re-checking.** The engine says 3
+      copies where the game sized ~9. The difference is the teleworkable share: a sourced
+      ~35% of workers times commuting's ~30% of household car distance gives an 11% ceiling
+      on the basket, where the earlier working figure was 28%. Either the cover moves (the
+      normal handshake) or the commuting-share figure is wrong — see the tape sizing figures
+      item above, which is the same uncertainty seen from the other end.
 - [ ] **Region 3 population and workforce.** Several ceilings scale per head (nuclear off
       France's build rate, remote work off the teleworkable share) and both figures are
       currently order-of-magnitude guesses: ~900 M people, ~300-400 M workers. Derive them

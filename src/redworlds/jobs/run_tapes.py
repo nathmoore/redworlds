@@ -30,7 +30,7 @@ from redworlds.actions.reduce import apply_reduce
 from redworlds.engine.io_tables import CONSUMPTION_CATEGORIES, GHG_EXTENSION, GHG_STRESSOR
 from redworlds.engine.regions import load_region_names
 from redworlds.engine.scoring import WINDOW_END, WINDOW_START, annual_delta, cumulative_delta, gdp_impact
-from redworlds.jobs.tape_records import basket_for
+from redworlds.jobs.tape_records import weights_for
 
 # Fully deployed from the first year of the window. The game applies a tape's real ramp
 # itself, so what the table ships is the flat figure and the shape is the game's business.
@@ -44,7 +44,8 @@ class ReduceTapeResult:
     Attributes:
         key: The tape id the game sends.
         region: The region label the shock was applied to.
-        pct_reduction: The fraction of the basket removed — the record's ceiling.
+        pct_reduction: The record's headline fraction. A product's realised cut is this
+            times its weight, so for a weighted basket it is not the cut of anything.
         products: How many products the basket held, for a sanity check at export.
         annual_delta: kg CO2-eq per year, signed. Negative means the tape abates.
         gdp_impact: Change in world final demand, in the table's monetary unit. Negative
@@ -66,7 +67,7 @@ class ReduceTapeResult:
 def run_reduce_tape(
     world: pymrio.IOSystem,
     record: dict[str, Any],
-    baskets: dict[str, list[str]],
+    baskets: dict[str, dict[str, float]],
     region_names: dict[int, str] | None = None,
     extension: str = GHG_EXTENSION,
     stressor: str | tuple[str, ...] = GHG_STRESSOR,
@@ -76,7 +77,7 @@ def run_reduce_tape(
     Args:
         world: The calculated baseline — the cached aggregated world in practice.
         record: One record from ``tape_records.load_tape_records``, wing ``reduce``.
-        baskets: As ``tape_records.load_scenario_concordance`` returns.
+        baskets: As ``tape_records.load_scenario_weights`` returns.
         region_names: {game_region_id: label}. Loaded from the concordance if omitted.
         extension: Name of the satellite account to score on. EXIOBASE: ``"impacts"``.
         stressor: Row label within the account. A tuple for multi-level indices, as in
@@ -93,16 +94,18 @@ def run_reduce_tape(
 
     region_names = load_region_names() if region_names is None else region_names
     region = region_names[record["region_id"]]
-    basket = basket_for(record, baskets)
+    weights = weights_for(record, baskets)
     pct_reduction = record["max_reducible_fraction"]
 
     shocked = apply_reduce(
         world,
         region,
-        basket,
+        list(weights),
         pct_reduction,
         categories=record.get("final_demand_categories", CONSUMPTION_CATEGORIES),
         direct_emissions_extension=record.get("direct_emissions_extension"),
+        weights=weights,
+        direct_emissions_driver=record.get("direct_emissions_driver"),
     )
 
     delta = annual_delta(world, shocked, extension, stressor)
@@ -111,7 +114,7 @@ def run_reduce_tape(
         key=record["key"],
         region=region,
         pct_reduction=pct_reduction,
-        products=len(basket),
+        products=len(weights),
         annual_delta=delta,
         gdp_impact=gdp_impact(world, shocked),
         cumulative_full_flat=spread["co2_delta_cumulative"],
@@ -122,7 +125,7 @@ def run_reduce_tape(
 def run_ready_reduce_tapes(
     world: pymrio.IOSystem,
     records: dict[str, dict[str, Any]],
-    baskets: dict[str, list[str]],
+    baskets: dict[str, dict[str, float]],
     extension: str = GHG_EXTENSION,
     stressor: str | tuple[str, ...] = GHG_STRESSOR,
 ) -> dict[str, ReduceTapeResult]:
@@ -135,7 +138,7 @@ def run_ready_reduce_tapes(
     Args:
         world: The calculated baseline.
         records: As ``tape_records.load_tape_records`` returns.
-        baskets: As ``tape_records.load_scenario_concordance`` returns.
+        baskets: As ``tape_records.load_scenario_weights`` returns.
         extension: Name of the satellite account to score on. EXIOBASE: ``"impacts"``.
         stressor: Row label within the account.
 

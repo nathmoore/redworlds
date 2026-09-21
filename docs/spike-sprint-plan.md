@@ -98,29 +98,47 @@ the magnitudes, which are labelled provisional either way.
        the basket per brick" from literature. The table says **1.34%**. Two independent
        routes, same number.
 
-3. [x] **T3 — the three REDUCE tapes through the existing path. Done 2026-09-20.**
-       `jobs/run_tapes.py` turns a record into an engine call and returns the tape's numbers.
-       All three solve against the cached baseline, at full ceiling, flat curve:
+3. [x] **T3 — the three REDUCE tapes through the existing path. Done 2026-09-20,
+       re-solved 2026-09-21 after weighted baskets.** `jobs/run_tapes.py` turns a record into
+       an engine call and returns the tape's numbers.
 
-       | Tape | Cut | Annual | Cumulative | Booked GDP |
+       **Linearity is asserted, not assumed.** The precomputed-table design (contract §4.4)
+       rests on solving each tape once at full deployment and letting the game multiply by
+       the outcome fraction. Tests pin it to 1e-9 — with the `F_Y` correction, and with
+       uneven weights. If it were only approximately true, every score the game computes
+       would be wrong by an amount nobody could see.
+
+3a. [x] **Weighted baskets, and the record realignment. Done 2026-09-21.** A basket can now
+       be cut unevenly: `scale_final_demand_per_product` is the general form (the flat one
+       delegates to it), and `apply_reduce` gained `weights` plus `direct_emissions_driver`.
+       The driver is what makes the wider baskets possible — with uneven weights "the
+       basket's change" is several numbers, so the fuel burnt at home has to name the row it
+       follows rather than ride an average that describes nothing.
+
+       Records realigned against the game's tape modelling sheet, which an earlier pass had
+       not read. Buy-less to households only; lifetimes to eight products at
+       `N / (life + N)` with N = 4; remote work widened to four products with Motor Gasoline
+       driving `F_Y`; **fusion and smart grid stripped of ceilings** — fusion because its
+       uncertainty belongs in the outcome band, smart grid because its mechanism is
+       undecided; nuclear raised from 400 TWh/yr to 650 reactors on the France anchor.
+
+       **Re-solved, 2011 basis and 2050 basis:**
+
+       | Tape | Products | 2011 Gt | 2050 Gt | Copies |
        |---|---|---|---|---|
-       | `eca_buy_less` | 25% of 13 products | −389 Mt/yr | **−19.8 Gt** | −0.55 T EUR |
-       | `eca_remote_work_commuters` | 11% of 2 products | −155 Mt/yr | **−7.9 Gt** | −0.02 T EUR |
-       | `eca_extended_product_lifetimes` | 50% of 4 products | −64 Mt/yr | **−3.3 Gt** | −0.08 T EUR |
+       | `eca_buy_less` | 13 | −18.6 | **−8.2** | 8 |
+       | `eca_extended_product_lifetimes` | 8 | −12.2 | **−5.3** | 5 |
+       | `eca_remote_work_commuters` | 4 | −8.1 | **−3.6** | 3 |
 
-       Remote work removes a twenty-fifth of the spend buy-less does and abates two fifths as
-       much: a basket of nothing but burnt fuel behaving exactly as it should, which is the
-       clearest evidence the `F_Y` correction and the tight basket both work.
+       Lifetimes moved most — nearly four times its old figure — because it gained clothing
+       and furniture and a ceiling expressed in years rather than a flat 50%. The spread of
+       copies tightened from 19/3/7 to 8/5/3, which is a far more playable shelf and was not
+       aimed at: it fell out of using the sheet's mechanisms.
 
-       **Linearity is now asserted, not assumed.** The precomputed-table design (contract
-       §4.4) rests on solving each tape once at full deployment and letting the game multiply
-       by the outcome fraction. `test_annual_delta_is_linear_in_the_fraction` pins it to
-       1e-9, with and without the `F_Y` correction. If it were only approximately true every
-       score the game computes would be wrong by an amount nobody could see.
-
-       One modelling call T3 forced: remote work cuts **households only**, where the other
-       two cut all three consumption columns. The motor fuel in the government column is
-       public fleet fuel, which nobody stops buying because office workers stayed home.
+       Against the game's own expectations (~10 / 3–5 / ~9) buy-less and lifetimes land, and
+       **remote work comes in at 3 against ~9**. That is the engine reporting and the cover
+       needing to move, which is the handshake working. It follows from a sourced 0.11
+       ceiling where the earlier guess was 0.28.
 4. [ ] **T9-partial — the export job, three tapes.** `jobs/export_tape_table.py` writing
        `data/exports/tape_table_<date>.json` with the full per-tape schema and file-level
        `baseline`, `intensity_scalar_2050`, `units`. Records for the six unbuilt tapes are

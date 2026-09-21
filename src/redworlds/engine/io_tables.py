@@ -22,7 +22,7 @@ References:
   - pymrio docs: https://pymrio.readthedocs.io
 """
 
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 
 import pandas as pd
 import pymrio
@@ -70,12 +70,50 @@ def scale_final_demand(
         A copy of ``mrio`` with only ``Y`` changed. Call ``recalculate_from_final_demand``
         before reading emissions from it.
     """
+    sectors = [sector] if isinstance(sector, str) else list(sector)
+    return scale_final_demand_per_product(mrio, region, dict.fromkeys(sectors, factor), categories)
+
+
+def scale_final_demand_per_product(
+    mrio: pymrio.IOSystem,
+    region: str,
+    factors: Mapping[str, float],
+    categories: Sequence[str] | None = None,
+) -> pymrio.IOSystem:
+    """Scale a region's final demand product by product, each with its own factor.
+
+    The general form of :func:`scale_final_demand`, which is the same operation with one
+    factor repeated. A basket needs this when its products do not respond equally: extending
+    the life of a laptop removes a quarter of its replacement demand, extending the life of a
+    washing machine removes a twelfth, and cutting both by the same percentage would describe
+    neither.
+
+    Each product is still scaled across every producing region, so imports move with domestic
+    supply.
+
+    Args:
+        mrio: The IO system to modify. Not mutated; a copy is returned.
+        region: Region code of the consumer.
+        factors: {product label: multiplicative factor}. 0.9 means a 10% reduction in that
+            product. Products absent from the mapping are left alone.
+        categories: Final demand categories (Y column labels) to scale. Defaults to all
+            categories in the region's column block.
+
+    Returns:
+        A copy of ``mrio`` with only ``Y`` changed. Call ``recalculate_from_final_demand``
+        before reading emissions from it.
+    """
     result = mrio.copy()
     assert result.Y is not None
-    sectors = [sector] if isinstance(sector, str) else list(sector)
     columns = (region, list(categories)) if categories is not None else (region, slice(None))
-    rows = (slice(None), sectors)
-    result.Y.loc[rows, columns] = result.Y.loc[rows, columns] * factor
+    # One .loc assignment per distinct factor rather than per product: a 200-product basket
+    # with three distinct rates is three assignments, not two hundred.
+    by_factor: dict[float, list[str]] = {}
+    for product, factor in factors.items():
+        by_factor.setdefault(factor, []).append(product)
+    for factor, products in by_factor.items():
+        rows = (slice(None), products)
+        result.Y.loc[rows, columns] = result.Y.loc[rows, columns] * factor
     return result
 
 

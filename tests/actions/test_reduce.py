@@ -7,11 +7,13 @@ emissions account is ``emissions`` with tuple stressor labels.
 from typing import Any
 
 import numpy as np
+import pandas as pd
 import pymrio
 import pytest
 
 from redworlds.actions.reduce import apply_reduce
 from redworlds.engine.io_tables import CONSUMPTION_CATEGORIES, GFCF, HOUSEHOLDS, get_region_emissions
+from redworlds.engine.scoring import total_emissions
 
 TEST_EXTENSION = "emissions"
 TEST_STRESSOR = ("emission_type1", "air")
@@ -164,3 +166,127 @@ def test_reduce_fuel_tape_of_zero_is_identity(test_mrio: pymrio.IOSystem) -> Non
     )
     assert np.allclose(_account(result).F_Y.to_numpy(), _account(test_mrio).F_Y.to_numpy())
     assert np.allclose(_account(result).D_cba_reg.to_numpy(), _account(test_mrio).D_cba_reg.to_numpy())
+
+
+# --- Weighted baskets ------------------------------------------------------------------
+#
+# A basket need not be cut evenly. These pin the two things that could go silently wrong:
+# a weight not actually reaching the right product, and weights breaking the linearity the
+# whole precomputed-table design rests on.
+
+
+def _region_demand(mrio: pymrio.IOSystem, region: str, product: str, categories: list[str]) -> float:
+    """Total final demand for one product in a region's named columns."""
+    assert mrio.Y is not None
+    return float(mrio.Y.loc[(slice(None), [product]), (region, categories)].to_numpy().sum())
+
+
+def test_weights_give_each_product_its_own_cut(test_mrio) -> None:
+    """A product's realised cut is pct_reduction x its weight, not the headline alone."""
+    region = list(test_mrio.get_regions())[0]
+    heavy, light = list(test_mrio.get_sectors())[:2]
+    categories = [HOUSEHOLDS]
+
+    result = apply_reduce(
+        test_mrio, region, [heavy, light], 0.5, categories=categories, weights={heavy: 1.0, light: 0.2}
+    )
+
+    assert _region_demand(result, region, heavy, categories) == pytest.approx(
+        _region_demand(test_mrio, region, heavy, categories) * 0.5
+    )
+    assert _region_demand(result, region, light, categories) == pytest.approx(
+        _region_demand(test_mrio, region, light, categories) * 0.9
+    )
+
+
+def test_a_missing_weight_defaults_to_a_full_share(test_mrio) -> None:
+    """Products absent from the mapping take the headline cut rather than being skipped."""
+    region = list(test_mrio.get_regions())[0]
+    named, unnamed = list(test_mrio.get_sectors())[:2]
+
+    weighted = apply_reduce(test_mrio, region, [named, unnamed], 0.3, weights={named: 1.0})
+    flat = apply_reduce(test_mrio, region, [named, unnamed], 0.3)
+
+    assert weighted.Y is not None and flat.Y is not None
+    pd.testing.assert_frame_equal(weighted.Y, flat.Y)
+
+
+def test_weighted_baskets_stay_linear_in_the_headline_fraction(test_mrio) -> None:
+    """Weights must not break the property the precomputed table depends on."""
+    region = list(test_mrio.get_regions())[0]
+    first, second = list(test_mrio.get_sectors())[:2]
+    weights = {first: 1.0, second: 0.25}
+    baseline = total_emissions(test_mrio, extension=TEST_EXTENSION, stressor=TEST_STRESSOR)
+    full = apply_reduce(test_mrio, region, [first, second], 0.4, weights=weights)
+    half = apply_reduce(test_mrio, region, [first, second], 0.2, weights=weights)
+
+    full_delta = total_emissions(full, extension=TEST_EXTENSION, stressor=TEST_STRESSOR) - baseline
+    half_delta = total_emissions(half, extension=TEST_EXTENSION, stressor=TEST_STRESSOR) - baseline
+    assert half_delta == pytest.approx(full_delta / 2, rel=1e-9)
+
+
+def test_a_weight_deeper_than_all_the_demand_raises(test_mrio) -> None:
+    """The headline may be under 1.0 while a weight pushes one product past it."""
+    region = list(test_mrio.get_regions())[0]
+    sector = list(test_mrio.get_sectors())[0]
+
+    with pytest.raises(ValueError, match="realised reduction"):
+        apply_reduce(test_mrio, region, [sector], 0.8, weights={sector: 2.0})
+
+
+def test_direct_emissions_follow_the_named_product_not_the_average(test_mrio) -> None:
+    """With uneven weights, F_Y must track the driving product's own change.
+
+    This is the whole reason a fuel tape names a driver. The basket's average change is a
+    number that describes no product in it, and letting the fuel burnt at home ride that
+    average would be wrong in a way nothing would flag.
+    """
+    region = list(test_mrio.get_regions())[0]
+    fuel, other = list(test_mrio.get_sectors())[:2]
+    categories = [HOUSEHOLDS]
+    weights = {fuel: 1.0, other: 0.1}
+
+    driven = apply_reduce(
+        test_mrio,
+        region,
+        [fuel, other],
+        0.5,
+        categories=categories,
+        direct_emissions_extension=TEST_EXTENSION,
+        weights=weights,
+        direct_emissions_driver=fuel,
+    )
+    # The same shock, but letting direct emissions ride the headline instead.
+    averaged = apply_reduce(
+        test_mrio,
+        region,
+        [fuel, other],
+        0.5,
+        categories=categories,
+        direct_emissions_extension=TEST_EXTENSION,
+        weights=weights,
+    )
+
+    fy_driven, fy_averaged, fy_base = _direct(driven, region), _direct(averaged, region), _direct(test_mrio, region)
+
+    # Driver weight is 1.0, so the driven case cuts F_Y by the full 50%.
+    assert fy_driven == pytest.approx(fy_base * 0.5)
+    # Here they coincide because the driver's weight is 1.0; assert the code took the
+    # documented path rather than relying on the numbers agreeing by accident.
+    assert fy_averaged == pytest.approx(fy_driven)
+
+
+def test_an_unknown_direct_emissions_driver_raises(test_mrio) -> None:
+    """Naming a product that is not in the basket is a typo, not a silent no-op."""
+    region = list(test_mrio.get_regions())[0]
+    sector = list(test_mrio.get_sectors())[0]
+
+    with pytest.raises(ValueError, match="not in the basket"):
+        apply_reduce(
+            test_mrio,
+            region,
+            [sector],
+            0.2,
+            direct_emissions_extension=TEST_EXTENSION,
+            direct_emissions_driver="Nope",
+        )

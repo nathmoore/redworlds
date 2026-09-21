@@ -20,8 +20,10 @@ from redworlds.jobs.tape_records import (
     DEFAULT_SCENARIO_PATH,
     basket_for,
     load_scenario_concordance,
+    load_scenario_weights,
     load_tape_records,
     validate_baskets,
+    weights_for,
 )
 
 # The three tapes sprint 2 solves. The other six carry their fields but are not run.
@@ -151,18 +153,39 @@ def test_committed_ceilings_all_state_their_basis() -> None:
         assert record["regional_ceiling_unit"].strip(), f"{key} has an empty ceiling unit"
 
 
-def test_remote_work_basket_is_only_directly_burnt_fuels() -> None:
-    """The F_Y correction is exact only while every product in the basket is burnt at home.
+def test_remote_work_names_the_product_driving_direct_emissions() -> None:
+    """A mixed basket must say which product the fuel burnt at home follows.
 
-    This pins the reasoning in the concordance's comment: adding the forecourt margin or
-    public transport would dilute the factor and quietly make the correction approximate.
+    The basket holds the forecourt margin and public transport as well as the two fuels, so
+    "the basket's change" is several numbers. Direct household emissions follow the petrol
+    row specifically, and a record that opted into the correction without naming a driver
+    would quietly average them.
     """
     records = load_tape_records(DEFAULT_OPTIONS_PATH)
-    baskets = load_scenario_concordance(DEFAULT_SCENARIO_PATH)
+    weights = load_scenario_weights(DEFAULT_SCENARIO_PATH)
     record = records["eca_remote_work_commuters"]
 
     assert record["direct_emissions_extension"] == "impacts"
-    assert basket_for(record, baskets) == ["Motor Gasoline", "Gas/Diesel Oil"]
+    assert record["direct_emissions_driver"] == "Motor Gasoline"
+    assert record["direct_emissions_driver"] in weights_for(record, weights)
+
+
+def test_only_the_lifetimes_basket_is_weighted() -> None:
+    """Weights are a real modelling claim, so a basket carrying them should mean to.
+
+    Extending a product's life removes N / (life + N) of its replacement demand, which
+    differs per product — that is this tape's whole mechanism. Every other basket is flat,
+    and a stray weight elsewhere would be a typo nobody would otherwise catch.
+    """
+    weights = load_scenario_weights(DEFAULT_SCENARIO_PATH)
+    uneven = {category for category, products in weights.items() if set(products.values()) != {1.0}}
+
+    assert uneven == {"appliances_and_devices", "commuting_vehicle_fuel"}
+    assert len(weights["appliances_and_devices"]) == 8
+    # Short-lived products lose more of their replacement flow than long-lived ones.
+    devices = weights["appliances_and_devices"]["Office machinery and computers (30)"]
+    white_goods = weights["appliances_and_devices"]["Electrical machinery and apparatus n.e.c. (31)"]
+    assert devices > white_goods
 
 
 @pytest.mark.integration

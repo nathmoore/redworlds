@@ -22,7 +22,7 @@ from redworlds.engine.regions import load_region_concordance
 from redworlds.engine.scoring import WINDOW_END, WINDOW_START
 from redworlds.jobs.build_baseline import BASELINE_NAME, build_baseline
 from redworlds.jobs.run_tapes import FLAT_CURVE, run_ready_reduce_tapes, run_reduce_tape
-from redworlds.jobs.tape_records import load_scenario_concordance, load_tape_records
+from redworlds.jobs.tape_records import load_scenario_weights, load_tape_records
 
 BETA_DAY_REDUCE_TAPES = ("eca_buy_less", "eca_extended_product_lifetimes", "eca_remote_work_commuters")
 
@@ -45,10 +45,10 @@ def game_world(test_mrio: pymrio.IOSystem) -> pymrio.IOSystem:
 
 
 @pytest.fixture
-def test_baskets(game_world: pymrio.IOSystem) -> dict[str, list[str]]:
-    """A two-product basket drawn from the test world's own sectors."""
+def test_baskets(game_world: pymrio.IOSystem) -> dict[str, dict[str, float]]:
+    """A two-product basket drawn from the test world's own sectors, flat weights."""
     sectors = list(game_world.get_sectors())
-    return {"test_basket": [sectors[0], sectors[1]]}
+    return {"test_basket": {sectors[0]: 1.0, sectors[1]: 1.0}}
 
 
 def _record(**overrides: Any) -> dict[str, Any]:
@@ -185,7 +185,7 @@ def _cached_baseline() -> pymrio.IOSystem:
 @pytest.mark.integration
 def test_the_three_beta_day_tapes_all_solve() -> None:
     """T3's done condition: three real tapes, three plausible numbers."""
-    results = run_ready_reduce_tapes(_cached_baseline(), load_tape_records(), load_scenario_concordance())
+    results = run_ready_reduce_tapes(_cached_baseline(), load_tape_records(), load_scenario_weights())
 
     assert set(results) == set(BETA_DAY_REDUCE_TAPES)
     for key, result in results.items():
@@ -206,7 +206,7 @@ def test_remote_work_is_far_more_carbon_intense_than_buying_less() -> None:
     per euro removed, commuting fuel should be several times basket A, which is mostly
     manufactured goods whose emissions sit in supply chains abroad.
     """
-    results = run_ready_reduce_tapes(_cached_baseline(), load_tape_records(), load_scenario_concordance())
+    results = run_ready_reduce_tapes(_cached_baseline(), load_tape_records(), load_scenario_weights())
 
     def intensity(key: str) -> float:
         result = results[key]

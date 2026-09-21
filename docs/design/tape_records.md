@@ -216,22 +216,36 @@ being reconciled.
 
 | | `eca_buy_less` | `eca_extended_product_lifetimes` | `eca_remote_work_commuters` |
 |---|---|---|---|
-| **Basket** | 13 products: apparel, textiles, leather, furniture, office machinery, electrical machinery, radio/TV/comms, medical/precision, motor vehicles, air transport, hotels and restaurants, recreation, tobacco | **open** — 4 products today (office machinery, electrical machinery, radio/TV/comms, medical/precision); should be 8, adding furniture, apparel, textiles, leather | Motor Gasoline, Gas/Diesel Oil. **open** — should widen to the forecourt margin and a public-transport share once baskets can be weighted |
+| **Basket** | 13 products: apparel, textiles, leather, furniture, office machinery, electrical machinery, radio/TV/comms, medical/precision, motor vehicles, air transport, hotels and restaurants, recreation, tobacco | 8 products: office machinery, radio/TV/comms, electrical machinery, medical/precision, furniture, textiles, apparel, leather | Motor Gasoline, Gas/Diesel Oil, the forecourt margin, and 35% of other land transport |
 | **Protected** | housing, food, household energy, vehicle fuel — this is what makes the tape progressive without means-testing | — | — |
-| **Ceiling** | 25% of the basket | **open** — 50% flat today; should be `1 / (mean life + 1)` per product: devices ~25%, white goods ~8%, clothing ~20% | 140 M teleworkable workers |
-| **Basis** | Behavioural. The gap between Region 3 discretionary spend per head and that of the region's own lower-middle income decile — a level people in the region already live at | Physical, from replacement cycles. Device life ~3–5 yrs, appliances 8–12; doubling either halves the annual replacement flow | Dingel & Neiman (2020) and Sostero et al. (2020) both find 37% of jobs teleworkable in the US and EU; shaded to ~35% for the region's middle-income economies |
-| **→ basket fraction** | 0.25 | 0.5 | 0.11 = commuting's ~30% share of household car distance × ~35% of workers |
-| **Annual** | −389 Mt CO₂e/yr | −64 Mt CO₂e/yr | −155 Mt CO₂e/yr |
-| **Cumulative** | **−19.8 Gt** | **−3.3 Gt** | **−7.9 Gt** |
+| **Cut** | flat 25% | **uneven**, `N/(life+N)` at N = 4: short-lived products 0.50, medical 0.36, white goods 0.27, furniture 0.25 | flat 11%, except public transport at 35% of that |
+| **Columns** | households only | households, NPISH, government | households only |
+| **Ceiling** | 25% of the basket | 4 extra years of life per product | 140 M teleworkable workers |
+| **Basis** | Behavioural. The gap between Region 3 discretionary spend per head and that of the region's own lower-middle income decile — a level people in the region already live at | Physical, from replacement cycles. Adding N years removes `N/(life+N)` of annual replacement demand; four years roughly doubles a short-lived product's life and is about as far as a repair culture reaches | Dingel & Neiman (2020) and Sostero et al. (2020) both find 37% of jobs teleworkable in the US and EU; shaded to ~35% for the region's middle-income economies |
+| **Cumulative, 2011 basis** | −18.6 Gt | −12.2 Gt | −8.1 Gt |
+| **Cumulative, 2050 basis** | **−8.2 Gt** | **−5.3 Gt** | **−3.6 Gt** |
+| **Copies** ⌊Gt⌋ | 8 | 5 | 3 |
 
 **A cross-check worth keeping.** Basket A was estimated at "~1.4% of the basket per brick"
 from the literature, before the table was run. The table says **1.34%**. Two independent
 routes to the same number is the strongest evidence we have that the basket is right.
 
-**Why remote work is ten times more carbon-intense per euro than buying less:** its basket is
-nothing but fuel burnt at home, so nearly every euro removed is combustion. Basket A is mostly
-manufactured goods whose emissions sit in supply chains abroad — and are still credited to the
-buyer, because all accounting here is consumption-based.
+**Why the lifetimes tape is the heaviest of the three per product.** Clothing and textiles
+are a large share of household spend and are replaced every few years, so a repair-and-reuse
+culture removes half their replacement demand. White goods last a decade and lose a quarter.
+That spread is the tape's whole mechanism, and cutting all eight products by the same
+percentage would have described none of them.
+
+**Why remote work is far more carbon-intense per euro than buying less:** most of its basket
+is fuel burnt at home, so nearly every euro removed is combustion. Basket A is mostly
+manufactured goods whose emissions sit in supply chains abroad — and are still credited to
+the buyer, because all accounting here is consumption-based.
+
+**Where these disagree with the game's own expectations.** The game sized buy-less at ~10
+copies and lifetimes at 3–5; the table says 8 and 5. Remote work was expected at ~9 and comes
+out at **3**, because its ceiling is now derived from a sourced teleworkable share rather than
+estimated. That is the engine reporting and a cover needing to move, which is how this is
+meant to work (§1).
 
 ### BUILD and SWAP — not yet solved
 

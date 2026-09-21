@@ -12,10 +12,12 @@ scenario_category,exiobase_sector,weight,notes
 # so the label here is unquoted unless it contains a comma of its own.
 # redworlds.jobs.tape_records.validate_baskets checks every row against a loaded table.
 #
-# weight scales a product's share of the cut relative to the others. 1.0 everywhere means
-# the basket is cut uniformly, which is what all three Beta Day REDUCE tapes do: the game's
-# outcome fraction is a single percentage across the basket. The column exists because a
-# future tape may want an uneven basket; nothing reads a weight other than 1.0 yet.
+# weight multiplies the tape's headline fraction for that product, so a product's realised
+# cut is max_reducible_fraction x weight. 1.0 means the product takes the headline cut.
+# Most baskets are flat at 1.0; appliances_and_devices is not, because the same extra years
+# of life remove very different shares of a laptop's and a washing machine's demand. The
+# shock stays exactly linear in the headline fraction either way, which is what lets the game
+# multiply one precomputed answer by its outcome fraction.
 #
 # Sprint 2 populates only the three REDUCE categories. The BUILD and SWAP categories are
 # listed with their products but are not exercised until sprint 3 (T4-T6).
@@ -44,30 +46,45 @@ buy_less_basket_a,"Recreational, cultural and sporting services (92)",1.0,contra
 # ---------------------------------------------------------------------------
 # appliances_and_devices - eca_extended_product_lifetimes
 # ---------------------------------------------------------------------------
-# Things with a replacement cycle that a repair culture lengthens. Furniture is in basket A
-# but not here: it wears out rather than being replaced by a working newer model, so "+1
-# year of life" does not describe it. The contract is explicit that white goods alone reach
-# only ~0.14 brick and that devices are the lever, which is why (30) and (32) matter most.
-appliances_and_devices,Office machinery and computers (30),1.0,computers and peripherals; the device lever
-appliances_and_devices,Electrical machinery and apparatus n.e.c. (31),1.0,white goods and small appliances
-appliances_and_devices,"Radio, television and communication equipment and apparatus (32)",1.0,phones and TVs; the device lever
-appliances_and_devices,"Medical, precision and optical instruments, watches and clocks (33)",1.0,cameras and watches
+# Things bought again when the old one is thrown away, where a repair culture lengthens the
+# cycle. This is the one basket that is NOT cut evenly, because the same extra years of life
+# remove very different shares of demand from a laptop and a washing machine.
+#
+# weight here is the share of annual replacement demand removed at the tape's ceiling, which
+# is four added years: weight = N / (mean life + N) with N = 4. A short-lived product loses
+# half its replacement flow; a long-lived one loses a quarter. Linear interpolation from zero
+# to these weights stands in for the true N/(life+N) curve, which is mildly concave — an
+# acceptable simplification because the game's outcome fraction is linear anyway, and a
+# documented one because it slightly understates partial deployments.
+#
+# Mean lifetimes are order-of-magnitude and want checking against Vita et al. 2019 -- see
+# docs/backlog.md. They are the largest uncertainty in this tape.
+appliances_and_devices,Office machinery and computers (30),0.50,mean life ~4 yr; computers and peripherals; the device lever
+appliances_and_devices,"Radio, television and communication equipment and apparatus (32)",0.50,mean life ~4 yr; phones and TVs; the device lever
+appliances_and_devices,Electrical machinery and apparatus n.e.c. (31),0.27,mean life ~11 yr; white goods and small appliances
+appliances_and_devices,"Medical, precision and optical instruments, watches and clocks (33)",0.36,mean life ~7 yr; cameras and watches
+appliances_and_devices,Furniture; other manufactured goods n.e.c. (36),0.25,mean life ~12 yr; wears out rather than being superseded
+appliances_and_devices,Textiles (17),0.50,mean life ~4 yr
+appliances_and_devices,Wearing apparel; furs (18),0.50,mean life ~4 yr; the clothing lever
+appliances_and_devices,Leather and leather products (19),0.50,mean life ~4 yr
 #
 # ---------------------------------------------------------------------------
 # commuting_vehicle_fuel - eca_remote_work_commuters
 # ---------------------------------------------------------------------------
-# Deliberately only the two fuels households burn themselves. This is the tape that opts
-# into the F_Y correction (scale_direct_emissions), which moves direct household emissions
-# by the basket's own change. That is exact only while every product in the basket is a
-# fuel actually burnt by the household. Adding the retail margin on fuel (153) or public
-# transport (158) would dilute the factor and make the correction approximate, so they are
-# left out and listed below as the candidates they are.
-commuting_vehicle_fuel,Motor Gasoline,1.0,petrol burnt directly by households
+# A commute not taken removes the fuel, the margin paid to sell it, and some public transport.
+# The three are here at their own rates.
+#
+# This tape opts into the F_Y correction, and names Motor Gasoline as its
+# direct_emissions_driver. That matters: emissions burnt at home follow the fuel row, not the
+# basket average, and with a mixed basket those are different numbers. Before weights existed
+# this basket was held to the two fuels alone to keep them the same number -- an honest
+# workaround, and no longer needed.
+commuting_vehicle_fuel,Motor Gasoline,1.0,petrol burnt directly by households; drives the F_Y correction
 commuting_vehicle_fuel,Gas/Diesel Oil,1.0,road diesel; also some household heating oil
-# Not included, on purpose - see the note above:
-#   Retail trade services of motor fuel  (the forecourt margin, not a fuel)
-#   Other land transportation services   (bus and rail; their emissions sit in F, not F_Y)
-#   Biogasoline / Biodiesels             (blended, small as a direct household purchase)
+commuting_vehicle_fuel,Retail trade services of motor fuel,1.0,the forecourt margin; falls with the fuel it sells
+commuting_vehicle_fuel,Other land transportation services,0.35,bus and rail commuting; a minority of commutes and its emissions sit in F not F_Y
+# Not included, on purpose:
+#   Biogasoline / Biodiesels  (blended into the fuels above, small as a direct purchase)
 #
 # ---------------------------------------------------------------------------
 # Sprint 3 categories - listed for completeness, not yet exercised

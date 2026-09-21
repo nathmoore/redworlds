@@ -65,10 +65,35 @@ def load_scenario_concordance(path: Path | None = None) -> dict[str, list[str]]:
     Returns:
         Product labels in file order, so a basket reads the way it was written.
     """
-    baskets: dict[str, list[str]] = {}
+    return {category: list(weights) for category, weights in load_scenario_weights(path).items()}
+
+
+def load_scenario_weights(path: Path | None = None) -> dict[str, dict[str, float]]:
+    """Return {scenario_category: {product label: weight}} from the concordance CSV.
+
+    A weight multiplies the tape's headline fraction for that product, so a realised cut is
+    ``max_reducible_fraction × weight``. Most baskets are flat at 1.0; the appliances basket
+    is not, because the same added years of life remove very different shares of a laptop's
+    and a washing machine's replacement demand.
+
+    Args:
+        path: CSV to read. Defaults to the EXIOBASE concordance in data/concordances/.
+
+    Returns:
+        Products in file order within each category, so a basket reads as written.
+
+    Raises:
+        ValueError: If a weight is not a number, which would otherwise scale a basket by NaN
+            and produce an export full of blanks.
+    """
+    baskets: dict[str, dict[str, float]] = {}
     with (path or DEFAULT_SCENARIO_PATH).open(newline="", encoding="utf-8") as handle:
         for row in csv.DictReader(line for line in handle if not line.lstrip().startswith("#")):
-            baskets.setdefault(row["scenario_category"], []).append(row["exiobase_sector"])
+            try:
+                weight = float(row["weight"])
+            except ValueError as exc:
+                raise ValueError(f"{row['scenario_category']}/{row['exiobase_sector']}: bad weight") from exc
+            baskets.setdefault(row["scenario_category"], {})[row["exiobase_sector"]] = weight
     return baskets
 
 
@@ -138,6 +163,19 @@ def validate_baskets(
 
     if problems:
         raise ValueError("Tape records do not match the table:\n  " + "\n  ".join(problems))
+
+
+def weights_for(record: dict[str, Any], weights: dict[str, dict[str, float]]) -> dict[str, float]:
+    """Return {product: weight} for a tape record's scenario category.
+
+    Args:
+        record: One record from ``load_tape_records``.
+        weights: As ``load_scenario_weights`` returns.
+
+    Returns:
+        The per-product multipliers of the record's basket.
+    """
+    return weights[record["scenario_category"]]
 
 
 def basket_for(record: dict[str, Any], baskets: dict[str, list[str]]) -> list[str]:
