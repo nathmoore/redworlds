@@ -3,6 +3,8 @@
 All tests use the ``test_mrio`` fixture from conftest.py — no EXIOBASE needed.
 """
 
+from typing import Any
+
 import pymrio
 import pytest
 
@@ -13,6 +15,13 @@ from redworlds.engine.currency import (
     convert_mrio_currency,
     meur_2011_to_musd_2026,
 )
+
+
+def _table(mrio: pymrio.IOSystem, name: str) -> Any:
+    """Fetch a pymrio table or extension; they are Optional / dynamic, which upsets the type checker."""
+    table = getattr(mrio, name)
+    assert table is not None, f"{name} is not set — has the system been calculated?"
+    return table
 
 
 def test_conversion_factor_matches_constants() -> None:
@@ -32,23 +41,23 @@ def test_scalar_conversion_zero() -> None:
 
 def test_mrio_conversion_scales_z(test_mrio: pymrio.IOSystem) -> None:
     """Z matrix should be scaled by CONVERSION_FACTOR after conversion."""
-    original_z = test_mrio.Z.copy()
+    original_z = _table(test_mrio, "Z").copy()
     converted = convert_mrio_currency(test_mrio)
-    assert converted.Z.values == pytest.approx(original_z.values * CONVERSION_FACTOR)
+    assert _table(converted, "Z").values == pytest.approx(original_z.values * CONVERSION_FACTOR)
 
 
 def test_mrio_conversion_scales_y(test_mrio: pymrio.IOSystem) -> None:
     """Y matrix should be scaled by CONVERSION_FACTOR after conversion."""
-    original_y = test_mrio.Y.copy()
+    original_y = _table(test_mrio, "Y").copy()
     converted = convert_mrio_currency(test_mrio)
-    assert converted.Y.values == pytest.approx(original_y.values * CONVERSION_FACTOR)
+    assert _table(converted, "Y").values == pytest.approx(original_y.values * CONVERSION_FACTOR)
 
 
 def test_mrio_conversion_is_pure(test_mrio: pymrio.IOSystem) -> None:
     """Original mrio should be unchanged after convert_mrio_currency."""
-    original_z_values = test_mrio.Z.values.copy()
+    original_z_values = _table(test_mrio, "Z").values.copy()
     convert_mrio_currency(test_mrio)
-    assert test_mrio.Z.values == pytest.approx(original_z_values)
+    assert _table(test_mrio, "Z").values == pytest.approx(original_z_values)
 
 
 def test_mrio_conversion_returns_new_object(test_mrio: pymrio.IOSystem) -> None:
@@ -60,9 +69,9 @@ def test_mrio_conversion_returns_new_object(test_mrio: pymrio.IOSystem) -> None:
 
 def test_mrio_conversion_does_not_touch_extension_F(test_mrio: pymrio.IOSystem) -> None:
     """Raw satellite flows (F) should be unchanged — only monetary matrices are converted."""
-    original_F = test_mrio.emissions.F.copy()
+    original_F = _table(test_mrio, "emissions").F.copy()
     converted = convert_mrio_currency(test_mrio)
-    assert converted.emissions.F.values == pytest.approx(original_F.values)
+    assert _table(converted, "emissions").F.values == pytest.approx(original_F.values)
 
 
 def test_mrio_conversion_preserves_total_emissions(test_mrio: pymrio.IOSystem) -> None:
@@ -72,7 +81,7 @@ def test_mrio_conversion_preserves_total_emissions(test_mrio: pymrio.IOSystem) -
     Y becomes Y·k, so D_new = (S/k)·L·(Y·k) = D. Verified here by recalculating
     after conversion.
     """
-    original_D = test_mrio.emissions.D_cba.copy()
+    original_D = _table(test_mrio, "emissions").D_cba.copy()
     converted = convert_mrio_currency(test_mrio)
     converted.calc_all()
-    assert converted.emissions.D_cba.values == pytest.approx(original_D.values)
+    assert _table(converted, "emissions").D_cba.values == pytest.approx(original_D.values)
