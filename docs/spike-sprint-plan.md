@@ -147,6 +147,34 @@ the magnitudes, which are labelled provisional either way.
        because its mechanism is unsettled. This makes an intentional hold distinguishable
        from a missing id. A JSON schema
        beside it; `just export-tapes` regenerates byte-identically.
+4a. [x] **Calibration support — `bricks_at_cover`. Done 2026-09-21.** Scaffolding for the
+       game's §D.1, which asked a human to compute "cumulative at the cover ÷ 1 Gt" per tape.
+       That is deterministic arithmetic on our own output, so it was a missing field rather
+       than a task.
+
+       Each record now carries `cumulative_at_cover_co2e_t`, `bricks_at_cover`,
+       `regional_ceiling_scale` and a `cover_basis` sentence naming **which deployment it was
+       solved at** — a BUILD tape at its cover, a Y-side tape at its ceiling. Reporting both
+       under `cumulative_curve` is how a calibration pass compares a cover against a ceiling
+       without noticing.
+
+       The lifetimes tape reports `None` rather than a scaled figure: demand removed is
+       `N / (life + N)`, so the +1 year cover is not the +4 year ceiling divided by four, and
+       getting it honestly needs a second solve.
+
+       **What the first reading says, and it is one finding rather than nine.** Every cover
+       comes in under a brick — nuclear 0.55, gas 0.75, buy-less 0.42, fusion 0.40, geothermal
+       0.32, remote work 0.23, EV −0.05. Divide out the 2050 intensity correction and they
+       cluster on a **median of 0.94**. The covers were sized on the 2011 basis, before that
+       correction existed. So before re-sizing nine covers individually at §D.2, settle
+       whether covers should be restated on the 2050 basis — one factor of about 2.3, which is
+       most of the gap.
+
+**The engine has stopped being the long pole.** The game's backlog 6 says every open item in
+its §B/§C/§D consumes this export, and §D's gate was "the engine export has run at least
+once". That gate is met. What remains here is 5b and the provisional tapes' known limits;
+none of it blocks the game starting §B/§C/§D.
+
 5. [ ] **5b — `build_baseline` composition and the SSP2 2011 → 2050 walk.** The
        judgement-heavy step, now with real REDUCE numbers to sanity-check against. Re-run
        T9 afterwards; the game gets a second table and changes no code.

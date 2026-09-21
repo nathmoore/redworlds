@@ -83,6 +83,45 @@ def _copies(cumulative_curve_t: float) -> int:
     return max(0, math.floor(-cumulative_curve_t * intensity_scalar(TARGET_YEAR) / BRICK_TONNES))
 
 
+def _cover_reading(record: dict[str, Any], cumulative_curve_t: float, solved_at: str) -> dict[str, Any]:
+    """State a tape's value at its *cover* magnitude, which is what covers are calibrated on.
+
+    Two different quantities have been called "the brick reading". ``cumulative_curve_co2e_t``
+    is whatever deployment the tape was solved at, and that differs by wing: a BUILD tape is
+    solved at its cover, a Y-side tape at its ceiling. Reporting both under one name is how a
+    calibration pass ends up comparing a cover against a ceiling without noticing.
+
+    So this emits the cover figure explicitly, plus the scale between cover and ceiling, plus
+    a sentence naming which is which. Where the two are not linearly related the fields are
+    ``None`` rather than a plausible wrong number — see ``cover_basis``.
+    """
+    cover_key = record.get("ceiling_cover_key")
+    if cover_key is None:
+        reason = (
+            "cover and ceiling are not linearly related, so the cover figure needs its own solve"
+            if record.get("cover_scaling") == "non-linear"
+            else "no ceiling_cover_key: this tape's cover has no single magnitude to scale by"
+        )
+        return {
+            "cumulative_at_cover_co2e_t": None,
+            "bricks_at_cover": None,
+            "regional_ceiling_scale": None,
+            "cover_basis": f"solved at {solved_at}; {reason}",
+        }
+
+    scale = record["regional_ceiling"] / record["cover_magnitude"][cover_key]
+    at_cover = cumulative_curve_t if solved_at == "cover" else cumulative_curve_t / scale
+    return {
+        "cumulative_at_cover_co2e_t": at_cover,
+        "bricks_at_cover": -at_cover * intensity_scalar(TARGET_YEAR) / BRICK_TONNES,
+        "regional_ceiling_scale": scale,
+        "cover_basis": (
+            f"solved at {solved_at}; ceiling is {scale:g}x the cover of "
+            f"{record['cover_magnitude'][cover_key]:g} {cover_key}"
+        ),
+    }
+
+
 def _y_side_payload(
     record: dict[str, Any],
     result: ReduceTapeResult | SwapTapeResult,
@@ -104,6 +143,7 @@ def _y_side_payload(
         "cumulative_full_flat_co2_t": result.cumulative_full_flat_co2_t,
         "cumulative_curve_co2e_t": cumulative_curve_t,
         "cumulative_curve_co2_t": result.cumulative_curve_co2_t,
+        **_cover_reading(record, cumulative_curve_t, "ceiling"),
         "copies": _copies(cumulative_curve_t),
         "copies_basis": "max(0, floor(-cumulative_curve_co2e_t * intensity_scalar_2050 / 1e9))",
         "jcurve_co2e_t": [
@@ -142,7 +182,7 @@ def _build_payload(
         "cumulative_full_flat_co2_t": result.cumulative_full_flat_co2_t,
         "cumulative_curve_co2e_t": cumulative_curve_t,
         "cumulative_curve_co2_t": result.cumulative_curve_co2_t,
-        "regional_ceiling_scale": ceiling_scale,
+        **_cover_reading(record, cumulative_curve_t, "cover"),
         "copies": copies,
         "copies_basis": (
             "max(0, floor(-cumulative_curve_co2e_t * intensity_scalar_2050 * regional_ceiling_scale / 1e9))"

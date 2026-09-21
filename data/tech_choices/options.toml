@@ -38,6 +38,7 @@ max_reducible_fraction = 0.25
 deployment_curve = "reduce_default"
 build_years_reference = 0
 cover_magnitude = { basket_fraction = 0.014 }
+ceiling_cover_key = "basket_fraction"
 regional_ceiling = 0.25
 regional_ceiling_unit = "fraction of basket A final demand"
 regional_ceiling_basis = """
@@ -69,6 +70,10 @@ max_reducible_fraction = 1.0
 deployment_curve = "reduce_default"
 build_years_reference = 0
 cover_magnitude = { extra_years_of_life = 1 }
+# No ceiling_cover_key: demand removed is N / (life + N), so the cover (+1 yr) is NOT the
+# ceiling (+4 yr) divided by four. Going from one to the other needs a second solve with
+# weights recomputed at N = 1, which the export marks rather than faking.
+cover_scaling = "non-linear"
 regional_ceiling = 4
 regional_ceiling_unit = "extra years of life per product"
 regional_ceiling_basis = """
@@ -113,9 +118,10 @@ direct_emissions_extension = "impacts"
 direct_emissions_driver = "Motor Gasoline"
 direct_emissions_share = 0.329
 final_demand_categories = ["Final consumption expenditure by households"]
-cover_magnitude = { people = 100_000_000, commute_days_avoided_per_week = 1 }
-regional_ceiling = 140_000_000
-regional_ceiling_unit = "workers who could work remotely"
+cover_magnitude = { people = 100_000_000, commute_days_avoided_per_week = 1, worker_days_per_week = 100_000_000 }
+ceiling_cover_key = "worker_days_per_week"
+regional_ceiling = 700_000_000
+regional_ceiling_unit = "commuter-days per week avoided (140 M teleworkable workers x 5 days)"
 regional_ceiling_basis = """
 Behavioural within a physical bound. Dingel & Neiman (2020) find 37% of US jobs can be done
 entirely from home, and Sostero et al. (2020) get the same 37% for EU dependent employment
@@ -285,6 +291,7 @@ direct_emissions_driver = "Motor Gasoline"
 direct_emissions_share = 0.329
 deployment_curve = "swap_default"
 cover_magnitude = { cars = 11_000_000, tonnes_saved_per_car_year = 2 }
+ceiling_cover_key = "cars"
 regional_ceiling = 320_000_000
 regional_ceiling_unit = "cars that could be electrified"
 regional_ceiling_basis = """
@@ -318,6 +325,7 @@ direct_emissions_extension = "impacts"
 direct_emissions_driver = "Distribution services of gaseous fuels through mains"
 direct_emissions_share = 0.274
 cover_magnitude = { homes = 12_000_000, tonnes_saved_per_home_year = 1.9 }
+ceiling_cover_key = "homes"
 regional_ceiling = 95_000_000
 regional_ceiling_unit = "gas-heated homes that could be converted"
 regional_ceiling_basis = """

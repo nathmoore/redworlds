@@ -5,8 +5,16 @@ from pathlib import Path
 from typing import Any
 
 import pymrio
+import pytest
 
-from redworlds.jobs.export_tape_table import SCHEMA_PATH, _copies, build_tape_table, write_tape_table
+from redworlds.jobs.export_tape_table import (
+    SCHEMA_PATH,
+    _copies,
+    _cover_reading,
+    build_tape_table,
+    write_tape_table,
+)
+from redworlds.jobs.tape_records import DEFAULT_OPTIONS_PATH, load_tape_records
 
 TEST_EXTENSION = "emissions"
 TEST_STRESSOR = ("emission_type1", "air")
@@ -100,3 +108,38 @@ def test_committed_schema_is_valid_json() -> None:
     schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
     assert schema["$schema"].endswith("2020-12/schema")
     assert schema["properties"]["schema_version"]["const"] == 1
+
+
+def test_cover_reading_states_which_deployment_it_was_solved_at() -> None:
+    """Covers are calibrated against the cover figure, so it must be unambiguous.
+
+    Two quantities have both been called "the brick reading": a BUILD tape is solved at its
+    cover and a Y-side tape at its ceiling, and reporting both under ``cumulative_curve`` is
+    how a calibration pass ends up comparing one against the other without noticing.
+    """
+    records = load_tape_records(DEFAULT_OPTIONS_PATH)
+
+    build = _cover_reading(records["eca_nuclear"], -1.0e9, "cover")
+    assert build["cumulative_at_cover_co2e_t"] == -1.0e9, "a BUILD tape is already at its cover"
+    assert build["regional_ceiling_scale"] == pytest.approx(65.0)
+    assert "solved at cover" in build["cover_basis"]
+
+    y_side = _cover_reading(records["eca_buy_less"], -1.0e9, "ceiling")
+    scale = 0.25 / 0.014
+    assert y_side["cumulative_at_cover_co2e_t"] == pytest.approx(-1.0e9 / scale), "scaled down to the cover"
+    assert "solved at ceiling" in y_side["cover_basis"]
+
+
+def test_a_non_linear_cover_is_reported_as_absent_not_guessed() -> None:
+    """Extending a product's life removes N / (life + N) of demand, which is not linear in N.
+
+    So the +1 year cover is not the +4 year ceiling divided by four, and scaling it would
+    produce a confident wrong number. The export says so instead.
+    """
+    record = load_tape_records(DEFAULT_OPTIONS_PATH)["eca_extended_product_lifetimes"]
+
+    reading = _cover_reading(record, -1.0e9, "ceiling")
+
+    assert reading["cumulative_at_cover_co2e_t"] is None
+    assert reading["bricks_at_cover"] is None
+    assert "not linearly related" in reading["cover_basis"]
