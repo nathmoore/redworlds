@@ -7,49 +7,12 @@ order matters. The reference for all game design decisions is **The Art of Game 
 A Book of Lenses** by Jesse Schell — when a design choice is contested, this is the
 common language.
 
-**Balance comes first.** BUILD, SWAP, and REDUCE must all be balanced to feel like genuinely
-viable, rewarding choices. We achieve this through playtesting and iteration. The
-interesting question the balancing process will surface is *how much adjustment each
-choice needs, and why*: it might turn out to say something real about the relative
-tractability of different climate strategies in the actual world.
-
-<a id="keeping-the-wings-in-line"></a>
-### Keeping the wings in line
-
-A player who finds that building always beats reducing will build every time, and the game
-stops being about the choice. So the three wings are kept close enough in value that picking
-one is a question about *how you want to act* rather than arithmetic. That is a design
-target, and playtesting is what measures it — no amount of modelling can tell you whether a
-choice feels worth making.
-
-Honest modelling does not cooperate with this. Run the numbers straight and some
-interventions come out several times others. Where that happens, the game designer adjusts
-something — a ceiling, a cover magnitude, a mechanism — and it is done **here, in the open,
-labelled, with the physically-derived figure kept beside it**.
-
-That record is worth having for its own sake. *How much* a model has to be bent to make three
-climate strategies feel equally worthwhile is a real finding about those strategies, not just
-about the game. If building needs no help and reducing needs a thumb on the scale, that is
-telling you something about the world. Hiding the adjustments would throw it away.
-
-**Further reading, if you want the theory behind the target:**
-
-- [*The Art of Game Design: A Book of Lenses*](https://schellgames.com/art-of-game-design),
-  Jesse Schell — this project's reference for game design decisions generally. The balance
-  chapter sets out the twelve kinds of game balance, of which "fairness between strategies"
-  is only one.
-- [Game Balance Concepts](https://gamebalanceconcepts.wordpress.com/2010/07/07/level-1-intro-to-game-balance/),
-  Ian Schreiber — a free ten-week course, online in full, on balancing as a practical craft.
-  Schreiber and Brenda Romero later wrote [*Game Balance*](https://www.routledge.com/Game-Balance/Schreiber-Romero/p/book/9781498799577)
-  as the book-length version.
-
-How this lands per tape — which ceilings were derived and which were adjusted — is in
-[`tape_records.md`](tape_records.md).
-
-**Accuracy serves clarity.** The engine should be as scientifically grounded as
-possible, but not at the cost of the player losing the thread of what their choices
-mean. A simplification that makes the game more legible without being misleading is
-usually the right call.
+**Balance is an overriding concern.** BUILD, SWAP and REDUCE should each feel like a
+genuinely viable, rewarding choice, and playtesting is what measures whether they do. It is
+not the first thing this engine is for — accuracy is — but it is the concern that can
+override a modelling preference when the two collide. How that is handled, and what has
+actually been needed so far, is in
+[Keeping the wings in line](#keeping-the-wings-in-line) below.
 
 The specific choices below are all deliberate and dated. Where a choice came from the
 game's design rather than from the modelling literature, it says so. If you think one
@@ -272,6 +235,75 @@ Every tape is pre-sized by the game to the same expected abatement ("one brick" 
 10-reactor nuclear block ≈ 1 Gt CO₂ cumulative). **How much of each intervention equals a
 brick is a question this engine answers**, per region; the game's current magnitudes are
 placeholders until it does.
+
+---
+
+## Keeping the wings in line
+
+<a id="keeping-the-wings-in-line"></a>
+
+A player who finds that building always beats reducing will build every time, and the game
+stops being about the choice. So the three wings are kept close enough in value that picking
+one is a question about *how you want to act* rather than arithmetic.
+
+### How it is handled: one anchor, and a spread around it
+
+Balance here is not a per-tape dial. It is one shared anchor plus a deliberate spread.
+
+**The anchor is the golden tape.** Every tape is normalised to the same reference value —
+about one "brick", roughly 1 Gt of CO₂ cumulative over 2050–2100. A tape's cover magnitude
+is then *derived* from that: ten reactors, twelve million homes, a percentage of a basket are
+answers to "what equals a brick?", not numbers anyone picked. They land on unrelated-looking
+figures precisely because that is what equal climate effect across unlike interventions looks
+like. A shelf where every cover reaches for the same round number is the visible symptom of
+the rule having been broken.
+
+**The spread is what distinguishes tapes.** With expected value held equal, what makes one
+tape different from another is the *distribution* around it — how wide the outcome band is,
+how it fails, how abrasive it is civically. That is the design lever, and it is the game's to
+pull. Equal expected value with unequal variance is a real choice between real strategies;
+unequal expected value is just a right answer and a wrong one.
+
+So the engine's job is to report what a tape is worth, and the anchor keeps those reports
+comparable. The distribution work happens game-side and does not touch the model.
+
+### What has actually been needed
+
+**Nothing yet.** No tape's modelling has been adjusted for balance, and the wings have not
+had to be weighted differently. Recorded here so the absence is legible: if a future reader
+finds this section elaborate, it is because the *principle* was worth settling early, not
+because the practice has been extensive.
+
+When an adjustment is needed it happens **here, in the open, labelled, with the
+physically-derived figure kept beside it**. The one thing that will not happen is a number
+moved quietly: a ceiling changed for balance says so in its `regional_ceiling_basis`.
+
+That record is worth keeping for its own sake. *How much* a model has to be bent to make
+three climate strategies feel equally worthwhile is a real finding about those strategies,
+not just about the game. If building needs no help and reducing needs a thumb on the scale,
+that is telling you something about the world.
+
+### The anchor itself is under review
+
+Whether "the same brick" is well enough defined to carry this much weight is an open
+question — three specific problems with it are set out in
+[`tape_records.md` §10](tape_records.md#the-golden-tape-under-scrutiny). None of them is
+fatal and none blocks the first playtest, but they bear on exactly this section, so read
+them before leaning on the anchor.
+
+### Further reading
+
+- [*The Art of Game Design: A Book of Lenses*](https://schellgames.com/art-of-game-design),
+  Jesse Schell — this project's reference for game design decisions generally. The balance
+  chapter sets out twelve kinds of game balance, of which "fairness between strategies" is
+  only one; worth knowing before assuming ours is the only sense meant.
+- [Game Balance Concepts](https://gamebalanceconcepts.wordpress.com/2010/07/07/level-1-intro-to-game-balance/),
+  Ian Schreiber — a free ten-week course, online in full, on balancing as a practical craft.
+  Schreiber and Brenda Romero later wrote [*Game Balance*](https://www.routledge.com/Game-Balance/Schreiber-Romero/p/book/9781498799577)
+  as the book-length version.
+
+How this lands per tape — which ceilings were derived and which were adjusted — is in
+[`tape_records.md`](tape_records.md).
 
 ---
 

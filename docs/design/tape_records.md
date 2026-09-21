@@ -26,7 +26,7 @@ Almost all of it is open. The things that are not are smaller than people usuall
 - **Which tapes ship**, and which region and day they appear on.
 - **Who offers a tape** — the envoy characters, their voices, and which intervention each
   one is matched to. That is story work, and it is the one part with no modelling content.
-- **Balance calls**, when a wing turns out to dominate — but see §7, because those are made
+- **Balance calls**, when a wing turns out to dominate — but see §8, because those are made
   *here*, in the open, and the record of them is one of the more interesting things this
   repo will produce.
 
@@ -39,11 +39,41 @@ Two things follow from that which are worth saying plainly. First, **the model d
 what would be convenient**. If the numbers say a tape is feeble, that is what the table says,
 and the interesting move is to find out why rather than to nudge it. Second, when the game
 *does* need a number moved for balance, that is a legitimate thing to do and it gets written
-down as what it is — see §7.
+down as what it is — see §8.
 
 ---
 
-## 2. How to check any number here
+## 2. Where this work sits
+
+Getting an intervention onto a shelf runs through six phases, and **this repo owns two of
+them**:
+
+| | | |
+|---|---|---|
+| **Phase 0** | Is it a tape at all? | game |
+| **Phase 1** | **Mechanism** — can the table express it? Which matrix, which products? | **here** |
+| **Phase 2** | **Ceiling and the brick** — how much of it could a region do, and what is that worth? | **here** |
+| **Phase 3–6** | Cover, who argues for it, balance, wiring | game |
+
+The line is that **an intervention is a thing you can do to a region's economy; a tape is an
+intervention someone is arguing for.** Everything about the first is checkable by a stranger
+and lives here. Everything about the second is authorship and lives in the game.
+
+Two things follow. **The engine's half comes first, because it is the half that can say no.**
+An intervention EXIOBASE cannot express is not modellable at any magnitude, and a tape that
+cannot reach a brick inside its physical ceiling should fail here rather than after someone
+has written its argument. And **failing is a result, not a waste**: one candidate is
+currently stopped at Phase 1 because the effect it claims — electricity curtailment — is not
+a thing this table contains. No amount of tuning downstream fixes that, and finding it early
+is the protocol earning its keep.
+
+If you improve a basket or a ceiling here, you are doing Phase 1 or 2 work, and there is a
+gate after it: every product must validate against the table, baskets must not overlap
+between tapes, and the simplification must be written down rather than left implicit.
+
+---
+
+## 3. How to check any number here
 
 Everything below is reproducible from this repo plus a free EXIOBASE download.
 
@@ -79,7 +109,7 @@ Change a basket in the CSV, re-run, and see what it does. That loop is the point
 
 ---
 
-## 3. The method: MacKay's, stated exactly
+## 4. The method: MacKay's, stated exactly
 
 *Sustainable Energy — Without the Hot Air* is this project's reference for sizing an
 intervention. If you have not read it, the ten-page synopsis is free at
@@ -125,11 +155,11 @@ number nobody can sanity-check. **"19 kWh/d per person"** sits directly against 
 stack, where average European consumption is 125 kWh/d per person — so you can tell at a
 glance whether a ceiling is sane, and whether one tape is three times another or thirty.
 
-Every ceiling in §6 carries a per-person reading. Where one is missing, that is a gap.
+Every ceiling in §7 carries a per-person reading. Where one is missing, that is a gap.
 
 ---
 
-## 4. Two rules a ceiling has to obey
+## 5. Two rules a ceiling has to obey
 
 **It carries only what we are confident about.** A constraint you would defend to someone who
 knows the sector belongs in the ceiling. An uncertainty about whether a technology works at
@@ -152,7 +182,7 @@ as physics, and we have no business making one.
 
 ---
 
-## 5. Why BUILD ceilings use a ten-year push
+## 6. Why BUILD ceilings use a ten-year push
 
 The shape of a ceiling differs by tape kind, and this is the part most easily got wrong.
 
@@ -206,10 +236,10 @@ uses, but if this ceiling ever needs to bind, forging is where to look first.
 
 ---
 
-## 6. The nine tapes
+## 7. The nine tapes
 
 Solved figures come from the 2011 cached baseline at full ceiling with flat deployment, and
-carry no 2050 intensity correction yet (§8). Items marked **open** are known-weak and are
+carry no 2050 intensity correction yet (§9). Items marked **open** are known-weak and are
 being reconciled.
 
 ### REDUCE — solved
@@ -254,16 +284,19 @@ solve them are still being built.
 
 | Tape | Ceiling | Basis |
 |---|---|---|
-| `eca_nuclear` | **open** — 400 TWh/yr today; §5 argues for ~650 reactors, **19 kWh/d/p** | Industrial, not geological. Uranium and sites do not bind at this scale; concrete, forging and skilled labour do |
+| `eca_nuclear` | 650 reactors in a ten-year push, **19 kWh/d/p** | Industrial, not geological. Uranium and sites do not bind at this scale; concrete, forging and skilled labour do. See §6 |
 | `eca_geothermal` | 180 TWh/yr, **0.55 kWh/d/p** | Geological and hotspot-gated: Iceland, Larderello, western Turkey, the Caucasus. A proven-hotspot floor, with enhanced geothermal deliberately excluded — admitting EGS raises it an order of magnitude and it stops binding |
-| `eca_fusion` | **open** — carries 400 TWh/yr; should carry **none** | Not ceiling-limited at all. See §4 |
+| `eca_fusion` | **none, deliberately** | Not ceiling-limited. Its uncertainty is whether it works, which belongs in the game's outcome odds, not here. See §5 |
 | `eca_electric_vehicle_transition` | 320 M cars, **0.36 cars/person** | The regional fleet, less the share that cannot electrify this window: heavy rural use, and drivers without off-street parking where public charging is thin |
 | `eca_ban_gas_supply` | 95 M homes, **~1 home per 9.5 people** | Housing stock. ~105 M homes on mains gas; ~90% can take a heat pump without a fabric upgrade the tape does not pay for |
-| `eca_smart_grid` | **open** — carries 220 TWh/yr; should carry none yet | The mechanism is still being designed. Assigning a ceiling before that lands invents a limit for a shock nobody has specified |
+| `eca_smart_grid` | **held** | The mechanism is still being designed, and a ceiling on an unspecified shock is a limit on nothing. The headroom is recorded in the record; it becomes a ceiling when the mechanism lands |
+
+A ceiling of `0` in `options.toml` means *not ceiling-limited* or *held*, never *impossible* —
+read `regional_ceiling_unit`, which says which.
 
 ---
 
-## 7. Balance, and why we do it in the open
+## 8. Balance, and why we do it in the open
 
 Every tape is normalised to roughly the same value — about one "brick", 1 Gt of CO₂ — so that
 building, swapping and reducing all feel like real choices. Honest modelling does not
@@ -279,7 +312,7 @@ Why that record is worth keeping, and the game-design reading behind the target,
 
 ---
 
-## 8. What every number here is still missing
+## 9. What every number here is still missing
 
 **The 2011 → 2050 intensity correction.** These are 2011 intensities. A euro removed in 2011
 carries more carbon than the same euro removed in 2050 will, because the grid gets cleaner.
@@ -297,7 +330,98 @@ here is shippable.
 **Money.** All monetary figures are 2011 basic-price million EUR, EXIOBASE's own units. See
 [`units_and_currency.md`](units_and_currency.md) for the chain to 2026 dollars.
 
-**Where a contributor would help most, in order:** the intensity correction (§8), weighted
-baskets so the lifetimes tape can use real replacement rates (§6), and Region 3's population
+**Where a contributor would help most, in order:** the intensity correction (§9), weighted
+baskets so the lifetimes tape can use real replacement rates (§7), and Region 3's population
 and workforce, which several ceilings scale by and which are currently round numbers. All
 three are in [`../backlog.md`](../backlog.md) with what "done" looks like.
+
+---
+
+<a id="the-golden-tape-under-scrutiny"></a>
+
+## 10. The golden tape, under scrutiny
+
+Every tape is normalised to the same reference value — about one "brick", roughly 1 Gt of
+CO₂ over 2050–2100 — and its cover magnitude is derived from that. The anchor is what makes
+ten reactors comparable to a percentage of a shopping basket, so a great deal rests on "the
+same brick" being a well-defined quantity.
+
+Now that there are real numbers to test it against, three things about it need sharpening.
+None is fatal, none blocks a first playtest, and all three are cheap to fix. They are here
+rather than in a backlog because anyone reasoning about balance needs to know them.
+
+### 9.1 "The brick reading" and "copies" are currently the same number
+
+A tape's `cumulative_full_flat` is solved at its **full ceiling**. If the brick reading is
+that figure divided by 1 Gt, and `copies` is the ceiling divided by the brick, then the two
+are the same quantity computed twice — and the cover's own value never appears.
+
+What is presumably meant is that the **cover** is sized so its cumulative equals one brick,
+and `copies` is then how many covers fit inside the ceiling. Those are different numbers and
+both are wanted. Because Y-side shocks are exactly linear in the deployed fraction, one solve
+yields both, so this is a definitional fix rather than extra computation — but until it is
+written down precisely, "the brick reading" means two things depending on who is reading.
+
+### 9.2 Sizing on a flat curve systematically favours REDUCE over BUILD
+
+This is the one with teeth. Covers are sized on `cumulative_full_flat` — fully deployed from
+2050. Scores use the real deployment curves, which differ sharply by wing: consumption
+changes ramp in over about ten years, while a BUILD tape contributes nothing until its plants
+are finished and then ramps over five more.
+
+Delivered cumulative, as a fraction of the flat figure each tape is sized on:
+
+| Curve | Fraction of flat |
+|---|---|
+| Flat — what covers are sized on | 1.000 |
+| REDUCE / SWAP, full by year 10 | 0.912 |
+| BUILD, 10 build years | **0.765** |
+| BUILD, 20 build years (fusion) | **0.569** |
+
+**A BUILD tape delivers about 16% less than a REDUCE tape sized to the same flat brick**, and
+a 20-year build about 43% less — before construction emissions, which add another two to
+three percent for nuclear.
+
+That is a systematic bias, not noise, and it points the wrong way: it makes building look
+better on paper than it will play. The danger is not the gap itself but its invisibility. If
+it shows up in playtesting as "BUILD feels weak", the tempting fix is a thumb on a ceiling,
+which would be treating a sizing artefact as a physical finding — exactly the confusion §8
+exists to prevent.
+
+The fix is to size covers on the curve the tape will actually run, not the flat one. The flat
+figure stays useful as a wing-neutral comparison, and should be labelled as that rather than
+as the sizing quantity.
+
+### 9.3 A brick of CO₂e is not a brick of warming, and the gap varies by tape
+
+The brick is denominated in CO₂**e** — all greenhouse gases on a GWP100 basis. The game
+converts cumulative emissions into a 2100 temperature reading, and that conversion (the
+transient climate response to cumulative emissions) is defined on **CO₂ alone**. CO₂e and
+warming are therefore not interchangeable, and the ratio between them is a property of what a
+tape cuts:
+
+| Tape | CO₂e | CO₂ | CO₂ share |
+|---|---|---|---|
+| `eca_remote_work_commuters` | −158.9 Mt/yr | −139.8 Mt/yr | **88.0%** |
+| `eca_buy_less` | −364.8 Mt/yr | −294.8 Mt/yr | 80.8% |
+| `eca_extended_product_lifetimes` | −238.4 Mt/yr | −189.9 Mt/yr | 79.6% |
+| *world total, for reference* | *44.5 Gt* | *32.5 Gt* | *73%* |
+
+The spread is about eight percentage points across three tapes — so **two tapes worth the
+same brick of CO₂e differ by roughly a tenth in their effect on 2100 temperature.** A fuel
+tape is nearly pure CO₂; a manufactured-goods tape carries more methane and nitrous oxide
+from farming and industry in its supply chains.
+
+A tenth is small enough not to break anything and large enough to be worth a decision:
+either the brick is defined on CO₂ and the anchor becomes a warming anchor, or it stays on
+CO₂e and the game accepts that equal bricks are not quite equal degrees. Carrying both
+figures per tape is already decided, so the data will be there either way — what is missing
+is a statement of which one the anchor *is*.
+
+### A smaller one, noted for completeness
+
+Deltas are world totals, not regional. For a consumption-based REDUCE tape acting on
+Region 3, the two coincide almost exactly — that is consumption-based accounting working. For
+a BUILD tape that changes Region 3's electricity recipe, they may not, because output shifts
+across borders. Worth checking when T6 lands rather than assuming the REDUCE result carries
+over.

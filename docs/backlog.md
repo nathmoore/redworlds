@@ -450,6 +450,35 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
       and transport margins) sector by sector. Energy products are taxed far more heavily than
       1.20 and services far less, so a fuel tape's spend figure is the least reliable monetary
       number the engine produces. See `docs/design/units_and_currency.md` §2.
+- [ ] **Size covers on the real deployment curve, not the flat one.** Covers are sized on
+      `cumulative_full_flat` but scored on the curves the game draws, and the gap is not
+      wing-neutral: a REDUCE tape delivers 0.91 of its flat figure, a 10-year BUILD 0.77, a
+      20-year BUILD 0.57. **A BUILD tape therefore delivers ~16% less than a REDUCE tape sized
+      to the same flat brick**, before construction emissions add another 2–3%. That is a
+      systematic bias that makes building look better on paper than it plays, and its danger
+      is invisibility: if it surfaces in playtesting as "BUILD feels weak", the tempting fix
+      is a thumb on a ceiling, which would treat a sizing artefact as a physical finding.
+      Keep the flat figure as a wing-neutral comparison and label it as that.
+      *Done when:* the export carries a curve-corrected cumulative alongside the flat one.
+- [ ] **Decide whether the brick is CO₂ or CO₂e.** The anchor is denominated in CO₂e; the
+      game's temperature reading uses TCRE, which is defined on CO₂ alone. Measured per tape,
+      CO₂ is 88.0% of CO₂e for remote work, 80.8% for buy-less and 79.6% for lifetimes — so
+      **two tapes worth the same CO₂e brick differ by about a tenth in their effect on 2100
+      temperature.** A fuel tape is nearly pure CO₂; a manufactured-goods tape carries more
+      methane and nitrous oxide from its supply chains. Carrying both figures is already
+      decided, so the data will be there; what is missing is a statement of which one the
+      anchor *is*. Either is defensible — a warming anchor is more honest about what the game
+      measures, a CO₂e anchor is more honest about what a tape removes.
+- [ ] **Separate the brick reading from `copies`.** Both are currently "cumulative at full
+      ceiling ÷ 1 Gt", which makes them the same number computed twice while the cover's own
+      value never appears. The intent is that the *cover* is sized to one brick and `copies`
+      is how many covers fit inside the ceiling. Linearity means one solve yields both, so
+      this is a definitional fix, not extra computation — but until it is written down,
+      "the brick reading" means two things depending on who is reading.
+- [ ] **Check world vs regional deltas when T6 lands.** Deltas are world totals. For a
+      consumption-based REDUCE tape on Region 3 the two coincide almost exactly. For a BUILD
+      tape that changes Region 3's electricity recipe they may not, because output shifts
+      across borders — worth measuring rather than assuming the REDUCE result carries over.
 - [ ] **Multiple simultaneous tapes.** MVP scores one tape vs baseline. When does the
       engine score against baseline plus the day's other tapes?
 - [ ] **Net-zero threshold and scope** if the game ever displays "reached net zero":
