@@ -26,11 +26,12 @@ from redworlds.jobs.run_tapes import (
     FLAT_CURVE,
     run_build_tape,
     run_grid_tape,
+    run_lifetime_tape,
     run_ready_reduce_tapes,
     run_reduce_tape,
     run_swap_tape,
 )
-from redworlds.jobs.tape_records import load_scenario_weights, load_tape_records
+from redworlds.jobs.tape_records import load_scenario_lifetimes, load_scenario_weights, load_tape_records
 
 BETA_DAY_REDUCE_TAPES = ("eca_buy_less", "eca_extended_product_lifetimes", "eca_remote_work_commuters")
 
@@ -246,6 +247,28 @@ def test_grid_samples_the_coefficient_solve(game_world) -> None:
     assert result.annual_delta_operating < 0.0
 
 
+def test_lifetime_cover_is_solved_from_years_not_scaled_from_ceiling(game_world, test_baskets) -> None:
+    sectors = list(game_world.get_sectors())
+    record = {
+        **_record(mechanism="product_lifetime_extension"),
+        "regional_ceiling": 4.0,
+        "cover_magnitude": {"extra_years_of_life": 1.0},
+    }
+    lives = {"test_basket": {sectors[0]: 4.0, sectors[1]: 12.0}}
+
+    ceiling, cover = run_lifetime_tape(
+        game_world,
+        record,
+        test_baskets,
+        lives,
+        extension=TEST_EXTENSION,
+        stressor=TEST_STRESSOR,
+    )
+
+    assert ceiling.annual_delta < cover.annual_delta < 0.0
+    assert abs(cover.annual_delta) > abs(ceiling.annual_delta) / 4
+
+
 @pytest.mark.integration
 def test_smart_grid_abates_without_changing_final_demand() -> None:
     """The committed coefficient shock produces a finite, beneficial real-world result."""
@@ -258,6 +281,22 @@ def test_smart_grid_abates_without_changing_final_demand() -> None:
     assert result.annual_delta_operating < 0.0
     assert result.gdp_impact == pytest.approx(0.0, abs=1e-6)
     assert all(math.isfinite(delta) for delta in result.deltas_by_deployment.values())
+
+
+@pytest.mark.integration
+def test_product_lifetime_cover_is_solved_independently_on_the_cached_world() -> None:
+    world = _cached_baseline()
+    records = load_tape_records()
+
+    ceiling, cover = run_lifetime_tape(
+        world,
+        records["eca_extended_product_lifetimes"],
+        load_scenario_weights(),
+        load_scenario_lifetimes(),
+    )
+
+    assert cover.cumulative_curve != pytest.approx(ceiling.cumulative_curve / 4)
+    assert abs(cover.cumulative_curve) > abs(ceiling.cumulative_curve) / 4
 
 
 def _cached_baseline() -> pymrio.IOSystem:

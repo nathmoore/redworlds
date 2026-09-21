@@ -36,7 +36,7 @@ promise that every intervention abates.
 | Tape | Current state | What remains |
 |---|---|---|
 | Buy Less | ready | No completion work |
-| Extended Product Lifetimes | ready, ceiling solved | Exact +1-year cover solve; source mean lives |
+| Extended Product Lifetimes | ready, exact +1-year cover solved | Source mean lives |
 | Remote Work | provisional | Replace road-energy share with fuel-resolved direct GHG |
 | Nuclear | ready | No completion work |
 | Geothermal | provisional | Reconcile EXIOBASE’s 211 g CO₂e/kWh coefficient |
@@ -132,6 +132,13 @@ Implementation:
 This leaves a game-side calibration call visible rather than blocking the engine: keep a
 meaningful +1-year cover worth 3.35 bricks, or use an approximately three-month one-peg
 cover. The engine must not narrow the basket or weaken the result merely to reach one brick.
+
+**Completed 2026-09-21.** `mean_life_years` now lives beside each applicable concordance
+row, the four-year ceiling weights are derived at full precision, and the exporter runs a
+separate one-year solve. The exact cover is **−4.248 Gt CO₂e on the 2011 basis**, or **3.352
+bricks** after the 2050 intensity scalar. It is not the four-year result divided by four.
+The approximate mean-life sources remain the promotion task; they do not block the honest
+numerical endpoint.
 
 Done when the export no longer reports `None` for this cover and a test proves that the
 one-year result is not obtained by dividing the four-year result by four.
@@ -248,8 +255,8 @@ These do not block a complete provisional table.
 ## Completion checklist
 
 - [x] Smart Grid has a numerical provisional result and no solar/curtailment credit.
-- [ ] Extended Product Lifetimes has an exact cover solve.
-- [ ] All nine ids export; none is `held`.
+- [x] Extended Product Lifetimes has an exact cover solve.
+- [x] All nine ids export; none is `held`.
 - [ ] Every provisional record names the evidence needed for promotion.
 - [ ] Household direct emissions are apportioned reproducibly by fuel.
 - [ ] EV’s sign is tested against source margins, direct GHG, the 2050 grid and rebound.

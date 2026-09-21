@@ -98,6 +98,38 @@ def load_scenario_weights(path: Path | None = None) -> dict[str, dict[str, float
     return baskets
 
 
+def load_scenario_lifetimes(path: Path | None = None) -> dict[str, dict[str, float]]:
+    """Return optional mean product lives keyed by scenario category and sector.
+
+    Only product-lifetime tapes use this column. Keeping the inputs beside their derived
+    ceiling weights makes the non-linear cover reproducible without imposing a field on
+    unrelated baskets.
+    """
+    lifetimes: dict[str, dict[str, float]] = {}
+    with (path or DEFAULT_SCENARIO_PATH).open(newline="", encoding="utf-8") as handle:
+        for row in csv.DictReader(line for line in handle if not line.lstrip().startswith("#")):
+            raw_life = (row.get("mean_life_years") or "").strip()
+            if not raw_life:
+                continue
+            try:
+                mean_life = float(raw_life)
+            except ValueError as exc:
+                raise ValueError(f"{row['scenario_category']}/{row['exiobase_sector']}: bad mean_life_years") from exc
+            if mean_life <= 0.0:
+                raise ValueError(
+                    f"{row['scenario_category']}/{row['exiobase_sector']}: mean_life_years must be positive"
+                )
+            lifetimes.setdefault(row["scenario_category"], {})[row["exiobase_sector"]] = mean_life
+    return lifetimes
+
+
+def lifetime_weights(mean_lives: dict[str, float], extra_years: float) -> dict[str, float]:
+    """Derive the replacement-demand share removed by adding ``extra_years`` of life."""
+    if extra_years <= 0.0:
+        raise ValueError(f"extra_years must be positive; got {extra_years}")
+    return {sector: extra_years / (mean_life + extra_years) for sector, mean_life in mean_lives.items()}
+
+
 def load_tape_records(path: Path | None = None) -> dict[str, dict[str, Any]]:
     """Return {tape key: record} from options.toml, with the wing folded into each record.
 

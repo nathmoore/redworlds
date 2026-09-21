@@ -110,23 +110,25 @@ Function signatures are in `src/redworlds/actions/`.
 1. Loads the cached SSP2 baseline world for 2050 (with capital endogenised and the
    Leontief inverse precomputed) and the baseline emissions trajectory 2050–2100.
 2. Reads the tape record and derives the engine inputs above.
-3. Applies the shock: `apply_build`, `apply_swap` or `apply_reduce`. Y-side shocks reuse
-   the cached inverse; coefficient changes trigger a full recalculation.
+3. Applies the shock: BUILD, SWAP, REDUCE or grid efficiency. Y-side shocks reuse the
+   cached inverse; coefficient changes trigger a full recalculation.
 4. Takes the annual emissions difference against the baseline and runs it through the
    tape's deployment curve (and, for BUILD, the construction-then-operation timing) to
    produce the annual curve and the fifty-year cumulative.
 5. Writes `progress_json` after each step so the game can animate, then `result_json`.
 
-For the MVP this is a static comparative. Y-side SWAP and REDUCE need one solve each. BUILD's
-A-matrix operation is sampled at 0.25, 0.5, 0.75 and 1.0 because re-inverting the Leontief
-matrix is non-linear; the game interpolates those points. See [`assumptions.md`](assumptions.md)
-for why.
+For the MVP this is a static comparative. Most Y-side SWAP and REDUCE tapes need one solve;
+Product Lifetimes solves its stated cover and ceiling separately because `N/(life+N)` is
+non-linear. BUILD and Smart Grid A-matrix operations are sampled at 0.25, 0.5, 0.75 and 1.0
+because re-inverting the Leontief matrix is non-linear; the game interpolates those points.
+See [`assumptions.md`](assumptions.md) for why.
 
 For the first scored playtest these results are generated offline by
 `just export-tapes`. The JSON schema is
 [`data/tech_choices/tape_table.schema.json`](../../data/tech_choices/tape_table.schema.json).
-The file carries both CO₂e and CO₂ in tonnes, the 2011 basis and 2050 intensity scalar,
-flat and real-curve cumulatives, and all nine tape records. Status has three meanings:
+The file carries both CO₂e and CO₂ in tonnes, the 2011 basis and 2050 intensity scalar, the
+0.555 Gt `brick_co2e_t` peg, flat and real-curve cumulatives, and all nine tape records.
+Status has three meanings:
 
 - `ready`: usable without a known material qualification beyond the documented model assumptions;
 - `provisional`: usable for the MVP, with a material named limitation in `limitation`, and expected to be revised;

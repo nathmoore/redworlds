@@ -1,4 +1,4 @@
-scenario_category,exiobase_sector,weight,notes
+scenario_category,exiobase_sector,weight,notes,mean_life_years
 # Maps game scenario categories to EXIOBASE 3.8.2 (pxp) product labels.
 #
 # A scenario category is a named basket of products. A tape record in
@@ -51,22 +51,22 @@ buy_less_basket_a,"Recreational, cultural and sporting services (92)",1.0,contra
 # remove very different shares of demand from a laptop and a washing machine.
 #
 # weight here is the share of annual replacement demand removed at the tape's ceiling, which
-# is four added years: weight = N / (mean life + N) with N = 4. A short-lived product loses
-# half its replacement flow; a long-lived one loses a quarter. Linear interpolation from zero
-# to these weights stands in for the true N/(life+N) curve, which is mildly concave — an
-# acceptable simplification because the game's outcome fraction is linear anyway, and a
-# documented one because it slightly understates partial deployments.
+# is four added years: weight = N / (mean life + N) with N = 4. mean_life_years stores the
+# input explicitly so the +1-year cover can be solved rather than inferred from rounded
+# ceiling weights. A short-lived product loses half its replacement flow; a long-lived one
+# loses a quarter. Linear interpolation from zero to these weights stands in for the true
+# N/(life+N) curve between the solved endpoints.
 #
 # Mean lifetimes are order-of-magnitude and want checking against Vita et al. 2019 -- see
 # docs/backlog.md. They are the largest uncertainty in this tape.
-appliances_and_devices,Office machinery and computers (30),0.50,mean life ~4 yr; computers and peripherals; the device lever
-appliances_and_devices,"Radio, television and communication equipment and apparatus (32)",0.50,mean life ~4 yr; phones and TVs; the device lever
-appliances_and_devices,Electrical machinery and apparatus n.e.c. (31),0.27,mean life ~11 yr; white goods and small appliances
-appliances_and_devices,"Medical, precision and optical instruments, watches and clocks (33)",0.36,mean life ~7 yr; cameras and watches
-appliances_and_devices,Furniture; other manufactured goods n.e.c. (36),0.25,mean life ~12 yr; wears out rather than being superseded
-appliances_and_devices,Textiles (17),0.50,mean life ~4 yr
-appliances_and_devices,Wearing apparel; furs (18),0.50,mean life ~4 yr; the clothing lever
-appliances_and_devices,Leather and leather products (19),0.50,mean life ~4 yr
+appliances_and_devices,Office machinery and computers (30),0.50,mean life ~4 yr; computers and peripherals; the device lever,4
+appliances_and_devices,"Radio, television and communication equipment and apparatus (32)",0.50,mean life ~4 yr; phones and TVs; the device lever,4
+appliances_and_devices,Electrical machinery and apparatus n.e.c. (31),0.2666666667,mean life ~11 yr; white goods and small appliances,11
+appliances_and_devices,"Medical, precision and optical instruments, watches and clocks (33)",0.3636363636,mean life ~7 yr; cameras and watches,7
+appliances_and_devices,Furniture; other manufactured goods n.e.c. (36),0.25,mean life ~12 yr; wears out rather than being superseded,12
+appliances_and_devices,Textiles (17),0.50,mean life ~4 yr,4
+appliances_and_devices,Wearing apparel; furs (18),0.50,mean life ~4 yr; the clothing lever,4
+appliances_and_devices,Leather and leather products (19),0.50,mean life ~4 yr,4
 #
 # ---------------------------------------------------------------------------
 # commuting_vehicle_fuel - eca_remote_work_commuters

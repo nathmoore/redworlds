@@ -399,7 +399,10 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
       general form and the flat one delegates to it; `apply_reduce` gained `weights` and
       `direct_emissions_driver`. The lifetimes tape runs on eight products at `N/(life+N)`
       with N = 4, and remote work widened to four products with Motor Gasoline driving `F_Y`.
-      Linearity in the headline fraction holds with uneven weights and is tested.
+      Linearity in the headline fraction holds with uneven weights and is tested. Follow-up
+      completed the non-linear endpoint on 2026-09-21: mean lives are explicit concordance
+      data and the +1-year cover is solved independently at 3.352 bricks, not obtained by
+      dividing the four-year ceiling by four.
 - [ ] **Replace the provisional direct-household (`F_Y`) shares with fuel-resolved emissions.** The characterised impacts
       account is resolved by region and final-demand category, not by purchased product.
       The MVP now scales only a named share: road transport uses the 32.9% share of Region 3
@@ -463,12 +466,11 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
       decided, so the data will be there; what is missing is a statement of which one the
       anchor *is*. Either is defensible — a warming anchor is more honest about what the game
       measures, a CO₂e anchor is more honest about what a tape removes.
-- [ ] **Separate the brick reading from `copies`.** Both are currently "cumulative at full
-      ceiling ÷ 1 Gt", which makes them the same number computed twice while the cover's own
-      value never appears. The intent is that the *cover* is sized to one brick and `copies`
-      is how many covers fit inside the ceiling. Linearity means one solve yields both, so
-      this is a definitional fix, not extra computation — but until it is written down,
-      "the brick reading" means two things depending on who is reading.
+- [x] ~~**Separate the brick reading from `copies`.**~~ Completed 2026-09-21.
+      `cumulative_at_cover_co2e_t`, `bricks_at_cover`, `regional_ceiling_scale` and
+      `cover_basis` now travel separately from full-ceiling `copies`. Non-linear lifetime
+      cover and ceiling are solved independently. The file-level `brick_co2e_t` records the
+      actual 0.555 Gt peg so the exported formula no longer describes it as a round 1 Gt.
 - [ ] **Check world vs regional deltas when T6 lands.** Deltas are world totals. For a
       consumption-based REDUCE tape on Region 3 the two coincide almost exactly. For a BUILD
       tape that changes Region 3's electricity recipe they may not, because output shifts

@@ -24,10 +24,16 @@ from redworlds.jobs.run_tapes import (
     SwapTapeResult,
     run_build_tape,
     run_grid_tape,
+    run_lifetime_tape,
     run_reduce_tape,
     run_swap_tape,
 )
-from redworlds.jobs.tape_records import load_scenario_weights, load_tape_records, validate_baskets
+from redworlds.jobs.tape_records import (
+    load_scenario_lifetimes,
+    load_scenario_weights,
+    load_tape_records,
+    validate_baskets,
+)
 
 _REPO_ROOT = Path(__file__).parents[3]
 DEFAULT_EXPORT_DIR = _REPO_ROOT / "data" / "exports"
@@ -142,12 +148,13 @@ def _y_side_payload(
     result: ReduceTapeResult | SwapTapeResult,
     provenance: str,
     co2e_to_tonnes: float,
+    cover_result: ReduceTapeResult | None = None,
 ) -> dict[str, Any]:
     assert result.annual_delta_co2_t is not None
     assert result.cumulative_full_flat_co2_t is not None
     assert result.cumulative_curve_co2_t is not None
     cumulative_curve_t = result.cumulative_curve * co2e_to_tonnes
-    return {
+    payload = {
         **_common(record, provenance),
         "annual_delta_construction_co2e_t": 0.0,
         "annual_delta_operating_co2e_t": result.annual_delta * co2e_to_tonnes,
@@ -160,11 +167,22 @@ def _y_side_payload(
         "cumulative_curve_co2_t": result.cumulative_curve_co2_t,
         **_cover_reading(record, cumulative_curve_t, "ceiling"),
         "copies": _copies(cumulative_curve_t),
-        "copies_basis": "max(0, floor(-cumulative_curve_co2e_t * intensity_scalar_2050 / 1e9))",
+        "copies_basis": "max(0, floor(-cumulative_curve_co2e_t * intensity_scalar_2050 / brick_co2e_t))",
         "jcurve_co2e_t": [
             {"year": int(point["year"]), "value": point["value"] * co2e_to_tonnes} for point in result.jcurve
         ],
     }
+    if cover_result is not None:
+        cover_curve_t = cover_result.cumulative_curve * co2e_to_tonnes
+        payload.update(
+            {
+                "cumulative_at_cover_co2e_t": cover_curve_t,
+                "bricks_at_cover": -cover_curve_t * intensity_scalar(TARGET_YEAR) / BRICK_TONNES,
+                "regional_ceiling_scale": None,
+                "cover_basis": "cover and ceiling solved separately from N / (mean life + N); not linearly scaled",
+            }
+        )
+    return payload
 
 
 def _build_payload(
@@ -200,7 +218,7 @@ def _build_payload(
         **_cover_reading(record, cumulative_curve_t, "cover"),
         "copies": copies,
         "copies_basis": (
-            "max(0, floor(-cumulative_curve_co2e_t * intensity_scalar_2050 * regional_ceiling_scale / 1e9))"
+            "max(0, floor(-cumulative_curve_co2e_t * intensity_scalar_2050 * regional_ceiling_scale / brick_co2e_t))"
         ),
         "jcurve_co2e_t": [
             {"year": int(point["year"]), "value": point["value"] * co2e_to_tonnes} for point in result.jcurve
@@ -218,6 +236,7 @@ def build_tape_table(
     stressor: str | tuple[str, ...] = GHG_STRESSOR,
     co2_stressor: str | tuple[str, ...] = CO2_STRESSOR,
     region_names: dict[int, str] | None = None,
+    mean_lives: dict[str, dict[str, float]] | None = None,
 ) -> dict[str, Any]:
     """Solve ready and provisional tapes; retain held records without assigning a score."""
     provenance = provenance or _provenance()
@@ -236,6 +255,20 @@ def build_tape_table(
                 co2_stressor=co2_stressor,
             )
             tapes[key] = _build_payload(record, result, provenance, co2e_to_tonnes)
+        elif record.get("mechanism") == "product_lifetime_extension":
+            if mean_lives is None:
+                mean_lives = load_scenario_lifetimes()
+            result, cover_result = run_lifetime_tape(
+                world,
+                record,
+                baskets,
+                mean_lives,
+                region_names=region_names,
+                extension=extension,
+                stressor=stressor,
+                co2_stressor=co2_stressor,
+            )
+            tapes[key] = _y_side_payload(record, result, provenance, co2e_to_tonnes, cover_result=cover_result)
         elif record["wing"] == "reduce":
             result = run_reduce_tape(
                 world,
@@ -276,6 +309,7 @@ def build_tape_table(
         "basis_year": 2011,
         "target_year": TARGET_YEAR,
         "intensity_scalar_2050": intensity_scalar(TARGET_YEAR),
+        "brick_co2e_t": BRICK_TONNES,
         "units": {
             "co2e": "tonnes CO2-eq",
             "co2": "tonnes CO2",
@@ -298,8 +332,9 @@ def main() -> None:
     world = pymrio.load_all(baseline_path)
     records = load_tape_records()
     baskets = load_scenario_weights()
+    mean_lives = load_scenario_lifetimes()
     validate_baskets(world, {category: list(weights) for category, weights in baskets.items()}, records)
-    table = build_tape_table(world, records, baskets)
+    table = build_tape_table(world, records, baskets, mean_lives=mean_lives)
     destination = DEFAULT_EXPORT_DIR / f"tape_table_{date.today().isoformat()}.json"
     write_tape_table(table, destination)
     print(f"Exported {len(table['tapes'])} tapes to {destination}")

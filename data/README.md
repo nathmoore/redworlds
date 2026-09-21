@@ -17,6 +17,11 @@ These files are version-controlled and live in this repo:
 These files define the game's data contracts. If you want to propose a new technology
 option or adjust a sector mapping, edit these files and raise a pull request.
 
+`concordances/exiobase_to_scenario.csv` carries an optional `mean_life_years` column. It is
+populated only for the product-lifetime basket and is the input to
+`extra_years / (mean_life_years + extra_years)`; the `weight` column remains the derived
+share at that tape's four-year ceiling.
+
 ---
 
 ## What is NOT committed (large or licensed data)

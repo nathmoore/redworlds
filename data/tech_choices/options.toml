@@ -66,11 +66,13 @@ label = "Extended Product Lifetimes"
 status = "ready"
 region_id = 3
 scenario_category = "appliances_and_devices"
+mechanism = "product_lifetime_extension"
 matrix_target = ["Y"]
 max_reducible_fraction = 1.0
 deployment_curve = "reduce_default"
 build_years_reference = 0
 cover_magnitude = { extra_years_of_life = 1 }
+cover_calibration = "stated_physical"
 # No ceiling_cover_key: demand removed is N / (life + N), so the cover (+1 yr) is NOT the
 # ceiling (+4 yr) divided by four. Going from one to the other needs a second solve with
 # weights recomputed at N = 1, which the export marks rather than faking.

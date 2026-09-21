@@ -9,6 +9,7 @@
     "basis_year",
     "target_year",
     "intensity_scalar_2050",
+    "brick_co2e_t",
     "units",
     "tapes"
   ],
@@ -18,6 +19,7 @@
     "basis_year": { "type": "integer" },
     "target_year": { "type": "integer" },
     "intensity_scalar_2050": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+    "brick_co2e_t": { "type": "number", "exclusiveMinimum": 0 },
     "units": {
       "type": "object",
       "required": ["co2e", "co2", "money"],

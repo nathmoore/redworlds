@@ -287,10 +287,10 @@ those and returns the cumulative delta, the annual curve and the GDP impact. Ful
 [`red_carbon_contract.md`](red_carbon_contract.md) §4; data shapes:
 [`game_mechanics.md`](game_mechanics.md).
 
-Every tape is pre-sized by the game to the same expected abatement ("one brick" ≈ a
-10-reactor nuclear block ≈ 1 Gt CO₂ cumulative). **How much of each intervention equals a
-brick is a question this engine answers**, per region; the game's current magnitudes are
-placeholders until it does.
+The shared abatement unit is a ten-reactor nuclear block. The current solve measures that
+peg at **0.555 Gt CO₂e** after the 2050 intensity correction; “about 1 Gt” remains the
+contract's order-of-magnitude description, not the arithmetic divisor. **How much of each
+intervention equals a brick is a question this engine answers**, per region.
 
 ---
 
@@ -306,13 +306,13 @@ one is a question about *how you want to act* rather than arithmetic.
 
 Balance here is not a per-tape dial. It is one shared anchor plus a deliberate spread.
 
-**The anchor is the golden tape.** Every tape is normalised to the same reference value —
-about one "brick", roughly 1 Gt of CO₂ cumulative over 2050–2100. A tape's cover magnitude
-is then *derived* from that: ten reactors, twelve million homes, a percentage of a basket are
+**The anchor is the golden tape.** Brick-calibrated tapes use the same reference value — one
+ten-reactor block, currently 0.555 Gt CO₂e over 2050–2100. A tape's cover magnitude is then
+*derived* from that: ten reactors, millions of homes, a percentage of a basket are
 answers to "what equals a brick?", not numbers anyone picked. They land on unrelated-looking
 figures precisely because that is what equal climate effect across unlike interventions looks
-like. A shelf where every cover reaches for the same round number is the visible symptom of
-the rule having been broken.
+like. A stated physical cover may honestly differ: Product Lifetimes retains its meaningful
++1-year cover, and Smart Grid cannot exceed one complete regional grid programme.
 
 **The spread is what distinguishes tapes.** With expected value held equal, what makes one
 tape different from another is the *distribution* around it — how wide the outcome band is,

@@ -19,7 +19,9 @@ from redworlds.jobs.tape_records import (
     DEFAULT_OPTIONS_PATH,
     DEFAULT_SCENARIO_PATH,
     basket_for,
+    lifetime_weights,
     load_scenario_concordance,
+    load_scenario_lifetimes,
     load_scenario_weights,
     load_tape_records,
     validate_baskets,
@@ -211,6 +213,23 @@ def test_only_the_lifetimes_basket_is_weighted() -> None:
     devices = weights["appliances_and_devices"]["Office machinery and computers (30)"]
     white_goods = weights["appliances_and_devices"]["Electrical machinery and apparatus n.e.c. (31)"]
     assert devices > white_goods
+
+
+def test_lifetime_weights_are_derived_from_explicit_mean_lives() -> None:
+    lives = load_scenario_lifetimes(DEFAULT_SCENARIO_PATH)["appliances_and_devices"]
+    committed = load_scenario_weights(DEFAULT_SCENARIO_PATH)["appliances_and_devices"]
+    ceiling = lifetime_weights(lives, 4.0)
+    cover = lifetime_weights(lives, 1.0)
+
+    assert len(lives) == 8
+    assert committed == pytest.approx(ceiling)
+    assert ceiling["Office machinery and computers (30)"] == pytest.approx(0.5)
+    assert ceiling["Electrical machinery and apparatus n.e.c. (31)"] == pytest.approx(4 / 15)
+    assert cover["Office machinery and computers (30)"] == pytest.approx(0.2)
+    assert cover["Electrical machinery and apparatus n.e.c. (31)"] == pytest.approx(1 / 12)
+    assert cover["Office machinery and computers (30)"] != pytest.approx(
+        ceiling["Office machinery and computers (30)"] / 4
+    )
 
 
 @pytest.mark.integration

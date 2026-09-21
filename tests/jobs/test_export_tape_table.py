@@ -10,6 +10,7 @@ import pytest
 from redworlds.config import load_config
 from redworlds.jobs.build_baseline import BASELINE_NAME
 from redworlds.jobs.export_tape_table import (
+    BRICK_TONNES,
     SCHEMA_PATH,
     _copies,
     _cover_reading,
@@ -90,6 +91,7 @@ def test_build_table_solves_ready_y_side_tapes_and_keeps_held_record(test_mrio: 
     )
 
     assert table["baseline"] == "test"
+    assert table["brick_co2e_t"] == BRICK_TONNES
     assert table["tapes"]["held"]["status"] == "held"
     assert "annual_delta_operating_co2e_t" not in table["tapes"]["held"]
     assert table["tapes"]["reduce"]["annual_delta_operating_co2e_t"] < 0.0
@@ -133,6 +135,41 @@ def test_build_table_dispatches_a_provisional_grid_record(test_mrio: pymrio.IOSy
     assert payload["limitation"] == "test"
 
 
+def test_build_table_exports_an_exact_non_linear_lifetime_cover(test_mrio: pymrio.IOSystem) -> None:
+    sectors = list(test_mrio.get_sectors())
+    record = {
+        **_common("lifetimes", "reduce"),
+        "mechanism": "product_lifetime_extension",
+        "scenario_category": "durables",
+        "max_reducible_fraction": 1.0,
+        "regional_ceiling": 4.0,
+        "regional_ceiling_unit": "extra years",
+        "cover_magnitude": {"extra_years_of_life": 1.0},
+        "cover_scaling": "non-linear",
+    }
+    baskets = {"durables": {sectors[0]: 0.5, sectors[1]: 0.25}}
+    mean_lives = {"durables": {sectors[0]: 4.0, sectors[1]: 12.0}}
+
+    table = build_tape_table(
+        test_mrio,
+        {"lifetimes": record},
+        baskets,
+        baseline="test",
+        provenance="test @ abc123",
+        extension=TEST_EXTENSION,
+        stressor=TEST_STRESSOR,
+        co2_stressor=TEST_STRESSOR,
+        region_names={1: "reg1"},
+        mean_lives=mean_lives,
+    )
+
+    payload = table["tapes"]["lifetimes"]
+    assert payload["cumulative_at_cover_co2e_t"] is not None
+    assert payload["bricks_at_cover"] is not None
+    assert payload["cumulative_at_cover_co2e_t"] != pytest.approx(payload["cumulative_curve_co2e_t"] / 4)
+    assert "solved separately" in payload["cover_basis"]
+
+
 def test_write_table_is_byte_identical(tmp_path: Path) -> None:
     table = {"z": 1, "a": {"b": 2}}
     first = tmp_path / "first.json"
@@ -152,6 +189,7 @@ def test_committed_schema_is_valid_json() -> None:
     schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
     assert schema["$schema"].endswith("2020-12/schema")
     assert schema["properties"]["schema_version"]["const"] == 1
+    assert "brick_co2e_t" in schema["required"]
 
 
 def test_cover_reading_states_which_deployment_it_was_solved_at() -> None:

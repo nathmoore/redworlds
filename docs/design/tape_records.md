@@ -250,7 +250,7 @@ sustained for fifty years. Four reasons:
    not depend on when each cohort lands.
 2. **The curve already assumes it.** Construction runs flat over the build years, then
    operation ramps over about five. That is one cohort.
-3. **Comparability.** Every tape is normalised to about 1 Gt. If a BUILD cover were a
+3. **Comparability.** Brick-calibrated tapes use the same 0.555 Gt peg. If a BUILD cover were a
    sustained rate, its total would depend on how long you sustained it, and it would stop
    being comparable to a REDUCE tape.
 4. **It is the decision a player makes.** You commit at a table. "How many can we commit to"
@@ -317,6 +317,12 @@ culture removes half their replacement demand. White goods last a decade and los
 That spread is the tape's whole mechanism, and cutting all eight products by the same
 percentage would have described none of them.
 
+The stated +1-year cover is solved separately from the +4-year ceiling using the committed
+mean-life inputs. It removes **−4.248 Gt CO₂e** over the curve on the 2011 basis, or **3.352
+bricks** after the 2050 intensity scalar. Dividing the ceiling by four would understate it:
+`N/(life+N)` is concave. The mean lives are still approximate and remain an open evidence
+task, but the exporter no longer compounds that limitation with incorrect linear scaling.
+
 **Why remote work is more carbon-intense per euro than buying less:** its basket is dominated
 by motor fuel. Basket A is mostly manufactured goods whose emissions sit in supply chains
 abroad — and are still credited to the buyer, because all accounting here is consumption-
@@ -374,9 +380,10 @@ diagnostic in `assumptions.md`.
 
 ## 8. Balance, and why we do it in the open
 
-Every tape is normalised to roughly the same value — about one "brick", 1 Gt of CO₂ — so that
-building, swapping and reducing all feel like real choices. Honest modelling does not
-cooperate: run the numbers straight and some tapes come out several times others.
+Brick-calibrated tapes use the same value — one ten-reactor block, currently 0.555 Gt CO₂e —
+so that building, swapping and reducing all feel like real choices. Honest modelling does
+not always cooperate: a meaningful physical cover may come out several times that value or
+fail to reach it.
 
 When that happens the game designer adjusts something — a ceiling, a cover magnitude, a
 mechanism — and it happens here, in public, labelled, with the physically-derived figure kept
@@ -418,10 +425,10 @@ are currently round numbers. All three are in [`../backlog.md`](../backlog.md) w
 
 ## 10. The golden tape, under scrutiny
 
-Every tape is normalised to the same reference value — about one "brick", roughly 1 Gt of
-CO₂ over 2050–2100 — and its cover magnitude is derived from that. The anchor is what makes
-ten reactors comparable to a percentage of a shopping basket, so a great deal rests on "the
-same brick" being a well-defined quantity.
+The reference value is one "brick": the ten-reactor peg, currently 0.555 Gt CO₂e over
+2050–2100. Brick-calibrated cover magnitudes derive from it. The anchor is what makes ten
+reactors comparable to a percentage of a shopping basket, so a great deal rests on "the same
+brick" being a well-defined quantity.
 
 Now that there are real numbers to test it against, three things about it need sharpening.
 None is fatal, none blocks a first playtest, and all three are cheap to fix. They are here
@@ -432,14 +439,14 @@ rather than in a backlog because anyone reasoning about balance needs to know th
 The export now gives the intervention's real-curve cumulative separately from `copies`.
 For Y-side tapes the solve is at the physical ceiling. For BUILD the solve is at one cover,
 then `regional_ceiling_scale` converts that cover to the physical ceiling (650 / 10 for
-nuclear and fusion, 180 / 91 for geothermal). `copies` is the whole number of positive 1 Gt
-abatement bricks the full ceiling delivers after the 2050 intensity scalar. A backfire
+nuclear and fusion, 180 / 91 for geothermal). `copies` is the whole number of positive
+0.555 Gt abatement bricks the full ceiling delivers after the 2050 intensity scalar. A backfire
 produces zero, never a positive count through an absolute value. Its exact formula travels
 beside it as `copies_basis`.
 
-One issue remains: several inherited **cover magnitudes** do not yet equal one curve-corrected
-brick. The export makes that mismatch visible rather than using `copies` to hide it. Moving a
-cover is game-side calibration after these engine numbers land, not a modelling adjustment.
+The export also makes intentional exceptions visible rather than using `copies` to hide
+them: Product Lifetimes has a separately solved +1-year physical cover, while Smart Grid's
+cover is its full physical ceiling and delivers 0.86 brick.
 
 ### 10.2 Sizing on a flat curve systematically favours REDUCE over BUILD
 

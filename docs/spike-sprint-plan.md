@@ -162,9 +162,10 @@ the magnitudes, which are labelled provisional either way.
        under `cumulative_curve` is how a calibration pass compares a cover against a ceiling
        without noticing.
 
-       The lifetimes tape reports `None` rather than a scaled figure: demand removed is
-       `N / (life + N)`, so the +1 year cover is not the +4 year ceiling divided by four, and
-       getting it honestly needs a second solve.
+       At the sprint boundary the lifetimes tape reported `None` rather than a scaled figure:
+       demand removed is `N / (life + N)`, so the +1 year cover is not the +4 year ceiling
+       divided by four. The follow-up completion pass now performs that separate solve and
+       reports 3.352 bricks at +1 year.
 
        **Covers resized to the peg, 2026-09-21.** Nuclear is the peg: a brick is what ten
        reactors deliver, which measures **1.267 Gt on the 2011 table and 0.555 Gt once the
@@ -182,7 +183,7 @@ the magnitudes, which are labelled provisional either way.
        | `eca_ban_gas_supply` | 12 M homes | **8.9 M homes** | 1.00 | 10 |
        | `eca_buy_less` | 1.4% of basket | **1.86% of basket** | 1.00 | 13 |
        | `eca_remote_work_commuters` | 100 M commuter-days | **239 M** | 1.00 | 2 |
-       | `eca_extended_product_lifetimes` | +1 year | needs own solve | — | 8 |
+       | `eca_extended_product_lifetimes` | +1 year | unchanged; separately solved | 3.35 | 8 |
        | `eca_electric_vehicle_transition` | 11 M cars | **cannot** — backfires | −0.09 | 0 |
 
        Linear scaling is safe for all of them, including BUILD: the A-matrix solve is

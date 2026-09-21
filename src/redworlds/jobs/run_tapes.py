@@ -41,7 +41,7 @@ from redworlds.engine.scoring import (
     deployment_curve,
     gdp_impact,
 )
-from redworlds.jobs.tape_records import weights_for
+from redworlds.jobs.tape_records import lifetime_weights, weights_for
 
 # Fully deployed from the first year of the window. The game applies a tape's real ramp
 # itself, so what the table ships is the flat figure and the shape is the game's business.
@@ -182,6 +182,43 @@ def run_grid_tape(
         cumulative_full_flat_co2_t=flat_co2_t,
         cumulative_curve_co2_t=curve_co2_t,
     )
+
+
+def run_lifetime_tape(
+    world: pymrio.IOSystem,
+    record: dict[str, Any],
+    baskets: dict[str, dict[str, float]],
+    mean_lives: dict[str, dict[str, float]],
+    region_names: dict[int, str] | None = None,
+    extension: str = GHG_EXTENSION,
+    stressor: str | tuple[str, ...] = GHG_STRESSOR,
+    co2_stressor: str | tuple[str, ...] | None = None,
+) -> tuple[ReduceTapeResult, ReduceTapeResult]:
+    """Solve a product-lifetime tape independently at its ceiling and stated cover."""
+    if record.get("mechanism") != "product_lifetime_extension":
+        raise ValueError(f"{record['key']!r} is not a product-lifetime tape")
+    category = record["scenario_category"]
+    category_lives = mean_lives.get(category)
+    if category_lives is None:
+        raise ValueError(f"{record['key']!r} has no mean product lives for {category!r}")
+    if set(category_lives) != set(baskets[category]):
+        raise ValueError(f"{record['key']!r} mean product lives do not cover its basket exactly")
+
+    def solve(extra_years: float) -> ReduceTapeResult:
+        weighted_baskets = {**baskets, category: lifetime_weights(category_lives, extra_years)}
+        return run_reduce_tape(
+            world,
+            record,
+            weighted_baskets,
+            region_names=region_names,
+            extension=extension,
+            stressor=stressor,
+            co2_stressor=co2_stressor,
+        )
+
+    ceiling = solve(float(record["regional_ceiling"]))
+    cover = solve(float(record["cover_magnitude"]["extra_years_of_life"]))
+    return ceiling, cover
 
 
 def run_reduce_tape(
