@@ -33,7 +33,17 @@ from redworlds.jobs.tape_records import load_scenario_weights, load_tape_records
 _REPO_ROOT = Path(__file__).parents[3]
 DEFAULT_EXPORT_DIR = _REPO_ROOT / "data" / "exports"
 SCHEMA_PATH = _REPO_ROOT / "data" / "tech_choices" / "tape_table.schema.json"
-BRICK_TONNES: float = 1e9
+# A brick is what the peg delivers, not a round billion.
+#
+# eca_nuclear's ten-reactor cover is the peg (red_carbon_contract.md §2): every other tape is
+# sized to match it, so the unit has to *be* it. Ten reactors measure 1.267 Gt CO2e on the
+# 2011 table, which the 2050 intensity correction takes to 0.555 Gt — and that is the brick.
+#
+# Declared rather than derived from nuclear's solve, to keep the unit from moving underfoot
+# whenever the table is rebuilt: a brick that silently re-based itself would re-scale every
+# other tape's copies with nothing failing. `test_the_brick_is_the_peg` asserts the two agree,
+# so a genuine change to nuclear breaks the build and the constant is updated deliberately.
+BRICK_TONNES: float = 5.55e8
 SOLVABLE_STATUSES: tuple[str, ...] = ("ready", "provisional")
 
 

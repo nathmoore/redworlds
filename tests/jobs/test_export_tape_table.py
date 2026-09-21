@@ -7,6 +7,8 @@ from typing import Any
 import pymrio
 import pytest
 
+from redworlds.config import load_config
+from redworlds.jobs.build_baseline import BASELINE_NAME
 from redworlds.jobs.export_tape_table import (
     SCHEMA_PATH,
     _copies,
@@ -14,7 +16,16 @@ from redworlds.jobs.export_tape_table import (
     build_tape_table,
     write_tape_table,
 )
-from redworlds.jobs.tape_records import DEFAULT_OPTIONS_PATH, load_tape_records
+from redworlds.jobs.tape_records import DEFAULT_OPTIONS_PATH, load_scenario_weights, load_tape_records
+
+
+def _cached_baseline() -> pymrio.IOSystem:
+    """Load the cached baseline, skipping if `just baseline` has not been run."""
+    path = Path(load_config()["data"]["worlds_path"]) / BASELINE_NAME
+    if not path.exists():
+        pytest.skip(f"no cached baseline at {path} — run `just baseline`")
+    return pymrio.load_all(path)
+
 
 TEST_EXTENSION = "emissions"
 TEST_STRESSOR = ("emission_type1", "air")
@@ -124,8 +135,10 @@ def test_cover_reading_states_which_deployment_it_was_solved_at() -> None:
     assert build["regional_ceiling_scale"] == pytest.approx(65.0)
     assert "solved at cover" in build["cover_basis"]
 
-    y_side = _cover_reading(records["eca_buy_less"], -1.0e9, "ceiling")
-    scale = 0.25 / 0.014
+    buy_less = records["eca_buy_less"]
+    y_side = _cover_reading(buy_less, -1.0e9, "ceiling")
+    # Derived from the record, not pinned: covers move when they are recalibrated to the peg.
+    scale = buy_less["regional_ceiling"] / buy_less["cover_magnitude"][buy_less["ceiling_cover_key"]]
     assert y_side["cumulative_at_cover_co2e_t"] == pytest.approx(-1.0e9 / scale), "scaled down to the cover"
     assert "solved at ceiling" in y_side["cover_basis"]
 
@@ -143,3 +156,36 @@ def test_a_non_linear_cover_is_reported_as_absent_not_guessed() -> None:
     assert reading["cumulative_at_cover_co2e_t"] is None
     assert reading["bricks_at_cover"] is None
     assert "not linearly related" in reading["cover_basis"]
+
+
+@pytest.mark.integration
+def test_the_brick_is_the_peg() -> None:
+    """A brick is what ten reactors deliver, so the constant must match nuclear's solve.
+
+    The unit is declared rather than derived so it cannot move underfoot when the table is
+    rebuilt — a brick that silently re-based itself would re-scale every other tape's copies
+    with nothing failing. This is the trade for that: if nuclear's number genuinely changes,
+    this breaks and ``BRICK_TONNES`` is updated deliberately.
+    """
+    world = _cached_baseline()
+    table = build_tape_table(world, load_tape_records(), load_scenario_weights())
+
+    assert table["tapes"]["eca_nuclear"]["bricks_at_cover"] == pytest.approx(1.0, abs=0.02)
+
+
+@pytest.mark.integration
+def test_every_solved_cover_lands_on_the_peg() -> None:
+    """Covers are derived from the brick, so a solved tape should measure one.
+
+    Excludes tapes that cannot be sized by scaling: a backfiring tape has no positive cover,
+    a held tape has no solve, and the lifetimes cover is non-linear in years so its figure
+    needs its own run.
+    """
+    world = _cached_baseline()
+    table = build_tape_table(world, load_tape_records(), load_scenario_weights())
+
+    for key, payload in table["tapes"].items():
+        bricks = payload.get("bricks_at_cover")
+        if bricks is None or bricks <= 0.0:
+            continue
+        assert bricks == pytest.approx(1.0, abs=0.1), f"{key} is {bricks:.2f} bricks at its cover"

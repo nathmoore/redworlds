@@ -37,7 +37,7 @@ final_demand_categories = ["Final consumption expenditure by households"]
 max_reducible_fraction = 0.25
 deployment_curve = "reduce_default"
 build_years_reference = 0
-cover_magnitude = { basket_fraction = 0.014 }
+cover_magnitude = { basket_fraction = 0.0186 }
 ceiling_cover_key = "basket_fraction"
 regional_ceiling = 0.25
 regional_ceiling_unit = "fraction of basket A final demand"
@@ -118,7 +118,7 @@ direct_emissions_extension = "impacts"
 direct_emissions_driver = "Motor Gasoline"
 direct_emissions_share = 0.329
 final_demand_categories = ["Final consumption expenditure by households"]
-cover_magnitude = { people = 100_000_000, commute_days_avoided_per_week = 1, worker_days_per_week = 100_000_000 }
+cover_magnitude = { people = 239_000_000, commute_days_avoided_per_week = 1, worker_days_per_week = 239_000_000 }
 ceiling_cover_key = "worker_days_per_week"
 regional_ceiling = 700_000_000
 regional_ceiling_unit = "commuter-days per week avoided (140 M teleworkable workers x 5 days)"
@@ -216,7 +216,7 @@ matrix_target = ["GFCF_construction_phase", "A_post_build_energy_mix"]
 budget_musd_2026_purchaser = 100_000
 build_years_reference = 6
 deployment_curve = "build_default"
-cover_magnitude = { gw = 13, capacity_factor = 0.8, twh_per_year = 91 }
+cover_magnitude = { gw = 23, capacity_factor = 0.8, twh_per_year = 160 }
 ceiling_cover_key = "twh_per_year"
 regional_ceiling = 180
 regional_ceiling_unit = "TWh/yr of new geothermal generation"
@@ -241,7 +241,7 @@ matrix_target = ["GFCF_construction_phase", "A_post_build_energy_mix"]
 budget_musd_2026_purchaser = 200_000
 build_years_reference = 20
 deployment_curve = "build_default"
-cover_magnitude = { plants = 10, gw = 12, capacity_factor = 0.9, twh_per_year = 95 }
+cover_magnitude = { plants = 14, gw = 17, capacity_factor = 0.9, twh_per_year = 132 }
 ceiling_cover_key = "plants"
 regional_ceiling = 650
 regional_ceiling_unit = "plants commissioned in a ten-year mobilisation"
@@ -324,7 +324,7 @@ deployment_curve = "swap_default"
 direct_emissions_extension = "impacts"
 direct_emissions_driver = "Distribution services of gaseous fuels through mains"
 direct_emissions_share = 0.274
-cover_magnitude = { homes = 12_000_000, tonnes_saved_per_home_year = 1.9 }
+cover_magnitude = { homes = 8_900_000, tonnes_saved_per_home_year = 1.9 }
 ceiling_cover_key = "homes"
 regional_ceiling = 95_000_000
 regional_ceiling_unit = "gas-heated homes that could be converted"
