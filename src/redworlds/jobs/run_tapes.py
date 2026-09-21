@@ -321,6 +321,7 @@ def run_swap_tape(
         service_energy_ratio=record["service_energy_ratio"],
         categories=record.get("final_demand_categories", (HOUSEHOLDS,)),
         delivery_sector=record.get("delivery_sector"),
+        energy_source_products=record.get("energy_source_products"),
         direct_emissions_extension=record.get("direct_emissions_extension"),
         weights=weights,
         direct_emissions_driver=record.get("direct_emissions_driver"),

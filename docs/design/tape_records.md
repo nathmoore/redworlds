@@ -344,7 +344,7 @@ meant to work (§1).
 | `eca_nuclear` | 10 reactors, 95 TWh/yr; 10-year build | **−0.55 Gt CO₂e** | 650 reactors |
 | `eca_geothermal` | 13 GW, 91 TWh/yr; 6-year build | **−0.32 Gt CO₂e** | **provisional:** 180 TWh/yr |
 | `eca_fusion` | 10-plant nuclear proxy, 2× capex and 20-year build | **−0.40 Gt CO₂e** | 650 plants; shared with nuclear, not additive |
-| `eca_electric_vehicle_transition` | 80% of household petrol and diesel demand | **+1.41 Gt CO₂e** | **provisional:** 320 M cars; 0 abatement copies |
+| `eca_electric_vehicle_transition` | 80% of household petrol, diesel and forecourt-margin demand | **+1.43 Gt CO₂e** | **provisional:** 320 M cars; 0 abatement copies |
 | `eca_ban_gas_supply` | 90% of household mains-gas demand, including apportioned `F_Y` | **−5.91 Gt CO₂e** | **provisional:** 95 M homes |
 | `eca_smart_grid` | full regional grid; losses 6.2% → 4%, plus 2% demand response | **−0.48 Gt CO₂e** | **provisional:** 2% demand-response saving |
 
@@ -364,12 +364,13 @@ produces −0.677 Gt (1.22 bricks). Solar and curtailment credit are excluded be
 MRIO has no dispatch or capacity constraints from which to derive them.
 
 The EV sign is a result, not a target. Removed petrol/diesel averages €11.59/GJ in the table;
-household generation averages €30.25/GJ and delivery nearly doubles that spend. One third of
-the energy therefore costs more than the fuel it replaces, so balancing withdraws money from
-the rest of consumption. With road transport represented by 32.9% of direct-household energy,
-the model's grid and rebound effects slightly exceed tailpipe savings. A better fuel-resolved
-`F_Y` share may change the sign; until then the table exposes the backfire and awards zero
-copies rather than taking its absolute value.
+household generation averages €30.25/GJ and delivery nearly doubles that spend. The
+forecourt retail margin is now removed with fuel spend but excluded from the energy
+conversion. Under SWAP's closed budget that extra saving is re-spent, moving the backfire
+slightly from +1.41 to +1.43 Gt. With road transport provisionally represented by 32.9% of
+direct-household energy, the model's grid and rebound effects exceed tailpipe savings. A
+fuel-resolved `F_Y` share may change the sign; until then the table exposes the backfire and
+awards zero copies rather than taking its absolute value.
 
 Geothermal carries a separate warning: EXIOBASE reports about 211 g CO₂e/kWh lifecycle in
 Region 3, far above the usual technology literature and the 44 g/kWh table result for

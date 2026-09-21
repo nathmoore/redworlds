@@ -110,5 +110,6 @@ household_electricity_generation,Electricity by Geothermal,1.0,SWAP replacement 
 residential_heating,Distribution services of gaseous fuels through mains,1.0,SWAP source for eca_ban_gas_supply
 private_motoring,Motor Gasoline,1.0,SWAP source for eca_electric_vehicle_transition
 private_motoring,Gas/Diesel Oil,1.0,SWAP source for eca_electric_vehicle_transition
-electricity_delivery,Transmission services of electricity,1.0,eca_smart_grid; mechanism still under review
-electricity_delivery,Distribution and trade services of electricity,1.0,eca_smart_grid; mechanism still under review
+private_motoring,Retail trade services of motor fuel,1.0,forecourt margin removed with fuel but excluded from source energy
+electricity_delivery,Transmission services of electricity,1.0,eca_smart_grid grid-efficiency delivery sector
+electricity_delivery,Distribution and trade services of electricity,1.0,eca_smart_grid grid-efficiency delivery sector

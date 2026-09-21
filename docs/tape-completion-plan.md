@@ -203,6 +203,12 @@ known sensitivities must be resolved before treating the sign as robust.
 4. **Rebound.** Report flat proportional re-spend and the documented income-elasticity
    weighting as a sensitivity. Do not silently select the one that makes EV beneficial.
 
+**Source-margin item completed 2026-09-21.** The private-motoring basket now removes the
+forecourt retail margin with petrol and diesel while `energy_source_products` keeps it out
+of the TJ conversion. With the other provisional assumptions unchanged, the real cached
+solve moves slightly from a +1.41 to a **+1.43 Gt CO₂e backfire**: the extra saving is
+re-spent under SWAP’s closed-budget rule. The result was retained rather than tuned away.
+
 Retain the physical service ratio as a tested input and check it against vehicle-kilometre
 energy data. After these runs:
 

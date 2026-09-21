@@ -285,6 +285,7 @@ delivery_sector = "Distribution and trade services of electricity"
 service_energy_ratio = 0.3333333333333333
 energy_extension = "satellite"
 energy_stressor = "Energy Carrier Supply: Total"
+energy_source_products = ["Motor Gasoline", "Gas/Diesel Oil"]
 matrix_target = ["Y", "F_Y"]
 budget_musd_2026_purchaser = 330_000
 build_years_reference = 0
@@ -304,7 +305,7 @@ Region 3's fleet is roughly 400 M vehicles; 80% is the same figure as
 max_replaceable_fraction because in this tape the ceiling and the per-play maximum are the
 same constraint seen from two distances.
 """
-beta_day_assumption = "Consumer-side only: petrol and diesel spend is converted to physical energy at each product's EXIOBASE price; one third as much electricity is then priced from the baseline household generation mix and its delivery margin. The remaining money re-spends proportionally across the household basket. Direct household emissions move only by the 32.9% road-transport share of Region 3 household Energy Carrier Use: Net Total, rather than treating every household chimney and vehicle as a car. The contract flags freed motoring money re-spending toward air travel as this tape's largest unmodelled risk."
+beta_day_assumption = "Consumer-side only: petrol and diesel spend is converted to physical energy at each product's EXIOBASE price; their forecourt retail margin falls with them but is excluded from the TJ calculation. One third as much electricity is then priced from the baseline household generation mix and its delivery margin. The remaining money re-spends proportionally across the household basket. Direct household emissions move only by the provisional 32.9% road-energy share of Region 3 household Energy Carrier Use: Net Total. Fuel-resolved direct GHG, the 2050 grid and rebound weighting remain material sensitivities."
 
 [[swap]]
 key = "eca_ban_gas_supply"

@@ -172,6 +172,11 @@ def test_consumer_swaps_name_physical_replacement_energy() -> None:
         assert baskets[record["replacement_category"]]
         assert record["delivery_sector"] not in baskets[record["replacement_category"]]
 
+    ev = records["eca_electric_vehicle_transition"]
+    assert set(ev["energy_source_products"]) == {"Motor Gasoline", "Gas/Diesel Oil"}
+    assert "Retail trade services of motor fuel" in baskets[ev["scenario_category"]]
+    assert "Retail trade services of motor fuel" not in ev["energy_source_products"]
+
 
 def test_committed_ceilings_all_state_their_basis() -> None:
     """A ceiling without a basis is a number nobody can check or defend."""

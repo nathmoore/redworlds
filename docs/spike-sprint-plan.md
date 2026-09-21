@@ -292,7 +292,8 @@ sensitivity are in `docs/design/assumptions.md` and `docs/tape-completion-plan.m
 **Sprint 3 result.** Both SWAPs preserve final demand to floating-point precision. The
 one-third efficiency is now applied to physical TJ and each side is priced independently;
 it is not multiplied by spend. On the provisional direct-emissions shares, EVs produce a
-**+1.41 Gt CO₂e backfire** (zero copies) and the gas conversion produces **−5.91 Gt** after
+**+1.41 Gt CO₂e backfire** at the sprint boundary (zero copies; +1.43 Gt after the follow-up
+forecourt-margin fix) and the gas conversion produces **−5.91 Gt** after
 the 2050 scalar and real curve. These are exposed findings, not tuned toward game targets. A
 ten-reactor nuclear cover produces a 2.20 Mt CO₂e/yr construction hump and −33.05 Mt/yr
 at full operation on the 2011 basis; after the real build curve and the 0.438 intensity

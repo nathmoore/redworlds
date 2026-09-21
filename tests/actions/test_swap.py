@@ -112,6 +112,43 @@ def test_swap_applies_service_ratio_to_energy_not_spend(test_mrio: pymrio.IOSyst
     assert float(added.to_numpy().sum()) != pytest.approx(float(removed.to_numpy().sum()) / 3)
 
 
+def test_swap_cuts_a_source_margin_without_counting_it_as_energy(test_mrio: pymrio.IOSystem, monkeypatch) -> None:
+    import redworlds.actions.swap as swap_module
+
+    monkeypatch.setattr(swap_module, "rebalance_economy", lambda mrio, *_args, **_kwargs: mrio)
+    assert test_mrio.Y is not None
+    fuel_only = apply_swap(
+        test_mrio,
+        "reg1",
+        "food",
+        "mining",
+        0.2,
+        energy_extension=TEST_EXTENSION,
+        energy_stressor=TEST_STRESSOR,
+    )
+    with_margin = apply_swap(
+        test_mrio,
+        "reg1",
+        ["food", "manufactoring"],
+        "mining",
+        0.2,
+        energy_source_products=["food"],
+        energy_extension=TEST_EXTENSION,
+        energy_stressor=TEST_STRESSOR,
+    )
+    assert fuel_only.Y is not None and with_margin.Y is not None
+    columns = ("reg1", [HOUSEHOLDS])
+    replacement_rows = (slice(None), "mining")
+    margin_rows = (slice(None), "manufactoring")
+    assert with_margin.Y.loc[replacement_rows, columns].equals(fuel_only.Y.loc[replacement_rows, columns])
+    assert with_margin.Y.loc[margin_rows, columns].sum().sum() < test_mrio.Y.loc[margin_rows, columns].sum().sum()
+
+
+def test_swap_rejects_an_energy_source_outside_the_cut_basket(test_mrio: pymrio.IOSystem) -> None:
+    with pytest.raises(ValueError, match="subset"):
+        apply_swap(test_mrio, "reg1", "food", "mining", 0.2, energy_source_products=["transport"])
+
+
 def test_swap_scales_only_the_named_direct_emissions_share(test_mrio: pymrio.IOSystem) -> None:
     result = apply_swap(
         test_mrio,

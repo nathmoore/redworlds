@@ -1,9 +1,11 @@
 """Consumer-side SWAP: replace a service and re-spend the money left over.
 
-SWAP keeps the household budget closed. Demand for the source basket falls; the removed
-spend is converted to physical energy using the source products' EXIOBASE prices; and the
-replacement service is converted back to money using the household electricity mix. Any
-remainder is spread proportionally across the household basket as deliberate rebound.
+SWAP keeps the household budget closed. Demand for the source basket falls; the energy-
+carrying part of the removed spend is converted to physical energy using the source
+products' EXIOBASE prices; and the replacement service is converted back to money using the
+household electricity mix. A source retail margin can fall with the fuel without being
+mistaken for energy. Any remainder is spread proportionally across the household basket as
+deliberate rebound.
 
 Fuel tapes can also make the relevant share of direct household emissions (``F_Y``) follow
 the source fuel's own change, using the same correction as REDUCE.
@@ -64,6 +66,7 @@ def apply_swap(
     service_energy_ratio: float = 1.0,
     categories: Sequence[str] = (HOUSEHOLDS,),
     delivery_sector: str | None = None,
+    energy_source_products: Sequence[str] | None = None,
     direct_emissions_extension: str | None = None,
     weights: Mapping[str, float] | None = None,
     direct_emissions_driver: str | None = None,
@@ -89,6 +92,9 @@ def apply_swap(
         categories: Final-demand categories changed; households by default.
         delivery_sector: Optional electricity-delivery product. Its baseline household
             margin per euro of generation is added to the replacement purchase.
+        energy_source_products: Products in the source basket that carry physical energy.
+            Defaults to the whole source basket. Use this to cut a retail margin with its
+            fuel while excluding the margin from the source-TJ calculation.
         direct_emissions_extension: Account whose selected direct emissions follow the fuel.
         weights: Optional multiplier on rollout for each source product.
         direct_emissions_driver: Source product whose realised cut drives ``F_Y``.
@@ -113,6 +119,9 @@ def apply_swap(
         raise ValueError("apply_swap needs a calculated system")
 
     sources = [from_technology] if isinstance(from_technology, str) else list(from_technology)
+    energy_sources = sources if energy_source_products is None else list(energy_source_products)
+    if not set(energy_sources) <= set(sources):
+        raise ValueError("energy_source_products must be a subset of from_technology")
     replacements = [replacement_technology] if isinstance(replacement_technology, str) else list(replacement_technology)
     factors = {product: 1.0 - pct_rollout * (weights or {}).get(product, 1.0) for product in sources}
     if any(factor < 0.0 for factor in factors.values()):
@@ -128,7 +137,8 @@ def apply_swap(
         after_source.loc[(slice(None), product), :] *= factor
     result.Y.loc[source_rows, columns] = after_source
     removed_source = before_source - after_source
-    replacement_energy_tj = _energy_bought(mrio, removed_source, energy_extension, energy_stressor)
+    energy_rows = (slice(None), energy_sources)
+    replacement_energy_tj = _energy_bought(mrio, removed_source.loc[energy_rows, :], energy_extension, energy_stressor)
     replacement_energy_tj *= service_energy_ratio
 
     if replacement_energy_tj > 0.0:
