@@ -11,6 +11,7 @@
     "intensity_scalar_2050",
     "brick_co2e_t",
     "units",
+    "basis",
     "tapes"
   ],
   "properties": {
@@ -28,6 +29,16 @@
         "co2e": { "const": "tonnes CO2-eq" },
         "co2": { "const": "tonnes CO2" },
         "money": { "type": "string" }
+      }
+    },
+    "basis": {
+      "type": "object",
+      "required": ["tonne_fields_year", "prescaled_fields", "note"],
+      "additionalProperties": false,
+      "properties": {
+        "tonne_fields_year": { "type": "integer" },
+        "prescaled_fields": { "type": "array", "items": { "type": "string" } },
+        "note": { "type": "string" }
       }
     },
     "tapes": {

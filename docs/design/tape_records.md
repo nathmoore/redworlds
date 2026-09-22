@@ -344,9 +344,9 @@ and the cover following it, which is how this is meant to work (§1).
 | Tape | Shock at one cover or full ceiling | 2050 cumulative, real curve | Ceiling / status |
 |---|---|---:|---|
 | `eca_nuclear` | 10 reactors, 95 TWh/yr; 10-year build | **−0.55 Gt CO₂e** | 650 reactors |
-| `eca_geothermal` | 13 GW, 91 TWh/yr; 6-year build | **−0.32 Gt CO₂e** | **provisional:** 180 TWh/yr |
-| `eca_fusion` | 10-plant nuclear proxy, 2× capex and 20-year build | **−0.40 Gt CO₂e** | 650 plants; shared with nuclear, not additive |
-| `eca_electric_vehicle_transition` | 80% of household petrol, diesel and forecourt-margin demand | **−2.20 Gt CO₂e** | **provisional:** 320 M cars; 3 abatement copies |
+| `eca_geothermal` | 23 GW, 160 TWh/yr; 6-year build | **−0.56 Gt CO₂e** | **provisional:** 180 TWh/yr; 1 copy |
+| `eca_fusion` | 14-plant nuclear proxy, 2× capex and 20-year build | **−0.56 Gt CO₂e** | 650 plants; shared with nuclear, not additive |
+| `eca_electric_vehicle_transition` | 80% of household petrol, diesel and forecourt-margin demand | **−2.20 Gt CO₂e** | **provisional:** 320 M cars; cover 80.8 M; 3 abatement copies |
 | `eca_ban_gas_supply` | 90% of household mains-gas demand, including apportioned `F_Y` | **−5.91 Gt CO₂e** | **provisional:** 95 M homes |
 | `eca_smart_grid` | full regional grid; losses 6.2% → 4%, plus 2% demand response | **−0.48 Gt CO₂e** | **provisional:** 2% demand-response saving |
 
@@ -370,10 +370,15 @@ household generation averages €30.25/GJ and delivery nearly doubles that spend
 forecourt retail margin is removed with fuel spend but excluded from the energy conversion.
 Under the earlier 32.9% road-energy proxy, SWAP's closed-budget re-spend outweighed the
 tailpipe saving and produced a +1.43 Gt backfire. The independently derived 53.65% direct-
-CO₂e road share changes the full-ceiling result to −2.20 Gt. The stated 11 M-car physical
-cover is 0.136 brick; it is not enlarged to 80.8 M cars while the 2050 electricity and
-rebound sensitivities remain unresolved. This implementation is household/private motoring
-only. Commercial cars, vans and trucks require a separate `Z`/`F` shock and fleet basis.
+CO₂e road share changes the full-ceiling result to −2.20 Gt. **The cover was then sized to
+the peg (2026-09-22): 80.8 M cars, a quarter of the 320 M-car ceiling.** The old 11 M-car
+figure came from a ~2 t/car/year anchor this model does not reproduce, and stating it left a
+cover worth 0.136 brick against a peg every other tape matches. Sizing a cover is not tuning a
+result — the solve is linear in the fleet fraction and nothing in the physics moved. The
+magnitude is expected to move again: EV is the tape most exposed to the 2050 grid, which is
+still a uniform scalar on a 2011 generation mix, and its sign has already flipped once on an
+input change. This implementation is household/private motoring only. Commercial cars, vans
+and trucks require a separate `Z`/`F` shock and fleet basis.
 
 Geothermal carries a separate warning: EXIOBASE reports about 211 g CO₂e/kWh lifecycle in
 Region 3, far above the usual technology literature and the 44 g/kWh table result for

@@ -296,9 +296,19 @@ direct_emissions_driver = "Motor Gasoline"
 direct_emissions_share_co2e = 0.5365000495
 direct_emissions_share_co2 = 0.5422926887
 deployment_curve = "swap_default"
-cover_magnitude = { cars = 11_000_000, tonnes_saved_per_car_year = 2 }
+# Sized to the peg 2026-09-22, not to the old physical anchor. The solve is linear in the
+# fleet fraction, so one brick is 80.8 M of the 320 M-car ceiling: a quarter of the fleet, and
+# a much larger ask than the 11 M this record used to state. The 11 M came from a
+# ~2 t/car/year anchor that this model does not reproduce, so keeping it stated a cover worth
+# 0.136 brick against a peg every other tape matches.
+#
+# This magnitude WILL move. EV is the tape most exposed to the 2050 grid, which is still a
+# uniform intensity scalar on a 2011 generation mix, and its sign has already flipped once on
+# an input change. Re-derive it when issue #17 lands and when rebound is reported as a
+# sensitivity; the record stays provisional until both do.
+cover_magnitude = { cars = 80_800_000, tonnes_saved_per_car_year = 2 }
 ceiling_cover_key = "cars"
-cover_calibration = "stated_physical"
+cover_calibration = "brick"
 regional_ceiling = 320_000_000
 regional_ceiling_unit = "cars that could be electrified"
 regional_ceiling_basis = """

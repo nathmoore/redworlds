@@ -11,7 +11,9 @@ from redworlds.config import load_config
 from redworlds.jobs.build_baseline import BASELINE_NAME
 from redworlds.jobs.export_tape_table import (
     BRICK_TONNES,
+    PRESCALED_FIELDS,
     SCHEMA_PATH,
+    TONNE_FIELD_BASIS_YEAR,
     _copies,
     _cover_reading,
     build_tape_table,
@@ -185,11 +187,35 @@ def test_backfire_never_becomes_a_positive_copy_count() -> None:
     assert _copies(-10e9) > 0
 
 
+def test_the_basis_note_names_the_fields_that_are_already_scaled() -> None:
+    """One table holds two bases, so the note that says which is which has to stay true.
+
+    Tonne fields are 2011 and the game applies the scalar; ``bricks_at_cover`` and ``copies``
+    carry it already, because a brick is the peg measured in 2050 intensities. The failure this
+    guards is silent in both directions — a reader comparing a 2011 tonne against a 2050 brick
+    is out by the scalar, and a caller who scales a pre-scaled field applies it twice.
+    """
+    world = _cached_baseline()
+    table = build_tape_table(world, load_tape_records(), load_scenario_weights())
+    basis = table["basis"]
+
+    assert basis["tonne_fields_year"] == TONNE_FIELD_BASIS_YEAR == table["basis_year"]
+    assert basis["prescaled_fields"] == list(PRESCALED_FIELDS)
+
+    scalar = table["intensity_scalar_2050"]
+    for tape in table["tapes"].values():
+        at_cover = tape.get("cumulative_at_cover_co2e_t")
+        if at_cover is None:
+            continue
+        assert tape["bricks_at_cover"] == pytest.approx(-at_cover * scalar / table["brick_co2e_t"])
+
+
 def test_committed_schema_is_valid_json() -> None:
     schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
     assert schema["$schema"].endswith("2020-12/schema")
     assert schema["properties"]["schema_version"]["const"] == 1
     assert "brick_co2e_t" in schema["required"]
+    assert "basis" in schema["required"]
 
 
 def test_cover_reading_states_which_deployment_it_was_solved_at() -> None:

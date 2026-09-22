@@ -20,14 +20,28 @@ Current headline results after the road change:
 
 - Remote Work: −2.12 Gt CO₂e at its 700 M commuter-day/week ceiling; 183 M is a 1.000-brick
   cover; status remains provisional for commuting share, teleworkability and rebound.
-- Household/private EV: −2.20 Gt CO₂e at the 320 M-car ceiling; the stated 11 M-car cover is
-  0.136 brick and is deliberately not recalibrated while grid and rebound sensitivity remain;
-  status remains provisional.
+- Household/private EV: −2.20 Gt CO₂e at the 320 M-car ceiling; **the cover was sized to the
+  peg on 2026-09-22 at 80.8 M cars (1.000 brick)**, replacing the 11 M-car figure that
+  measured 0.136. Sizing the cover is not tuning the result; the magnitude is expected to
+  move again once the SSP2 grid and rebound land. Status remains provisional.
 - Ban Gas: still uses the 27.4% physical-anchor proxy because EXIOBASE does not split
   household non-transport energy by fuel. This is the unfinished half of Milestone B.
 - Smart Grid: −0.476 Gt at the selected 2% demand-response assumption; provisional.
 - Product Lifetimes: exact +1-year cover is 3.352 bricks; ready mechanically, but its mean
-  lives still need product-level evidence.
+  lives still need product-level evidence. Sizing it to one brick means a cover of about
+  **three months** of added life (~0.258 yr), which is a game-side copy decision, not an
+  engine change; the basket is unchanged at either magnitude.
+
+Also landed 2026-09-22, after the road commit:
+
+- the export states a `basis` object naming which fields carry which year — every tonne field
+  is 2011 and the game applies `intensity_scalar_2050`, while `bricks_at_cover` and `copies`
+  already carry it. One table held two bases with nothing on the fields to say so. This is the
+  cheap half of the fix; the field names stay put because the game's PHP reads them, and the
+  whole distinction disappears when the SSP2 walk replaces the scalar;
+- EV's cover sized to the peg at 80.8 M cars (see Milestone C); and
+- `docs/design/tape_records.md` corrected: its BUILD table still described geothermal as
+  13 GW / 91 TWh and fusion as a 10-plant proxy, which are pre-`0aef774` covers.
 
 Verification at handoff:
 
@@ -37,9 +51,9 @@ Verification at handoff:
 - strict documentation build: passed;
 - nine-tape cached export: passed, with Remote Work at 0.9998 brick and EV at 0.136 brick;
 - focused real-data road derivation: passed; and
-- full `pytest -m integration`: stopped deliberately for computer sleep after 25:28, with
-  **6 passed, 0 failed, 174 deselected**. It was making progress and showed no memory error;
-  rerun the command from the start when the Mac can remain awake for at least 40 minutes.
+- full `pytest -m integration`: **completed 2026-09-22 — 17 passed, 0 failed, 175 deselected,
+  20:19** under `caffeinate -i`, uninterrupted and with no memory error. The 8 GB Intel Mac is
+  a capable integration runner; the earlier 25:28 stop was planned sleep, not a limit.
 
 Next work, in dependency order: (1) obtain a compatible Region 3 residential-gas activity
 balance and finish Ban Gas `F_Y`; (2) run EV against the SSP2-walked grid and rebound
@@ -91,7 +105,7 @@ promise that every intervention abates.
 | Nuclear | ready | No completion work |
 | Geothermal | provisional | Reconcile EXIOBASE’s 211 g CO₂e/kWh coefficient |
 | Fusion | ready | No completion work; shares nuclear’s industrial ceiling |
-| Electric Vehicle Transition | provisional, now abates | 2050 grid and rebound sensitivity |
+| Electric Vehicle Transition | provisional, cover sized to the peg | 2050 grid and rebound sensitivity |
 | Ban Gas Supply | provisional | Replace physical-anchor `F_Y` share with fuel-resolved direct GHG |
 | Smart Grid | provisional, 0.86 brick | Strengthen the 2% demand-response evidence |
 
@@ -282,10 +296,17 @@ re-spent under SWAP’s closed-budget rule. The result was retained rather than 
 
 **Direct-tailpipe item completed 2026-09-22.** With the independently derived road shares,
 the full 320 M-car ceiling changes from a +1.43 Gt backfire to **−2.20 Gt CO₂e** on the
-2050-adjusted real curve. The stated 11 M-car physical cover is only **0.136 brick** in this
-model, so it is exported honestly rather than silently enlarged to the 80.8 M cars that a
-one-brick calibration would require. EV stays provisional pending the 2050-grid and rebound
-sensitivities; this is not yet a robust promotion to `ready`.
+2050-adjusted real curve. The 11 M-car cover measured only **0.136 brick** in this model.
+
+**Cover sized to the peg 2026-09-22 (Nathan).** The cover is now **80.8 M cars**, which
+measures 1.000 brick, and the ceiling stays the physical fleet at 320 M. The solve is linear
+in the fleet fraction, so this moves a game-side magnitude and leaves the physics untouched —
+the discipline this file protects is against narrowing a basket or weakening a result to reach
+a brick, not against sizing a cover to one. Two things follow. The ask is now a quarter of the
+regional fleet, which is a much larger player-facing commitment than 11 M cars and should read
+that way in the copy. And the magnitude is provisional in the same way the result is: EV is the
+tape most exposed to the 2050 grid, so re-derive it when issue #17 lands and when rebound is
+reported as a sensitivity. EV stays `provisional` until both do.
 
 Retain the physical service ratio as a tested input and check it against vehicle-kilometre
 energy data. After these runs:

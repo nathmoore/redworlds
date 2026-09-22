@@ -78,6 +78,37 @@ def _provenance() -> str:
     return f"jobs/export_tape_table.py @ {commit}"
 
 
+# Which fields carry which year, because one table holds both.
+#
+# The contract has the game apply intensity_scalar_2050 (red_carbon_contract.md 4), so every
+# tonne field here is on the 2011 basis. But a brick *is* the 2050 peg, so bricks_at_cover and
+# copies must already carry the scalar or they could not be compared with it — and that leaves
+# two bases in one object with nothing on the fields to say so. A reader comparing a 2011 tonne
+# against a 2050 brick is out by the scalar and nothing fails.
+#
+# Naming them is the cheap half of the fix. The field names stay as they are because the game's
+# PHP reads them (class-redcarbon-game-engine-table.php), so a rename is a cross-repo change for
+# a labelling problem. The whole distinction disappears when the SSP2 walk replaces the scalar
+# with a real 2050 world — see docs/backlog.md and issue #17.
+TONNE_FIELD_BASIS_YEAR: int = 2011
+PRESCALED_FIELDS: tuple[str, ...] = ("bricks_at_cover", "copies")
+
+
+def _basis_note() -> dict[str, Any]:
+    """State which fields are on the 2011 basis and which already carry the 2050 scalar."""
+    return {
+        "tonne_fields_year": TONNE_FIELD_BASIS_YEAR,
+        "prescaled_fields": list(PRESCALED_FIELDS),
+        "note": (
+            "Every *_co2e_t and *_co2_t field, including jcurve_co2e_t values, is on the "
+            f"{TONNE_FIELD_BASIS_YEAR} basis: multiply by intensity_scalar_2050 to state it in "
+            f"{TARGET_YEAR} intensities. The fields in prescaled_fields already have that "
+            "scalar applied, because a brick is the peg measured in "
+            f"{TARGET_YEAR} intensities. Do not apply it twice."
+        ),
+    }
+
+
 def _common(record: dict[str, Any], provenance: str) -> dict[str, Any]:
     common = {
         "status": record["status"],
@@ -315,6 +346,7 @@ def build_tape_table(
             "co2": "tonnes CO2",
             "money": "2011 million EUR, basic prices",
         },
+        "basis": _basis_note(),
         "tapes": tapes,
     }
 
