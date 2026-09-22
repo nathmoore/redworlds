@@ -210,12 +210,35 @@ def test_the_basis_note_names_the_fields_that_are_already_scaled() -> None:
         assert tape["bricks_at_cover"] == pytest.approx(-at_cover * scalar / table["brick_co2e_t"])
 
 
+def test_a_physical_ceiling_cover_is_flagged_as_not_peg_calibrated() -> None:
+    """A consumer checking covers against the peg has to know which ones are not aiming at it.
+
+    Smart Grid's cover is the entire regional grid and measures 0.858 bricks. No magnitude
+    fixes that, because there is no magnitude beyond all of it — so a peg check that treats it
+    like the others reports a sizing bug that cannot be fixed, and the tempting "fix" is to
+    inflate a physical ceiling. The field exists so that check can branch on data instead of
+    string-matching the basis sentence.
+    """
+    world = _cached_baseline()
+    table = build_tape_table(world, load_tape_records(), load_scenario_weights())
+
+    grid = table["tapes"]["eca_smart_grid"]
+    assert grid["cover_calibration"] == "physical_ceiling"
+    assert "not calibrated to one brick" in grid["cover_basis"]
+
+    peg_calibrated = [t for t in table["tapes"].values() if t["cover_calibration"] == "brick"]
+    assert len(peg_calibrated) == len(table["tapes"]) - 1
+    for tape in peg_calibrated:
+        assert tape["bricks_at_cover"] == pytest.approx(1.0, abs=0.08)
+
+
 def test_committed_schema_is_valid_json() -> None:
     schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
     assert schema["$schema"].endswith("2020-12/schema")
     assert schema["properties"]["schema_version"]["const"] == 1
     assert "brick_co2e_t" in schema["required"]
     assert "basis" in schema["required"]
+    assert "cover_calibration" in schema["$defs"]["solved"]["allOf"][1]["required"]
 
 
 def test_cover_reading_states_which_deployment_it_was_solved_at() -> None:

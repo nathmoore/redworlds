@@ -90,11 +90,13 @@
             "cumulative_curve_co2_t",
             "copies",
             "copies_basis",
+            "cover_calibration",
             "jcurve_co2e_t"
           ],
           "properties": {
             "copies": { "type": ["integer", "null"], "minimum": 0 },
-            "regional_ceiling_scale": { "type": ["number", "null"], "minimum": 0 }
+            "regional_ceiling_scale": { "type": ["number", "null"], "minimum": 0 },
+            "cover_calibration": { "enum": ["brick", "physical_ceiling", "stated_physical"] }
           }
         },
         {

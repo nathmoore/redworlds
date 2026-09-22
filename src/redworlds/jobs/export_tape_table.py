@@ -142,8 +142,15 @@ def _cover_reading(record: dict[str, Any], cumulative_curve_t: float, solved_at:
     So this emits the cover figure explicitly, plus the scale between cover and ceiling, plus
     a sentence naming which is which. Where the two are not linearly related the fields are
     ``None`` rather than a plausible wrong number — see ``cover_basis``.
+
+    ``cover_calibration`` is emitted as its own field rather than only as prose inside
+    ``cover_basis``, because a caller has to branch on it. A consumer checking that every cover
+    lands on the peg must skip the ones that are not calibrated to it — Smart Grid's cover is
+    the whole regional grid and measures 0.858, and no magnitude fixes that because there is no
+    magnitude beyond all of it. String-matching the basis sentence for that is a trap.
     """
     cover_key = record.get("ceiling_cover_key")
+    calibration = record.get("cover_calibration", "brick")
     if cover_key is None:
         reason = (
             "cover and ceiling are not linearly related, so the cover figure needs its own solve"
@@ -154,12 +161,12 @@ def _cover_reading(record: dict[str, Any], cumulative_curve_t: float, solved_at:
             "cumulative_at_cover_co2e_t": None,
             "bricks_at_cover": None,
             "regional_ceiling_scale": None,
+            "cover_calibration": calibration,
             "cover_basis": f"solved at {solved_at}; {reason}",
         }
 
     scale = record["regional_ceiling"] / record["cover_magnitude"][cover_key]
     at_cover = cumulative_curve_t if solved_at == "cover" else cumulative_curve_t / scale
-    calibration = record.get("cover_calibration", "brick")
     basis = (
         f"solved at {solved_at}; ceiling is {scale:g}x the cover of "
         f"{record['cover_magnitude'][cover_key]:g} {cover_key}"
@@ -170,6 +177,7 @@ def _cover_reading(record: dict[str, Any], cumulative_curve_t: float, solved_at:
         "cumulative_at_cover_co2e_t": at_cover,
         "bricks_at_cover": -at_cover * intensity_scalar(TARGET_YEAR) / BRICK_TONNES,
         "regional_ceiling_scale": scale,
+        "cover_calibration": calibration,
         "cover_basis": basis,
     }
 
