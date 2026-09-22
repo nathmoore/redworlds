@@ -213,6 +213,32 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
 
 ### Open
 
+- [ ] **Split EXIOBASE's rest-of-world blocks across game regions instead of assigning each
+      one whole.** EXIOBASE 3.8.2 resolves 44 countries plus five residual blocks — `WA`
+      (rest of Asia-Pacific), `WL`, `WE`, `WF`, `WM` — and `region_mapping.csv` currently
+      assigns each block entire to one game region. Four of those are roughly honest: `WE`
+      to Europe, `WL` to Latin America, `WF` and `WM` to Africa and Middle East.
+
+      **`WA` is not.** It is the most heterogeneous block and it currently lands wholesale in
+      region 7, "South East Asia and Pacific Ocean". That puts **Kazakhstan and the other
+      Central Asian states in South East Asia**, and the Caucasus with them. Region 3 is named
+      "Europe and Central Asia" and contains **no Central Asian country at all** — it is EU27
+      plus GB, NO, RU, CH, TR and `WE`. Two visible consequences so far: the region's name
+      misdescribes it, and `eca_geothermal`'s ceiling basis cites "the Caucasus" as part of a
+      resource that sits outside the region it is being counted for.
+
+      The established fix is to disaggregate each residual block across the game regions its
+      constituent countries belong to, weighted by an allocator — population, GDP or a
+      published country-level disaggregation — rather than assigning it whole. Done properly
+      this also fixes the geothermal basis and any other ceiling reasoned from geography.
+
+      *Before building it, measure it.* Report each residual block's share of world output,
+      final demand and GHG, and `WA`'s share of region 7 specifically. If `WA` is a few per
+      cent the current assignment is a documented simplification and the region name is the
+      only thing that needs fixing; if it is large, the allocator is real work and belongs in
+      the same sequencing slot as the SSP2 walk, because both re-base every tape. **Do not
+      change the mapping before the measurement** — a re-split moves every regional result.
+
 - [x] ~~**Direct household emissions under a REDUCE.**~~ Done 2026-09-21. pymrio recomputes `F_Y` from `S_Y`,
       which is normalised per final-demand *column* total, so cutting one product's demand
       scales a region's direct household emissions (fuel burnt in cars and boilers) by the

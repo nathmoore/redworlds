@@ -38,7 +38,7 @@ final_demand_categories = ["Final consumption expenditure by households"]
 max_reducible_fraction = 0.25
 deployment_curve = "reduce_default"
 build_years_reference = 0
-cover_magnitude = { basket_fraction = 0.0186 }
+cover_magnitude = { basket_fraction = 0.02 }
 ceiling_cover_key = "basket_fraction"
 regional_ceiling = 0.25
 regional_ceiling_unit = "fraction of basket A final demand"
@@ -128,7 +128,7 @@ direct_emissions_driver = "Motor Gasoline"
 direct_emissions_share_co2e = 0.5365000495
 direct_emissions_share_co2 = 0.5422926887
 final_demand_categories = ["Final consumption expenditure by households"]
-cover_magnitude = { people = 183_000_000, commute_days_avoided_per_week = 1, worker_days_per_week = 183_000_000 }
+cover_magnitude = { people = 180_000_000, commute_days_avoided_per_week = 1, worker_days_per_week = 180_000_000 }
 ceiling_cover_key = "worker_days_per_week"
 regional_ceiling = 700_000_000
 regional_ceiling_unit = "commuter-days per week avoided (140 M teleworkable workers x 5 days)"
@@ -312,7 +312,7 @@ deployment_curve = "swap_default"
 # uniform intensity scalar on a 2011 generation mix, and its sign has already flipped once on
 # an input change. Re-derive it when issue #17 lands and when rebound is reported as a
 # sensitivity; the record stays provisional until both do.
-cover_magnitude = { cars = 80_800_000, tonnes_saved_per_car_year = 2 }
+cover_magnitude = { cars = 80_000_000, tonnes_saved_per_car_year = 2 }
 ceiling_cover_key = "cars"
 cover_calibration = "brick"
 regional_ceiling = 320_000_000
@@ -347,7 +347,7 @@ deployment_curve = "swap_default"
 direct_emissions_extension = "impacts"
 direct_emissions_driver = "Distribution services of gaseous fuels through mains"
 direct_emissions_share = 0.274
-cover_magnitude = { homes = 8_900_000, tonnes_saved_per_home_year = 1.9 }
+cover_magnitude = { homes = 9_000_000, tonnes_saved_per_home_year = 1.9 }
 ceiling_cover_key = "homes"
 regional_ceiling = 95_000_000
 regional_ceiling_unit = "gas-heated homes that could be converted"
