@@ -105,6 +105,18 @@ Red Carbon game design by Nathan Moore. The engine design draws on:
 > implications. *Annual Review of Environment and Resources*, 47, 849–887.
 > https://doi.org/10.1146/annurev-environ-112320-105050
 
+## Combustion emission factors
+
+> IPCC. (2006). *2006 IPCC Guidelines for National Greenhouse Gas Inventories*, Volume 2:
+> Energy, Chapter 3: Mobile Combustion, Tables 3.2.1 and 3.2.2.
+> https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/2_Volume2/V2_3_Ch3_Mobile_Combustion.pdf
+
+Red Worlds uses the default road-transport CO₂, CH₄ and N₂O factors for motor gasoline and
+gas/diesel oil. The characterised EXIOBASE GHG row uses IPCC 2007 GWP100, so CH₄ and N₂O are
+converted with 25 and 298 respectively. The stationary-combustion chapter is the intended
+factor source once a compatible Region 3 residential-gas activity balance is available:
+https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/2_Volume2/V2_2_Ch2_Stationary_Combustion.pdf
+
 ## Register and method for sizing interventions
 
 > MacKay, D. J. C. (2008). *Sustainable Energy — Without the Hot Air*. UIT Cambridge.
@@ -163,4 +175,3 @@ rate the relevant one, because most of a European footprint is imported.
 
 An alternative series for the same quantity, for anyone wanting to check the figure above
 against a different compiler.
-

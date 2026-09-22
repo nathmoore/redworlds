@@ -58,6 +58,10 @@ baseline:
 export-tapes:
     uv run --python=3.13 python -m redworlds.jobs.export_tape_table
 
+# Reproduce the Region 3 road share used to apportion household direct emissions
+derive-road-emissions:
+    uv run --python=3.13 python -m redworlds.jobs.derive_direct_emissions
+
 # Serve docs locally with live reload
 docs-serve:
     -lsof -ti :8000 | xargs kill

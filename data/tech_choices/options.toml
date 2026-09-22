@@ -119,9 +119,10 @@ deployment_curve = "reduce_default"
 build_years_reference = 0
 direct_emissions_extension = "impacts"
 direct_emissions_driver = "Motor Gasoline"
-direct_emissions_share = 0.329
+direct_emissions_share_co2e = 0.5365000495
+direct_emissions_share_co2 = 0.5422926887
 final_demand_categories = ["Final consumption expenditure by households"]
-cover_magnitude = { people = 239_000_000, commute_days_avoided_per_week = 1, worker_days_per_week = 239_000_000 }
+cover_magnitude = { people = 183_000_000, commute_days_avoided_per_week = 1, worker_days_per_week = 183_000_000 }
 ceiling_cover_key = "worker_days_per_week"
 regional_ceiling = 700_000_000
 regional_ceiling_unit = "commuter-days per week avoided (140 M teleworkable workers x 5 days)"
@@ -141,11 +142,11 @@ times the ~35% of workers who could stop doing it, giving 0.30 x 0.35 = 0.105, r
 0.11 of household motor fuel.
 """
 beta_day_assumption = """
-This tape opts into the F_Y correction: the 32.9% road-transport share of direct household
-emissions moves by Motor Gasoline's own change rather than by the household basket's total.
-The share is proxied by Region 3 `Energy Carrier Net TROA / Total`, so the record is
-provisional until a fuel-resolved GHG account replaces the energy share. Naming the driving
-product is what lets the basket hold the forecourt margin and public transport as well as the fuels — before
+This tape opts into the F_Y correction: 53.65% of direct household CO2e and 54.23% of direct
+CO2 move by Motor Gasoline's own change rather than by the household basket's total. The
+shares are reproducibly derived from Region 3 `Energy Carrier Net TROA`, IPCC 2006 road-fuel
+factors and the table's petrol/diesel purchase mix. Naming the driving product is what lets
+the basket hold the forecourt margin and public transport as well as the fuels — before
 weights existed the basket was held to the two fuels alone so that "the basket's change" and
 "the fuel's change" were the same number. The correction assumes direct emissions are linear in
 fuel spend, so it assumes no rebound in the remaining trips and no shift to a cheaper or
@@ -292,10 +293,12 @@ build_years_reference = 0
 max_replaceable_fraction = 0.8
 direct_emissions_extension = "impacts"
 direct_emissions_driver = "Motor Gasoline"
-direct_emissions_share = 0.329
+direct_emissions_share_co2e = 0.5365000495
+direct_emissions_share_co2 = 0.5422926887
 deployment_curve = "swap_default"
 cover_magnitude = { cars = 11_000_000, tonnes_saved_per_car_year = 2 }
 ceiling_cover_key = "cars"
+cover_calibration = "stated_physical"
 regional_ceiling = 320_000_000
 regional_ceiling_unit = "cars that could be electrified"
 regional_ceiling_basis = """
@@ -305,7 +308,7 @@ Region 3's fleet is roughly 400 M vehicles; 80% is the same figure as
 max_replaceable_fraction because in this tape the ceiling and the per-play maximum are the
 same constraint seen from two distances.
 """
-beta_day_assumption = "Consumer-side only: petrol and diesel spend is converted to physical energy at each product's EXIOBASE price; their forecourt retail margin falls with them but is excluded from the TJ calculation. One third as much electricity is then priced from the baseline household generation mix and its delivery margin. The remaining money re-spends proportionally across the household basket. Direct household emissions move only by the provisional 32.9% road-energy share of Region 3 household Energy Carrier Use: Net Total. Fuel-resolved direct GHG, the 2050 grid and rebound weighting remain material sensitivities."
+beta_day_assumption = "Consumer-side only: petrol and diesel spend is converted to physical energy at each product's EXIOBASE price; their forecourt retail margin falls with them but is excluded from the TJ calculation. One third as much electricity is then priced from the baseline household generation mix and its delivery margin. The remaining money re-spends proportionally across the household basket. Direct road emissions use stressor-specific shares derived from Region 3 road energy and IPCC 2006 factors: 53.65% of household direct CO2e and 54.23% of direct CO2. The 2050 grid and rebound weighting remain material sensitivities."
 
 [[swap]]
 key = "eca_ban_gas_supply"

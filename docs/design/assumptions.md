@@ -98,11 +98,13 @@ the removed fuel, balancing withdraws the difference from the rest of household 
 This distinction changes the EV result materially. On the 2011 Region 3 table, the removed
 petrol/diesel basket averages €11.59/GJ; generation averages €30.25/GJ and its delivery
 margin is almost another euro per euro of generation. Even at one third of the energy, the
-electricity purchase costs more than the displaced fuel. With only the directly observed
-32.9% road-transport share of household net energy used to apportion `F_Y`, the flat-rebound
-MVP result is a small emissions increase. It is reported as such and marked provisional;
-changing its sign requires better fuel-resolved direct emissions or a different, documented
-rebound rule, not an `abs()` or a tuned efficiency.
+electricity purchase costs more than the displaced fuel. Direct road emissions are therefore
+apportioned separately: EXIOBASE's `Energy Carrier Net TROA` fixes total household road
+energy, its petrol/diesel purchases interpolate the fuel mix, and IPCC 2006 factors convert
+that activity to CO₂ and CO₂e. The resulting shares are 54.23% of household direct CO₂ and
+53.65% of household direct CO₂e. With those shares EV abates, but it remains provisional:
+the 2050 electricity structure and flat proportional rebound are still material to its sign
+and magnitude.
 
 ### Capital is endogenised in the baseline
 

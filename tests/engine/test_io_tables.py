@@ -180,6 +180,19 @@ def test_scale_direct_emissions_uses_the_products_own_factor(test_mrio: pymrio.I
     assert _direct(result, "reg1") != pytest.approx(ride * _direct(test_mrio, "reg1"))
 
 
+def test_scale_direct_emissions_accepts_stressor_specific_factors(test_mrio: pymrio.IOSystem) -> None:
+    account = _account(test_mrio)
+    other_stressor = ("emission_type2", "water")
+    before_target = float(account.F_Y.loc[TEST_STRESSOR, "reg1"].sum())
+    before_other = float(account.F_Y.loc[other_stressor, "reg1"].sum())
+
+    fixed = scale_direct_emissions(test_mrio, "reg1", {TEST_STRESSOR: 0.5}, TEST_EXTENSION)
+    result = recalculate_from_final_demand(fixed)
+
+    assert float(_account(result).F_Y.loc[TEST_STRESSOR, "reg1"].sum()) == pytest.approx(0.5 * before_target)
+    assert float(_account(result).F_Y.loc[other_stressor, "reg1"].sum()) == pytest.approx(before_other)
+
+
 def test_scale_direct_emissions_survives_recalculation(test_mrio: pymrio.IOSystem) -> None:
     """F_Y is rebuilt from S_Y on every recalculation, so the fix must be written into both."""
     fixed = scale_direct_emissions(test_mrio, "reg1", 0.5, TEST_EXTENSION)

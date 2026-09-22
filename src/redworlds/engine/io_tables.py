@@ -178,7 +178,7 @@ def recalculate_from_technical_coefficients(mrio: pymrio.IOSystem) -> pymrio.IOS
 def scale_direct_emissions(
     mrio: pymrio.IOSystem,
     region: str,
-    factor: float,
+    factor: float | Mapping[str | tuple[str, ...], float],
     extension: str = GHG_EXTENSION,
     categories: Sequence[str] | None = None,
 ) -> pymrio.IOSystem:
@@ -210,8 +210,9 @@ def scale_direct_emissions(
         mrio: The IO system to modify, with its final demand already cut. Not mutated;
             a copy is returned.
         region: Region code of the consumer whose direct emissions move.
-        factor: Multiplicative scale factor — the driving product's own change. 0.9 means
-            the fuel's demand fell 10%, so its direct emissions fall 10%.
+        factor: Multiplicative scale factor, or one factor per stressor row. A mapping lets
+            fuel-resolved CO₂ and CO₂e shares differ while unrelated direct-impact rows stay
+            unchanged.
         extension: Name of the satellite account. EXIOBASE: ``"impacts"``.
         categories: Final demand categories (``F_Y`` column labels) to scale. Defaults to
             every category in the region's column block. Pass the same categories the
@@ -226,7 +227,11 @@ def scale_direct_emissions(
     columns = (region, list(categories)) if categories is not None else (region, slice(None))
     # pymrio's test world stores F_Y as int64, which refuses a scaled float in place.
     direct = account.F_Y.astype(float)
-    direct.loc[:, columns] = direct.loc[:, columns] * factor
+    if isinstance(factor, Mapping):
+        for stressor, row_factor in factor.items():
+            direct.loc[stressor, columns] = direct.loc[stressor, columns] * row_factor
+    else:
+        direct.loc[:, columns] = direct.loc[:, columns] * factor
     account.F_Y = direct
     account.S_Y = pymrio.calc_S_Y(direct, result.Y.sum(axis=0))
     return result

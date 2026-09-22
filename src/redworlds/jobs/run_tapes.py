@@ -24,6 +24,7 @@ from redworlds.actions.grid import ELECTRICITY_DELIVERY, ELECTRICITY_GENERATION,
 from redworlds.actions.reduce import apply_reduce
 from redworlds.actions.swap import apply_swap
 from redworlds.engine.io_tables import (
+    CO2_STRESSOR,
     CONSUMPTION_CATEGORIES,
     GHG_EXTENSION,
     GHG_STRESSOR,
@@ -47,6 +48,17 @@ from redworlds.jobs.tape_records import lifetime_weights, weights_for
 # itself, so what the table ships is the flat figure and the shape is the game's business.
 FLAT_CURVE: tuple[float, ...] = tuple(1.0 for _ in range(WINDOW_START, WINDOW_END + 1))
 BUILD_DEPLOYMENT_SAMPLES: tuple[float, ...] = (0.25, 0.5, 0.75, 1.0)
+
+
+def _direct_emissions_shares(record: dict[str, Any]) -> dict[str | tuple[str, ...], float] | None:
+    """Translate optional record fields into the two characterised impact rows."""
+    co2e_share = record.get("direct_emissions_share_co2e")
+    co2_share = record.get("direct_emissions_share_co2")
+    if co2e_share is None and co2_share is None:
+        return None
+    if co2e_share is None or co2_share is None:
+        raise ValueError(f"{record['key']!r} must provide both direct-emissions shares")
+    return {GHG_STRESSOR: float(co2e_share), CO2_STRESSOR: float(co2_share)}
 
 
 @dataclass(frozen=True)
@@ -265,6 +277,7 @@ def run_reduce_tape(
         weights=weights,
         direct_emissions_driver=record.get("direct_emissions_driver"),
         direct_emissions_share=record.get("direct_emissions_share", 1.0),
+        direct_emissions_shares=_direct_emissions_shares(record),
     )
 
     delta = annual_delta(world, shocked, extension, stressor)
@@ -326,6 +339,7 @@ def run_swap_tape(
         weights=weights,
         direct_emissions_driver=record.get("direct_emissions_driver"),
         direct_emissions_share=record.get("direct_emissions_share", 1.0),
+        direct_emissions_shares=_direct_emissions_shares(record),
         energy_extension=record.get("energy_extension", "satellite"),
         energy_stressor=record.get("energy_stressor", "Energy Carrier Supply: Total"),
     )

@@ -67,6 +67,7 @@ def apply_reduce(
     weights: Mapping[str, float] | None = None,
     direct_emissions_driver: str | None = None,
     direct_emissions_share: float = 1.0,
+    direct_emissions_shares: Mapping[str | tuple[str, ...], float] | None = None,
 ) -> pymrio.IOSystem:
     """Apply a REDUCE action: cut a region's demand for a basket of products, no rebalancing.
 
@@ -97,6 +98,8 @@ def apply_reduce(
         direct_emissions_share: Share of the selected direct-emissions column attributable
             to the driver. The rest is held unchanged; defaults to the former whole-column
             behaviour for callers that know the selected account is all in scope.
+        direct_emissions_shares: Optional share per stressor row. When supplied, overrides
+            ``direct_emissions_share`` and leaves unlisted rows unchanged.
 
     Returns:
         A calculated IO system with the basket's demand reduced and nothing re-spent.
@@ -107,6 +110,10 @@ def apply_reduce(
     """
     if not 0.0 <= direct_emissions_share <= 1.0:
         raise ValueError(f"direct_emissions_share must be in [0, 1]; got {direct_emissions_share}")
+    if direct_emissions_shares is not None and any(
+        not 0.0 <= share <= 1.0 for share in direct_emissions_shares.values()
+    ):
+        raise ValueError("every direct_emissions_shares value must be in [0, 1]")
     sectors = [sector] if isinstance(sector, str) else list(sector)
     factors = {product: 1.0 - pct_reduction * (weights or {}).get(product, 1.0) for product in sectors}
 
@@ -123,7 +130,11 @@ def apply_reduce(
             realised_cut = 1.0 - factors[direct_emissions_driver]
         else:
             raise ValueError(f"direct_emissions_driver {direct_emissions_driver!r} is not in the basket {sectors}")
-        direct_factor = 1.0 - realised_cut * direct_emissions_share
+        direct_factor = (
+            {stressor: 1.0 - realised_cut * share for stressor, share in direct_emissions_shares.items()}
+            if direct_emissions_shares is not None
+            else 1.0 - realised_cut * direct_emissions_share
+        )
         cut = scale_direct_emissions(cut, region, direct_factor, direct_emissions_extension, categories)
 
     return recalculate_from_final_demand(cut)

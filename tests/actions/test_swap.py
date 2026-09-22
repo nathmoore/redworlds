@@ -165,3 +165,21 @@ def test_swap_scales_only_the_named_direct_emissions_share(test_mrio: pymrio.IOS
     before = float(_account(test_mrio).F_Y.loc[TEST_STRESSOR, "reg1"].sum())
     after = float(_account(result).F_Y.loc[TEST_STRESSOR, "reg1"].sum())
     assert after == pytest.approx(before * (1 - 0.5 * 0.25))
+
+
+def test_swap_accepts_a_share_for_one_stressor(test_mrio: pymrio.IOSystem) -> None:
+    result = apply_swap(
+        test_mrio,
+        "reg1",
+        "manufactoring",
+        "mining",
+        0.5,
+        service_energy_ratio=1 / 3,
+        direct_emissions_extension=TEST_EXTENSION,
+        direct_emissions_shares={TEST_STRESSOR: 0.25},
+        energy_extension=TEST_EXTENSION,
+        energy_stressor=TEST_STRESSOR,
+    )
+    before = float(_account(test_mrio).F_Y.loc[TEST_STRESSOR, "reg1"].sum())
+    after = float(_account(result).F_Y.loc[TEST_STRESSOR, "reg1"].sum())
+    assert after == pytest.approx(before * (1 - 0.5 * 0.25))

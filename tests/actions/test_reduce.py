@@ -133,6 +133,18 @@ def test_reduce_only_moves_the_drivers_share_of_direct_emissions(test_mrio: pymr
     assert _direct(result, "reg1") == pytest.approx((1 - 0.5 * 0.25) * _direct(test_mrio, "reg1"))
 
 
+def test_reduce_accepts_a_share_for_one_stressor(test_mrio: pymrio.IOSystem) -> None:
+    result = apply_reduce(
+        test_mrio,
+        region="reg1",
+        sector=FAT_SECTOR,
+        pct_reduction=0.5,
+        direct_emissions_extension=TEST_EXTENSION,
+        direct_emissions_shares={TEST_STRESSOR: 0.25},
+    )
+    assert _direct(result, "reg1") == pytest.approx((1 - 0.5 * 0.25) * _direct(test_mrio, "reg1"))
+
+
 @pytest.mark.parametrize("share", [-0.1, 1.1])
 def test_reduce_rejects_invalid_direct_emissions_share(test_mrio: pymrio.IOSystem, share: float) -> None:
     with pytest.raises(ValueError, match="direct_emissions_share"):

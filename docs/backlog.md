@@ -223,10 +223,10 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
       **Confirmed in scope 2026-09-18 (Nathan): do it in T3, not later.** Two Beta Day
       tapes are exactly this case — the remote-work tape cuts vehicle fuel and the gas tape
       cuts household gas — so the broad-basket approximation is wrong for both, and `F_Y` is
-      11% of the world total (5.1 of 44.5 Gt CO2e), not a rounding error. Region 3's 32.9%
-      road share comes from `Energy Carrier Net TROA / Total`; gas uses the tape's gross
-      physical heating anchor. Both records are provisional because these are apportionment
-      proxies rather than fuel-resolved characterised emissions.
+      11% of the world total (5.1 of 44.5 Gt CO2e), not a rounding error. The first MVP used
+      `Energy Carrier Net TROA / Total` for road and the tape's gross physical heating anchor
+      for gas. Road has since been replaced by the reproducible fuel-factor derivation below;
+      gas remains provisional.
 - [x] ~~**Carry CO2 as well as CO2e through to the export.**~~ Done 2026-09-21. The game converts cumulative
       emissions to a 2100 temperature reading, and that conversion (the transient climate
       response to cumulative emissions) is defined on **CO2 alone** — CO2e hides the
@@ -403,15 +403,18 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
       completed the non-linear endpoint on 2026-09-21: mean lives are explicit concordance
       data and the +1-year cover is solved independently at 3.352 bricks, not obtained by
       dividing the four-year ceiling by four.
-- [ ] **Replace the provisional direct-household (`F_Y`) shares with fuel-resolved emissions.** The characterised impacts
-      account is resolved by region and final-demand category, not by purchased product.
-      The MVP now scales only a named share: road transport uses the 32.9% share of Region 3
-      household `Energy Carrier Net Total` reported as `TROA`; gas uses 27.4%, inferred from
-      the tape's gross heating anchor against total direct GHG. This removes the known whole-
-      column overstatement, but energy share is not emissions share and the gas figure is an
-      external-anchor proxy. Derive gas, petrol and diesel GHG shares from a regional energy
-      balance and carrier-specific combustion factors, then promote the affected records
-      from provisional if the result is stable.
+- [ ] **Finish fuel-resolved direct-household (`F_Y`) shares — road done, gas open.** The
+      characterised impacts account is resolved by region and final-demand category, not by
+      purchased product. Road transport is now reproducible: Region 3 household `Energy
+      Carrier Net TROA` sets activity, EXIOBASE petrol/diesel purchases set the interpolation
+      between IPCC 2006 fuel factors, and the result is 53.65% of direct household CO₂e and
+      54.23% of direct CO₂. `jobs/derive_direct_emissions.py` reproduces the figures and the
+      actions scale only those two stressor rows. Residential gas remains at 27.4%, inferred
+      from the tape's gross heating anchor against total direct GHG. EXIOBASE's household
+      energy-purpose rows do not split non-transport energy by fuel, and the mains-gas sector's
+      own energy use is not gas throughput. Obtain a compatible Region 3 residential gas
+      balance, apply stationary-combustion factors, and reconcile road plus gas against the
+      household totals before promoting Ban Gas.
 - [ ] **Mean product lifetimes, against Vita et al. 2019.** The weights in
       `appliances_and_devices` are `N / (mean life + N)`, and the mean lives behind them
       (~4 yr devices and clothing, ~7 medical/precision, ~11 white goods, ~12 furniture) are

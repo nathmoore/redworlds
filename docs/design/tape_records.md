@@ -302,10 +302,10 @@ revision; `held` means no score because the mechanism is unsettled.
 | **Columns** | households only | households, NPISH, government | households only |
 | **Ceiling** | 25% of the basket | 4 extra years of life per product | 140 M teleworkable workers |
 | **Basis** | Behavioural. The gap between Region 3 discretionary spend per head and that of the region's own lower-middle income decile — a level people in the region already live at | Physical, from replacement cycles. Adding N years removes `N/(life+N)` of annual replacement demand; four years roughly doubles a short-lived product's life and is about as far as a repair culture reaches | Dingel & Neiman (2020) and Sostero et al. (2020) both find 37% of jobs teleworkable in the US and EU; shaded to ~35% for the region's middle-income economies |
-| **Cumulative, 2011 basis** | −18.6 Gt | −12.2 Gt | −4.1 Gt |
-| **Cumulative, 2050 basis, real curve** | **−7.4 Gt** | **−4.9 Gt** | **−1.6 Gt** |
-| **Copies** ⌊Gt⌋ | 7 | 4 | 1 |
-| **Status** | ready | ready | provisional: road `F_Y` uses an energy-share proxy |
+| **Cumulative, 2011 basis** | −18.6 Gt | −12.2 Gt | −4.85 Gt |
+| **Cumulative, 2050 basis, real curve** | **−7.4 Gt** | **−4.9 Gt** | **−2.12 Gt** |
+| **Copies** ⌊Gt⌋ | 7 | 4 | 3 |
+| **Status** | ready | ready | provisional: commuting share, teleworkability and rebound |
 
 **A cross-check worth keeping.** Basket A was estimated at "~1.4% of the basket per brick"
 from the literature, before the table was run. The table says **1.34%**. Two independent
@@ -326,16 +326,18 @@ task, but the exporter no longer compounds that limitation with incorrect linear
 **Why remote work is more carbon-intense per euro than buying less:** its basket is dominated
 by motor fuel. Basket A is mostly manufactured goods whose emissions sit in supply chains
 abroad — and are still credited to the buyer, because all accounting here is consumption-
-based. The provisional result attributes 32.9% of direct household emissions to road travel,
-matching road transport's share of household net energy; energy share is not yet a fuel-
-resolved GHG account.
+based. The provisional result derives road emissions from 7.940 EJ of Region 3 household
+road energy and IPCC 2006 gasoline/diesel factors. The table's petrol/diesel purchases
+provide the interpolation between those factors, producing shares of 53.65% of direct
+household CO₂e and 54.23% of direct household CO₂. This replaces the old 32.9% energy-share
+proxy; the remaining limitations are the commuting, teleworkability and rebound assumptions.
 
 **Where these disagree with the game's own expectations.** The game sized buy-less at ~10
-copies and lifetimes at 3–5; the table says 7 and 4. Remote work was expected at ~9 and comes
-out at **1**, because its ceiling is now derived from a sourced teleworkable share and direct
-emissions are no longer all treated as road transport. That is the engine reporting and a
-cover needing to move, which is how this is
-meant to work (§1).
+copies and lifetimes at 3–5; the table says 7 and 4. Remote work was expected at ~9 and now
+comes out at **3**, because its ceiling is derived from a sourced teleworkable share rather
+than treating all road travel as commuting. Its one-brick cover moved from 239 M to **183 M
+commuter-days per week** after replacing the road-energy proxy. That is the engine reporting
+and the cover following it, which is how this is meant to work (§1).
 
 ### BUILD, SWAP and Smart Grid — solved
 
@@ -344,7 +346,7 @@ meant to work (§1).
 | `eca_nuclear` | 10 reactors, 95 TWh/yr; 10-year build | **−0.55 Gt CO₂e** | 650 reactors |
 | `eca_geothermal` | 13 GW, 91 TWh/yr; 6-year build | **−0.32 Gt CO₂e** | **provisional:** 180 TWh/yr |
 | `eca_fusion` | 10-plant nuclear proxy, 2× capex and 20-year build | **−0.40 Gt CO₂e** | 650 plants; shared with nuclear, not additive |
-| `eca_electric_vehicle_transition` | 80% of household petrol, diesel and forecourt-margin demand | **+1.43 Gt CO₂e** | **provisional:** 320 M cars; 0 abatement copies |
+| `eca_electric_vehicle_transition` | 80% of household petrol, diesel and forecourt-margin demand | **−2.20 Gt CO₂e** | **provisional:** 320 M cars; 3 abatement copies |
 | `eca_ban_gas_supply` | 90% of household mains-gas demand, including apportioned `F_Y` | **−5.91 Gt CO₂e** | **provisional:** 95 M homes |
 | `eca_smart_grid` | full regional grid; losses 6.2% → 4%, plus 2% demand response | **−0.48 Gt CO₂e** | **provisional:** 2% demand-response saving |
 
@@ -365,12 +367,13 @@ MRIO has no dispatch or capacity constraints from which to derive them.
 
 The EV sign is a result, not a target. Removed petrol/diesel averages €11.59/GJ in the table;
 household generation averages €30.25/GJ and delivery nearly doubles that spend. The
-forecourt retail margin is now removed with fuel spend but excluded from the energy
-conversion. Under SWAP's closed budget that extra saving is re-spent, moving the backfire
-slightly from +1.41 to +1.43 Gt. With road transport provisionally represented by 32.9% of
-direct-household energy, the model's grid and rebound effects exceed tailpipe savings. A
-fuel-resolved `F_Y` share may change the sign; until then the table exposes the backfire and
-awards zero copies rather than taking its absolute value.
+forecourt retail margin is removed with fuel spend but excluded from the energy conversion.
+Under the earlier 32.9% road-energy proxy, SWAP's closed-budget re-spend outweighed the
+tailpipe saving and produced a +1.43 Gt backfire. The independently derived 53.65% direct-
+CO₂e road share changes the full-ceiling result to −2.20 Gt. The stated 11 M-car physical
+cover is 0.136 brick; it is not enlarged to 80.8 M cars while the 2050 electricity and
+rebound sensitivities remain unresolved. This implementation is household/private motoring
+only. Commercial cars, vans and trucks require a separate `Z`/`F` shock and fleet basis.
 
 Geothermal carries a separate warning: EXIOBASE reports about 211 g CO₂e/kWh lifecycle in
 Region 3, far above the usual technology literature and the 44 g/kWh table result for
@@ -414,9 +417,9 @@ here is shippable.
 **Money.** All monetary figures are 2011 basic-price million EUR, EXIOBASE's own units. See
 [`units_and_currency.md`](units_and_currency.md) for the chain to 2026 dollars.
 
-**Where a contributor would help most, in order:** the intensity correction (§9), replacing
-the provisional energy/anchor shares with fuel-resolved direct household GHG, and Region 3's
-population and workforce, which several ceilings scale by and which
+**Where a contributor would help most, in order:** the intensity correction (§9), completing
+the residential-gas share of direct household GHG, and Region 3's population and workforce,
+which several ceilings scale by and which
 are currently round numbers. All three are in [`../backlog.md`](../backlog.md) with what
 "done" looks like.
 
@@ -489,7 +492,7 @@ tape cuts:
 
 | Tape | CO₂e | CO₂ | CO₂ share |
 |---|---|---|---|
-| `eca_remote_work_commuters` | −158.9 Mt/yr | −139.8 Mt/yr | **88.0%** |
+| `eca_remote_work_commuters` | −104.2 Mt/yr | −87.6 Mt/yr | **84.0%** |
 | `eca_buy_less` | −364.8 Mt/yr | −294.8 Mt/yr | 80.8% |
 | `eca_extended_product_lifetimes` | −238.4 Mt/yr | −189.9 Mt/yr | 79.6% |
 | *world total, for reference* | *44.5 Gt* | *32.5 Gt* | *73%* |

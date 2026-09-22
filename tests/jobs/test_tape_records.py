@@ -200,6 +200,8 @@ def test_remote_work_names_the_product_driving_direct_emissions() -> None:
     assert record["direct_emissions_extension"] == "impacts"
     assert record["direct_emissions_driver"] == "Motor Gasoline"
     assert record["direct_emissions_driver"] in weights_for(record, weights)
+    assert record["direct_emissions_share_co2e"] == pytest.approx(0.5365000495)
+    assert record["direct_emissions_share_co2"] == pytest.approx(0.5422926887)
 
 
 def test_only_the_lifetimes_basket_is_weighted() -> None:

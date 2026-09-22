@@ -23,7 +23,7 @@ ENERGY_EXTENSION: str = "satellite"
 ENERGY_STRESSOR: str = "Energy Carrier Supply: Total"
 
 
-def _energy_bought(
+def energy_bought(
     mrio: pymrio.IOSystem,
     spend: pd.DataFrame,
     energy_extension: str,
@@ -71,6 +71,7 @@ def apply_swap(
     weights: Mapping[str, float] | None = None,
     direct_emissions_driver: str | None = None,
     direct_emissions_share: float = 1.0,
+    direct_emissions_shares: Mapping[str | tuple[str, ...], float] | None = None,
     energy_extension: str = ENERGY_EXTENSION,
     energy_stressor: str | tuple[str, ...] = ENERGY_STRESSOR,
 ) -> pymrio.IOSystem:
@@ -100,6 +101,8 @@ def apply_swap(
         direct_emissions_driver: Source product whose realised cut drives ``F_Y``.
         direct_emissions_share: Share of the selected ``F_Y`` column attributable to that
             driver. The rest is held unchanged.
+        direct_emissions_shares: Optional share per stressor row. When supplied, overrides
+            ``direct_emissions_share`` and leaves unlisted rows unchanged.
         energy_extension: Physical-energy satellite account.
         energy_stressor: Energy-supply row, in TJ for EXIOBASE.
 
@@ -115,6 +118,10 @@ def apply_swap(
         raise ValueError(f"service_energy_ratio must be non-negative; got {service_energy_ratio}")
     if not 0.0 <= direct_emissions_share <= 1.0:
         raise ValueError(f"direct_emissions_share must be in [0, 1]; got {direct_emissions_share}")
+    if direct_emissions_shares is not None and any(
+        not 0.0 <= share <= 1.0 for share in direct_emissions_shares.values()
+    ):
+        raise ValueError("every direct_emissions_shares value must be in [0, 1]")
     if mrio.Y is None:
         raise ValueError("apply_swap needs a calculated system")
 
@@ -138,14 +145,14 @@ def apply_swap(
     result.Y.loc[source_rows, columns] = after_source
     removed_source = before_source - after_source
     energy_rows = (slice(None), energy_sources)
-    replacement_energy_tj = _energy_bought(mrio, removed_source.loc[energy_rows, :], energy_extension, energy_stressor)
+    replacement_energy_tj = energy_bought(mrio, removed_source.loc[energy_rows, :], energy_extension, energy_stressor)
     replacement_energy_tj *= service_energy_ratio
 
     if replacement_energy_tj > 0.0:
         replacement_rows = (slice(None), replacements)
         baseline_generation = mrio.Y.loc[replacement_rows, columns]
         baseline_generation_spend = float(baseline_generation.clip(lower=0.0).to_numpy().sum())
-        baseline_generation_energy = _energy_bought(mrio, baseline_generation, energy_extension, energy_stressor)
+        baseline_generation_energy = energy_bought(mrio, baseline_generation, energy_extension, energy_stressor)
         if baseline_generation_energy <= 0.0:
             raise ValueError("replacement demand has no positive physical energy supply")
         replacement_spend = replacement_energy_tj * baseline_generation_spend / baseline_generation_energy
@@ -175,7 +182,11 @@ def apply_swap(
             raise ValueError(
                 f"direct_emissions_driver {direct_emissions_driver!r} is not in the source basket {sources}"
             )
-        direct_factor = 1.0 - realised_cut * direct_emissions_share
+        direct_factor = (
+            {stressor: 1.0 - realised_cut * share for stressor, share in direct_emissions_shares.items()}
+            if direct_emissions_shares is not None
+            else 1.0 - realised_cut * direct_emissions_share
+        )
         balanced = scale_direct_emissions(
             balanced,
             region,

@@ -198,6 +198,13 @@ the magnitudes, which are labelled provisional either way.
        mechanic's strongest instance rather than a problem. Remote work lands at 2 copies
        against an estimated ~9.
 
+       **Post-sprint recalibration, 2026-09-22.** The table above records the sprint-boundary
+       state. Replacing the road-energy proxy with a fuel-factor derivation moves Remote Work
+       to 3 ceiling copies and its one-brick cover to 183 M commuter-days/week. EV changes
+       from backfire to abatement, but its 11 M-car cover remains a stated physical anchor
+       worth 0.136 brick pending the 2050-grid and rebound sensitivities. Current figures and
+       the remaining gates live in `docs/tape-completion-plan.md`.
+
 **The engine has stopped being the long pole.** The game's backlog 6 says every open item in
 its §B/§C/§D consumes this export, and §D's gate was "the engine export has run at least
 once". That gate is met. What remains here is 5b and the provisional tapes' known limits;
@@ -302,6 +309,14 @@ is 1.7% of the operating abatement. Fusion is −0.40 Gt after its 20-year delay
 is −0.32 Gt and is provisional because of the EXIOBASE coefficient warning. The subsequent
 T7 implementation brings the table to nine solved tapes: Smart Grid is −0.48 Gt at the
 provisional 2% demand-response assumption, with no solar or curtailment credit.
+
+**Post-sprint direct-emissions result, 2026-09-22.** Region 3 road energy plus IPCC 2006
+petrol/diesel factors replaces the provisional 32.9% energy share with 53.65% of household
+direct CO₂e and 54.23% of direct CO₂. On that independent input, EV's full household/private-
+motoring ceiling is −2.20 Gt CO₂e and Remote Work is −2.12 Gt after the scalar and real
+curve. Both remain provisional for the limitations named in the completion plan. Commercial
+road electrification is permitted future scope, but requires a separate `Z`/`F` mechanism
+and is not folded into the household result.
 
 ---
 
