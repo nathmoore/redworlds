@@ -1,8 +1,20 @@
-# Sprint plan — the next few steps out of backlog.md, and why in this order
+# 01 — Spike sprint: the first numbers out of the real model
+
+**Status: CLOSED 2026-09-22.** *Intent:* get one number out of the real model on the cheapest
+path, then build the expensive parts. *Outcome:* met — sprints 1–3 landed and the engine
+solves real tapes against a cached EXIOBASE baseline. *Succeeded by*
+[`02-tape-completion.md`](02-tape-completion.md).
+
+> **Unticked boxes below are history, not work.** This plan is closed: do not treat it as a
+> to-do list or try to finish it. Open modelling questions live in
+> [`../backlog.md`](../backlog.md); tracked work lives in GitHub issues. This file is kept
+> for its reasoning, which is the part worth having.
+
+---
 
 Sprint 3 is implemented. The successor plan for taking every tape to at least a numerical
 provisional result, then retiring the remaining limitations, is
-[`tape-completion-plan.md`](tape-completion-plan.md).
+[`02-tape-completion.md`](02-tape-completion.md).
 
 The principle: get one number out of the real model as early as possible, on the cheapest
 path, and only then build the expensive parts. Each step is one function, one test file,
@@ -203,7 +215,7 @@ the magnitudes, which are labelled provisional either way.
        to 3 ceiling copies and its one-brick cover to 183 M commuter-days/week. EV changes
        from backfire to abatement, but its 11 M-car cover remains a stated physical anchor
        worth 0.136 brick pending the 2050-grid and rebound sensitivities. Current figures and
-       the remaining gates live in `docs/tape-completion-plan.md`.
+       the remaining gates live in `docs/plans/02-tape-completion.md`.
 
 **The engine has stopped being the long pole.** The game's backlog 6 says every open item in
 its §B/§C/§D consumes this export, and §D's gate was "the engine export has run at least
@@ -294,7 +306,7 @@ the export weeks before the A-matrix work is finished.
 **T7, the grid tape, was completed after the sprint gate cleared on 2026-09-21.** The chosen
 mechanism is grid efficiency and demand response, excluding distributed solar and
 curtailment. Its coefficient shock now has a provisional numerical result; details and
-sensitivity are in `docs/design/assumptions.md` and `docs/tape-completion-plan.md`.
+sensitivity are in `docs/design/assumptions.md` and `docs/plans/02-tape-completion.md`.
 
 **Sprint 3 result.** Both SWAPs preserve final demand to floating-point precision. The
 one-third efficiency is now applied to physical TJ and each side is priced independently;

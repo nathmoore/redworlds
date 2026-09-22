@@ -16,7 +16,6 @@ nav = [
     { "Red Carbon Contract" = "design/red_carbon_contract.md" },
   ]},
   { "References" = "references.md" },
-  { "Tape Completion Plan" = "tape-completion-plan.md" },
   { "Backlog" = "backlog.md" },
   { "API Reference" = "api.md" },
   { "Changelog" = "changelog.md" },

@@ -84,6 +84,7 @@ redworlds/
     ├── backlog.md       ← sequencing + open modelling decisions
     ├── references.md    ← full citations
     ├── ai-guide.md      ← working on this repo with an AI assistant
+    ├── plans/           ← numbered implementation plans; see "Plans are closable" below
     └── design/          ← red_carbon_contract.md, assumptions.md, architecture.md, game_mechanics.md
 ```
 
@@ -194,6 +195,20 @@ change as a refactor. Four rules:
    decisions that still need thinking or a model run. When one is settled it graduates
    into `docs/design/assumptions.md`. There is no separate decisions log here — commit
    bodies carry the reasoning trail.
+5. **Plans are closable, and a closed plan is not a to-do list.** `docs/plans/` holds
+   numbered implementation plans — scaffolding for a bounded piece of work, not a record of
+   what is outstanding. Each one opens with a **`Status:`** line, and a closed plan carries a
+   blockquote saying its unticked boxes are history. **Read that header before acting on
+   anything in the file.** Do not try to finish a closed plan, and do not report its unticked
+   boxes as open work; `docs/backlog.md` and GitHub issues are the only places that say what
+   is actually outstanding.
+
+   Closing a plan is three steps, in order: harvest its decisions into
+   `docs/design/assumptions.md`, migrate its still-open questions into `docs/backlog.md` or
+   an issue, then stamp the header and drop it from the `zensical.toml` nav. **Migrate
+   before stamping** — an item that exists only inside a plan is lost the moment the plan
+   closes. Closed plans stay where they are rather than moving to an archive directory,
+   because these docs are published and moving a file breaks its URL.
 
 Stubs use `raise NotImplementedError`, and always come in threes: the stub, a
 `# TODO: implement — see GitHub issue #N` (or a pointer to `docs/backlog.md` until the

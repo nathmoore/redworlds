@@ -1,12 +1,33 @@
-# Tape completion plan
+# 02 — Tape completion: nine tapes with real numbers
+
+**Status: CLOSED 2026-09-22** (started 2026-09-21). *Intent:* take all nine Region 3 tapes to
+a numerically usable state and calibrate their covers against the peg. *Outcome:* met — all
+nine export, none is `held`, every cover is sized, and the full EXIOBASE integration suite
+passes. *Open evidence questions migrated to* [`../backlog.md`](../backlog.md).
+
+> **Unticked boxes below are history, not work.** This plan is closed: do not treat it as a
+> to-do list or try to finish it. Open modelling questions live in
+> [`../backlog.md`](../backlog.md); tracked work lives in GitHub issues. This file is kept
+> for its reasoning, which is the part worth having.
+
+**What it delivered.** Nine numerical tapes with no `held` record; Smart Grid modelled as
+efficiency plus demand response; an exact non-linear cover for product lifetimes; household
+road emissions derived from IPCC factors rather than an energy-share proxy; an export that
+states each tape's value at its cover; and every cover sized to the ten-reactor brick. The
+five remaining checklist items are all *evidence* questions — sourcing, tracing, a better
+baseline — which is `backlog.md`'s job by this repo's own division of labour.
+
+**The rule throughout was unchanged, and held:** a surprising or negative answer is a working
+result. Model behaviour was never altered to make a tape beneficial or to make its cover equal
+the peg. Where a tape could not reach a brick inside its physical ceiling — Smart Grid, at
+0.858 — that was exported as a finding rather than inflated.
+
+---
 
 **Started 2026-09-21.** This is the execution plan for taking all nine Region 3 tapes to at
 least a numerically usable `provisional` state, then promoting each to `ready` where the
-evidence supports it. [`backlog.md`](backlog.md) remains the authority for open modelling
+evidence supports it. [`../backlog.md`](../backlog.md) remains the authority for open modelling
 questions; this file orders those questions into bounded implementation sessions.
-
-The rule throughout is unchanged: a surprising or negative answer is a working result. We
-do not alter model behaviour to make a tape beneficial or to make its cover equal the peg.
 
 ## Resume here — 2026-09-22 handoff
 

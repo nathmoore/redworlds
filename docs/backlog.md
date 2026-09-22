@@ -11,7 +11,7 @@ Dated entries, newest at the top of each section. Strike or move items rather th
 them, so the reasoning trail survives.
 
 The ordered execution view for completing all nine tapes is
-[`tape-completion-plan.md`](tape-completion-plan.md). This backlog remains the authority for
+[`plans/02-tape-completion.md`](plans/02-tape-completion.md), closed 2026-09-22. This backlog remains the authority for
 the modelling questions that plan routes into implementation work.
 
 ---
@@ -441,6 +441,32 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
       own energy use is not gas throughput. Obtain a compatible Region 3 residential gas
       balance, apply stationary-combustion factors, and reconcile road plus gas against the
       household totals before promoting Ban Gas.
+- [ ] **Trace geothermal's 211 g CO2e/kWh coefficient.** *(migrated from the tape-completion
+      plan 2026-09-22, where it was Milestone D1 — it lived nowhere else.)* EXIOBASE reports
+      roughly 211 g CO2e/kWh lifecycle for Region 3 geothermal, far above the technology
+      literature and above the 44 g/kWh the same table gives nuclear. pymrio issue #72 flags
+      surprising values for this sector and for solar PV, so it may be a known allocation
+      problem rather than a regional composition effect.
+
+      Trace it through the unaggregated countries and stressor inputs and determine whether it
+      is composition, a known EXIOBASE allocation issue, or a label/unit problem. Compare
+      against cited lifecycle literature **without overwriting the database coefficient** —
+      the engine reports what the table says and marks it provisional. Promote `eca_geothermal`
+      to `ready` only if the value is explained; otherwise keep the table result and the
+      limitation.
+
+- [ ] **Report EV rebound as a sensitivity rather than selecting one weighting.**
+      *(migrated from the tape-completion plan 2026-09-22, where it was Milestone C4 — it
+      lived nowhere else.)* `eca_electric_vehicle_transition` is a SWAP, so freed motoring
+      money re-spends under a closed budget, and where it re-spends changes the answer. The
+      tape currently uses flat proportional re-spend.
+
+      Run and export **both** flat proportional re-spend and the documented income-elasticity
+      weighting, as a named sensitivity pair. **Do not silently select the one that makes EV
+      beneficial** — its sign has already moved once on an input change, and a tape whose sign
+      depends on the rebound assumption should say so in the export rather than pick. Pairs
+      with the SSP2 walk (issue #17): both must land before EV can leave `provisional`.
+
 - [ ] **Mean product lifetimes, against Vita et al. 2019.** The weights in
       `appliances_and_devices` are `N / (mean life + N)`, and the mean lives behind them
       (~4 yr devices and clothing, ~7 medical/precision, ~11 white goods, ~12 furniture) are
