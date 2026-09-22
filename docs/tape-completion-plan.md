@@ -27,10 +27,12 @@ Current headline results after the road change:
 - Ban Gas: still uses the 27.4% physical-anchor proxy because EXIOBASE does not split
   household non-transport energy by fuel. This is the unfinished half of Milestone B.
 - Smart Grid: −0.476 Gt at the selected 2% demand-response assumption; provisional.
-- Product Lifetimes: exact +1-year cover is 3.352 bricks; ready mechanically, but its mean
-  lives still need product-level evidence. Sizing it to one brick means a cover of about
-  **three months** of added life (~0.258 yr), which is a game-side copy decision, not an
-  engine change; the basket is unchanged at either magnitude.
+- Product Lifetimes: **the cover is now +0.25 years — three months — reading 0.971 bricks**
+  (2026-09-22, Nathan). The +1-year cover it replaced measured 3.352. 0.258 yr would read
+  exactly 1.000; 0.25 was taken so the engine's magnitude and the player-facing "three
+  months" are the same number rather than a rounded pair. The basket is unchanged at either
+  magnitude — the same eight rows, cut less deeply. Ready mechanically; its mean lives still
+  need product-level evidence.
 
 Also landed 2026-09-22, after the road commit:
 
@@ -100,7 +102,7 @@ promise that every intervention abates.
 | Tape | Current state | What remains |
 |---|---|---|
 | Buy Less | ready | No completion work |
-| Extended Product Lifetimes | ready, exact +1-year cover solved | Source mean lives |
+| Extended Product Lifetimes | ready, cover sized to the peg at +3 months | Source mean lives |
 | Remote Work | provisional, road GHG resolved | Firm up commuting and teleworkable shares |
 | Nuclear | ready | No completion work |
 | Geothermal | provisional | Reconcile EXIOBASE’s 211 g CO₂e/kWh coefficient |
@@ -185,6 +187,10 @@ Measured against the current approximate mean lives:
 
 - **+1 year delivers 3.35 bricks**; and
 - a one-peg cover would be **0.258 years, about 3.1 months**.
+
+**Resolved 2026-09-22.** The cover is **+0.25 years**, reading 0.971 bricks — see the handoff
+above. The engine did not narrow the basket or weaken the result to get there; it changed the
+magnitude the cover states, which is the sanctioned lever.
 
 Implementation:
 

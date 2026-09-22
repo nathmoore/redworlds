@@ -317,11 +317,19 @@ culture removes half their replacement demand. White goods last a decade and los
 That spread is the tape's whole mechanism, and cutting all eight products by the same
 percentage would have described none of them.
 
-The stated +1-year cover is solved separately from the +4-year ceiling using the committed
-mean-life inputs. It removes **−4.248 Gt CO₂e** over the curve on the 2011 basis, or **3.352
-bricks** after the 2050 intensity scalar. Dividing the ceiling by four would understate it:
-`N/(life+N)` is concave. The mean lives are still approximate and remain an open evidence
-task, but the exporter no longer compounds that limitation with incorrect linear scaling.
+The cover is solved separately from the +4-year ceiling using the committed mean-life inputs.
+Scaling the ceiling would understate it: `N/(life+N)` is concave, so the cover is non-linear
+in years and a second solve is the only honest route to it.
+
+**The cover is +0.25 years — three months — and reads 0.971 bricks (sized 2026-09-22).** The
++1-year cover it replaced removed −4.248 Gt CO₂e on the 2011 basis, or **3.352 bricks**, which
+is a real result but not a cover against a peg every other tape matches. Because the magnitude
+is in years, sizing it is a re-solve rather than a division: 0.258 yr reads exactly 1.000, and
+0.25 was taken instead so the engine's magnitude and the player-facing "three months" are the
+same number rather than a rounded pair. **The basket does not change with the magnitude** —
+the same eight rows, cut less deeply. At three months a 4-year product loses 6.1% of its
+replacement demand, a 7-year 3.6%, an 11-year 2.3%, a 12-year 2.1%. The mean lives are still
+approximate and remain an open evidence task.
 
 **Why remote work is more carbon-intense per euro than buying less:** its basket is dominated
 by motor fuel. Basket A is mostly manufactured goods whose emissions sit in supply chains
