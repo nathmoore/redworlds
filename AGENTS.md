@@ -197,9 +197,17 @@ change as a refactor. Four rules:
    bodies carry the reasoning trail.
 5. **Plans are closable, and a closed plan is not a to-do list.** `docs/plans/` holds
    numbered implementation plans — scaffolding for a bounded piece of work, not a record of
-   what is outstanding. Each one opens with a **`Status:`** line, and a closed plan carries a
-   blockquote saying its unticked boxes are history. **Read that header before acting on
-   anything in the file.** Do not try to finish a closed plan, and do not report its unticked
+   what is outstanding. Each one opens with a **`Status:`** line, a **designer intent**, its
+   **success criteria**, and any **added rigour** an assistant contributed. A closed plan also
+   carries a blockquote saying its unticked boxes are history. **Read that header before
+   acting on anything in the file.**
+
+   **The intent is the authority, not the document's scope.** Closure is decided by whether
+   the designer's intent is met, not by counting boxes — an assistant can always add another
+   box, so a box count never terminates. Rigour an assistant adds is subordinate: it serves
+   the intent, and when it stops serving it, it is dropped with a reason rather than carried.
+   Say plainly and specifically when an intent is *not* met; do not defend a plan's scope
+   against the person who set it. Do not try to finish a closed plan, and do not report its unticked
    boxes as open work; `docs/backlog.md` and GitHub issues are the only places that say what
    is actually outstanding.
 

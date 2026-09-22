@@ -1,9 +1,25 @@
 # 01 — Spike sprint: the first numbers out of the real model
 
-**Status: CLOSED 2026-09-22.** *Intent:* get one number out of the real model on the cheapest
-path, then build the expensive parts. *Outcome:* met — sprints 1–3 landed and the engine
-solves real tapes against a cached EXIOBASE baseline. *Succeeded by*
-[`02-tape-completion.md`](02-tape-completion.md).
+**Status: CLOSED 2026-09-22.**
+
+**Designer intent (Nathan).** Get one number out of the real model as early as possible, on
+the cheapest path, and only then build the expensive parts.
+
+**Success criteria.** A real EXIOBASE figure, from a cached baseline, reachable in a session.
+
+**Outcome: met.** Sprints 1–3 landed; the engine solves real tapes against a cached baseline.
+*Succeeded by* [`02-tape-completion.md`](02-tape-completion.md).
+
+**Added rigour (agent).** The step-by-step sequencing and the per-step done-when conditions
+were the agent's. They served the intent by keeping each step to one session.
+
+## Deferred topics — one line each, paste into a new conversation
+
+`../backlog.md` is the authority; this is where the context lives.
+
+- **`build_baseline` composition and the SSP2 2011 → 2050 walk** (step 5b, issue #17). The one
+  step of this sprint that was never taken, and it is still the largest open modelling item —
+  every tape is scored on a 2011 structure wearing a 2050 intensity scalar.
 
 > **Unticked boxes below are history, not work.** This plan is closed: do not treat it as a
 > to-do list or try to finish it. Open modelling questions live in

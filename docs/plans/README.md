@@ -8,6 +8,30 @@ can pick it up and act. **They are not a record of what is outstanding.**
 | [01 — Spike sprint](01-spike-sprint.md) | Closed 2026-09-22 | First numbers out of the real model, cheapest path first |
 | [02 — Tape completion](02-tape-completion.md) | Closed 2026-09-22 | Nine tapes with real numbers and covers sized to the peg |
 
+## The header
+
+Every plan opens with four things, and the split between them is the point:
+
+- **Designer intent** — Nathan's, one or two sentences. What he wanted out of it.
+- **Success criteria** — the observable conditions that satisfy that intent.
+- **Outcome** — met, partially met, or abandoned, once closed.
+- **Added rigour (agent)** — structure, gates and checks an assistant added. These *serve* the
+  intent; they do not extend it. An item here that stops serving the intent is dropped with a
+  reason rather than carried as debt.
+
+**Closure is a question about the intent, not a box count.** "Is the intent met?" has an
+answer; "are all the boxes ticked?" does not, because an assistant can always add another box.
+Nathan calls it. An assistant's job is to say, specifically, if the intent is *not* yet met —
+not to defend the document's scope against him.
+
+## Deferred topics
+
+A closed plan keeps a short bulleted list of what it did not resolve, one line each, written
+so a line can be pasted into a new conversation as a starting prompt. The backlog holds the
+*authority* for those items; the plan holds the *situational memory* — what else was in play
+when the question came up, and why it was parked. Both, because a backlog entry alone loses
+the context that makes it easy to pick up again.
+
 ## How to read one
 
 Check the **`Status:`** line first. A closed plan's unticked boxes are **history, not work** —

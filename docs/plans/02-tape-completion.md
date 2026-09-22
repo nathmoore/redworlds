@@ -1,9 +1,20 @@
 # 02 — Tape completion: nine tapes with real numbers
 
-**Status: CLOSED 2026-09-22** (started 2026-09-21). *Intent:* take all nine Region 3 tapes to
-a numerically usable state and calibrate their covers against the peg. *Outcome:* met — all
-nine export, none is `held`, every cover is sized, and the full EXIOBASE integration suite
-passes. *Open evidence questions migrated to* [`../backlog.md`](../backlog.md).
+**Status: CLOSED 2026-09-22** (started 2026-09-21).
+
+**Designer intent (Nathan).** Get every Region 3 tape to a real number, so the game can score
+a tape from engine output rather than a fixture.
+
+**Success criteria.** Nine tapes export; none is `held`; each has a signed number and a cover
+that can be read against the peg.
+
+**Outcome: met.** All nine export, none is held, every cover is sized, the full EXIOBASE
+integration suite passes, and the game's wing-balance gate passes 21/21 against the table.
+
+**Added rigour (agent).** The milestone structure, the promotion gates, and the evidence
+items in the checklist below were the agent's, not the brief's. They served the intent by
+keeping the numbers honest. They do not extend it — the evidence questions are real work but
+they are *backlog* work, and none of them blocks a tape from scoring.
 
 > **Unticked boxes below are history, not work.** This plan is closed: do not treat it as a
 > to-do list or try to finish it. Open modelling questions live in
@@ -393,6 +404,30 @@ committed.
   40 minutes. A 16 GB+ machine remains the preferred future integration runner.
 
 ---
+
+## Deferred topics — one line each, paste into a new conversation
+
+These came out of this sprint and are **not** done. `../backlog.md` is the authority for each;
+they are listed here because this is where the context lives — what else was in play when the
+question came up, and why it was parked rather than answered.
+
+- **Residential gas `F_Y`.** Ban Gas still rests on a 27.4% physical-anchor proxy because
+  EXIOBASE does not split household non-transport energy by fuel. Needs a compatible Region 3
+  residential gas balance. The road half is done and reproducible — copy that pattern.
+- **EV against a real 2050 grid.** A uniform intensity scalar on a 2011 generation mix is
+  weakest exactly where it is applied hardest. Pairs with issue #17.
+- **EV rebound as a reported sensitivity.** Flat proportional re-spend versus the
+  income-elasticity weighting, exported as a pair rather than a selection.
+- **Geothermal's 211 g CO₂e/kWh.** Trace it through the unaggregated countries; pymrio issue
+  #72 flags this sector and solar PV. Explain it or keep it provisional — do not overwrite it.
+- **Product mean lives.** The 4/7/11/12-year inputs are order-of-magnitude. Vita et al. 2019
+  supports the mechanism but not the service lives; a product-level source table is the task.
+- **The SSP2 walk (issue #17).** Replaces `intensity.py`'s two scalars with a real 2050 world,
+  and deletes the mixed-basis problem in the export along with it.
+- **Commercial road transport as a separate `Z`/`F` mechanism.** Cars, vans and trucks are not
+  extra household demand; they need their own fleet basis and a separately reported result.
+- **Splitting EXIOBASE's rest-of-world blocks across game regions.** Raised 2026-09-22.
+  Measure the blocks before touching the mapping.
 
 ## Completion checklist
 
