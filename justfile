@@ -58,6 +58,14 @@ baseline:
 prepare-electricity:
     uv run --python=3.13 python -m redworlds.jobs.prepare_electricity
 
+# Rebuild data/baseline/economy.csv from the raw World Bank downloads
+prepare-economy:
+    uv run --python=3.13 python -m redworlds.jobs.prepare_economy
+
+# Baseline walk: economy size, then economy size plus electricity, against observed CO2
+hindcast-walk:
+    uv run --python=3.13 python -m redworlds.jobs.hindcast_walk
+
 # Baseline walk, Milestone A: walk only the electricity mix to each checkpoint year
 hindcast-electricity:
     uv run --python=3.13 python -m redworlds.jobs.hindcast_electricity

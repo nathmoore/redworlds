@@ -7,8 +7,8 @@ design. The work of building it is sequenced in
 so far and the decisions still open; each simplification, once made, is recorded in
 [`assumptions.md`](assumptions.md).
 
-**Status, 2026-11-11.** The electricity step exists and has been run as a hindcast to 2025.
-Every other step is designed here and not yet built. Nothing in this document feeds a tape
+**Status, 2026-11-11.** Two steps exist and have been run as a hindcast to 2025: economy
+size and electricity. Every other step is designed here and not yet built. Nothing in this document feeds a tape
 number yet: the tapes still use the two scalars in `engine/intensity.py`.
 
 **The idea in one paragraph.** Each real-world trend that changes emissions — more people,
@@ -25,17 +25,18 @@ files in `jobs/`, player actions in `actions/` (the walk adds nothing there).
 
 | Kind | Where | Today |
 |---|---|---|
-| A step: world in, world out, no file access | `src/redworlds/engine/` | `electricity.py` |
-| Data preparation: raw download → small committed table | `src/redworlds/jobs/` | `prepare_electricity.py` |
-| A run: load the cached world, apply steps, report | `src/redworlds/jobs/` | `hindcast_electricity.py`; later `walk_baseline.py` |
-| Inputs: the driver ledger | `data/baseline/` | `electricity_generation.csv`, `electricity_observed.csv` |
+| A step: world in, world out, no file access | `src/redworlds/engine/` | `economy.py`, `electricity.py` |
+| Data preparation: raw download → small committed table | `src/redworlds/jobs/` | `prepare_economy.py`, `prepare_electricity.py` |
+| A run: load the cached world, apply steps, report | `src/redworlds/jobs/` | `hindcast_electricity.py`, `hindcast_walk.py`; later `walk_baseline.py` |
+| Inputs: the driver ledger | `data/baseline/` | `economy.csv`, `electricity_generation.csv`, `electricity_observed.csv` |
 | Concordances: outside categories → EXIOBASE | `data/concordances/` | `ember_to_exiobase.csv`, `country_to_exiobase.csv` |
-| Raw downloads | `data/<source>/`, gitignored | `data/ember/` |
+| Raw downloads | `data/<source>/`, gitignored | `data/ember/`, `data/worldbank/`, `data/owid/` |
 | Tests, mirroring the source tree | `tests/engine/`, `tests/jobs/` | one file per module |
 
-Commands: `just prepare-electricity` rebuilds the committed tables from the raw download;
-`just hindcast-electricity` runs the electricity-only walk against the cached baseline
-(about nine minutes at seven regions on an 8 GB laptop).
+Commands: `just prepare-economy` and `just prepare-electricity` rebuild the committed tables
+from the raw downloads; `just hindcast-electricity` runs the electricity-only walk and
+`just hindcast-walk` runs both steps against observed CO₂ (each about ten minutes at seven
+regions on an 8 GB laptop).
 
 ## What to read for which task
 
@@ -95,6 +96,14 @@ speed from regions that have already passed this level, re-check every five year
 | 10 | Methane and nitrous oxide | `S` | Reduction ratios for agriculture, waste and energy | new, small |
 | 11 | Data centres | `A` | TWh, as electricity bought by *Computer and related services (72)* and *Post and telecommunication services (64)* | new, small |
 | 12 | Capital | `A` | Capital needed per unit of output, by technology (see Capital) | extend `engine/capital.py` |
+| 13 | Trade and where things are made | `A`, `Y` | Each buyer's split of a product between domestic and each foreign supplier. Observed: trade shares in EXIOBASE 3.8.2's own later tables, whose estimates rest on trade statistics. Forward: a stated SSP2 assumption per product group | new |
+
+**Production and trade.** What each region *produces* is a result, not an input: it follows
+from who demands what (steps 1–3) and who they buy it from (step 13). Until step 13 exists,
+every buyer keeps its 2011 suppliers, so a region whose demand grows pulls production from
+the same places it did in 2011. The shift of manufacturing between regions since 2011 is
+therefore only partly captured, through faster demand growth in the regions that
+industrialised, and not through changed sourcing.
 
 Sector shift toward services is not a step: it falls out of steps 1–4 and is checked against
 observed value-added shares.

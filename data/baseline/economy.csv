@@ -1,0 +1,217 @@
+step,region,year,variable,value,unit,ipcc_variable,status,source,licence
+# Real GDP and population by game region and year: the inputs to the economy-size step
+# of the baseline walk. status is provisional where more than 5% of a figure rests on
+# country values carried forward from an earlier year. Taiwan has no World Bank series.
+# Derived from the World Bank's World Development Indicators
+# (https://data.worldbank.org), CC BY 4.0, by redworlds.jobs.prepare_economy.
+# Do not edit by hand; re-run the job.
+economy,Africa and Middle East,2011,GDP,4307323203657.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Africa and Middle East,2012,GDP,4478033947621.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Africa and Middle East,2013,GDP,4623330981711.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Africa and Middle East,2014,GDP,4785819399875.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Africa and Middle East,2015,GDP,4915716512299.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Africa and Middle East,2016,GDP,5079774765418.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Africa and Middle East,2017,GDP,5184268108249.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Africa and Middle East,2018,GDP,5291445762279.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Africa and Middle East,2019,GDP,5387241159267.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Africa and Middle East,2020,GDP,5193611340913.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Africa and Middle East,2021,GDP,5392378154491.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Africa and Middle East,2022,GDP,5707235994436.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Africa and Middle East,2023,GDP,5857351051231.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Africa and Middle East,2024,GDP,6017681583390.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Africa and Middle East,2025,GDP,6178989270366.0,constant 2015 US$,GDP|MER,provisional,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Europe and Central Asia,2011,GDP,19237580520331.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Europe and Central Asia,2012,GDP,19282383976759.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Europe and Central Asia,2013,GDP,19430717056060.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Europe and Central Asia,2014,GDP,19795597177446.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Europe and Central Asia,2015,GDP,20202746862168.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Europe and Central Asia,2016,GDP,20585297870489.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Europe and Central Asia,2017,GDP,21191737686227.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Europe and Central Asia,2018,GDP,21644424664664.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Europe and Central Asia,2019,GDP,22025458859896.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Europe and Central Asia,2020,GDP,20821958539858.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Europe and Central Asia,2021,GDP,22246563002440.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Europe and Central Asia,2022,GDP,22999780848992.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Europe and Central Asia,2023,GDP,23217976164600.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Europe and Central Asia,2024,GDP,23567950682179.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Europe and Central Asia,2025,GDP,23941149525832.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Latin America and the Caribbean,2011,GDP,4941902568352.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Latin America and the Caribbean,2012,GDP,5072736166603.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Latin America and the Caribbean,2013,GDP,5210602398818.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Latin America and the Caribbean,2014,GDP,5273098057499.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Latin America and the Caribbean,2015,GDP,5285670043193.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Latin America and the Caribbean,2016,GDP,5247154607563.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Latin America and the Caribbean,2017,GDP,5328847092716.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Latin America and the Caribbean,2018,GDP,5394205165715.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Latin America and the Caribbean,2019,GDP,5411362486133.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Latin America and the Caribbean,2020,GDP,5040782149477.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Latin America and the Caribbean,2021,GDP,5397420650030.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Latin America and the Caribbean,2022,GDP,5617959862402.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Latin America and the Caribbean,2023,GDP,5741738549385.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Latin America and the Caribbean,2024,GDP,5870975989273.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Latin America and the Caribbean,2025,GDP,6000710659781.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Mainland East Asia,2011,GDP,9808995195002.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Mainland East Asia,2012,GDP,10507128822267.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Mainland East Asia,2013,GDP,11261474887716.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Mainland East Asia,2014,GDP,12040166825916.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Mainland East Asia,2015,GDP,12820027088604.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Mainland East Asia,2016,GDP,13632970904897.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Mainland East Asia,2017,GDP,14517536745300.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Mainland East Asia,2018,GDP,15439772717289.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Mainland East Asia,2019,GDP,16312949566333.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Mainland East Asia,2020,GDP,16641884560932.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Mainland East Asia,2021,GDP,18000019645566.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Mainland East Asia,2022,GDP,18556795899450.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Mainland East Asia,2023,GDP,19490909120266.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Mainland East Asia,2024,GDP,20401790167513.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Mainland East Asia,2025,GDP,21337919168120.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South Asia,2011,GDP,1616399198834.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South Asia,2012,GDP,1704596203504.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South Asia,2013,GDP,1813453530766.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South Asia,2014,GDP,1947834564910.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South Asia,2015,GDP,2103588360045.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South Asia,2016,GDP,2277267041550.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South Asia,2017,GDP,2432016068498.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South Asia,2018,GDP,2588974770244.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South Asia,2019,GDP,2689205295885.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South Asia,2020,GDP,2533830417086.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South Asia,2021,GDP,2779348258938.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South Asia,2022,GDP,2990839011962.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South Asia,2023,GDP,3206485223026.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South Asia,2024,GDP,3434122552915.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South Asia,2025,GDP,3693970992046.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2011,GDP,8923884281206.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2012,GDP,9227048840716.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2013,GDP,9528883427277.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2014,GDP,9776239364003.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2015,GDP,10055896471494.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2016,GDP,10316209968374.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2017,GDP,10644388732385.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2018,GDP,10941796890207.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2019,GDP,11146066847350.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2020,GDP,10763468767220.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2021,GDP,11172114750982.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2022,GDP,11527317532510.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2023,GDP,11827033122316.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2024,GDP,12084474329916.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2025,GDP,12418726987910.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,USA and Canada,2011,GDP,18038451498787.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,USA and Canada,2012,GDP,18443670407388.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,USA and Canada,2013,GDP,18837331483907.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,USA and Canada,2014,GDP,19318007902337.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,USA and Canada,2015,GDP,19851529380200.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,USA and Canada,2016,GDP,20200563526868.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,USA and Canada,2017,GDP,20706079035933.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,USA and Canada,2018,GDP,21316703677791.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,USA and Canada,2019,GDP,21856245884449.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,USA and Canada,2020,GDP,21351168988555.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,USA and Canada,2021,GDP,22661451371465.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,USA and Canada,2022,GDP,23270537317320.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,USA and Canada,2023,GDP,23935842510499.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,USA and Canada,2024,GDP,24590806085181.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,USA and Canada,2025,GDP,25114522346947.0,constant 2015 US$,GDP|MER,ready,World Bank World Development Indicators (NY.GDP.MKTP.KD),CC BY 4.0
+economy,Africa and Middle East,2011,Population,1324656063.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Africa and Middle East,2012,Population,1359149547.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Africa and Middle East,2013,Population,1395088826.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Africa and Middle East,2014,Population,1430652158.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Africa and Middle East,2015,Population,1467325527.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Africa and Middle East,2016,Population,1503896278.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Africa and Middle East,2017,Population,1539666629.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Africa and Middle East,2018,Population,1575402928.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Africa and Middle East,2019,Population,1612026006.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Africa and Middle East,2020,Population,1649952851.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Africa and Middle East,2021,Population,1685651810.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Africa and Middle East,2022,Population,1725726195.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Africa and Middle East,2023,Population,1767098923.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Africa and Middle East,2024,Population,1808624719.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Africa and Middle East,2025,Population,1850036033.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Europe and Central Asia,2011,Population,812011153.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Europe and Central Asia,2012,Population,814327452.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Europe and Central Asia,2013,Population,816445256.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Europe and Central Asia,2014,Population,818763802.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Europe and Central Asia,2015,Population,821342651.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Europe and Central Asia,2016,Population,823988258.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Europe and Central Asia,2017,Population,826077107.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Europe and Central Asia,2018,Population,828025533.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Europe and Central Asia,2019,Population,830098628.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Europe and Central Asia,2020,Population,830372369.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Europe and Central Asia,2021,Population,829653313.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Europe and Central Asia,2022,Population,828076340.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Europe and Central Asia,2023,Population,827146968.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Europe and Central Asia,2024,Population,829281754.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Europe and Central Asia,2025,Population,831643531.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Latin America and the Caribbean,2011,Population,593921552.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Latin America and the Caribbean,2012,Population,600252739.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Latin America and the Caribbean,2013,Population,606512695.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Latin America and the Caribbean,2014,Population,612675665.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Latin America and the Caribbean,2015,Population,618691756.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Latin America and the Caribbean,2016,Population,624558884.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Latin America and the Caribbean,2017,Population,630235150.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Latin America and the Caribbean,2018,Population,635599044.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Latin America and the Caribbean,2019,Population,640786504.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Latin America and the Caribbean,2020,Population,645326278.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Latin America and the Caribbean,2021,Population,649067265.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Latin America and the Caribbean,2022,Population,652940462.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Latin America and the Caribbean,2023,Population,657448466.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Latin America and the Caribbean,2024,Population,662017004.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Latin America and the Caribbean,2025,Population,666424274.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Mainland East Asia,2011,Population,1394971638.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Mainland East Asia,2012,Population,1404389853.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Mainland East Asia,2013,Population,1413668893.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Mainland East Asia,2014,Population,1422606659.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Mainland East Asia,2015,Population,1430874947.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Mainland East Asia,2016,Population,1439007803.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Mainland East Asia,2017,Population,1447576911.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Mainland East Asia,2018,Population,1454345058.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Mainland East Asia,2019,Population,1459509822.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Mainland East Asia,2020,Population,1462936239.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Mainland East Asia,2021,Population,1464129539.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Mainland East Asia,2022,Population,1463847569.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Mainland East Asia,2023,Population,1462422619.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Mainland East Asia,2024,Population,1460726065.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,Mainland East Asia,2025,Population,1458269564.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South Asia,2011,Population,1261224954.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South Asia,2012,Population,1278674502.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South Asia,2013,Population,1295829511.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South Asia,2014,Population,1312277191.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South Asia,2015,Population,1328024498.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South Asia,2016,Population,1343944296.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South Asia,2017,Population,1359657400.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South Asia,2018,Population,1374659064.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South Asia,2019,Population,1389030312.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South Asia,2020,Population,1402617695.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South Asia,2021,Population,1414203896.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South Asia,2022,Population,1425423212.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South Asia,2023,Population,1438069596.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South Asia,2024,Population,1450935791.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South Asia,2025,Population,1463865525.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2011,Population,1328465035.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2012,Population,1345250869.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2013,Population,1360559505.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2014,Population,1376299355.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2015,Population,1391645471.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2016,Population,1406629141.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2017,Population,1421617964.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2018,Population,1436674252.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2019,Population,1451974610.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2020,Population,1467143517.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2021,Population,1480688389.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2022,Population,1494038475.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2023,Population,1508177532.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2024,Population,1522233507.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,South East Asia and Pacific Ocean,2025,Population,1535984767.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,USA and Canada,2011,Population,346178682.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,USA and Canada,2012,Population,349052494.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,USA and Canada,2013,Population,351807274.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,USA and Canada,2014,Population,354691626.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,USA and Canada,2015,Population,357519619.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,USA and Canada,2016,Population,360464143.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,USA and Canada,2017,Population,363153684.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,USA and Canada,2018,Population,365602197.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,USA and Canada,2019,Population,367844722.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,USA and Canada,2020,Population,369606742.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,USA and Canada,2021,Population,370340030.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,USA and Canada,2022,Population,372946436.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,USA and Canada,2023,Population,376804140.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,USA and Canada,2024,Population,381266126.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0
+economy,USA and Canada,2025,Population,383436510.0,people,Population,ready,World Bank World Development Indicators (SP.POP.TOTL),CC BY 4.0

@@ -44,6 +44,9 @@ Tick items here as they land; findings go under *Milestone A results* below.
 - [x] **A2 The electricity step** (2026-11-11). `engine/electricity.py`, conserving kWh, with
   a reliability test per technology and a stand-in rule. Tested on the pymrio test world.
 - [x] **A3 First electricity-only hindcast** (2026-11-11). `just hindcast-electricity`.
+- [x] **B1 Economy size** (2026-11-11). `engine/economy.py` scales each region's final demand
+  by its real GDP growth; `just prepare-economy` builds `data/baseline/economy.csv` from
+  World Bank data; `just hindcast-walk` runs both built steps against observed CO₂.
 
 **Next, in order**
 
@@ -52,31 +55,41 @@ Tick items here as they land; findings go under *Milestone A results* below.
    "Region 3's power sector is split between two products"). Confirm by country on the
    49-region table, then decide whether that product is walked with electricity or under
    heating. Needs the full table parsed: about twenty minutes and 3 GB.
-2. **A5 Re-base the technologies the table cannot describe.** Wind and solar fail the
-   reliability test in several regions, so a fifth of East Asia's 2025 generation runs on a
-   stand-in. Two different fixes are needed:
-   - *Wind* is reliable in most regions, so a region that lacks it can borrow the recipe and
-     emission rate of the regions that have it (generation-weighted), with purchases
-     rescaled to the borrowed price so kWh are conserved.
-   - *Solar PV* passes the test only in USA and Canada, and there the table gives it 194 g
-     of direct CO₂ per kWh, so there is nothing sound to borrow. It needs a recipe from
-     outside the table: a capital-cost split by product (the kind [Wiebe et al. 2018](https://doi.org/10.1186/s40008-018-0118-y) SI
-     Table SI1 gives, already used for BUILD capex), a capital cost per kW, a lifetime and a
-     capacity factor, and zero direct emissions. Each of those is a ledger row needing a
-     source, so this half is a modelling decision before it is code.
+2. **A5 Give wind and solar recipes from outside the table.** They fail the reliability test
+   in several regions, so a fifth of East Asia's 2025 generation runs on a stand-in.
+   Borrowing between regions does not fix it: solar PV passes the test only in USA and
+   Canada, where the table gives it 194 g of direct CO₂ per kWh, and the table's wind
+   carries 5 to 300 g. The precedent is [Wiebe et al. 2018](https://doi.org/10.1186/s40008-018-0118-y), who build each technology's
+   capital input from a cost breakdown (their SI Table SI1, already the source of this
+   repo's BUILD capex split):
+
+   | | Machinery (29) | Electrical machinery (31) | Construction (45) | Insurance (66) | Other business (74) | Life |
+   |---|---|---|---|---|---|---|
+   | Solar PV | | 76% | 12% | | 11% | 25 y |
+   | Wind, onshore | 69% | 7% | 13% | 3% | 7% | 25 y |
+
+   A recipe per kWh then needs four more numbers per technology, each a ledger row with a
+   source: installed cost per kW, capacity factor, operating cost, and zero direct
+   emissions. IRENA's *Renewable Power Generation Costs in 2024* gives installed costs of
+   about USD 691 per kW for solar PV and USD 1,041 for onshore wind (from summaries of the
+   report; confirm in the report itself, with its capacity factors and reuse terms).
+   **For Nathan before it is code:** which vintage the recipe describes. A 2025 fleet was
+   mostly built at recent costs, several times below 2011's, so a 2011-cost recipe would
+   overstate its embodied emissions.
 3. **A6 The walk's skeleton.** A general ledger loader with the `status` column, a
    `jobs/walk_baseline.py` that applies steps in order and caches each snapshot, and the
    version stamp. The electricity hindcast becomes its first caller.
-4. **B1 Economy size.** Data preparation for population and GDP by game region, 2011–2025
-   (check the UN and World Bank licences first), then step 1 through the existing
-   `scale_final_demand`. First hindcast with demand growing.
-5. **B2 Spending mix.** Elasticities from [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114); the numbers are in the
+4. **B2 Spending mix.** Elasticities from [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114); the numbers are in the
    paper's online supplement, still to obtain. They find the effect on world emissions
    small, so a flat placeholder, marked as one in the ledger, is acceptable until then.
-6. **B3 Road transport and heating.** Data preparation for EV stock and heat pumps; apply
+5. **B3 Road transport and heating.** Data preparation for EV stock and heat pumps; apply
    `apply_swap`'s mechanism at baseline scale.
-7. **B4 Industry, productivity and non-CO₂**, then the residual by sector against observed
+6. **B4 Industry, productivity and non-CO₂**, then the residual by sector against observed
    emissions. Closes Milestone B.
+7. **B5 Trade and where things are made.** Measure first: compare each region's import
+   shares by product group in the 2011 table with EXIOBASE 3.8.2's 2019 table, and the
+   regional split of output with observed value added by sector. If sourcing moved enough
+   to matter, add step 13.
 8. **C and D** as under *Milestones*.
 
 A run of the hindcast takes about nine minutes on an 8 GB laptop at seven regions. Item 1
@@ -114,6 +127,38 @@ What it shows:
   32.9 Gt on the 2011 mix to 30.5 Gt on the 2025 mix.
 - **Stand-ins are not a detail.** They cover a fifth of East Asia's generation by 2025 (A5).
 
+## Results with two steps: economy size and electricity
+
+Run 2026-11-11. World CO₂ in Gt; observed is the Global Carbon Budget's fossil and
+industrial series.
+
+| Year | Economy size only | With electricity mix | Observed | Over observed |
+|---|---|---|---|---|
+| 2011 (table as it stands) | 32.5 | 32.5 | 34.5 | −6% |
+| 2015 | 37.6 | 37.4 | 35.5 | +5% |
+| 2019 | 43.4 | 42.2 | 37.1 | +14% |
+| 2025 | 52.0 | 48.6 | 39.0 | +25% |
+
+What it shows:
+
+- **The starting point is close.** The 2011 table is 6% under observed world CO₂, and each
+  region is within 7%.
+- **"The 2011 world, bigger" overshoots by a third.** Growth alone gives 52 Gt for 2025.
+- **The electricity mix closes about a quarter of the gap** (3.4 of 13 Gt).
+- **The remaining 9.6 Gt is what the unbuilt steps must explain**: efficiency and
+  productivity, industry, electrification of transport and heat, and the spending mix.
+  That is the same ordering [Cap et al. 2024](https://doi.org/10.1016/j.spc.2023.12.031) found, where productivity was the largest brake.
+- **By region for 2025:** Africa and Middle East lands on observed; South Asia and South
+  East Asia are 15% over; Latin America 20%, USA and Canada 30%, Mainland East Asia 35%,
+  Europe and Central Asia 57%.
+- **Europe moves the wrong way under the electricity step** (8.35 Gt with and without it,
+  and higher with it in 2015 and 2019). Imposing the observed mix raises its emissions
+  because the table books its heat-and-power plants outside electricity (sprint item A4).
+  Until that is resolved, Europe's electricity result should not be read.
+
+Regional observed figures are territorial and exclude international aviation and shipping;
+the model's regional figures include what each region's carriers emit.
+
 ## Decided
 
 - **SSP2 is the storyline, not a dataset** (Nathan, 2026-11-11). Each lever is set on
@@ -145,7 +190,9 @@ A can start now; each later one builds on the one before.
 
 ## To verify
 
-- Global Carbon Budget's 2025 fossil CO₂ figure (about 38 Gt, unconfirmed).
+- The Global Carbon Budget's own data terms. Its fossil CO₂ series (38.6 Gt for 2024, 39.0 Gt
+  projected for 2025, as distributed by Our World in Data) is used as a check and not
+  committed until they are confirmed.
 - Which countries EXIOBASE puts in each rest-of-world block. `country_to_exiobase.csv` assigns
   them by continent, which is an assumption.
 - Every licence marked **?**.

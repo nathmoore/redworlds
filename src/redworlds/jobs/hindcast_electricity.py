@@ -95,20 +95,20 @@ def technology_table(mrio: pymrio.IOSystem, products: list[str]) -> pd.DataFrame
     return pd.DataFrame(rows)
 
 
-def walk_electricity(
+def shift_all_regions(
     base: pymrio.IOSystem,
     generation: pd.DataFrame,
     technology_class: dict[str, str],
     year: int,
 ) -> tuple[pymrio.IOSystem, dict[str, float]]:
-    """Shift every region's mix to the observed mix of ``year`` and re-solve once.
+    """Shift every region's mix to the observed mix of ``year``, without re-solving.
 
     Prices and reliability are read from ``base`` (the 2011 table), not from the system
     being changed, so every checkpoint is walked from the same description of each
     technology.
 
     Returns:
-        The solved system, and {region: share of generation represented by a stand-in}.
+        The uncalculated system, and {region: share of generation represented by a stand-in}.
     """
     products = list(technology_class)
     shifted = base
@@ -121,6 +121,17 @@ def walk_electricity(
             target_shares(generation, region, year), reliable, technology_class
         )
         shifted = shift_electricity_mix(shifted, region, shares, prices)
+    return shifted, substituted
+
+
+def walk_electricity(
+    base: pymrio.IOSystem,
+    generation: pd.DataFrame,
+    technology_class: dict[str, str],
+    year: int,
+) -> tuple[pymrio.IOSystem, dict[str, float]]:
+    """Shift every region's mix to the observed mix of ``year`` and re-solve once."""
+    shifted, substituted = shift_all_regions(base, generation, technology_class, year)
     return recalculate_from_technical_coefficients(shifted), substituted
 
 

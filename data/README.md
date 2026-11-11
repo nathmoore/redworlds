@@ -30,6 +30,8 @@ share at that tape's four-year ceiling.
 |-----------|---------------|
 | `exiobase/` | EXIOBASE files are large (hundreds of MB) and licensed separately. Download — see below. |
 | `ember/` | The raw Ember electricity download (16 MB). Small derived tables are committed in `baseline/`. |
+| `worldbank/` | Raw World Bank GDP and population downloads. A small derived table is committed in `baseline/`. |
+| `owid/` | Observed CO₂ by country (Our World in Data's distribution of the Global Carbon Budget). Read as a check only; nothing derived from it is committed. |
 | `worlds/` | The cached 2050 baseline and (phase 2) per-player IO tables. Generated from EXIOBASE. |
 
 ---
@@ -79,6 +81,7 @@ its data may be committed here.
 |---|---|---|---|
 | `electricity_generation.csv` | Observed TWh by game region, year and EXIOBASE electricity product, 2011–2025 | Ember yearly electricity data, CC BY 4.0 | `just prepare-electricity` |
 | `electricity_observed.csv` | Observed generation, power emissions and emissions intensity by game region and year | same | same |
+| `economy.csv` | Real GDP and population by game region and year, 2011–2025 | World Bank World Development Indicators, CC BY 4.0 | `just prepare-economy` |
 
 Both files are comma-separated with the column header on the first line and `#` comment
 lines after it; read them with `pandas.read_csv(path, comment="#")`.
@@ -90,6 +93,32 @@ electricity data page, https://ember-energy.org/data/yearly-electricity-data/ , 
 `data/ember/` (gitignored). Then run `just prepare-electricity`.
 
 > Ember. *Yearly electricity data.* https://ember-energy.org — licensed CC BY 4.0.
+
+### How to get the World Bank data
+
+Two indicators from the World Bank's open API, saved into `data/worldbank/` (gitignored)
+under the indicator's code:
+
+```sh
+cd data/worldbank
+for code in NY.GDP.MKTP.KD SP.POP.TOTL; do
+  curl -L -o "$code.json" \
+    "https://api.worldbank.org/v2/country/all/indicator/$code?format=json&date=2011:2025&per_page=20000"
+done
+```
+
+Then run `just prepare-economy`.
+
+> World Bank. *World Development Indicators*: GDP (constant 2015 US$), NY.GDP.MKTP.KD, and
+> Population, total, SP.POP.TOTL. https://data.worldbank.org — licensed CC BY 4.0.
+
+### How to get the observed CO₂ series
+
+`just hindcast-walk` compares the walk with observed emissions. Download
+`owid-co2-data.csv` from https://github.com/owid/co2-data into `data/owid/` (gitignored).
+Our World in Data publishes its own work under CC BY 4.0; the fossil CO₂ figures in this
+file come from the Global Carbon Budget, whose own terms have not been checked here, so the
+file is read locally and nothing derived from it is committed.
 
 ### Citation
 

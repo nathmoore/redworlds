@@ -102,7 +102,9 @@ just test -m integration   # add the tests that need real EXIOBASE data
 just type-check            # ty, on its own
 just baseline              # build and cache the baseline world
 just prepare-electricity   # rebuild data/baseline/ from the raw Ember download
+just prepare-economy       # rebuild data/baseline/economy.csv from the raw World Bank downloads
 just hindcast-electricity  # baseline walk: electricity-only run against the cached world
+just hindcast-walk         # baseline walk: every built step, against observed CO2
 just docs-serve            # live docs at http://localhost:8000
 just docs-build            # strict build; fails on broken links
 ```

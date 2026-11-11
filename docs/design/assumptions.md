@@ -213,6 +213,29 @@ slightly from running EXIOBASE at full country resolution.
 
 ---
 
+### The baseline walk: economy size
+
+*Provisional — part of the baseline walk, [`baseline_walk.md`](baseline_walk.md). It does not yet feed any
+tape number.*
+
+Each region's final demand is scaled by the ratio of its real GDP in the target year to its
+GDP in 2011 (`engine/economy.py`). In an input-output table GDP equals final demand, so this
+sets the size of each economy; the model does not forecast it. Simplifications:
+
+- **Every final-demand category grows at the same rate**: households, government and
+  investment alike.
+- **Every product grows at the same rate.** The basket does not shift as incomes rise; that
+  is the spending-mix step.
+- **Growth is measured at market exchange rates**, in constant 2015 US dollars (World Bank
+  series NY.GDP.MKTP.KD), and applied as a ratio to a table in 2011 euros. Only the ratio is
+  used, so the currency does not matter; the choice of market rates over purchasing-power
+  parity does, and follows the table, which is itself in market prices.
+- **Taiwan has no World Bank series**, so Mainland East Asia's growth ratio describes the
+  rest of that region.
+
+Run alone this step is "the 2011 world, bigger", and overshoots observed emissions. The
+overshoot is what the remaining steps have to explain.
+
 ### The baseline walk: electricity
 
 *Provisional — part of the draft baseline walk, [`../plans/03-baseline-walk.md`](../plans/03-baseline-walk.md).

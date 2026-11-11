@@ -59,7 +59,7 @@ def load_country_regions(
     }
 
 
-def _carry_forward(values: pd.DataFrame, limit: int) -> tuple[pd.DataFrame, pd.DataFrame]:
+def carry_forward(values: pd.DataFrame, limit: int) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Fill a country-by-year table forward along years; return it with a mask of filled cells."""
     filled = values.ffill(axis="columns", limit=limit)
     carried = values.isna() & filled.notna()
@@ -95,7 +95,7 @@ def regional_generation(
     for column, name in (("Generation (TWh)", "twh"), ("Emissions (MtCO2e)", "emissions_mtco2e")):
         wide = countries.pivot_table(index=["ISO 3 code", "Electricity source"], columns="Year", values=column)
         wide = wide.reindex(columns=range(first_year - carry_forward_years, last_year + 1))
-        filled, carried = _carry_forward(wide, carry_forward_years)
+        filled, carried = carry_forward(wide, carry_forward_years)
         long = filled.stack().rename(name).to_frame()
         if name == "twh":
             long["carried_twh"] = filled.where(carried).stack().reindex(long.index).fillna(0.0)
@@ -144,7 +144,7 @@ def observed_totals(generation: pd.DataFrame) -> pd.DataFrame:
     return totals.drop(columns="carried_twh")
 
 
-def _write_with_header(table: pd.DataFrame, path: Path, description: str) -> None:
+def write_with_header(table: pd.DataFrame, path: Path, description: str) -> None:
     """Write a CSV whose first line is the column header, followed by ``#`` comment lines."""
     path.parent.mkdir(parents=True, exist_ok=True)
     comments = "\n".join(f"# {line}".rstrip() for line in description.splitlines())
@@ -161,7 +161,7 @@ def main() -> None:
     sources = load_source_concordance()
     generation = regional_generation(ember, load_country_regions(), sources)
 
-    _write_with_header(
+    write_with_header(
         generation_ledger(generation, sources),
         BASELINE_DATA / "electricity_generation.csv",
         "Observed electricity generation by game region, year and EXIOBASE product.\n"
@@ -169,7 +169,7 @@ def main() -> None:
         "Derived from Ember yearly electricity data (https://ember-energy.org), CC BY 4.0,\n"
         "by redworlds.jobs.prepare_electricity. Do not edit by hand; re-run the job.",
     )
-    _write_with_header(
+    write_with_header(
         observed_totals(generation),
         BASELINE_DATA / "electricity_observed.csv",
         "Observed generation, power-sector emissions and emissions intensity by game region.\n"
