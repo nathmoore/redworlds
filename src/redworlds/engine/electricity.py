@@ -23,7 +23,8 @@ Nothing here re-solves the system. Apply the step to as many regions as needed, 
 ``engine.io_tables.recalculate_from_technical_coefficients`` once.
 
 References:
-  - docs/plans/03-baseline-walk.md — the walk this is step 5 of
+  - docs/design/baseline_walk.md — the walk this is step 5 of
+  - docs/plans/03-baseline-walk.md — build order and results
   - docs/design/assumptions.md — "The baseline walk: electricity"
   - actions/build.py — the BUILD operating phase, the single-technology ancestor of this
 """

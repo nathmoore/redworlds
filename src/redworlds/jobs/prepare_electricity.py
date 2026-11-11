@@ -1,6 +1,6 @@
 """Turn Ember's country electricity data into the walk's regional generation targets.
 
-A data-preparation job for the baseline walk (docs/plans/03-baseline-walk.md). It reads the
+A data-preparation job for the baseline walk (docs/design/baseline_walk.md). It reads the
 raw Ember download, sums countries into the seven game regions and Ember's sources into
 EXIOBASE electricity products, and writes two small committed files:
 

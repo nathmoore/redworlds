@@ -24,7 +24,8 @@ Run with ``just hindcast-electricity``. Needs the cached baseline (``just baseli
 the prepared electricity tables (``just prepare-electricity``).
 
 References:
-  - docs/plans/03-baseline-walk.md — Milestone A
+  - docs/design/baseline_walk.md — the design
+  - docs/plans/03-baseline-walk.md — Milestone A and its results
   - engine/electricity.py — the step itself
 """
 

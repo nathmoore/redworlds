@@ -65,16 +65,18 @@ seconds. Check whether a cached world already exists before rebuilding one.
 redworlds/
 ├── src/redworlds/
 │   ├── actions/         ← one tape's shock: build.py, swap.py, reduce.py
-│   ├── jobs/            ← reads data, calls engine: build_baseline.py, apply_growth.py, update_scenarios.py
-│   ├── engine/          ← pure functions: io_tables.py, balancing.py, capital.py, scoring.py, currency.py, prices.py, regions.py
+│   ├── jobs/            ← reads data, calls engine: build_baseline.py, export_tape_table.py, prepare_electricity.py, hindcast_electricity.py, …
+│   ├── engine/          ← pure functions: io_tables.py, balancing.py, capital.py, scoring.py, electricity.py, currency.py, prices.py, regions.py
 │   ├── cli.py           ← thin typer entry point
 │   └── config.py        ← loads config/config.toml
 ├── tests/               ← mirrors src/redworlds/; tests/fixtures/ holds test-world concordances
 ├── examples/            ← Jupyter notebooks for community users
 ├── data/
-│   ├── concordances/    ← COMMITTED: sector and region mapping CSVs
+│   ├── concordances/    ← COMMITTED: sector, region, country and source mapping CSVs
+│   ├── baseline/        ← COMMITTED: small driver tables for the baseline walk, derived from open data
 │   ├── tech_choices/    ← COMMITTED: BUILD/SWAP/REDUCE options
 │   ├── exiobase/        ← GITIGNORED: raw EXIOBASE and capital-matrix downloads (~1.9 GB)
+│   ├── ember/           ← GITIGNORED: raw Ember electricity download
 │   ├── worlds/          ← GITIGNORED: cached baseline worlds as parquet (~117 MB each)
 │   └── exports/         ← GITIGNORED: the tape table shipped to the game
 ├── config/
@@ -85,7 +87,7 @@ redworlds/
     ├── references.md    ← full citations
     ├── ai-guide.md      ← working on this repo with an AI assistant
     ├── plans/           ← numbered implementation plans; see "Plans are closable" below
-    └── design/          ← red_carbon_contract.md, assumptions.md, architecture.md, game_mechanics.md
+    └── design/          ← red_carbon_contract.md, assumptions.md, architecture.md, game_mechanics.md, baseline_walk.md
 ```
 
 ---
@@ -99,6 +101,8 @@ just test                  # tests only
 just test -m integration   # add the tests that need real EXIOBASE data
 just type-check            # ty, on its own
 just baseline              # build and cache the baseline world
+just prepare-electricity   # rebuild data/baseline/ from the raw Ember download
+just hindcast-electricity  # baseline walk: electricity-only run against the cached world
 just docs-serve            # live docs at http://localhost:8000
 just docs-build            # strict build; fails on broken links
 ```

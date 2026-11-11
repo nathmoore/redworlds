@@ -121,6 +121,10 @@ uv run jupyter lab           # the notebooks in examples/
 produced end to end. Ask the agent to run it, then to change one thing in it and explain
 what moved and why.
 
+For the baseline walk — how the 2011 table is carried forward to the game's 2050 — start at
+[`design/baseline_walk.md`](design/baseline_walk.md). Its *What to read for which task* table says which
+paper to give an assistant for each part of the model.
+
 Two warnings for this lane. Building a baseline is not free — it reads gigabytes and
 takes minutes, and an agent that decides to rebuild one unprompted has cost you a coffee
 break. And a full-resolution 9800 × 9800 solve is roughly twenty minutes and several GB
