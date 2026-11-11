@@ -245,6 +245,17 @@ above.
 > forecasts and the energy transition. *Joule*, 6(9), 2057–2082.
 > https://doi.org/10.1016/j.joule.2022.08.009
 
+- IEA (2026), *Energy Technology Perspectives 2026*, IEA, Paris. Licence: CC BY 4.0. Chapter 3
+  holds the technology deployment dashboards; its technical notes define the market status
+  categories used in the design doc. https://www.iea.org/reports/energy-technology-perspectives-2026
+- IEA (2023), *Net Zero Roadmap: A Global Pathway to Keep the 1.5 °C Goal in Reach* (2023
+  update), IEA, Paris. Licence: CC BY 4.0.
+  https://www.iea.org/reports/net-zero-roadmap-a-global-pathway-to-keep-the-15-0c-goal-in-reach
+- IEA (2025), *Global Energy and Climate Model* documentation, "Understanding GEC Model
+  scenarios" (the scenario definitions for the World Energy Outlook 2025).
+  https://www.iea.org/reports/global-energy-and-climate-model/understanding-gec-model-scenarios
+- IEA terms of use, which separate CC BY 4.0 reports from datasets and data annexes.
+  https://www.iea.org/terms
 - IAEA (2025), *World Fusion Outlook 2025*, including global deployment modelling by the MIT
   Energy Initiative. Cited for ranges only; figures quoted in the design doc are from
   summaries and are to be confirmed in the report. https://doi.org/10.61092/iaea.agh6-zpih

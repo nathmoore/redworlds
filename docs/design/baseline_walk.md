@@ -51,10 +51,10 @@ Short names link to the publisher; full citations are in
 | Spending mix | [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114) (income elasticities on EXIOBASE); [Zhao et al. 2022](https://doi.org/10.3390/nu14224711) (food elasticities falling with income) |
 | Households, age, urban and rural | [Chen et al. 2022](https://doi.org/10.1038/s41597-022-01209-5) (urban share and the reference-region method); [Ottelin et al. 2019](https://doi.org/10.1088/1748-9326/ab443d) (footprints by degree of urbanisation); [Rao et al. 2019](https://doi.org/10.1016/j.futures.2018.07.001) (income distribution) |
 | Food, diet and food waste | [Springmann et al. 2018](https://doi.org/10.1038/s41586-018-0594-0) (baseline to 2050 and options); [Poore & Nemecek 2018](https://doi.org/10.1126/science.aaq0216) (impacts by product); [Vita et al. 2019](https://doi.org/10.1016/j.ecolecon.2019.05.002) and its supplement (diet shocks on EXIOBASE, with rebound) |
-| Capital, technology recipes and learning curves | [Södersten et al. 2018](https://doi.org/10.1021/acs.est.8b02791); `engine/capital.py`; Wiebe et al. 2018 SI Table SI1 (capital-cost splits by technology); [Way et al. 2022](https://doi.org/10.1016/j.joule.2022.08.009) (learning rates and cost forecasts); IAEA *World Fusion Outlook 2025* for fusion |
+| Capital, technology recipes and learning curves | [Södersten et al. 2018](https://doi.org/10.1021/acs.est.8b02791); `engine/capital.py`; Wiebe et al. 2018 SI Table SI1 (capital-cost splits by technology); [Way et al. 2022](https://doi.org/10.1016/j.joule.2022.08.009) (learning rates and cost forecasts); IEA *Energy Technology Perspectives 2026* chapter 3 (the dashboards); IAEA *World Fusion Outlook 2025* for fusion |
 | Trade structure | [Beaufils & Wenz 2022](https://doi.org/10.1080/09535314.2021.1952404) |
 | 2050 to 2100, and what the table cannot hold | [Krey 2014](https://doi.org/10.1002/wene.98); [Grubler et al. 2018](https://doi.org/10.1038/s41560-018-0172-6) (a low-energy-demand scenario); [Kikstra et al. 2024](https://doi.org/10.1080/09535314.2023.2301443) (degrowth in integrated models) |
-| Comparing a result with published scenarios | [Van Vuuren et al. 2026](https://doi.org/10.5194/gmd-19-2627-2026) (the CMIP7 scenario set); the AR6 scenario database |
+| Comparing a result with published scenarios | *Reference scenarios* below; IEA *Energy Technology Perspectives 2026* and *Net Zero Roadmap* (2023 update); [Van Vuuren et al. 2026](https://doi.org/10.5194/gmd-19-2627-2026) (the CMIP7 scenario set); the AR6 scenario database |
 
 ## The method
 
@@ -167,34 +167,99 @@ source. Three things the walk has to do:
 
 ## Technology maturity
 
-A technology is not one fixed recipe. Solar, wind and batteries get cheaper and better as
-more are built; a technology not yet commercial, such as fusion, has no observed recipe at
-all. The walk represents this with three things per technology, each a set of ledger rows:
+A technology is not one fixed recipe. Solar, wind and batteries get cheaper as more are
+built; a technology not yet commercial, such as fusion, has no observed recipe at all. Each
+technology the walk treats explicitly gets a **technology card** in the ledger, laid out
+like the dashboards in the IEA's *Energy Technology Perspectives 2026* (chapter 3), which
+describe each technology under three headings: its market, its competitiveness, and what
+enables or holds it back.
 
-- **A cost and performance curve by build year.** Installed cost per kW, capacity factor,
-  operating cost and lifetime for a unit built in a given year. Observed to the present;
-  forward, a learning curve — cost falling by a fixed share for each doubling of what has
-  been built — with a slow, moderate and fast variant. [Way et al. 2022](https://doi.org/10.1016/j.joule.2022.08.009) give tested
-  learning rates and probabilistic forecasts for solar, wind, batteries and electrolysers.
-- **What was built when.** Capacity added by year and region, observed and then assumed.
-- **A fleet recipe per snapshot.** The fleet standing in a snapshot year is a mix of build
-  years, so its inputs per kWh are the average over the units still in service, weighted by
-  their output. A 2025 solar fleet is mostly recent, cheap units; a 2025 nuclear fleet is
-  mostly old ones.
+**Market status**, in the IEA's five categories:
+
+| Status | Meaning | Examples in ETP 2026 |
+|---|---|---|
+| Pre-commercial | Not yet in commercial operation | Small modular reactors; fusion earlier still |
+| Awaiting adoption | Proven, struggling to be deployed | |
+| Building momentum | In some markets, global effect limited | |
+| Strong growth | Widely adopted, share growing | |
+| Consolidation | Widely adopted, share stable or falling | Large reactors |
+
+The status decides how a technology's future is written down:
+
+- **Strong growth or consolidation: a learning curve.** Cost falls as a power of cumulative
+  production (Wright's law): each doubling of what has been built cuts cost by a fixed
+  share. [Way et al. 2022](https://doi.org/10.1016/j.joule.2022.08.009) fit this to history and test it by backcasting on more than 50
+  technologies. Their experience exponents, and the cost fall per doubling they imply:
+
+  | Technology | Exponent | Cost fall per doubling | Stated life |
+  |---|---|---|---|
+  | Solar PV electricity | 0.319 ± 0.043 | 20% | 30 y |
+  | Wind electricity | 0.194 ± 0.041 | 13% | 30 y |
+  | Lithium-ion batteries | 0.421 ± 0.063 | 25% | 12 y |
+  | Electrolysers | 0.129 ± 0.067 | 9% | 16 y (table S24 gives 10) |
+  | Nuclear, hydro | 0.00 | none | 40 y, 100 y |
+  | Biopower | 0.05 | 3% | 30 y |
+
+  Two things follow for the walk. Cost is **conditional on deployment**: the curve gives a
+  cost only once the ledger says how much is built, so "what was built when" is the lever
+  and cost is its consequence. And the fit comes with an error, which gives the slow,
+  moderate and fast variants without inventing them.
+- **Building momentum or awaiting adoption: a curve with a wider range**, and the IEA
+  scenarios' deployment figures as the comparison.
+- **Pre-commercial: a published range, labelled as borrowed.** The IEA puts fusion among
+  technologies whose "viability remains unproven" and judges such technologies unlikely to
+  reach significant market shares within a decade. The IAEA's *World Fusion Outlook 2025*
+  includes global deployment modelling by MIT, in which fusion's share of electricity in
+  2100 runs from about a tenth to about a half as the assumed capital cost in 2050 falls
+  from roughly USD 11,300 to USD 2,800 per kW (from summaries of the report; confirm in the
+  report). The baseline carries no fusion unless a ledger row says so; a fusion tape
+  carries the range as its uncertainty.
+
+**From a curve to a recipe.** Three sets of ledger rows per technology:
+
+- *Cost and performance by build year*: installed cost per kW, capacity factor, operating
+  cost and lifetime for a unit built in a given year.
+- *What was built when*: capacity added by year and region, observed and then assumed.
+- *A fleet recipe per snapshot*: the fleet standing in a snapshot year is a mix of build
+  years, so its inputs per kWh are the average over units still in service, weighted by
+  output. A 2025 solar fleet is mostly recent, cheap units; a 2025 nuclear fleet is mostly
+  old ones.
 
 The cost breakdown that turns a cost per kW into purchases from particular products is
-[Wiebe et al. 2018](https://doi.org/10.1186/s40008-018-0118-y) SI Table SI1. A tape that builds something in the game's 2050 uses the
-same curve, read at 2050 and later: the baseline and the tapes share one description of
-each technology.
+[Wiebe et al. 2018](https://doi.org/10.1186/s40008-018-0118-y) SI Table SI1. A tape that builds something in the game's 2050 reads the
+same curve at 2050 and later: the baseline and the tapes share one description of each
+technology.
 
-**Technologies with no track record.** Fusion and anything else not yet deployed get a
-range, not a curve fitted to history, and the range is taken from published deployment
-studies and labelled as borrowed. The IAEA's *World Fusion Outlook 2025* includes global
-deployment modelling by MIT, in which fusion's share of electricity in 2100 runs from about
-a tenth to about a half as the assumed capital cost in 2050 falls from roughly USD 11,300
-to USD 2,800 per kW (figures from summaries of the report; confirm in the report). The
-baseline carries none of it unless a ledger row says so; a fusion tape carries the range as
-its uncertainty.
+## Reference scenarios
+
+The walk's own assumptions follow the SSP2 storyline. To judge them, and to give the tapes
+something to be measured against, each lever is set beside three scenarios the IEA
+publishes and maintains (definitions from *Energy Technology Perspectives 2026* and the
+IEA's scenario documentation for the World Energy Outlook 2025):
+
+| Scenario | Kind | What it assumes | Role here |
+|---|---|---|---|
+| Current Policies (CPS) | Exploratory | No change in energy policy beyond what is already in law and regulation | Lower bound for the baseline's clean-technology levers |
+| Stated Policies (STEPS) | Exploratory | Current policies plus those announced or in advanced planning; aspirational goals are not assumed met | The baseline's closest published neighbour |
+| Net Zero Emissions by 2050 (NZE) | Normative | A pathway for the energy sector to reach net zero CO₂ by 2050, with no offsets from other sectors | The benchmark a set of tapes is measured against |
+
+A baseline lever that falls outside the CPS-to-STEPS range needs a stated reason. A tape's
+ceiling can be read against NZE: the IEA's *Net Zero Roadmap* (2023 update) gives milestones
+of the kind a tape describes — renewable capacity tripled to 11,000 GW by 2030, electric
+cars at two-thirds of new sales by 2030, energy-sector methane cut by 75% by 2030, coal
+demand down from about 5,800 to 3,250 Mtce by 2030 — and attributes about 35% of the
+emission reductions needed by 2050 to technologies not yet on the market.
+
+Two cautions. The NZE scenario is revised each year, and the 2025 version is described by
+the IEA as no longer a limited-overshoot pathway, so a milestone is cited with its edition.
+And all IEA scenarios share one population and GDP path, so the difference between them is
+policy and technology only — which is what makes them a clean comparison for the tapes.
+
+**What may be used.** IEA reports — text, figures, and numbers read from them — are
+published under CC BY 4.0 and can be cited and adapted with attribution. IEA datasets, data
+explorers and the data annexes to its reports are not: they may be quoted only in
+insubstantial amounts and never redistributed. So a ledger row can cite a figure from an
+IEA report; it cannot be filled from an IEA data file. (IEA terms of use, read 2026-11-12.)
 
 ## Prices are an input
 
@@ -286,7 +351,8 @@ Licence column: **✔** checked on the publisher's page 2026-11-11; **?** not ye
 | 5 | [Ember yearly electricity data](https://ember-energy.org/data/electricity-data-explorer/) by country and source | IRENA capacity statistics; IEA World Energy Outlook (cite) | ✔ CC BY 4.0 ; ? |
 | 6 | IEA Global EV Outlook; fleet statistics | same, by scenario | ? |
 | 7 | Eurostat energy balances; heat-pump sales | — | ? |
-| 11 | IEA *Energy and AI* (2025) cases | same, extended as a range | cite only |
+| 11 | IEA *Energy and AI* (2025) cases | same, extended as a range | figures from the report, CC BY 4.0 ✔ |
+| 12 | IRENA installed costs; capacity added by year (Ember, IRENA) | [Way et al. 2022](https://doi.org/10.1016/j.joule.2022.08.009) learning rates (CC BY ✔); IEA *Energy Technology Perspectives 2026* dashboards (CC BY 4.0 ✔) | ? for IRENA |
 | check | Global Carbon Budget; EXIOBASE 3.8.2 tables for 2015 and 2019 | AR6 database; CMIP7 *Medium* once public | ? ; ✔ CC BY-SA 4.0 |
 | all | IPCC Emission Factor Database | — | ? |
 
@@ -301,7 +367,7 @@ partially suitable for analyzing trends". They serve as checkpoints.
 | EXIOBASE 3.9.x | Custom non-commercial licence | ✘ |
 | ScenarioMIP-CMIP7 marker scenarios, including the current-policy *Medium* | Pre-release terms: scientific use only, no sharing. Re-check on public release | ✘ for now |
 | PRIMAP-hist v2.7 and later | Licence changed to CC BY-NC-SA | ✘ |
-| IEA datasets (balances, ETP, WEO extended data) | Paid or no redistribution; figures citable | ? |
+| IEA datasets, data explorers and report data annexes | Not under the reports' CC BY licence: insubstantial amounts only, no redistribution. Figures in the reports themselves are CC BY 4.0 and citable | ✘ |
 | IMAGE 3.2 data package (Cap et al.'s source) | Licence unchecked; the AR6 database is the open route to similar series | ? |
 | OECD Environmental Outlook 2012; WIOD trends (De Koning's sources) | Superseded | — |
 

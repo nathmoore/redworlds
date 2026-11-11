@@ -76,6 +76,8 @@ Tick items here as they land; findings go under *Milestone A results* below.
    The recipe is read from a maturity curve by build year
    ([design § Technology maturity](../design/baseline_walk.md#technology-maturity)), so this item starts with data
    preparation: installed cost and capacity added by year, for solar PV and onshore wind.
+   Forward costs follow [Way et al. 2022](https://doi.org/10.1016/j.joule.2022.08.009)'s learning rates (20% per doubling for solar,
+   13% for wind), which need only the capacity path as input.
 3. **A6 The walk's skeleton.** A general ledger loader with the `status` column, a
    `jobs/walk_baseline.py` that applies steps in order and caches each snapshot, and the
    version stamp. The electricity hindcast becomes its first caller.
@@ -166,6 +168,11 @@ the model's regional figures include what each region's carriers emit.
   technologies with no track record. See
   [design § Technology maturity](../design/baseline_walk.md#technology-maturity). This settles the vintage
   question raised under sprint item A5: the fleet in each snapshot is a mix of build years.
+- **The IEA's scenarios are the reference set** (Nathan, 2026-11-12). Baseline levers are read
+  against Current Policies and Stated Policies; tapes are measured against Net Zero
+  Emissions by 2050. Technologies are described in the style of the IEA's technology
+  dashboards. SSP2 stays the storyline for the walk's own assumptions. See
+  [design § Reference scenarios](../design/baseline_walk.md#reference-scenarios).
 - **Physical-to-money conversion is a designed, stated input** (Nathan, 2026-11-11), shared
   by the walk and the tapes and free to differ by tape and year. See
   [design § Prices are an input](../design/baseline_walk.md#prices-are-an-input).
