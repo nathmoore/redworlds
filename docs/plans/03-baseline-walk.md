@@ -73,9 +73,9 @@ Tick items here as they land; findings go under *Milestone A results* below.
    emissions. IRENA's *Renewable Power Generation Costs in 2024* gives installed costs of
    about USD 691 per kW for solar PV and USD 1,041 for onshore wind (from summaries of the
    report; confirm in the report itself, with its capacity factors and reuse terms).
-   **For Nathan before it is code:** which vintage the recipe describes. A 2025 fleet was
-   mostly built at recent costs, several times below 2011's, so a 2011-cost recipe would
-   overstate its embodied emissions.
+   The recipe is read from a maturity curve by build year
+   ([design § Technology maturity](../design/baseline_walk.md#technology-maturity)), so this item starts with data
+   preparation: installed cost and capacity added by year, for solar PV and onshore wind.
 3. **A6 The walk's skeleton.** A general ledger loader with the `status` column, a
    `jobs/walk_baseline.py` that applies steps in order and caches each snapshot, and the
    version stamp. The electricity hindcast becomes its first caller.
@@ -161,6 +161,14 @@ the model's regional figures include what each region's carriers emit.
 
 ## Decided
 
+- **Technologies are described by maturity curves, not one vintage** (Nathan, 2026-11-11).
+  Cost and performance by build year, with a learning curve forward and a range for
+  technologies with no track record. See
+  [design § Technology maturity](../design/baseline_walk.md#technology-maturity). This settles the vintage
+  question raised under sprint item A5: the fleet in each snapshot is a mix of build years.
+- **Physical-to-money conversion is a designed, stated input** (Nathan, 2026-11-11), shared
+  by the walk and the tapes and free to differ by tape and year. See
+  [design § Prices are an input](../design/baseline_walk.md#prices-are-an-input).
 - **SSP2 is the storyline, not a dataset** (Nathan, 2026-11-11). Each lever is set on
   evidence in the spirit of SSP2: trends do not shift markedly from historical patterns
   ([O'Neill et al. 2017](https://doi.org/10.1016/j.gloenvcha.2015.01.004); [Riahi et al. 2017](https://doi.org/10.1016/j.gloenvcha.2016.05.009) — quote the paragraph when this plan opens).

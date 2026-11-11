@@ -239,6 +239,18 @@ above.
 > development goals without negative emission technologies. *Nature Energy*, 3(6), 515–527.
 > https://doi.org/10.1038/s41560-018-0172-6
 
+**Technology cost and maturity**
+
+> Way, R., Ives, M. C., Mealy, P., & Farmer, J. D. (2022). Empirically grounded technology
+> forecasts and the energy transition. *Joule*, 6(9), 2057–2082.
+> https://doi.org/10.1016/j.joule.2022.08.009
+
+- IAEA (2025), *World Fusion Outlook 2025*, including global deployment modelling by the MIT
+  Energy Initiative. Cited for ranges only; figures quoted in the design doc are from
+  summaries and are to be confirmed in the report. https://doi.org/10.61092/iaea.agh6-zpih
+- IRENA (2025), *Renewable Power Generation Costs in 2024*. Cited for figures only; reuse
+  terms not yet checked. https://www.irena.org/Publications/2025/Jun/Renewable-Power-Generation-Costs-in-2024
+
 **Demographics and households**
 
 > Chen, S., Huang, Q., Muttarak, R., Fang, J., Liu, T., He, C., Liu, Z., & Zhu, L. (2022).

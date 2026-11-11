@@ -51,7 +51,7 @@ Short names link to the publisher; full citations are in
 | Spending mix | [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114) (income elasticities on EXIOBASE); [Zhao et al. 2022](https://doi.org/10.3390/nu14224711) (food elasticities falling with income) |
 | Households, age, urban and rural | [Chen et al. 2022](https://doi.org/10.1038/s41597-022-01209-5) (urban share and the reference-region method); [Ottelin et al. 2019](https://doi.org/10.1088/1748-9326/ab443d) (footprints by degree of urbanisation); [Rao et al. 2019](https://doi.org/10.1016/j.futures.2018.07.001) (income distribution) |
 | Food, diet and food waste | [Springmann et al. 2018](https://doi.org/10.1038/s41586-018-0594-0) (baseline to 2050 and options); [Poore & Nemecek 2018](https://doi.org/10.1126/science.aaq0216) (impacts by product); [Vita et al. 2019](https://doi.org/10.1016/j.ecolecon.2019.05.002) and its supplement (diet shocks on EXIOBASE, with rebound) |
-| Capital and technology recipes | [Södersten et al. 2018](https://doi.org/10.1021/acs.est.8b02791); `engine/capital.py`; Wiebe et al. 2018 SI Table SI1 (capital-cost splits by technology) |
+| Capital, technology recipes and learning curves | [Södersten et al. 2018](https://doi.org/10.1021/acs.est.8b02791); `engine/capital.py`; Wiebe et al. 2018 SI Table SI1 (capital-cost splits by technology); [Way et al. 2022](https://doi.org/10.1016/j.joule.2022.08.009) (learning rates and cost forecasts); IAEA *World Fusion Outlook 2025* for fusion |
 | Trade structure | [Beaufils & Wenz 2022](https://doi.org/10.1080/09535314.2021.1952404) |
 | 2050 to 2100, and what the table cannot hold | [Krey 2014](https://doi.org/10.1002/wene.98); [Grubler et al. 2018](https://doi.org/10.1038/s41560-018-0172-6) (a low-energy-demand scenario); [Kikstra et al. 2024](https://doi.org/10.1080/09535314.2023.2301443) (degrowth in integrated models) |
 | Comparing a result with published scenarios | [Van Vuuren et al. 2026](https://doi.org/10.5194/gmd-19-2627-2026) (the CMIP7 scenario set); the AR6 scenario database |
@@ -164,6 +164,56 @@ source. Three things the walk has to do:
    lever, and is where assumptions about 2050 construction costs and efficiencies enter.
 3. **Decide on the 2011 construction trough** at the first snapshot (see the backlog
    diagnostic under *BUILD capex (a)*).
+
+## Technology maturity
+
+A technology is not one fixed recipe. Solar, wind and batteries get cheaper and better as
+more are built; a technology not yet commercial, such as fusion, has no observed recipe at
+all. The walk represents this with three things per technology, each a set of ledger rows:
+
+- **A cost and performance curve by build year.** Installed cost per kW, capacity factor,
+  operating cost and lifetime for a unit built in a given year. Observed to the present;
+  forward, a learning curve — cost falling by a fixed share for each doubling of what has
+  been built — with a slow, moderate and fast variant. [Way et al. 2022](https://doi.org/10.1016/j.joule.2022.08.009) give tested
+  learning rates and probabilistic forecasts for solar, wind, batteries and electrolysers.
+- **What was built when.** Capacity added by year and region, observed and then assumed.
+- **A fleet recipe per snapshot.** The fleet standing in a snapshot year is a mix of build
+  years, so its inputs per kWh are the average over the units still in service, weighted by
+  their output. A 2025 solar fleet is mostly recent, cheap units; a 2025 nuclear fleet is
+  mostly old ones.
+
+The cost breakdown that turns a cost per kW into purchases from particular products is
+[Wiebe et al. 2018](https://doi.org/10.1186/s40008-018-0118-y) SI Table SI1. A tape that builds something in the game's 2050 uses the
+same curve, read at 2050 and later: the baseline and the tapes share one description of
+each technology.
+
+**Technologies with no track record.** Fusion and anything else not yet deployed get a
+range, not a curve fitted to history, and the range is taken from published deployment
+studies and labelled as borrowed. The IAEA's *World Fusion Outlook 2025* includes global
+deployment modelling by MIT, in which fusion's share of electricity in 2100 runs from about
+a tenth to about a half as the assumed capital cost in 2050 falls from roughly USD 11,300
+to USD 2,800 per kW (figures from summaries of the report; confirm in the report). The
+baseline carries none of it unless a ledger row says so; a fusion tape carries the range as
+its uncertainty.
+
+## Prices are an input
+
+The table holds money; almost everything the walk and the tapes say is physical — TWh
+built, vehicle-km avoided, tonnes of steel. Every such statement enters through a price, so
+the price is part of the assumption and is stated, not left implicit.
+
+- **One price table**, in the ledger: money per physical unit by product, region and year,
+  with a source or a derivation for each row.
+- **Used by both the walk and the tapes.** A tape that builds 80 TWh of nuclear and
+  displaces 80 TWh of fossil generation converts each at its own price from the same table.
+- **It can differ by tape and by year.** A tape may reach its money a different way — a
+  capital cost per kW for a BUILD, a price per litre for a fuel SWAP — and a 2050 price need
+  not be a 2011 price. What is fixed is that the conversion is written down.
+
+Today prices are derived from the 2011 table as money output over physical supply
+(`engine.electricity.implied_prices`). That derivation is the default row, and it is
+visibly wrong in places: where a product's physical supply is under-recorded, as for Region
+3's electricity, its price is overstated.
 
 ## How the walk is built to be re-run
 

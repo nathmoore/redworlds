@@ -563,7 +563,10 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
       those prices. The walk's electricity step conserves kWh instead
       (`engine/electricity.py`). Like the list of displaced products above, this is a design
       choice to make deliberately (Nathan, 2026-11-11), not a fixed property of the engine.
-      Measure the nuclear tape's displaced fossil TWh against its built TWh, then choose. **Do not change the tape before measuring** — every BUILD cover is sized on
+      The direction is one stated price table shared by the walk and the tapes
+      (`docs/design/baseline_walk.md` § "Prices are an input"), so that built and displaced
+      TWh are each converted at their own price. Measure the nuclear tape's displaced fossil
+      TWh against its built TWh first, so the size of the change is known before it is made. **Do not change the tape before measuring** — every BUILD cover is sized on
       the current behaviour. Note the Region 3 prices above are themselves inflated by the
       heat-and-power split in the item above.
 - [ ] **Diet tapes: the wing decides the number.** A plant-based diet costs a household less
