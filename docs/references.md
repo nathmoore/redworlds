@@ -175,3 +175,103 @@ rate the relevant one, because most of a European footprint is imported.
 
 An alternative series for the same quantity, for anyone wanting to check the figure above
 against a different compiler.
+
+---
+
+## The baseline walk (plan 03)
+
+Sources for [`plans/03-baseline-walk.md`](plans/03-baseline-walk.md). Every entry below was
+checked against the Crossref record for its DOI on 2026-11-11 (authors, year, title, journal,
+pages). Links go to the publisher; several are paywalled.
+
+**Walking an input-output table forward**
+
+> De Koning, A., Huppes, G., Deetman, S., & Tukker, A. (2016). Scenarios for a 2 °C world: a
+> trade-linked input–output model with high sector detail. *Climate Policy*, 16(3), 301–317.
+> https://doi.org/10.1080/14693062.2014.999224
+
+> Beaufils, T., & Wenz, L. (2022). A scenario-based method for projecting multi-regional
+> input–output tables. *Economic Systems Research*, 34(4), 440–468.
+> https://doi.org/10.1080/09535314.2021.1952404
+
+> Dai, N., Liu, Q., Li, M., Malik, A., & Lenzen, M. (2024). Coupling an integrated assessment
+> model with an input–output database. *Economic Systems Research*, 36(4), 527–544.
+> https://doi.org/10.1080/09535314.2024.2387023
+
+> Kikstra, J. S., Li, M., Brockway, P. E., Hickel, J., Keysser, L., Malik, A., Rogelj, J.,
+> et al. (2024). Downscaling down under: towards degrowth in integrated assessment models.
+> *Economic Systems Research*, 36(4), 576–606. https://doi.org/10.1080/09535314.2023.2301443
+
+Wiebe et al. 2018, Cap et al. 2024, Vita et al. 2019, Bjelle et al. 2021, Södersten et al.
+2018 and Ivanova & Wood 2020 are cited in full under *Scenario implementation in EE-MRIO*
+above.
+
+**The SSPs and long-term scenario models**
+
+> O'Neill, B. C., Kriegler, E., Ebi, K. L., Kemp-Benedict, E., Riahi, K., Rothman, D. S.,
+> van Ruijven, B. J., et al. (2017). The roads ahead: Narratives for shared socioeconomic
+> pathways describing world futures in the 21st century. *Global Environmental Change*, 42,
+> 169–180. https://doi.org/10.1016/j.gloenvcha.2015.01.004
+
+> Riahi, K., van Vuuren, D. P., Kriegler, E., Edmonds, J., O'Neill, B. C., Fujimori, S.,
+> Bauer, N., et al. (2017). The Shared Socioeconomic Pathways and their energy, land use, and
+> greenhouse gas emissions implications: An overview. *Global Environmental Change*, 42,
+> 153–168. https://doi.org/10.1016/j.gloenvcha.2016.05.009
+
+> Van Vuuren, D. P., O'Neill, B. C., Tebaldi, C., Sanderson, B. M., Chini, L. P.,
+> Friedlingstein, P., Hasegawa, T., et al. (2026). The Scenario Model Intercomparison Project
+> for CMIP7 (ScenarioMIP-CMIP7). *Geoscientific Model Development*, 19(7), 2627–2656.
+> https://doi.org/10.5194/gmd-19-2627-2026
+
+> Krey, V. (2014). Global energy-climate scenarios and models: a review. *WIREs Energy and
+> Environment*, 3(4), 363–383. https://doi.org/10.1002/wene.98
+
+> Jewell, J., & Cherp, A. (2023). The feasibility of climate action: Bridging the inside and
+> the outside view through feasibility spaces. *WIREs Climate Change*, 14(5), e838.
+> https://doi.org/10.1002/wcc.838
+
+> Vaidyanathan, G. (2021). Integrated assessment climate policy models have proven useful,
+> with caveats. *Proceedings of the National Academy of Sciences*, 118(9), e2101899118.
+> https://doi.org/10.1073/pnas.2101899118
+
+> Grubler, A., Wilson, C., Bento, N., Boza-Kiss, B., Krey, V., McCollum, D. L., Rao, N. D.,
+> et al. (2018). A low energy demand scenario for meeting the 1.5 °C target and sustainable
+> development goals without negative emission technologies. *Nature Energy*, 3(6), 515–527.
+> https://doi.org/10.1038/s41560-018-0172-6
+
+**Demographics and households**
+
+> Chen, S., Huang, Q., Muttarak, R., Fang, J., Liu, T., He, C., Liu, Z., & Zhu, L. (2022).
+> Updating global urbanization projections under the Shared Socioeconomic Pathways.
+> *Scientific Data*, 9(1), 137. https://doi.org/10.1038/s41597-022-01209-5
+
+> Ottelin, J., Heinonen, J., Nässén, J., & Junnila, S. (2019). Household carbon footprint
+> patterns by the degree of urbanisation in Europe. *Environmental Research Letters*, 14(11),
+> 114016. https://doi.org/10.1088/1748-9326/ab443d
+
+> Rao, N. D., Sauer, P., Gidden, M., & Riahi, K. (2019). Income inequality projections for
+> the Shared Socioeconomic Pathways (SSPs). *Futures*, 105, 27–39.
+> https://doi.org/10.1016/j.futures.2018.07.001
+
+**Food**
+
+> Springmann, M., Clark, M., Mason-D'Croz, D., Wiebe, K., Bodirsky, B. L., Lassaletta, L.,
+> de Vries, W., et al. (2018). Options for keeping the food system within environmental
+> limits. *Nature*, 562(7728), 519–525. https://doi.org/10.1038/s41586-018-0594-0
+
+> Poore, J., & Nemecek, T. (2018). Reducing food's environmental impacts through producers
+> and consumers. *Science*, 360(6392), 987–992. https://doi.org/10.1126/science.aaq0216
+
+> Zhao, J., Huang, J., & Nie, F. (2022). The Income Elasticities of Food, Calories, and
+> Nutrients in China: A Meta-Analysis. *Nutrients*, 14(22), 4711.
+> https://doi.org/10.3390/nu14224711
+
+**Data sources**
+
+- Ember, yearly electricity data by country and source. CC BY 4.0.
+  https://ember-energy.org/data/electricity-data-explorer/
+- PRIMAP-hist national historical emissions time series, **v2.6** (later versions are
+  non-commercial). CC BY 4.0. https://zenodo.org/records/13752654
+- JRC baseline projection by MR-GRAS. https://publications.jrc.ec.europa.eu/repository/handle/JRC120513
+- IEA (2025), *Energy and AI*. Cited for figures only. https://www.iea.org/reports/energy-and-ai
+

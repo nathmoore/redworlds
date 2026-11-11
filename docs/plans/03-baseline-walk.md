@@ -54,21 +54,20 @@ and the system is re-solved. Emissions are a result; the world total is a check.
 3. **Five-year snapshots**, each built on the one before: 2015 to 2050, then decadal to 2100.
 4. **Each step keeps column totals**, and the accounting identity is asserted after it.
 
-This is the change-ratio method of De Koning et al. 2016, Wiebe et al. 2018 and Cap et al.
-2024, applied to the product-by-product table through `pymrio`.
+This is the change-ratio method of [De Koning et al. 2016](https://doi.org/10.1080/14693062.2014.999224), [Wiebe et al. 2018](https://doi.org/10.1186/s40008-018-0118-y) and [Cap et al. 2024](https://doi.org/10.1016/j.spc.2023.12.031), applied to the product-by-product table through `pymrio`.
 
 ## The steps
 
 "Driven by" is the evidence a ledger row cites for the step's size. Long-term integrated
 models derive these from prices and costs; this walk has no prices, so it uses observed
-trends, adoption S-curves, and the reference-region method of Chen et al. 2022 (take the
+trends, adoption S-curves, and the reference-region method of [Chen et al. 2022](https://doi.org/10.1038/s41597-022-01209-5) (take the
 speed from regions that have already passed this level, re-check every five years).
 
 | # | Step | Lands in | Driven by | Code |
 |---|---|---|---|---|
 | 1 | Economy size | `Y` | Population × income per head, per region. This *sets* GDP: in an input-output table GDP equals final demand | `scale_final_demand` |
 | 2 | Spending mix | `Y` | Income elasticity per product, with saturation; age structure, household size and urban share (see Households) | per-product scaling, extend |
-| 3 | Food and diet | `Y`, `S` | Diet by income (meat and dairy rise, then level off; food elasticities fall as income grows, Zhao et al. 2022) from reference regions; food-waste share; farm emission rates. Comparison: Springmann et al. 2018's middle-of-the-road baseline, food-system pressures up 50–90% from 2010 to 2050 without mitigation | new |
+| 3 | Food and diet | `Y`, `S` | Diet by income (meat and dairy rise, then level off; food elasticities fall as income grows, [Zhao et al. 2022](https://doi.org/10.3390/nu14224711)) from reference regions; food-waste share; farm emission rates. Comparison: [Springmann et al. 2018](https://doi.org/10.1038/s41586-018-0594-0)'s middle-of-the-road baseline, food-system pressures up 50–90% from 2010 to 2050 without mitigation | new |
 | 4 | General productivity | `A` | Observed fall in inputs needed per unit of output. The largest brake on emissions in Cap et al.'s leave-one-out test. Excludes the energy savings counted in step 8 | new |
 | 5 | Clean electricity supply | `A`, `Y` | Generation built by source and region; coal and gas retirement by stated plant life (see Electricity) | BUILD operating phase, generalise |
 | 6 | Road transport | `Y`, `F_Y`, `A` | EV share of the fleet on an S-curve fitted to sales, capped by fleet turnover; electricity at about a third of the fuel energy | `apply_swap`, road `F_Y` share |
@@ -83,7 +82,7 @@ Sector shift toward services is not a step: it falls out of steps 1–4 and is c
 observed value-added shares.
 
 Urbanisation is not a step either. Its effect on a region's total footprint is small (3–7% in
-the EU, Ottelin et al. 2019, cited in Cap et al. 2024), and it acts through steps 2, 6 and 7.
+the EU, [Ottelin et al. 2019](https://doi.org/10.1088/1748-9326/ab443d), cited in [Cap et al. 2024](https://doi.org/10.1016/j.spc.2023.12.031)), and it acts through steps 2, 6 and 7.
 It enters as a demographic input to step 2.
 
 ## Electricity
@@ -122,7 +121,7 @@ purpose is to let a tape act on one group. Build it for Region 3 when the game w
 
 ## Capital
 
-Capital is endogenised in the 2011 baseline (Södersten et al. 2018), so when demand grows or
+Capital is endogenised in the 2011 baseline ([Södersten et al. 2018](https://doi.org/10.1021/acs.est.8b02791)), so when demand grows or
 shifts, the construction and machinery behind it follow, separately for each electricity
 source. Three things the walk has to do:
 
@@ -173,17 +172,20 @@ that act on that sector.
 Some things the table cannot represent: land-use emissions (the CO₂ row excludes them),
 carbon removal, and products with no 2011 row such as hydrogen. These are taken from
 published SSP2 runs and labelled as borrowed, which is accepted practice for a model with
-narrower boundaries (Krey 2014). One visible consequence: diet tapes will read lower here
+narrower boundaries ([Krey 2014](https://doi.org/10.1002/wene.98)). One visible consequence: diet tapes will read lower here
 than in the food-systems literature, where land carries much of the benefit.
 
 The input-output walks this plan follows stop at 2050. For 2050–2100 the walk carries fewer
 levers with wider ranges. Trade structure, who makes what for whom, stays as the steps leave
 it unless a trade scenario is added by the Beaufils & Wenz method. Across long-term models the carbon intensity of energy supply
-becomes the dominant lever by 2100, as long-lived plant turns over (Krey 2014), so the supply
+becomes the dominant lever by 2100, as long-lived plant turns over ([Krey 2014](https://doi.org/10.1002/wene.98)), so the supply
 rows matter most there. Where a lever depends on a current policy, its ledger row says
 whether the policy is assumed to continue, strengthen or lapse.
 
 ## Sources
+
+Full citations, each checked against its DOI record, are in
+[`../references.md`](../references.md#the-baseline-walk-plan-03).
 
 **The licence test.** This repo is public and CC BY-SA 4.0. A source's data may be committed
 in the ledger only if it allows redistribution and share-alike (public domain, CC0, CC BY,
@@ -197,17 +199,17 @@ Licence column: **✔** checked on the publisher's page 2026-11-11; **?** not ye
 | Step | Observed 2011–2025 | Evidence for 2026–2100 | Licence |
 |---|---|---|---|
 | 1 | UN World Population Prospects; World Bank WDI | IIASA SSP basic drivers (2024/25 update), SSP2 | ? ; ? ; ? |
-| 2 | Household expenditure by purpose (Eurostat, OECD); Wittgenstein Centre population by age; Chen et al. 2022 urban share | Bjelle et al. 2021 elasticities; Rao et al. 2019 income distribution | ? |
-| 3 | FAO food balances; Poore & Nemecek 2018 for the food chain total (about 13.7 Gt CO₂e, 26% of emissions) as a check | Reference regions; Springmann et al. 2018 baseline | ? |
-| 4, 8 | EDGAR sector emissions; PRIMAP-hist **v2.6** | AR6 scenario database, SSP2 runs | ? ; ✔ CC BY 4.0 ; ? |
-| 5 | Ember yearly electricity data by country and source | IRENA capacity statistics; IEA World Energy Outlook (cite) | ✔ CC BY 4.0 ; ? |
+| 2 | Household expenditure by purpose (Eurostat, OECD); Wittgenstein Centre population by age; [Chen et al. 2022](https://doi.org/10.1038/s41597-022-01209-5) urban share | [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114) elasticities; [Rao et al. 2019](https://doi.org/10.1016/j.futures.2018.07.001) income distribution | ? |
+| 3 | FAO food balances; [Poore & Nemecek 2018](https://doi.org/10.1126/science.aaq0216) for the food chain total (about 13.7 Gt CO₂e, 26% of emissions) as a check | Reference regions; [Springmann et al. 2018](https://doi.org/10.1038/s41586-018-0594-0) baseline | ? |
+| 4, 8 | EDGAR sector emissions; [PRIMAP-hist **v2.6**](https://zenodo.org/records/13752654) | AR6 scenario database, SSP2 runs | ? ; ✔ CC BY 4.0 ; ? |
+| 5 | [Ember yearly electricity data](https://ember-energy.org/data/electricity-data-explorer/) by country and source | IRENA capacity statistics; IEA World Energy Outlook (cite) | ✔ CC BY 4.0 ; ? |
 | 6 | IEA Global EV Outlook; fleet statistics | same, by scenario | ? |
 | 7 | Eurostat energy balances; heat-pump sales | — | ? |
 | 11 | IEA *Energy and AI* (2025) cases | same, extended as a range | cite only |
 | check | Global Carbon Budget; EXIOBASE 3.8.2 tables for 2015 and 2019 | AR6 database; CMIP7 *Medium* once public | ? ; ✔ CC BY-SA 4.0 |
 | all | IPCC Emission Factor Database | — | ? |
 
-EXIOBASE 3.8.2 (Zenodo 5589597) carries tables to 2022 under CC BY-SA. Its observed series
+EXIOBASE 3.8.2 ([Zenodo 5589597](https://zenodo.org/records/5589597)) carries tables to 2022 under CC BY-SA. Its observed series
 ends in 2011; later years are estimates from trade and macro data, described there as "only
 partially suitable for analyzing trends". They serve as checkpoints.
 
@@ -226,25 +228,25 @@ partially suitable for analyzing trends". They serve as checkpoints.
 
 | Paper | Base table | Horizon | Scenario | Take from it |
 |---|---|---|---|---|
-| De Koning et al. 2016 | EXIOBASE 2, 2000, four regions | 2050 | Own BAU, techno, 2 °C | The change-ratio method; constant prices |
-| Wiebe et al. 2018 | EXIOBASE 3.4, 2014 | 2030 | IEA ETP 6 °C and 2 °C | Published code (FEMRIO v1); demand by regression |
-| Cap et al. 2024 | EXIOBASE 3.8.2, 2015 | 2030, 2050 | SSP1–RCP1.9 | Twelve steps and their sources; leave-one-out test |
-| Chen et al. 2022 | UN and World Bank urbanisation | 2100 | All SSPs | Reference-region S-curves; hindcast; ranges. Data on Figshare |
-| Krey 2014 | Review of energy-climate models | 2100 | — | Borrowing across model boundaries; which levers dominate when |
-| Beaufils & Wenz 2021 | Any MRIO table | — | GDP and trade scenarios | SPIN: projects who trades what with whom from GDP and trade assumptions, then rebalances. It does not handle technological change, so it complements this walk; the route to changing trade structure if Milestone D needs it |
-| Springmann et al. 2018 | Food-system model | 2050 | Middle-of-the-road baseline | Food baseline drivers and size; ceilings for waste (halving, 75%) and diet options |
-| Vita et al. 2019, with supplement | EXIOBASE, Europe | — | Lifestyle scenarios | Worked recipes for diet, food-waste and sufficiency shocks on EXIOBASE, with re-spending rebound. For tape design more than the baseline |
+| [De Koning et al. 2016](https://doi.org/10.1080/14693062.2014.999224) | EXIOBASE 2, 2000, four regions | 2050 | Own BAU, techno, 2 °C | The change-ratio method; constant prices |
+| [Wiebe et al. 2018](https://doi.org/10.1186/s40008-018-0118-y) | EXIOBASE 3.4, 2014 | 2030 | IEA ETP 6 °C and 2 °C | Published code (FEMRIO v1); demand by regression |
+| [Cap et al. 2024](https://doi.org/10.1016/j.spc.2023.12.031) | EXIOBASE 3.8.2, 2015 | 2030, 2050 | SSP1–RCP1.9 | Twelve steps and their sources; leave-one-out test |
+| [Chen et al. 2022](https://doi.org/10.1038/s41597-022-01209-5) | UN and World Bank urbanisation | 2100 | All SSPs | Reference-region S-curves; hindcast; ranges. Data on Figshare |
+| [Krey 2014](https://doi.org/10.1002/wene.98) | Review of energy-climate models | 2100 | — | Borrowing across model boundaries; which levers dominate when |
+| [Beaufils & Wenz 2022](https://doi.org/10.1080/09535314.2021.1952404) | Any MRIO table | — | GDP and trade scenarios | SPIN: projects who trades what with whom from GDP and trade assumptions, then rebalances. It does not handle technological change, so it complements this walk; the route to changing trade structure if Milestone D needs it |
+| [Springmann et al. 2018](https://doi.org/10.1038/s41586-018-0594-0) | Food-system model | 2050 | Middle-of-the-road baseline | Food baseline drivers and size; ceilings for waste (halving, 75%) and diet options |
+| [Vita et al. 2019](https://doi.org/10.1016/j.ecolecon.2019.05.002), with supplement | EXIOBASE, Europe | — | Lifestyle scenarios | Worked recipes for diet, food-waste and sufficiency shocks on EXIOBASE, with re-spending rebound. For tape design more than the baseline |
 
-To read: Dai et al. 2024 (coupling an energy model to an input-output scenario builder), the
-JRC MR-GRAS baseline, Jewell & Cherp 2023. To obtain: Bjelle et al. 2021, *Future changes in
+To read: [Dai et al. 2024](https://doi.org/10.1080/09535314.2024.2387023) (coupling an energy model to an input-output scenario builder), the
+[JRC MR-GRAS baseline](https://publications.jrc.ec.europa.eu/repository/handle/JRC120513), [Jewell & Cherp 2023](https://doi.org/10.1002/wcc.838). To obtain: [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114), *Future changes in
 consumption: the income effect on greenhouse gas emissions* (the elasticities for step 2), and
-Grubler et al. 2018 (a low-energy-demand scenario).
+[Grubler et al. 2018](https://doi.org/10.1038/s41560-018-0172-6) (a low-energy-demand scenario).
 
 ## Decided
 
 - **SSP2 is the storyline, not a dataset** (Nathan, 2026-11-11). Each lever is set on
   evidence in the spirit of SSP2: trends do not shift markedly from historical patterns
-  (O'Neill et al. 2017; Riahi et al. 2017 — quote the paragraph when this plan opens).
+  ([O'Neill et al. 2017](https://doi.org/10.1016/j.gloenvcha.2015.01.004); [Riahi et al. 2017](https://doi.org/10.1016/j.gloenvcha.2016.05.009) — quote the paragraph when this plan opens).
   Published SSP2 series are the comparison. No milestone waits on a scenario dataset.
 
 ## Open for the designer
@@ -274,4 +276,4 @@ A can start now; each later one builds on the one before.
 - Global Carbon Budget's 2025 fossil CO₂ figure (about 38 Gt, unconfirmed).
 - Every licence marked **?**.
 - The release name and licence of the IIASA SSP basic-drivers update.
-- Whether Bjelle et al. 2021's elasticities are published as reusable data.
+- Whether [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114)'s elasticities are published as reusable data.

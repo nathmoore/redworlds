@@ -532,6 +532,20 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
       consumption-based REDUCE tape on Region 3 the two coincide almost exactly. For a BUILD
       tape that changes Region 3's electricity recipe they may not, because output shifts
       across borders — worth measuring rather than assuming the REDUCE result carries over.
+- [ ] **Diet tapes: the wing decides the number.** A plant-based diet costs a household less
+      than the one it replaces, so what happens to the saved money dominates the result. Vita
+      et al. 2019 (supplement), modelling European diets on EXIOBASE, find that re-spending
+      the savings offsets roughly 65% of a vegan diet's food-related GHG reduction, leaving
+      about a 4.9% cut in the carbon footprint. Under this engine's rules that is exactly the
+      difference between the wings: as a SWAP the money stays and the rebound is in, as a
+      REDUCE it leaves and the full cut is booked. Decide the wing of each food tape
+      (vegetarian, vegan, food waste, eating less) on what the intervention *is*, and show the
+      other reading as a named sensitivity rather than choosing the larger number. Two further
+      notes: the CO₂ row excludes land-use change, so a diet tape reads lower here than in
+      food-systems studies (Springmann et al. 2018; Poore & Nemecek 2018); and a food-waste
+      tape has a published ceiling to cite — Springmann et al. treat a 75% cut as close to the
+      maximum avoidable. Needs the food step of the baseline walk
+      ([`plans/03-baseline-walk.md`](plans/03-baseline-walk.md)) before it has a 2050 base.
 - [ ] **Tape interactions — start with the ones that share a constraint.** Ceilings are
       currently stated independently and are not all additive: nuclear and fusion compete for
       the same heavy forging capacity, and electrifying cars and banning gas boilers land
