@@ -29,6 +29,7 @@ share at that tape's four-year ceiling.
 | Directory | Why gitignored |
 |-----------|---------------|
 | `exiobase/` | EXIOBASE files are large (hundreds of MB) and licensed separately. Download — see below. |
+| `ember/` | The raw Ember electricity download (16 MB). Small derived tables are committed in `baseline/`. |
 | `worlds/` | The cached 2050 baseline and (phase 2) per-player IO tables. Generated from EXIOBASE. |
 
 ---
@@ -61,9 +62,34 @@ Zenodo. Licence CC-BY-4.0. Put it in `data/exiobase/capital/` (gitignored) and s
 ### Licence
 
 EXIOBASE 3.8.2 is released under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
-— free to use with attribution and share-alike. More recent EXIOBASE releases exist
-(with "now-casted" years) and use CC BY 4.0. Those are fine for personal and research
-use but check the terms before redistribution. Version 3.8.2 is what Red Worlds targets.
+— free to use with attribution and share-alike. Version 3.8.2 is what Red Worlds targets.
+EXIOBASE 3.9 and later are released under a different, non-commercial licence (stated on
+their Zenodo records, checked 2026-11-11) and are not used here.
+
+---
+
+## Baseline walk data (`baseline/`, committed)
+
+Small tables the baseline walk reads, each derived from an open source by a job in
+`src/redworlds/jobs/` and committed with attribution. See
+`docs/plans/03-baseline-walk.md` § Sources for the licence test a source has to pass before
+its data may be committed here.
+
+| File | What it holds | Derived from | Job |
+|---|---|---|---|
+| `electricity_generation.csv` | Observed TWh by game region, year and EXIOBASE electricity product, 2011–2025 | Ember yearly electricity data, CC BY 4.0 | `just prepare-electricity` |
+| `electricity_observed.csv` | Observed generation, power emissions and emissions intensity by game region and year | same | same |
+
+Both files are comma-separated with the column header on the first line and `#` comment
+lines after it; read them with `pandas.read_csv(path, comment="#")`.
+
+### How to get the Ember data
+
+Download `release_generation_yearly_global.csv` (about 16 MB) from Ember's yearly
+electricity data page, https://ember-energy.org/data/yearly-electricity-data/ , into
+`data/ember/` (gitignored). Then run `just prepare-electricity`.
+
+> Ember. *Yearly electricity data.* https://ember-energy.org — licensed CC BY 4.0.
 
 ### Citation
 

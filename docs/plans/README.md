@@ -7,7 +7,7 @@ can pick it up and act. **They are not a record of what is outstanding.**
 |---|---|---|
 | [01 — Spike sprint](01-spike-sprint.md) | Closed 2026-09-22 | First numbers out of the real model, cheapest path first |
 | [02 — Tape completion](02-tape-completion.md) | Closed 2026-09-22 | Nine tapes with real numbers and covers sized to the peg |
-| [03 — Baseline walk](03-baseline-walk.md) | Draft 2026-11-11, not yet opened | Walk the 2011 table to 2025, 2050 and 2100 on explicit, sourced structural assumptions |
+| [03 — Baseline walk](03-baseline-walk.md) | Draft 2026-11-11; Milestone A under way, intent awaiting confirmation | Walk the 2011 table to 2025, 2050 and 2100 on explicit, sourced structural assumptions |
 
 ## The header
 

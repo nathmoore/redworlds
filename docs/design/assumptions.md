@@ -213,6 +213,37 @@ slightly from running EXIOBASE at full country resolution.
 
 ---
 
+### The baseline walk: electricity
+
+*Provisional — part of the draft baseline walk, [`../plans/03-baseline-walk.md`](../plans/03-baseline-walk.md).
+It does not yet feed any tape number.*
+
+The walk changes a region's generation mix by changing which of EXIOBASE's electricity
+products everybody buys from it (`engine/electricity.py`). Four simplifications:
+
+- **Kilowatt-hours are conserved, not money.** Each buyer keeps the electricity it bought and
+  takes it from different sources. The table's money per kWh differs several-fold between
+  technologies in one region, so a money-for-money swap would change the kWh delivered.
+  Purchases are converted at each technology's own 2011 price, reallocated and converted
+  back. A buyer's spend on electricity changes as a result.
+- **Each technology stays as the 2011 table describes it** — the same inputs and the same
+  emissions per kWh. Efficiency gains within a technology, and the fall in the cost of wind
+  and solar since 2011, are not in this step.
+- **A technology the table cannot describe is represented by a stand-in.** Where a region's
+  2011 table holds under 1 TWh of a technology, or under 0.1% of its generation, or prices it
+  more than four times above or below the regional average per kWh, that technology's
+  observed share is given to the region's other technologies of the same class (clean or
+  fossil). The fossil share, which drives direct emissions, comes out right; the supply
+  chain behind the substituted share is the stand-in's. The thresholds are judgements.
+  In 2025 the stand-in share is about a fifth of generation in Mainland East Asia, where
+  both wind and solar fail the price test, and under a tenth in Europe.
+- **Three small products are left alone**: solar thermal, tide and wave, and "electricity
+  n.e.c.", together under half a per cent of 2011 generation.
+
+Observed generation is Ember's yearly electricity data (CC BY 4.0), summed from countries to
+game regions. Countries outside EXIOBASE's 44 are assigned to its rest-of-world blocks by
+continent, which is an assumption about those blocks' membership.
+
 ## IO / pymrio model
 
 ### Actions target different IO matrices — and that matters for performance

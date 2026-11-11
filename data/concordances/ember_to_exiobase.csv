@@ -1,0 +1,28 @@
+ember_source,exiobase_product,technology_class,ipcc_variable
+# Maps Ember's nine electricity sources to EXIOBASE 3.8.2 (pxp) electricity products.
+#
+# Used by jobs/prepare_electricity.py to turn observed generation into targets for the
+# electricity step of the baseline walk (docs/plans/03-baseline-walk.md).
+#
+# One Ember source maps to one EXIOBASE product. Three EXIOBASE electricity products have no
+# Ember source of their own and are left as the 2011 table has them: "Electricity by solar
+# thermal", "Electricity by tide, wave, ocean" and "Electricity nec". Together they are
+# under 0.5% of 2011 generation in the table.
+#
+# technology_class decides where a share goes when a region's 2011 table cannot represent a
+# technology reliably (see engine/electricity.py): to that region's other technologies of
+# the same class.
+#
+# ipcc_variable is the matching IAMC variable name used by the IPCC AR6 scenario database,
+# so a row can be set beside any published scenario.
+#
+# Source of the Ember categories: Ember yearly electricity data (CC BY 4.0).
+Coal,Electricity by coal,fossil,Secondary Energy|Electricity|Coal
+Gas,Electricity by gas,fossil,Secondary Energy|Electricity|Gas
+Other fossil,Electricity by petroleum and other oil derivatives,fossil,Secondary Energy|Electricity|Oil
+Nuclear,Electricity by nuclear,clean,Secondary Energy|Electricity|Nuclear
+Hydro,Electricity by hydro,clean,Secondary Energy|Electricity|Hydro
+Wind,Electricity by wind,clean,Secondary Energy|Electricity|Wind
+Solar,Electricity by solar photovoltaic,clean,Secondary Energy|Electricity|Solar
+Bioenergy,Electricity by biomass and waste,clean,Secondary Energy|Electricity|Biomass
+Other renewables,Electricity by Geothermal,clean,Secondary Energy|Electricity|Geothermal

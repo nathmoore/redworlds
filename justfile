@@ -54,6 +54,14 @@ coverage:
 baseline:
     uv run --python=3.13 python -m redworlds.jobs.build_baseline
 
+# Rebuild the committed electricity tables in data/baseline/ from the raw Ember download
+prepare-electricity:
+    uv run --python=3.13 python -m redworlds.jobs.prepare_electricity
+
+# Baseline walk, Milestone A: walk only the electricity mix to each checkpoint year
+hindcast-electricity:
+    uv run --python=3.13 python -m redworlds.jobs.hindcast_electricity
+
 # Solve all ready tapes against the cached baseline and write the deterministic game table
 export-tapes:
     uv run --python=3.13 python -m redworlds.jobs.export_tape_table

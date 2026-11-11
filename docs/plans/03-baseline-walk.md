@@ -1,8 +1,9 @@
 # 03 — The baseline walk: 2011 → 2025 → 2050 → 2100
 
-**Status: DRAFT 2026-11-11 — not yet opened.** The intent and success criteria were drafted by
-an assistant and await Nathan's confirmation. Design choices below are the plan's working
-design; the ones that need his call are listed once, under *Open for the designer*.
+**Status: DRAFT 2026-11-11 — work started on Milestone A at Nathan's direction; the intent
+and success criteria were drafted by an assistant and still await his confirmation.** Design
+choices below are the plan's working design; the ones that need his call are listed once,
+under *Open for the designer*.
 
 **Designer intent (Nathan — drafted, to confirm or rewrite).** Walk the 2011 EXIOBASE table
 forward ourselves, step by named step, so that the 2050 world the game is played in rests on
@@ -29,13 +30,87 @@ walk checkable; drop any that stop doing so.
 
 ---
 
-## Start here
+## Sprint plan
 
-The first piece of work is **Milestone A**: apply the electricity step alone from 2011 to
-2015, 2019 and 2025 using Ember's generation data, and report electricity-sector and total
-emissions against observed values. It exercises the price conversion, the snapshot job and
-the checking harness on the one step whose mechanism already exists (the BUILD operating
-phase). Everything else in this plan builds on those three pieces.
+The build order, newest state first. Each numbered item is sized for one working session.
+Tick items here as they land; findings go under *Milestone A results* below.
+
+**Done**
+
+- [x] **A1 Data preparation for electricity** (2026-11-11). `just prepare-electricity` turns
+  Ember's country data into `data/baseline/electricity_generation.csv` (targets) and
+  `electricity_observed.csv` (the check), through two committed concordances.
+- [x] **A2 The electricity step** (2026-11-11). `engine/electricity.py`, conserving kWh, with
+  a reliability test per technology and a stand-in rule. Tested on the pymrio test world.
+- [x] **A3 First electricity-only hindcast** (2026-11-11). `just hindcast-electricity`.
+
+**Next, in order**
+
+1. **A4 Locate Region 3's heat-and-power plants.** The first run found that the table books
+   much of Europe's power sector under *Steam and hot water supply services* (backlog:
+   "Region 3's power sector is split between two products"). Confirm by country on the
+   49-region table, then decide whether that product is walked with electricity or under
+   heating. Needs the full table parsed: about twenty minutes and 3 GB.
+2. **A5 Re-base the technologies the table cannot describe.** Wind and solar fail the
+   reliability test in several regions, so a fifth of East Asia's 2025 generation runs on a
+   stand-in. Two different fixes are needed:
+   - *Wind* is reliable in most regions, so a region that lacks it can borrow the recipe and
+     emission rate of the regions that have it (generation-weighted), with purchases
+     rescaled to the borrowed price so kWh are conserved.
+   - *Solar PV* passes the test only in USA and Canada, and there the table gives it 194 g
+     of direct CO₂ per kWh, so there is nothing sound to borrow. It needs a recipe from
+     outside the table: a capital-cost split by product (the kind [Wiebe et al. 2018](https://doi.org/10.1186/s40008-018-0118-y) SI
+     Table SI1 gives, already used for BUILD capex), a capital cost per kW, a lifetime and a
+     capacity factor, and zero direct emissions. Each of those is a ledger row needing a
+     source, so this half is a modelling decision before it is code.
+3. **A6 The walk's skeleton.** A general ledger loader with the `status` column, a
+   `jobs/walk_baseline.py` that applies steps in order and caches each snapshot, and the
+   version stamp. The electricity hindcast becomes its first caller.
+4. **B1 Economy size.** Data preparation for population and GDP by game region, 2011–2025
+   (check the UN and World Bank licences first), then step 1 through the existing
+   `scale_final_demand`. First hindcast with demand growing.
+5. **B2 Spending mix.** Needs the elasticities from [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114) (paper and data
+   still to obtain). Until then a flat placeholder, marked as one in the ledger.
+6. **B3 Road transport and heating.** Data preparation for EV stock and heat pumps; apply
+   `apply_swap`'s mechanism at baseline scale.
+7. **B4 Industry, productivity and non-CO₂**, then the residual by sector against observed
+   emissions. Closes Milestone B.
+8. **C and D** as under *Milestones*.
+
+A run of the hindcast takes about nine minutes on an 8 GB laptop at seven regions. Item 1
+is the only one that needs the full 49-region table.
+
+## Milestone A results
+
+First run, 2026-11-11: every region's electricity mix walked from the 2011 table to the
+observed mix of each year, everything else held at 2011.
+
+| Region | Model 2011 | Model 2025 | Change | Observed 2011 | Observed 2025 | Change | Stand-in 2025 |
+|---|---|---|---|---|---|---|---|
+| Europe and Central Asia | 369 | 262 | −29% | 405 | 284 | −30% | 9% |
+| USA and Canada | 465 | 318 | −32% | 504 | 360 | −29% | 0% |
+| Mainland East Asia | 723 | 532 | −26% | 725 | 525 | −28% | 22% |
+| South East Asia and Pacific | 529 | 499 | −6% | 572 | 542 | −5% | 11% |
+| South Asia | 798 | 772 | −3% | 722 | 671 | −7% | 11% |
+| Latin America and Caribbean | 266 | 215 | −19% | 292 | 249 | −15% | 13% |
+| Africa and Middle East | 626 | 535 | −15% | 648 | 592 | −9% | 4% |
+
+Grams per kWh. Model: direct CO₂ from the table. Observed: Ember's lifecycle CO₂e.
+
+What it shows:
+
+- **The step works.** The modelled fall in carbon intensity follows the observed fall in the
+  four largest regions to within three percentage points.
+- **The level sits about 8% under Ember's** in most regions, which is the expected gap
+  between direct CO₂ and lifecycle CO₂e. South Asia is the exception, 10–15% above: the
+  table's coal there emits 1,067 g per kWh.
+- **The 2011 table does not hold Ember's 2011 mix.** Left as it stands, the table's Europe
+  generates at 274 g per kWh, not 369, and supplies 3,337 TWh against 5,074 observed. The
+  rest is under *Steam and hot water supply services* (item A4). World-wide the table's
+  electricity products supply 18,940 TWh against 22,036 observed.
+- **Mix change alone is worth about 7% of world CO₂.** With 2011 demand, world CO₂ falls from
+  32.9 Gt on the 2011 mix to 30.5 Gt on the 2025 mix.
+- **Stand-ins are not a detail.** They cover a fifth of East Asia's generation by 2025 (A5).
 
 ## The method
 
@@ -127,10 +202,14 @@ source. Three things the walk has to do:
 
 1. **Store the capital coefficients separately.** The cached world merges them into `A`; the
    walk needs to change them on their own.
-2. **Update capital cost by technology.** The capital needed per unit of solar or wind
-   electricity is the 2011 figure, several times today's. Unchanged, a clean grid's embodied
-   emissions are overstated. This lever is where assumptions about 2050 construction costs
-   and efficiencies enter.
+2. **Re-base wind and solar.** The 2011 table does not describe them consistently. Its
+   money output per TWh of solar PV runs from under 1 million EUR in Latin America to 194
+   million in Africa and Middle East, against mostly 30 to 250 for coal, gas, nuclear and hydro
+   (Milestone A technology table). Since every input, capital included, is recorded per
+   euro of output, the inputs behind a kWh of solar vary by the same factor, and in most
+   regions are far too small. Sprint item A5 replaces such a technology's recipe with a
+   borrowed one. Updating that recipe from 2011 costs to current ones is then a separate
+   lever, and is where assumptions about 2050 construction costs and efficiencies enter.
 3. **Decide on the 2011 construction trough** at the first snapshot (see the backlog
    diagnostic under *BUILD capex (a)*).
 
@@ -264,7 +343,7 @@ consumption: the income effect on greenhouse gas emissions* (the elasticities fo
 
 A can start now; each later one builds on the one before.
 
-- **A. Electricity-only hindcast** — see *Start here*.
+- **A. Electricity-only hindcast** — first run done; see *Sprint plan* and *Milestone A results*.
 - **B. Full hindcast to 2025.** Steps 1–10 and 12 on observed values; residual by sector.
 - **C. To 2050.** Levers set under the SSP2 storyline; step 11 and its sensitivity. Replaces
   the constants in `engine/intensity.py` and re-bases every tape.
@@ -274,6 +353,8 @@ A can start now; each later one builds on the one before.
 ## To verify
 
 - Global Carbon Budget's 2025 fossil CO₂ figure (about 38 Gt, unconfirmed).
+- Which countries EXIOBASE puts in each rest-of-world block. `country_to_exiobase.csv` assigns
+  them by continent, which is an assumption.
 - Every licence marked **?**.
 - The release name and licence of the IIASA SSP basic-drivers update.
 - Whether [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114)'s elasticities are published as reusable data.

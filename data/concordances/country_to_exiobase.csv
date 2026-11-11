@@ -1,0 +1,225 @@
+iso3,country,exiobase_region,basis
+# Maps countries (ISO 3166-1 alpha-3) to EXIOBASE 3.8.2 regions.
+#
+# EXIOBASE resolves 44 countries and five rest-of-world blocks: WA (Asia and Pacific),
+# WL (America), WE (Europe), WF (Africa), WM (Middle East). Country-level data such as
+# Ember's has to be summed into those before data/concordances/region_mapping.csv can take
+# it on to the seven game regions.
+#
+# basis = "EXIOBASE country": the country is one of the 44, matched by code.
+# basis = "rest-of-world block, by continent": ASSUMED from the country's continent, with
+#   the Middle East separated out. EXIOBASE's own membership list for each block has not
+#   been checked against this; see docs/plans/03-baseline-walk.md, To verify. WF and WM map
+#   to the same game region, so the Africa / Middle East boundary cannot change a result.
+#   The Asia / Middle East and Europe / Asia boundaries can.
+#
+# Country list and continents: Ember yearly electricity data (CC BY 4.0).
+ABW,Aruba,WL,"rest-of-world block, by continent"
+AFG,Afghanistan,WA,"rest-of-world block, by continent"
+AGO,Angola,WF,"rest-of-world block, by continent"
+ALB,Albania,WE,"rest-of-world block, by continent"
+ARE,United Arab Emirates,WM,"rest-of-world block, by continent"
+ARG,Argentina,WL,"rest-of-world block, by continent"
+ARM,Armenia,WA,"rest-of-world block, by continent"
+ASM,American Samoa,WA,"rest-of-world block, by continent"
+ATG,Antigua and Barbuda,WL,"rest-of-world block, by continent"
+AUS,Australia,AU,EXIOBASE country
+AUT,Austria,AT,EXIOBASE country
+AZE,Azerbaijan,WA,"rest-of-world block, by continent"
+BDI,Burundi,WF,"rest-of-world block, by continent"
+BEL,Belgium,BE,EXIOBASE country
+BEN,Benin,WF,"rest-of-world block, by continent"
+BFA,Burkina Faso,WF,"rest-of-world block, by continent"
+BGD,Bangladesh,WA,"rest-of-world block, by continent"
+BGR,Bulgaria,BG,EXIOBASE country
+BHR,Bahrain,WM,"rest-of-world block, by continent"
+BHS,Bahamas,WL,"rest-of-world block, by continent"
+BIH,Bosnia Herzegovina,WE,"rest-of-world block, by continent"
+BLR,Belarus,WE,"rest-of-world block, by continent"
+BLZ,Belize,WL,"rest-of-world block, by continent"
+BOL,Bolivia,WL,"rest-of-world block, by continent"
+BRA,Brazil,BR,EXIOBASE country
+BRB,Barbados,WL,"rest-of-world block, by continent"
+BRN,Brunei Darussalam,WA,"rest-of-world block, by continent"
+BTN,Bhutan,WA,"rest-of-world block, by continent"
+BWA,Botswana,WF,"rest-of-world block, by continent"
+CAF,Central African Republic,WF,"rest-of-world block, by continent"
+CAN,Canada,CA,EXIOBASE country
+CHE,Switzerland,CH,EXIOBASE country
+CHL,Chile,WL,"rest-of-world block, by continent"
+CHN,China,CN,EXIOBASE country
+CIV,Cote d'Ivoire,WF,"rest-of-world block, by continent"
+CMR,Cameroon,WF,"rest-of-world block, by continent"
+COD,Congo (DRC),WF,"rest-of-world block, by continent"
+COG,Congo,WF,"rest-of-world block, by continent"
+COK,Cook Islands (the),WA,"rest-of-world block, by continent"
+COL,Colombia,WL,"rest-of-world block, by continent"
+COM,Comoros,WF,"rest-of-world block, by continent"
+CPV,Cabo Verde,WF,"rest-of-world block, by continent"
+CRI,Costa Rica,WL,"rest-of-world block, by continent"
+CUB,Cuba,WL,"rest-of-world block, by continent"
+CYM,Cayman Islands,WL,"rest-of-world block, by continent"
+CYP,Cyprus,CY,EXIOBASE country
+CZE,Czechia,CZ,EXIOBASE country
+DEU,Germany,DE,EXIOBASE country
+DJI,Djibouti,WF,"rest-of-world block, by continent"
+DMA,Dominica,WL,"rest-of-world block, by continent"
+DNK,Denmark,DK,EXIOBASE country
+DOM,Dominican Republic,WL,"rest-of-world block, by continent"
+DZA,Algeria,WF,"rest-of-world block, by continent"
+ECU,Ecuador,WL,"rest-of-world block, by continent"
+EGY,Egypt,WF,"rest-of-world block, by continent"
+ERI,Eritrea,WF,"rest-of-world block, by continent"
+ESP,Spain,ES,EXIOBASE country
+EST,Estonia,EE,EXIOBASE country
+ETH,Ethiopia,WF,"rest-of-world block, by continent"
+FIN,Finland,FI,EXIOBASE country
+FJI,Fiji,WA,"rest-of-world block, by continent"
+FLK,Falkland Islands (Malvinas),WL,"rest-of-world block, by continent"
+FRA,France,FR,EXIOBASE country
+FRO,Faroe Islands,WE,"rest-of-world block, by continent"
+GAB,Gabon,WF,"rest-of-world block, by continent"
+GBR,United Kingdom,GB,EXIOBASE country
+GEO,Georgia,WA,"rest-of-world block, by continent"
+GHA,Ghana,WF,"rest-of-world block, by continent"
+GIN,Guinea,WF,"rest-of-world block, by continent"
+GLP,Guadeloupe,WL,"rest-of-world block, by continent"
+GMB,Gambia,WF,"rest-of-world block, by continent"
+GNB,Guinea-Bissau,WF,"rest-of-world block, by continent"
+GNQ,Equatorial Guinea,WF,"rest-of-world block, by continent"
+GRC,Greece,GR,EXIOBASE country
+GRD,Grenada,WL,"rest-of-world block, by continent"
+GRL,Greenland,WL,"rest-of-world block, by continent"
+GTM,Guatemala,WL,"rest-of-world block, by continent"
+GUF,French Guiana,WL,"rest-of-world block, by continent"
+GUM,Guam,WA,"rest-of-world block, by continent"
+GUY,Guyana,WL,"rest-of-world block, by continent"
+HKG,Hong Kong (SAR of China),WA,"rest-of-world block, by continent"
+HND,Honduras,WL,"rest-of-world block, by continent"
+HRV,Croatia,HR,EXIOBASE country
+HTI,Haiti,WL,"rest-of-world block, by continent"
+HUN,Hungary,HU,EXIOBASE country
+IDN,Indonesia,ID,EXIOBASE country
+IND,India,IN,EXIOBASE country
+IRL,Ireland,IE,EXIOBASE country
+IRN,Iran,WM,"rest-of-world block, by continent"
+IRQ,Iraq,WM,"rest-of-world block, by continent"
+ISL,Iceland,WE,"rest-of-world block, by continent"
+ISR,Israel,WM,"rest-of-world block, by continent"
+ITA,Italy,IT,EXIOBASE country
+JAM,Jamaica,WL,"rest-of-world block, by continent"
+JOR,Jordan,WM,"rest-of-world block, by continent"
+JPN,Japan,JP,EXIOBASE country
+KAZ,Kazakhstan,WA,"rest-of-world block, by continent"
+KEN,Kenya,WF,"rest-of-world block, by continent"
+KGZ,Kyrgyzstan,WA,"rest-of-world block, by continent"
+KHM,Cambodia,WA,"rest-of-world block, by continent"
+KIR,Kiribati,WA,"rest-of-world block, by continent"
+KNA,Saint Kitts and Nevis,WL,"rest-of-world block, by continent"
+KOR,South Korea,KR,EXIOBASE country
+KWT,Kuwait,WM,"rest-of-world block, by continent"
+LAO,Lao PDR,WA,"rest-of-world block, by continent"
+LBN,Lebanon,WM,"rest-of-world block, by continent"
+LBR,Liberia,WF,"rest-of-world block, by continent"
+LBY,Libya,WF,"rest-of-world block, by continent"
+LCA,Saint Lucia,WL,"rest-of-world block, by continent"
+LKA,Sri Lanka,WA,"rest-of-world block, by continent"
+LSO,Lesotho,WF,"rest-of-world block, by continent"
+LTU,Lithuania,LT,EXIOBASE country
+LUX,Luxembourg,LU,EXIOBASE country
+LVA,Latvia,LV,EXIOBASE country
+MAC,Macao (SAR of China),WA,"rest-of-world block, by continent"
+MAR,Morocco,WF,"rest-of-world block, by continent"
+MDA,Moldova,WE,"rest-of-world block, by continent"
+MDG,Madagascar,WF,"rest-of-world block, by continent"
+MDV,Maldives,WA,"rest-of-world block, by continent"
+MEX,Mexico,MX,EXIOBASE country
+MKD,North Macedonia,WE,"rest-of-world block, by continent"
+MLI,Mali,WF,"rest-of-world block, by continent"
+MLT,Malta,MT,EXIOBASE country
+MMR,Myanmar,WA,"rest-of-world block, by continent"
+MNE,Montenegro,WE,"rest-of-world block, by continent"
+MNG,Mongolia,WA,"rest-of-world block, by continent"
+MOZ,Mozambique,WF,"rest-of-world block, by continent"
+MRT,Mauritania,WF,"rest-of-world block, by continent"
+MSR,Montserrat,WL,"rest-of-world block, by continent"
+MTQ,Martinique,WL,"rest-of-world block, by continent"
+MUS,Mauritius,WF,"rest-of-world block, by continent"
+MWI,Malawi,WF,"rest-of-world block, by continent"
+MYS,Malaysia,WA,"rest-of-world block, by continent"
+NAM,Namibia,WF,"rest-of-world block, by continent"
+NCL,New Caledonia,WA,"rest-of-world block, by continent"
+NER,Niger,WF,"rest-of-world block, by continent"
+NGA,Nigeria,WF,"rest-of-world block, by continent"
+NIC,Nicaragua,WL,"rest-of-world block, by continent"
+NLD,Netherlands,NL,EXIOBASE country
+NOR,Norway,NO,EXIOBASE country
+NPL,Nepal,WA,"rest-of-world block, by continent"
+NRU,Nauru,WA,"rest-of-world block, by continent"
+NZL,New Zealand,WA,"rest-of-world block, by continent"
+OMN,Oman,WM,"rest-of-world block, by continent"
+PAK,Pakistan,WA,"rest-of-world block, by continent"
+PAN,Panama,WL,"rest-of-world block, by continent"
+PER,Peru,WL,"rest-of-world block, by continent"
+PHL,The Philippines,WA,"rest-of-world block, by continent"
+PNG,Papua New Guinea,WA,"rest-of-world block, by continent"
+POL,Poland,PL,EXIOBASE country
+PRI,Puerto Rico,WL,"rest-of-world block, by continent"
+PRK,North Korea,WA,"rest-of-world block, by continent"
+PRT,Portugal,PT,EXIOBASE country
+PRY,Paraguay,WL,"rest-of-world block, by continent"
+PSE,Palestine (State of),WM,"rest-of-world block, by continent"
+PYF,French Polynesia,WA,"rest-of-world block, by continent"
+QAT,Qatar,WM,"rest-of-world block, by continent"
+REU,Reunion,WF,"rest-of-world block, by continent"
+ROU,Romania,RO,EXIOBASE country
+RUS,Russia,RU,EXIOBASE country
+RWA,Rwanda,WF,"rest-of-world block, by continent"
+SAU,Saudi Arabia,WM,"rest-of-world block, by continent"
+SDN,Sudan,WF,"rest-of-world block, by continent"
+SEN,Senegal,WF,"rest-of-world block, by continent"
+SGP,Singapore,WA,"rest-of-world block, by continent"
+SLB,Solomon Islands,WA,"rest-of-world block, by continent"
+SLE,Sierra Leone,WF,"rest-of-world block, by continent"
+SLV,El Salvador,WL,"rest-of-world block, by continent"
+SOM,Somalia,WF,"rest-of-world block, by continent"
+SPM,Saint Pierre and Miquelon,WL,"rest-of-world block, by continent"
+SRB,Serbia,WE,"rest-of-world block, by continent"
+SSD,South Sudan,WF,"rest-of-world block, by continent"
+STP,Sao Tome and Principe,WF,"rest-of-world block, by continent"
+SUR,Suriname,WL,"rest-of-world block, by continent"
+SVK,Slovakia,SK,EXIOBASE country
+SVN,Slovenia,SI,EXIOBASE country
+SWE,Sweden,SE,EXIOBASE country
+SWZ,Eswatini,WF,"rest-of-world block, by continent"
+SYC,Seychelles,WF,"rest-of-world block, by continent"
+SYR,Syria,WM,"rest-of-world block, by continent"
+TCA,Turks and Caicos Islands,WL,"rest-of-world block, by continent"
+TCD,Chad,WF,"rest-of-world block, by continent"
+TGO,Togo,WF,"rest-of-world block, by continent"
+THA,Thailand,WA,"rest-of-world block, by continent"
+TJK,Tajikistan,WA,"rest-of-world block, by continent"
+TKM,Turkmenistan,WA,"rest-of-world block, by continent"
+TON,Tonga,WA,"rest-of-world block, by continent"
+TTO,Trinidad and Tobago,WL,"rest-of-world block, by continent"
+TUN,Tunisia,WF,"rest-of-world block, by continent"
+TUR,Türkiye,TR,EXIOBASE country
+TWN,Taiwan (China),TW,EXIOBASE country
+TZA,Tanzania (the United Republic of),WF,"rest-of-world block, by continent"
+UGA,Uganda,WF,"rest-of-world block, by continent"
+UKR,Ukraine,WE,"rest-of-world block, by continent"
+URY,Uruguay,WL,"rest-of-world block, by continent"
+USA,United States,US,EXIOBASE country
+UZB,Uzbekistan,WA,"rest-of-world block, by continent"
+VCT,Saint Vincent and the Grenadines,WL,"rest-of-world block, by continent"
+VEN,Venezuela,WL,"rest-of-world block, by continent"
+VGB,Virgin Islands (British),WL,"rest-of-world block, by continent"
+VIR,Virgin Islands (U.S.),WL,"rest-of-world block, by continent"
+VNM,Viet Nam,WA,"rest-of-world block, by continent"
+VUT,Vanuatu,WA,"rest-of-world block, by continent"
+WSM,Samoa,WA,"rest-of-world block, by continent"
+XKX,Kosovo,WE,"rest-of-world block, by continent"
+YEM,Yemen,WM,"rest-of-world block, by continent"
+ZAF,South Africa,ZA,EXIOBASE country
+ZMB,Zambia,WF,"rest-of-world block, by continent"
+ZWE,Zimbabwe,WF,"rest-of-world block, by continent"

@@ -1,0 +1,950 @@
+step,region,year,variable,value,unit,ipcc_variable,status,source,licence
+# Observed electricity generation by game region, year and EXIOBASE product.
+# The targets the electricity step of the baseline walk is walked to.
+# Derived from Ember yearly electricity data (https://ember-energy.org), CC BY 4.0,
+# by redworlds.jobs.prepare_electricity. Do not edit by hand; re-run the job.
+electricity,Africa and Middle East,2011,Electricity by coal,298.345,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2011,Electricity by gas,758.324,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2011,Electricity by petroleum and other oil derivatives,402.51,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2011,Electricity by nuclear,13.007,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2011,Electricity by hydro,130.064,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2011,Electricity by wind,2.637,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2011,Electricity by solar photovoltaic,0.732,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2011,Electricity by biomass and waste,2.882,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2011,Electricity by Geothermal,1.51,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2012,Electricity by coal,296.89,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2012,Electricity by gas,817.685,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2012,Electricity by petroleum and other oil derivatives,416.413,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2012,Electricity by nuclear,14.422,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2012,Electricity by hydro,135.51,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2012,Electricity by wind,2.879,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2012,Electricity by solar photovoltaic,1.315,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2012,Electricity by biomass and waste,2.923,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2012,Electricity by Geothermal,1.59,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2013,Electricity by coal,286.139,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2013,Electricity by gas,828.531,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2013,Electricity by petroleum and other oil derivatives,457.553,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2013,Electricity by nuclear,18.365,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2013,Electricity by hydro,141.94,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2013,Electricity by wind,4.067,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2013,Electricity by solar photovoltaic,1.223,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2013,Electricity by biomass and waste,3.099,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2013,Electricity by Geothermal,1.91,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2014,Electricity by coal,285.81,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2014,Electricity by gas,929.061,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2014,Electricity by petroleum and other oil derivatives,452.206,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2014,Electricity by nuclear,17.86,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2014,Electricity by hydro,144.331,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2014,Electricity by wind,5.401,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2014,Electricity by solar photovoltaic,3.195,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2014,Electricity by biomass and waste,3.067,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2014,Electricity by Geothermal,3.21,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2015,Electricity by coal,284.312,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2015,Electricity by gas,1005.725,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2015,Electricity by petroleum and other oil derivatives,449.399,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2015,Electricity by nuclear,15.735,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2015,Electricity by hydro,139.145,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2015,Electricity by wind,9.277,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2015,Electricity by solar photovoltaic,4.999,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2015,Electricity by biomass and waste,3.246,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2015,Electricity by Geothermal,4.48,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2016,Electricity by coal,281.328,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2016,Electricity by gas,1087.735,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2016,Electricity by petroleum and other oil derivatives,407.016,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2016,Electricity by nuclear,21.504,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2016,Electricity by hydro,140.96,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2016,Electricity by wind,11.823,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2016,Electricity by solar photovoltaic,7.391,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2016,Electricity by biomass and waste,3.582,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2016,Electricity by Geothermal,4.69,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2017,Electricity by coal,279.839,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2017,Electricity by gas,1184.652,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2017,Electricity by petroleum and other oil derivatives,400.451,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2017,Electricity by nuclear,21.148,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2017,Electricity by hydro,147.01,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2017,Electricity by wind,14.433,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2017,Electricity by solar photovoltaic,10.509,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2017,Electricity by biomass and waste,3.594,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2017,Electricity by Geothermal,4.76,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2018,Electricity by coal,286.302,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2018,Electricity by gas,1254.474,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2018,Electricity by petroleum and other oil derivatives,356.214,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2018,Electricity by nuclear,18.465,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2018,Electricity by hydro,149.431,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2018,Electricity by wind,16.572,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2018,Electricity by solar photovoltaic,13.842,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2018,Electricity by biomass and waste,3.274,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2018,Electricity by Geothermal,5.13,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2019,Electricity by coal,286.894,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2019,Electricity by gas,1247.158,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2019,Electricity by petroleum and other oil derivatives,378.089,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2019,Electricity by nuclear,19.661,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2019,Electricity by hydro,181.476,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2019,Electricity by wind,21.378,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2019,Electricity by solar photovoltaic,22.112,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2019,Electricity by biomass and waste,3.301,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2019,Electricity by Geothermal,5.24,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2020,Electricity by coal,272.299,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2020,Electricity by gas,1272.497,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2020,Electricity by petroleum and other oil derivatives,364.046,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2020,Electricity by nuclear,17.857,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2020,Electricity by hydro,177.565,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2020,Electricity by wind,21.884,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2020,Electricity by solar photovoltaic,31.252,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2020,Electricity by biomass and waste,3.293,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2020,Electricity by Geothermal,5.06,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2021,Electricity by coal,269.384,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2021,Electricity by gas,1354.359,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2021,Electricity by petroleum and other oil derivatives,366.144,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2021,Electricity by nuclear,25.954,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2021,Electricity by hydro,174.131,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2021,Electricity by wind,26.293,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2021,Electricity by solar photovoltaic,38.807,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2021,Electricity by biomass and waste,3.362,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2021,Electricity by Geothermal,5.04,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2022,Electricity by coal,258.522,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2022,Electricity by gas,1386.803,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2022,Electricity by petroleum and other oil derivatives,382.089,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2022,Electricity by nuclear,37.262,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2022,Electricity by hydro,181.462,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2022,Electricity by wind,30.492,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2022,Electricity by solar photovoltaic,49.789,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2022,Electricity by biomass and waste,3.394,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2022,Electricity by Geothermal,5.55,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2023,Electricity by coal,245.444,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2023,Electricity by gas,1427.177,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2023,Electricity by petroleum and other oil derivatives,406.928,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2023,Electricity by nuclear,47.798,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2023,Electricity by hydro,186.157,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2023,Electricity by wind,34.59,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2023,Electricity by solar photovoltaic,67.151,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2023,Electricity by biomass and waste,4.386,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2023,Electricity by Geothermal,6.06,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2024,Electricity by coal,257.859,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2024,Electricity by gas,1451.951,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2024,Electricity by petroleum and other oil derivatives,442.29,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2024,Electricity by nuclear,53.837,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2024,Electricity by hydro,188.971,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2024,Electricity by wind,35.53,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2024,Electricity by solar photovoltaic,83.41,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2024,Electricity by biomass and waste,4.974,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2024,Electricity by Geothermal,6.03,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2025,Electricity by coal,241.262,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2025,Electricity by gas,1489.307,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2025,Electricity by petroleum and other oil derivatives,430.732,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2025,Electricity by nuclear,54.651,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2025,Electricity by hydro,194.055,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2025,Electricity by wind,39.589,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2025,Electricity by solar photovoltaic,104.672,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2025,Electricity by biomass and waste,5.141,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Africa and Middle East,2025,Electricity by Geothermal,6.472,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2011,Electricity by coal,1190.641,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2011,Electricity by gas,1389.506,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2011,Electricity by petroleum and other oil derivatives,188.11,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2011,Electricity by nuclear,1196.651,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2011,Electricity by hydro,724.905,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2011,Electricity by wind,187.555,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2011,Electricity by solar photovoltaic,48.151,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2011,Electricity by biomass and waste,134.197,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2011,Electricity by Geothermal,12.53,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2012,Electricity by coal,1251.053,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2012,Electricity by gas,1268.811,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2012,Electricity by petroleum and other oil derivatives,184.635,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2012,Electricity by nuclear,1175.474,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2012,Electricity by hydro,782.524,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2012,Electricity by wind,215.195,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2012,Electricity by solar photovoltaic,72.484,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2012,Electricity by biomass and waste,149.833,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2012,Electricity by Geothermal,13.27,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2013,Electricity by coal,1216.322,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2013,Electricity by gas,1197.04,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2013,Electricity by petroleum and other oil derivatives,155.247,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2013,Electricity by nuclear,1158.548,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2013,Electricity by hydro,835.601,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2013,Electricity by wind,248.154,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2013,Electricity by solar photovoltaic,86.861,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2013,Electricity by biomass and waste,159.842,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2013,Electricity by Geothermal,14.08,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2014,Electricity by coal,1142.112,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2014,Electricity by gas,1166.69,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2014,Electricity by petroleum and other oil derivatives,156.743,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2014,Electricity by nuclear,1173.027,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2014,Electricity by hydro,809.844,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2014,Electricity by wind,266.606,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2014,Electricity by solar photovoltaic,99.13,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2014,Electricity by biomass and waste,169.664,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2014,Electricity by Geothermal,15.49,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2015,Electricity by coal,1120.962,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2015,Electricity by gas,1176.165,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2015,Electricity by petroleum and other oil derivatives,159.868,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2015,Electricity by nuclear,1163.22,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2015,Electricity by hydro,797.453,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2015,Electricity by wind,319.278,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2015,Electricity by solar photovoltaic,109.906,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2015,Electricity by biomass and waste,181.501,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2015,Electricity by Geothermal,16.62,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2016,Electricity by coal,1064.08,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2016,Electricity by gas,1270.929,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2016,Electricity by petroleum and other oil derivatives,163.142,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2016,Electricity by nuclear,1138.394,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2016,Electricity by hydro,829.632,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2016,Electricity by wind,323.188,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2016,Electricity by solar photovoltaic,114.308,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2016,Electricity by biomass and waste,184.446,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2016,Electricity by Geothermal,18.29,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2017,Electricity by coal,1031.564,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2017,Electricity by gas,1336.834,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2017,Electricity by petroleum and other oil derivatives,155.599,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2017,Electricity by nuclear,1138.841,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2017,Electricity by hydro,763.473,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2017,Electricity by wind,384.519,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2017,Electricity by solar photovoltaic,124.014,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2017,Electricity by biomass and waste,189.67,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2017,Electricity by Geothermal,19.7,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2018,Electricity by coal,997.368,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2018,Electricity by gas,1291.942,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2018,Electricity by petroleum and other oil derivatives,150.283,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2018,Electricity by nuclear,1141.491,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2018,Electricity by hydro,828.218,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2018,Electricity by wind,403.647,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2018,Electricity by solar photovoltaic,138.514,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2018,Electricity by biomass and waste,195.145,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2018,Electricity by Geothermal,21.23,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2019,Electricity by coal,851.286,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2019,Electricity by gas,1329.679,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2019,Electricity by petroleum and other oil derivatives,140.628,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2019,Electricity by nuclear,1139.926,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2019,Electricity by hydro,816.886,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2019,Electricity by wind,462.685,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2019,Electricity by solar photovoltaic,152.745,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2019,Electricity by biomass and waste,203.079,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2019,Electricity by Geothermal,22.66,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2020,Electricity by coal,728.406,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2020,Electricity by gas,1264.118,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2020,Electricity by petroleum and other oil derivatives,124.067,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2020,Electricity by nuclear,1050.224,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2020,Electricity by hydro,867.028,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2020,Electricity by wind,514.918,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2020,Electricity by solar photovoltaic,178.682,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2020,Electricity by biomass and waste,209.015,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2020,Electricity by Geothermal,23.691,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2021,Electricity by coal,799.651,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2021,Electricity by gas,1342.753,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2021,Electricity by petroleum and other oil derivatives,129.56,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2021,Electricity by nuclear,1111.552,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2021,Electricity by hydro,860.023,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2021,Electricity by wind,503.515,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2021,Electricity by solar photovoltaic,200.602,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2021,Electricity by biomass and waste,221.56,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2021,Electricity by Geothermal,24.05,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2022,Electricity by coal,849.595,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2022,Electricity by gas,1286.735,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2022,Electricity by petroleum and other oil derivatives,137.748,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2022,Electricity by nuclear,971.369,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2022,Electricity by hydro,753.197,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2022,Electricity by wind,559.621,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2022,Electricity by solar photovoltaic,250.439,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2022,Electricity by biomass and waste,212.452,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2022,Electricity by Geothermal,24.16,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2023,Electricity by coal,722.058,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2023,Electricity by gas,1189.585,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2023,Electricity by petroleum and other oil derivatives,123.027,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2023,Electricity by nuclear,975.872,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2023,Electricity by hydro,832.696,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2023,Electricity by wind,617.777,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2023,Electricity by solar photovoltaic,300.335,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2023,Electricity by biomass and waste,202.979,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2023,Electricity by Geothermal,23.59,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2024,Electricity by coal,667.724,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2024,Electricity by gas,1178.489,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2024,Electricity by petroleum and other oil derivatives,120.866,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2024,Electricity by nuclear,1007.755,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2024,Electricity by hydro,897.278,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2024,Electricity by wind,633.374,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2024,Electricity by solar photovoltaic,364.147,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2024,Electricity by biomass and waste,209.563,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2024,Electricity by Geothermal,23.459,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2025,Electricity by coal,632.356,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2025,Electricity by gas,1214.177,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2025,Electricity by petroleum and other oil derivatives,117.667,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2025,Electricity by nuclear,943.414,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2025,Electricity by hydro,804.73,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2025,Electricity by wind,626.527,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2025,Electricity by solar photovoltaic,437.911,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2025,Electricity by biomass and waste,208.571,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Europe and Central Asia,2025,Electricity by Geothermal,24.091,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2011,Electricity by coal,84.382,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2011,Electricity by gas,335.41,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2011,Electricity by petroleum and other oil derivatives,181.779,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2011,Electricity by nuclear,31.961,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2011,Electricity by hydro,774.368,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2011,Electricity by wind,5.944,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2011,Electricity by solar photovoltaic,0.163,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2011,Electricity by biomass and waste,54.356,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2011,Electricity by Geothermal,3.4,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2012,Electricity by coal,92.852,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2012,Electricity by gas,382.693,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2012,Electricity by petroleum and other oil derivatives,192.712,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2012,Electricity by nuclear,30.87,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2012,Electricity by hydro,754.666,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2012,Electricity by wind,11.417,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2012,Electricity by solar photovoltaic,0.409,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2012,Electricity by biomass and waste,58.167,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2012,Electricity by Geothermal,3.78,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2013,Electricity by coal,108.693,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2013,Electricity by gas,431.301,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2013,Electricity by petroleum and other oil derivatives,191.958,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2013,Electricity by nuclear,33.354,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2013,Electricity by hydro,736.222,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2013,Electricity by wind,14.356,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2013,Electricity by solar photovoltaic,0.746,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2013,Electricity by biomass and waste,65.152,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2013,Electricity by Geothermal,4.07,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2014,Electricity by coal,107.713,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2014,Electricity by gas,454.953,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2014,Electricity by petroleum and other oil derivatives,182.71,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2014,Electricity by nuclear,30.979,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2014,Electricity by hydro,705.486,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2014,Electricity by wind,25.02,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2014,Electricity by solar photovoltaic,1.453,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2014,Electricity by biomass and waste,72.075,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2014,Electricity by Geothermal,4.11,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2015,Electricity by coal,112.122,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2015,Electricity by gas,472.423,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2015,Electricity by petroleum and other oil derivatives,184.055,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2015,Electricity by nuclear,33.845,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2015,Electricity by hydro,698.143,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2015,Electricity by wind,40.291,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2015,Electricity by solar photovoltaic,3.066,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2015,Electricity by biomass and waste,76.339,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2015,Electricity by Geothermal,3.95,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2016,Electricity by coal,113.345,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2016,Electricity by gas,459.493,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2016,Electricity by petroleum and other oil derivatives,167.691,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2016,Electricity by nuclear,35.114,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2016,Electricity by hydro,715.808,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2016,Electricity by wind,55.719,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2016,Electricity by solar photovoltaic,5.231,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2016,Electricity by biomass and waste,78.536,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2016,Electricity by Geothermal,4.06,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2017,Electricity by coal,98.669,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2017,Electricity by gas,464.776,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2017,Electricity by petroleum and other oil derivatives,151.245,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2017,Electricity by nuclear,32.706,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2017,Electricity by hydro,726.48,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2017,Electricity by wind,66.324,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2017,Electricity by solar photovoltaic,8.745,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2017,Electricity by biomass and waste,79.252,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2017,Electricity by Geothermal,4.01,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2018,Electricity by coal,97.056,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2018,Electricity by gas,463.889,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2018,Electricity by petroleum and other oil derivatives,139.416,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2018,Electricity by nuclear,36.101,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2018,Electricity by hydro,743.825,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2018,Electricity by wind,78.062,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2018,Electricity by solar photovoltaic,16.141,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2018,Electricity by biomass and waste,80.02,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2018,Electricity by Geothermal,4.25,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2019,Electricity by coal,95.16,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2019,Electricity by gas,494.454,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2019,Electricity by petroleum and other oil derivatives,132.092,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2019,Electricity by nuclear,35.761,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2019,Electricity by hydro,716.247,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2019,Electricity by wind,95.347,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2019,Electricity by solar photovoltaic,29.189,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2019,Electricity by biomass and waste,81.34,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2019,Electricity by Geothermal,4.69,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2020,Electricity by coal,81.05,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2020,Electricity by gas,485.352,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2020,Electricity by petroleum and other oil derivatives,107.934,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2020,Electricity by nuclear,35.242,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2020,Electricity by hydro,718.862,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2020,Electricity by wind,104.771,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2020,Electricity by solar photovoltaic,41.978,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2020,Electricity by biomass and waste,86.227,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2020,Electricity by Geothermal,5.02,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2021,Electricity by coal,79.778,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2021,Electricity by gas,503.873,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2021,Electricity by petroleum and other oil derivatives,132.252,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2021,Electricity by nuclear,36.798,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2021,Electricity by hydro,704.009,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2021,Electricity by wind,127.167,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2021,Electricity by solar photovoltaic,57.85,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2021,Electricity by biomass and waste,84.755,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2021,Electricity by Geothermal,4.96,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2022,Electricity by coal,70.921,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2022,Electricity by gas,452.44,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2022,Electricity by petroleum and other oil derivatives,127.97,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2022,Electricity by nuclear,32.878,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2022,Electricity by hydro,772.03,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2022,Electricity by wind,138.119,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2022,Electricity by solar photovoltaic,77.728,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2022,Electricity by biomass and waste,82.723,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2022,Electricity by Geothermal,5.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2023,Electricity by coal,68.331,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2023,Electricity by gas,474.786,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2023,Electricity by petroleum and other oil derivatives,127.29,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2023,Electricity by nuclear,35.853,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2023,Electricity by hydro,766.059,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2023,Electricity by wind,154.322,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2023,Electricity by solar photovoltaic,104.813,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2023,Electricity by biomass and waste,86.265,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2023,Electricity by Geothermal,5.06,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2024,Electricity by coal,67.555,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2024,Electricity by gas,504.12,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2024,Electricity by petroleum and other oil derivatives,102.879,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2024,Electricity by nuclear,38.523,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2024,Electricity by hydro,760.292,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2024,Electricity by wind,168.704,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2024,Electricity by solar photovoltaic,133.854,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2024,Electricity by biomass and waste,89.49,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2024,Electricity by Geothermal,5.138,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2025,Electricity by coal,63.569,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2025,Electricity by gas,508.145,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2025,Electricity by petroleum and other oil derivatives,93.272,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2025,Electricity by nuclear,36.663,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2025,Electricity by hydro,755.7,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2025,Electricity by wind,182.165,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2025,Electricity by solar photovoltaic,158.235,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2025,Electricity by biomass and waste,90.051,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Latin America and the Caribbean,2025,Electricity by Geothermal,4.89,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2011,Electricity by coal,4054.67,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2011,Electricity by gas,289.773,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2011,Electricity by petroleum and other oil derivatives,44.107,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2011,Electricity by nuclear,284.039,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2011,Electricity by hydro,696.643,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2011,Electricity by wind,76.456,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2011,Electricity by solar photovoltaic,3.595,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2011,Electricity by biomass and waste,23.173,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2011,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2012,Electricity by coal,4108.342,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2012,Electricity by gas,307.008,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2012,Electricity by petroleum and other oil derivatives,45.502,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2012,Electricity by nuclear,289.067,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2012,Electricity by hydro,872.433,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2012,Electricity by wind,105.376,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2012,Electricity by solar photovoltaic,4.882,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2012,Electricity by biomass and waste,27.205,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2012,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2013,Electricity by coal,4438.372,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2013,Electricity by gas,330.304,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2013,Electricity by petroleum and other oil derivatives,46.397,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2013,Electricity by nuclear,291.924,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2013,Electricity by hydro,919.324,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2013,Electricity by wind,141.052,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2013,Electricity by solar photovoltaic,10.363,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2013,Electricity by biomass and waste,32.729,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2013,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2014,Electricity by coal,4570.433,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2014,Electricity by gas,338.9,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2014,Electricity by petroleum and other oil derivatives,42.999,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2014,Electricity by nuclear,332.014,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2014,Electricity by hydro,1066.761,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2014,Electricity by wind,162.409,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2014,Electricity by solar photovoltaic,26.735,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2014,Electricity by biomass and waste,41.358,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2014,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2015,Electricity by coal,4411.334,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2015,Electricity by gas,369.744,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2015,Electricity by petroleum and other oil derivatives,48.527,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2015,Electricity by nuclear,372.611,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2015,Electricity by hydro,1121.131,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2015,Electricity by wind,188.458,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2015,Electricity by solar photovoltaic,44.561,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2015,Electricity by biomass and waste,48.393,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2015,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2016,Electricity by coal,4522.434,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2016,Electricity by gas,404.028,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2016,Electricity by petroleum and other oil derivatives,57.279,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2016,Electricity by nuclear,406.834,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2016,Electricity by hydro,1162.676,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2016,Electricity by wind,244.0,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2016,Electricity by solar photovoltaic,73.153,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2016,Electricity by biomass and waste,57.066,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2016,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2017,Electricity by coal,4834.699,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2017,Electricity by gas,431.776,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2017,Electricity by petroleum and other oil derivatives,55.351,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2017,Electricity by nuclear,418.973,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2017,Electricity by hydro,1173.321,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2017,Electricity by wind,308.491,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2017,Electricity by solar photovoltaic,127.206,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2017,Electricity by biomass and waste,68.498,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2017,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2018,Electricity by coal,5168.114,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2018,Electricity by gas,473.245,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2018,Electricity by petroleum and other oil derivatives,58.439,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2018,Electricity by nuclear,456.183,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2018,Electricity by hydro,1206.728,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2018,Electricity by wind,369.974,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2018,Electricity by solar photovoltaic,189.73,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2018,Electricity by biomass and waste,79.224,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2018,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2019,Electricity by coal,5239.372,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2019,Electricity by gas,481.11,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2019,Electricity by petroleum and other oil derivatives,59.276,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2019,Electricity by nuclear,526.933,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2019,Electricity by hydro,1280.872,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2019,Electricity by wind,409.871,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2019,Electricity by solar photovoltaic,242.158,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2019,Electricity by biomass and waste,92.884,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2019,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2020,Electricity by coal,5267.557,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2020,Electricity by gas,517.077,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2020,Electricity by petroleum and other oil derivatives,66.584,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2020,Electricity by nuclear,557.824,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2020,Electricity by hydro,1328.605,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2020,Electricity by wind,471.959,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2020,Electricity by solar photovoltaic,286.685,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2020,Electricity by biomass and waste,106.553,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2020,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2021,Electricity by coal,5686.873,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2021,Electricity by gas,577.656,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2021,Electricity by petroleum and other oil derivatives,86.5,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2021,Electricity by nuclear,593.303,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2021,Electricity by hydro,1307.13,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2021,Electricity by wind,661.251,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2021,Electricity by solar photovoltaic,360.069,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2021,Electricity by biomass and waste,122.251,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2021,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2022,Electricity by coal,5755.11,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2022,Electricity by gas,565.236,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2022,Electricity by petroleum and other oil derivatives,92.847,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2022,Electricity by nuclear,617.589,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2022,Electricity by hydro,1313.278,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2022,Electricity by wind,769.616,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2022,Electricity by solar photovoltaic,468.894,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2022,Electricity by biomass and waste,128.84,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2022,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2023,Electricity by coal,6086.037,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2023,Electricity by gas,583.329,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2023,Electricity by petroleum and other oil derivatives,98.599,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2023,Electricity by nuclear,633.016,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2023,Electricity by hydro,1239.829,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2023,Electricity by wind,895.5,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2023,Electricity by solar photovoltaic,630.688,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2023,Electricity by biomass and waste,139.517,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2023,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2024,Electricity by coal,6138.486,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2024,Electricity by gas,626.142,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2024,Electricity by petroleum and other oil derivatives,103.676,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2024,Electricity by nuclear,651.784,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2024,Electricity by hydro,1372.318,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2024,Electricity by wind,1011.287,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2024,Electricity by solar photovoltaic,891.713,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2024,Electricity by biomass and waste,146.493,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2024,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2025,Electricity by coal,6055.478,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2025,Electricity by gas,654.58,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2025,Electricity by petroleum and other oil derivatives,107.802,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2025,Electricity by nuclear,673.16,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2025,Electricity by hydro,1401.461,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2025,Electricity by wind,1143.788,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2025,Electricity by solar photovoltaic,1227.076,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2025,Electricity by biomass and waste,159.16,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,Mainland East Asia,2025,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2011,Electricity by coal,701.25,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2011,Electricity by gas,117.56,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2011,Electricity by petroleum and other oil derivatives,9.35,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2011,Electricity by nuclear,32.22,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2011,Electricity by hydro,131.7,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2011,Electricity by wind,23.95,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2011,Electricity by solar photovoltaic,0.83,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2011,Electricity by biomass and waste,15.46,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2011,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2012,Electricity by coal,787.13,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2012,Electricity by gas,96.25,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2012,Electricity by petroleum and other oil derivatives,10.07,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2012,Electricity by nuclear,33.14,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2012,Electricity by hydro,115.78,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2012,Electricity by wind,27.43,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2012,Electricity by solar photovoltaic,2.1,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2012,Electricity by biomass and waste,16.52,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2012,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2013,Electricity by coal,847.97,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2013,Electricity by gas,66.31,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2013,Electricity by petroleum and other oil derivatives,10.65,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2013,Electricity by nuclear,33.31,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2013,Electricity by hydro,131.98,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2013,Electricity by wind,30.01,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2013,Electricity by solar photovoltaic,3.43,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2013,Electricity by biomass and waste,17.57,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2013,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2014,Electricity by coal,949.93,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2014,Electricity by gas,64.01,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2014,Electricity by petroleum and other oil derivatives,11.55,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2014,Electricity by nuclear,34.69,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2014,Electricity by hydro,139.0,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2014,Electricity by wind,33.45,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2014,Electricity by solar photovoltaic,4.91,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2014,Electricity by biomass and waste,21.14,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2014,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2015,Electricity by coal,1006.55,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2015,Electricity by gas,64.77,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2015,Electricity by petroleum and other oil derivatives,9.26,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2015,Electricity by nuclear,38.31,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2015,Electricity by hydro,133.48,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2015,Electricity by wind,32.74,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2015,Electricity by solar photovoltaic,7.09,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2015,Electricity by biomass and waste,18.36,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2015,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2016,Electricity by coal,1073.6,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2016,Electricity by gas,72.62,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2016,Electricity by petroleum and other oil derivatives,9.41,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2016,Electricity by nuclear,37.9,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2016,Electricity by hydro,128.55,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2016,Electricity by wind,43.45,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2016,Electricity by solar photovoltaic,12.2,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2016,Electricity by biomass and waste,17.2,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2016,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2017,Electricity by coal,1115.24,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2017,Electricity by gas,74.99,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2017,Electricity by petroleum and other oil derivatives,8.79,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2017,Electricity by nuclear,37.41,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2017,Electricity by hydro,135.98,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2017,Electricity by wind,52.63,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2017,Electricity by solar photovoltaic,22.36,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2017,Electricity by biomass and waste,14.99,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2017,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2018,Electricity by coal,1198.86,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2018,Electricity by gas,71.26,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2018,Electricity by petroleum and other oil derivatives,6.4,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2018,Electricity by nuclear,39.05,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2018,Electricity by hydro,139.92,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2018,Electricity by wind,60.31,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2018,Electricity by solar photovoltaic,37.45,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2018,Electricity by biomass and waste,18.4,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2018,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2019,Electricity by coal,1198.76,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2019,Electricity by gas,71.95,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2019,Electricity by petroleum and other oil derivatives,3.07,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2019,Electricity by nuclear,45.16,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2019,Electricity by hydro,162.29,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2019,Electricity by wind,63.31,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2019,Electricity by solar photovoltaic,37.45,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2019,Electricity by biomass and waste,18.99,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2019,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2020,Electricity by coal,1143.78,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2020,Electricity by gas,74.79,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2020,Electricity by petroleum and other oil derivatives,3.09,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2020,Electricity by nuclear,44.61,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2020,Electricity by hydro,163.94,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2020,Electricity by wind,60.43,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2020,Electricity by solar photovoltaic,51.532,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2020,Electricity by biomass and waste,19.88,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2020,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2021,Electricity by coal,1255.56,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2021,Electricity by gas,60.4,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2021,Electricity by petroleum and other oil derivatives,3.39,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2021,Electricity by nuclear,43.92,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2021,Electricity by hydro,160.57,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2021,Electricity by wind,68.09,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2021,Electricity by solar photovoltaic,64.015,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2021,Electricity by biomass and waste,21.2,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2021,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2022,Electricity by coal,1344.42,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2022,Electricity by gas,46.17,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2022,Electricity by petroleum and other oil derivatives,3.48,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2022,Electricity by nuclear,46.19,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2022,Electricity by hydro,175.09,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2022,Electricity by wind,70.05,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2022,Electricity by solar photovoltaic,94.357,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2022,Electricity by biomass and waste,23.29,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2022,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2023,Electricity by coal,1445.44,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2023,Electricity by gas,50.8,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2023,Electricity by petroleum and other oil derivatives,3.85,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2023,Electricity by nuclear,48.2,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2023,Electricity by hydro,149.43,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2023,Electricity by wind,82.11,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2023,Electricity by solar photovoltaic,114.012,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2023,Electricity by biomass and waste,23.01,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2023,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2024,Electricity by coal,1517.9,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2024,Electricity by gas,56.44,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2024,Electricity by petroleum and other oil derivatives,4.09,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2024,Electricity by nuclear,54.7,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2024,Electricity by hydro,156.53,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2024,Electricity by wind,81.54,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2024,Electricity by solar photovoltaic,141.665,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2024,Electricity by biomass and waste,22.25,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2024,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2025,Electricity by coal,1474.156,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2025,Electricity by gas,48.516,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2025,Electricity by petroleum and other oil derivatives,4.095,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2025,Electricity by nuclear,53.811,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2025,Electricity by hydro,177.95,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2025,Electricity by wind,104.002,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2025,Electricity by solar photovoltaic,194.599,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2025,Electricity by biomass and waste,23.033,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South Asia,2025,Electricity by Geothermal,0.0,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2011,Electricity by coal,829.768,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2011,Electricity by gas,913.063,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2011,Electricity by petroleum and other oil derivatives,293.618,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2011,Electricity by nuclear,169.127,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2011,Electricity by hydro,350.017,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2011,Electricity by wind,13.132,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2011,Electricity by solar photovoltaic,7.785,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2011,Electricity by biomass and waste,47.934,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2011,Electricity by Geothermal,25.496,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2012,Electricity by coal,905.512,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2012,Electricity by gas,1014.845,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2012,Electricity by petroleum and other oil derivatives,323.963,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2012,Electricity by nuclear,25.381,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2012,Electricity by hydro,355.605,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2012,Electricity by wind,14.878,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2012,Electricity by solar photovoltaic,10.598,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2012,Electricity by biomass and waste,51.12,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2012,Electricity by Geothermal,25.944,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2013,Electricity by coal,950.487,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2013,Electricity by gas,1034.939,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2013,Electricity by petroleum and other oil derivatives,271.301,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2013,Electricity by nuclear,21.173,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2013,Electricity by hydro,377.968,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2013,Electricity by wind,17.627,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2013,Electricity by solar photovoltaic,18.637,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2013,Electricity by biomass and waste,54.163,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2013,Electricity by Geothermal,25.504,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2014,Electricity by coal,951.779,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2014,Electricity by gas,1083.735,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2014,Electricity by petroleum and other oil derivatives,233.255,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2014,Electricity by nuclear,6.85,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2014,Electricity by hydro,376.517,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2014,Electricity by wind,18.889,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2014,Electricity by solar photovoltaic,31.335,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2014,Electricity by biomass and waste,55.964,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2014,Electricity by Geothermal,27.636,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2015,Electricity by coal,983.049,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2015,Electricity by gas,1063.161,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2015,Electricity by petroleum and other oil derivatives,219.515,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2015,Electricity by nuclear,11.424,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2015,Electricity by hydro,374.175,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2015,Electricity by wind,22.111,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2015,Electricity by solar photovoltaic,44.525,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2015,Electricity by biomass and waste,69.341,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2015,Electricity by Geothermal,28.908,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2016,Electricity by coal,1020.298,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2016,Electricity by gas,1118.493,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2016,Electricity by petroleum and other oil derivatives,211.493,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2016,Electricity by nuclear,25.308,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2016,Electricity by hydro,398.698,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2016,Electricity by wind,24.486,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2016,Electricity by solar photovoltaic,57.363,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2016,Electricity by biomass and waste,67.51,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2016,Electricity by Geothermal,29.669,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2017,Electricity by coal,1085.751,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2017,Electricity by gas,1131.495,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2017,Electricity by petroleum and other oil derivatives,155.147,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2017,Electricity by nuclear,39.593,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2017,Electricity by hydro,426.757,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2017,Electricity by wind,27.182,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2017,Electricity by solar photovoltaic,70.722,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2017,Electricity by biomass and waste,71.547,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2017,Electricity by Geothermal,31.309,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2018,Electricity by coal,1149.57,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2018,Electricity by gas,1126.755,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2018,Electricity by petroleum and other oil derivatives,132.527,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2018,Electricity by nuclear,60.296,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2018,Electricity by hydro,443.209,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2018,Electricity by wind,33.552,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2018,Electricity by solar photovoltaic,82.632,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2018,Electricity by biomass and waste,78.653,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2018,Electricity by Geothermal,32.42,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2019,Electricity by coal,1203.427,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2019,Electricity by gas,1119.701,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2019,Electricity by petroleum and other oil derivatives,113.288,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2019,Electricity by nuclear,76.736,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2019,Electricity by hydro,412.582,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2019,Electricity by wind,39.772,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2019,Electricity by solar photovoltaic,103.569,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2019,Electricity by biomass and waste,82.397,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2019,Electricity by Geothermal,32.49,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2020,Electricity by coal,1202.825,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2020,Electricity by gas,1081.909,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2020,Electricity by petroleum and other oil derivatives,85.16,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2020,Electricity by nuclear,55.63,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2020,Electricity by hydro,431.479,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2020,Electricity by wind,43.998,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2020,Electricity by solar photovoltaic,127.539,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2020,Electricity by biomass and waste,82.553,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2020,Electricity by Geothermal,34.261,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2021,Electricity by coal,1221.824,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2021,Electricity by gas,1068.113,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2021,Electricity by petroleum and other oil derivatives,106.458,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2021,Electricity by nuclear,77.333,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2021,Electricity by hydro,461.952,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2021,Electricity by wind,54.509,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2021,Electricity by solar photovoltaic,163.246,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2021,Electricity by biomass and waste,90.414,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2021,Electricity by Geothermal,34.037,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2022,Electricity by coal,1228.571,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2022,Electricity by gas,1088.992,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2022,Electricity by petroleum and other oil derivatives,127.237,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2022,Electricity by nuclear,76.974,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2022,Electricity by hydro,495.164,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2022,Electricity by wind,64.03,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2022,Electricity by solar photovoltaic,182.847,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2022,Electricity by biomass and waste,94.721,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2022,Electricity by Geothermal,35.065,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2023,Electricity by coal,1265.672,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2023,Electricity by gas,1072.4,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2023,Electricity by petroleum and other oil derivatives,103.012,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2023,Electricity by nuclear,102.701,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2023,Electricity by hydro,477.94,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2023,Electricity by wind,72.176,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2023,Electricity by solar photovoltaic,206.056,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2023,Electricity by biomass and waste,104.589,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2023,Electricity by Geothermal,35.244,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2024,Electricity by coal,1337.508,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2024,Electricity by gas,1083.912,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2024,Electricity by petroleum and other oil derivatives,83.285,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2024,Electricity by nuclear,110.706,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2024,Electricity by hydro,501.677,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2024,Electricity by wind,77.358,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2024,Electricity by solar photovoltaic,233.2,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2024,Electricity by biomass and waste,106.838,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2024,Electricity by Geothermal,36.25,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2025,Electricity by coal,1363.202,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2025,Electricity by gas,1041.19,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2025,Electricity by petroleum and other oil derivatives,83.095,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2025,Electricity by nuclear,120.726,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2025,Electricity by hydro,515.07,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2025,Electricity by wind,90.757,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2025,Electricity by solar photovoltaic,279.991,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2025,Electricity by biomass and waste,109.309,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,South East Asia and Pacific Ocean,2025,Electricity by Geothermal,37.745,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2011,Electricity by coal,1813.334,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2011,Electricity by gas,1076.223,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2011,Electricity by petroleum and other oil derivatives,48.018,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2011,Electricity by nuclear,883.138,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2011,Electricity by hydro,688.654,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2011,Electricity by wind,130.369,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2011,Electricity by solar photovoltaic,2.392,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2011,Electricity by biomass and waste,66.884,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2011,Electricity by Geothermal,18.14,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2012,Electricity by coal,1583.39,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2012,Electricity by gas,1289.134,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2012,Electricity by petroleum and other oil derivatives,45.47,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2012,Electricity by nuclear,863.533,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2012,Electricity by hydro,651.557,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2012,Electricity by wind,152.131,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2012,Electricity by solar photovoltaic,5.211,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2012,Electricity by biomass and waste,68.534,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2012,Electricity by Geothermal,18.26,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2013,Electricity by coal,1651.649,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2013,Electricity by gas,1185.134,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2013,Electricity by petroleum and other oil derivatives,46.919,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2013,Electricity by nuclear,891.74,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2013,Electricity by hydro,655.669,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2013,Electricity by wind,178.985,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2013,Electricity by solar photovoltaic,10.539,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2013,Electricity by biomass and waste,71.896,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2013,Electricity by Geothermal,18.76,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2014,Electricity by coal,1651.087,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2014,Electricity by gas,1191.658,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2014,Electricity by petroleum and other oil derivatives,48.449,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2014,Electricity by nuclear,903.705,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2014,Electricity by hydro,635.691,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2014,Electricity by wind,194.467,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2014,Electricity by solar photovoltaic,31.04,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2014,Electricity by biomass and waste,73.785,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2014,Electricity by Geothermal,19.08,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2015,Electricity by coal,1417.364,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2015,Electricity by gas,1401.464,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2015,Electricity by petroleum and other oil derivatives,49.437,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2015,Electricity by nuclear,898.281,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2015,Electricity by hydro,626.183,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2015,Electricity by wind,217.686,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2015,Electricity by solar photovoltaic,41.925,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2015,Electricity by biomass and waste,73.617,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2015,Electricity by Geothermal,19.12,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2016,Electricity by coal,1304.167,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2016,Electricity by gas,1444.128,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2016,Electricity by petroleum and other oil derivatives,44.338,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2016,Electricity by nuclear,906.413,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2016,Electricity by hydro,646.562,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2016,Electricity by wind,257.923,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2016,Electricity by solar photovoltaic,57.875,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2016,Electricity by biomass and waste,74.12,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2016,Electricity by Geothermal,19.16,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2017,Electricity by coal,1268.65,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2017,Electricity by gas,1357.9,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2017,Electricity by petroleum and other oil derivatives,41.815,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2017,Electricity by nuclear,905.545,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2017,Electricity by hydro,688.427,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2017,Electricity by wind,285.814,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2017,Electricity by solar photovoltaic,80.589,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2017,Electricity by biomass and waste,73.875,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2017,Electricity by Geothermal,19.04,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2018,Electricity by coal,1202.51,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2018,Electricity by gas,1539.871,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2018,Electricity by petroleum and other oil derivatives,46.7,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2018,Electricity by nuclear,907.111,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2018,Electricity by hydro,672.514,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2018,Electricity by wind,306.141,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2018,Electricity by solar photovoltaic,96.852,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2018,Electricity by biomass and waste,72.372,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2018,Electricity by Geothermal,18.69,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2019,Electricity by coal,1015.096,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2019,Electricity by gas,1658.754,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2019,Electricity by petroleum and other oil derivatives,40.856,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2019,Electricity by nuclear,909.904,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2019,Electricity by hydro,664.38,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2019,Electricity by wind,328.756,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2019,Electricity by solar photovoltaic,110.643,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2019,Electricity by biomass and waste,67.817,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2019,Electricity by Geothermal,17.87,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2020,Electricity by coal,812.426,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2020,Electricity by gas,1699.756,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2020,Electricity by petroleum and other oil derivatives,41.3,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2020,Electricity by nuclear,887.393,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2020,Electricity by hydro,666.495,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2020,Electricity by wind,373.704,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2020,Electricity by solar photovoltaic,134.792,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2020,Electricity by biomass and waste,65.105,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2020,Electricity by Geothermal,18.09,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2021,Electricity by coal,932.827,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2021,Electricity by gas,1662.788,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2021,Electricity by petroleum and other oil derivatives,41.805,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2021,Electricity by nuclear,871.635,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2021,Electricity by hydro,628.899,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2021,Electricity by wind,415.497,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2021,Electricity by solar photovoltaic,169.534,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2021,Electricity by biomass and waste,64.799,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2021,Electricity by Geothermal,18.24,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2022,Electricity by coal,858.002,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2022,Electricity by gas,1778.007,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2022,Electricity by petroleum and other oil derivatives,46.644,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2022,Electricity by nuclear,858.173,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2022,Electricity by hydro,646.485,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2022,Electricity by wind,473.778,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2022,Electricity by solar photovoltaic,210.807,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2022,Electricity by biomass and waste,61.369,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2022,Electricity by Geothermal,18.16,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2023,Electricity by coal,698.844,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2023,Electricity by gas,1912.385,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2023,Electricity by petroleum and other oil derivatives,39.966,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2023,Electricity by nuclear,863.298,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2023,Electricity by hydro,599.786,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2023,Electricity by wind,461.975,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2023,Electricity by solar photovoltaic,246.012,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2023,Electricity by biomass and waste,56.651,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2023,Electricity by Geothermal,18.45,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2024,Electricity by coal,668.603,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2024,Electricity by gas,1991.213,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2024,Electricity by petroleum and other oil derivatives,37.703,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2024,Electricity by nuclear,866.855,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2024,Electricity by hydro,583.942,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2024,Electricity by wind,499.648,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2024,Electricity by solar photovoltaic,311.68,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2024,Electricity by biomass and waste,56.44,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2024,Electricity by Geothermal,17.52,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2025,Electricity by coal,754.67,TWh,Secondary Energy|Electricity|Coal,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2025,Electricity by gas,1937.418,TWh,Secondary Energy|Electricity|Gas,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2025,Electricity by petroleum and other oil derivatives,39.426,TWh,Secondary Energy|Electricity|Oil,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2025,Electricity by nuclear,869.606,TWh,Secondary Energy|Electricity|Nuclear,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2025,Electricity by hydro,590.174,TWh,Secondary Energy|Electricity|Hydro,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2025,Electricity by wind,516.975,TWh,Secondary Energy|Electricity|Wind,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2025,Electricity by solar photovoltaic,397.856,TWh,Secondary Energy|Electricity|Solar,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2025,Electricity by biomass and waste,56.147,TWh,Secondary Energy|Electricity|Biomass,ready,Ember yearly electricity data,CC BY 4.0
+electricity,USA and Canada,2025,Electricity by Geothermal,17.7,TWh,Secondary Energy|Electricity|Geothermal,ready,Ember yearly electricity data,CC BY 4.0

@@ -532,6 +532,36 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
       consumption-based REDUCE tape on Region 3 the two coincide almost exactly. For a BUILD
       tape that changes Region 3's electricity recipe they may not, because output shifts
       across borders — worth measuring rather than assuming the REDUCE result carries over.
+- [ ] **Region 3's power sector is split between two products in the 2011 table.** Found
+      2026-11-11 by the electricity hindcast (plan 03, Milestone A). In *Europe and Central
+      Asia* the table's twelve electricity products supply 3,337 TWh and emit 914 Mt CO₂,
+      against 5,074 TWh observed for the same countries in 2011 (Ember). The difference sits
+      in *Steam and hot water supply services*: 779 Mt CO₂ and 1,834 TWh of energy supplied,
+      the region's largest single CO₂ source. Combined heat-and-power plants, common in
+      Russia and eastern and northern Europe, are booked there. In *USA and Canada* the same
+      product is 104 Mt and the electricity products match observed generation within 3%.
+      Two consequences to work through:
+      - **The walk.** Observed generation shares include heat-and-power plants' electricity,
+        so walking only the electricity products leaves the steam product's coal and gas
+        untouched. Decide whether steam and hot water is walked with electricity or under
+        the heating step.
+      - **BUILD tapes in Region 3.** A built reactor displaces purchases of *Electricity by
+        coal / gas / petroleum* only. The fossil generation it can displace is therefore
+        smaller in the table than on the real grid. Measure how much of the region's fossil
+        power the tapes can currently reach before deciding whether it matters.
+      *Confirm first* at the 49-region level which countries carry the steam product.
+- [ ] **Does a built TWh displace a fossil TWh?** Raised 2026-11-11 while generalising the
+      BUILD operating phase for the baseline walk. `apply_build_operation` values the built
+      generation at the built technology's own price and moves that much *money* out of
+      fossil-electricity purchases. The table's money per kWh differs between technologies
+      (2011, Region 3: about 73 million EUR per TWh for nuclear, 122 for coal, 245 for gas),
+      so one TWh built removes less than one TWh of fossil generation — roughly half, on
+      those prices. The walk's electricity step conserves kWh instead
+      (`engine/electricity.py`). Check whether the tape should too: measure the nuclear
+      tape's displaced fossil TWh against its built TWh, and if they differ, decide which is
+      intended. **Do not change the tape before measuring** — every BUILD cover is sized on
+      the current behaviour. Note the Region 3 prices above are themselves inflated by the
+      heat-and-power split in the item above.
 - [ ] **Diet tapes: the wing decides the number.** A plant-based diet costs a household less
       than the one it replaces, so what happens to the saved money dominates the result. Vita
       et al. 2019 (supplement), modelling European diets on EXIOBASE, find that re-spending

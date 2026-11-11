@@ -1,0 +1,113 @@
+region,year,twh,emissions_mtco2e,intensity_gco2e_per_kwh,carried_share
+# Observed generation, power-sector emissions and emissions intensity by game region.
+# What the electricity hindcast is checked against. Ember's emissions are lifecycle
+# CO2e per technology, so they sit a little above direct combustion CO2.
+# carried_share is the part of generation resting on a figure carried forward from an
+# earlier year because the country had not yet been published for this one.
+# Derived from Ember yearly electricity data (https://ember-energy.org), CC BY 4.0,
+# by redworlds.jobs.prepare_electricity. Do not edit by hand; re-run the job.
+Africa and Middle East,2011,1610.011,1043.659,648.2,0.0
+Africa and Middle East,2012,1689.627,1092.401,646.5,0.0
+Africa and Middle East,2013,1742.827,1116.351,640.5,0.0
+Africa and Middle East,2014,1844.141,1181.453,640.7,0.0
+Africa and Middle East,2015,1916.318,1230.485,642.1,0.0
+Africa and Middle East,2016,1966.029,1255.749,638.7,0.0
+Africa and Middle East,2017,2066.396,1317.826,637.7,0.0
+Africa and Middle East,2018,2103.704,1341.161,637.5,0.0
+Africa and Middle East,2019,2165.309,1351.456,624.1,0.0
+Africa and Middle East,2020,2165.753,1348.42,622.6,0.0
+Africa and Middle East,2021,2263.474,1403.605,620.1,0.0
+Africa and Middle East,2022,2335.363,1428.571,611.7,0.0
+Africa and Middle East,2023,2425.691,1462.204,602.8,0.0
+Africa and Middle East,2024,2524.852,1514.187,599.7,0.0014
+Africa and Middle East,2025,2565.881,1518.541,591.8,0.2514
+Europe and Central Asia,2011,5072.246,2054.627,405.1,0.0
+Europe and Central Asia,2012,5113.279,2060.28,402.9,0.0
+Europe and Central Asia,2013,5071.695,1976.536,389.7,0.0
+Europe and Central Asia,2014,4999.306,1896.139,379.3,0.0
+Europe and Central Asia,2015,5044.973,1882.762,373.2,0.0
+Europe and Central Asia,2016,5106.409,1874.153,367.0,0.0
+Europe and Central Asia,2017,5144.214,1869.976,363.5,0.0
+Europe and Central Asia,2018,5167.838,1816.463,351.5,0.0
+Europe and Central Asia,2019,5119.574,1686.819,329.5,0.0
+Europe and Central Asia,2020,4960.149,1524.051,307.3,0.0
+Europe and Central Asia,2021,5193.266,1645.342,316.8,0.0
+Europe and Central Asia,2022,5045.316,1669.857,331.0,0.0
+Europe and Central Asia,2023,4987.919,1494.381,299.6,0.0224
+Europe and Central Asia,2024,5102.655,1445.326,283.2,0.0219
+Europe and Central Asia,2025,5009.444,1423.153,284.1,0.0018
+Latin America and the Caribbean,2011,1471.763,430.343,292.4,0.0
+Latin America and the Caribbean,2012,1527.566,475.817,311.5,0.0
+Latin America and the Caribbean,2013,1585.852,521.507,328.8,0.0
+Latin America and the Caribbean,2014,1584.499,529.529,334.2,0.0
+Latin America and the Caribbean,2015,1624.234,545.884,336.1,0.0
+Latin America and the Caribbean,2016,1634.997,530.079,324.2,0.0
+Latin America and the Caribbean,2017,1632.207,507.516,310.9,0.0
+Latin America and the Caribbean,2018,1658.76,498.57,300.6,0.0
+Latin America and the Caribbean,2019,1684.28,510.403,303.0,0.0
+Latin America and the Caribbean,2020,1666.436,476.825,286.1,0.0
+Latin America and the Caribbean,2021,1731.442,502.787,290.4,0.0
+Latin America and the Caribbean,2022,1759.809,464.275,263.8,0.0
+Latin America and the Caribbean,2023,1822.779,475.383,260.8,0.0012
+Latin America and the Caribbean,2024,1870.555,478.329,255.7,0.0028
+Latin America and the Caribbean,2025,1892.69,471.91,249.3,0.0937
+Mainland East Asia,2011,5472.456,3967.537,725.0,0.0
+Mainland East Asia,2012,5759.815,4022.048,698.3,0.0
+Mainland East Asia,2013,6210.465,4335.84,698.2,0.0
+Mainland East Asia,2014,6581.609,4456.818,677.2,0.0
+Mainland East Asia,2015,6604.759,4318.542,653.9,0.0
+Mainland East Asia,2016,6927.47,4435.427,640.3,0.0
+Mainland East Asia,2017,7418.315,4727.066,637.2,0.0
+Mainland East Asia,2018,8001.637,5051.729,631.3,0.0
+Mainland East Asia,2019,8332.476,5116.928,614.1,0.0
+Mainland East Asia,2020,8602.844,5163.111,600.2,0.0
+Mainland East Asia,2021,9395.033,5586.8,594.7,0.0
+Mainland East Asia,2022,9711.41,5649.089,581.7,0.0
+Mainland East Asia,2023,10306.515,5961.875,578.5,0.0
+Mainland East Asia,2024,10941.899,6044.692,552.4,0.0
+Mainland East Asia,2025,11422.505,5995.23,524.9,0.0
+South Asia,2011,1032.32,745.502,722.2,0.0
+South Asia,2012,1088.42,808.646,743.0,0.0
+South Asia,2013,1141.23,843.526,739.1,0.0
+South Asia,2014,1258.68,935.749,743.4,0.0
+South Asia,2015,1310.56,984.026,750.8,0.0
+South Asia,2016,1394.93,1049.199,752.2,0.0
+South Asia,2017,1462.39,1087.156,743.4,0.0
+South Asia,2018,1571.65,1159.978,738.1,0.0
+South Asia,2019,1600.98,1157.471,723.0,0.0
+South Asia,2020,1562.052,1108.995,710.0,0.0
+South Asia,2021,1677.145,1201.301,716.3,0.0
+South Asia,2022,1803.047,1274.102,706.6,0.0
+South Asia,2023,1916.852,1369.045,714.2,0.0
+South Asia,2024,2035.115,1439.082,707.1,0.0
+South Asia,2025,2080.162,1395.726,671.0,0.0
+South East Asia and Pacific Ocean,2011,2649.94,1516.489,572.3,0.0
+South East Asia and Pacific Ocean,2012,2727.846,1661.521,609.1,0.0
+South East Asia and Pacific Ocean,2013,2771.799,1683.789,607.5,0.0
+South East Asia and Pacific Ocean,2014,2785.96,1692.619,607.6,0.0
+South East Asia and Pacific Ocean,2015,2816.209,1704.253,605.2,0.0
+South East Asia and Pacific Ocean,2016,2953.318,1767.043,598.3,0.0
+South East Asia and Pacific Ocean,2017,3039.503,1798.493,591.7,0.0
+South East Asia and Pacific Ocean,2018,3139.614,1843.058,587.0,0.0
+South East Asia and Pacific Ocean,2019,3183.962,1871.979,587.9,0.0
+South East Asia and Pacific Ocean,2020,3145.354,1835.024,583.4,0.0
+South East Asia and Pacific Ocean,2021,3277.886,1868.539,570.0,0.0
+South East Asia and Pacific Ocean,2022,3393.601,1907.51,562.1,0.0
+South East Asia and Pacific Ocean,2023,3439.79,1916.856,557.3,0.0
+South East Asia and Pacific Ocean,2024,3570.734,1973.674,552.7,0.0
+South East Asia and Pacific Ocean,2025,3641.085,1972.6,541.8,0.0588
+USA and Canada,2011,4727.152,2382.702,504.0,0.0
+USA and Canada,2012,4677.22,2276.096,486.6,0.0
+USA and Canada,2013,4711.291,2286.268,485.3,0.0
+USA and Canada,2014,4748.962,2292.042,482.6,0.0
+USA and Canada,2015,4745.077,2184.129,460.3,0.0
+USA and Canada,2016,4754.686,2096.638,441.0,0.0
+USA and Canada,2017,4721.655,2016.033,427.0,0.0
+USA and Canada,2018,4862.761,2056.778,423.0,0.0
+USA and Canada,2019,4814.076,1938.899,402.8,0.0
+USA and Canada,2020,4699.061,1770.792,376.8,0.0
+USA and Canada,2021,4806.024,1868.169,388.7,0.0
+USA and Canada,2022,4951.425,1866.314,376.9,0.0
+USA and Canada,2023,4897.367,1785.55,364.6,0.0
+USA and Canada,2024,5033.604,1804.044,358.4,0.0
+USA and Canada,2025,5179.972,1863.905,359.8,0.0
