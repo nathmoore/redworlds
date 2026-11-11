@@ -399,7 +399,9 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
       Only `eca_remote_work_commuters` depends on these today. `eca_buy_less` and
       `eca_extended_product_lifetimes` derive their fractions from their own stated
       ceilings and need no external figure. Full citations in `docs/references.md`.
-- [ ] **The 2011 → 2026 → 2050 walk, replacing the intensity scalars.** Split into its two
+- [ ] **The 2011 → 2026 → 2050 walk, replacing the intensity scalars.** *Draft plan
+      2026-11-11: [`plans/03-baseline-walk.md`](plans/03-baseline-walk.md) — steps, source
+      register, and the decisions it needs.* Split into its two
       stages 2026-09-21; `engine/intensity.py` now holds one factor for each, composing by
       multiplication. Both are stand-ins for walking the table forward, but they are at very
       different stages of being defensible and should be retired separately:

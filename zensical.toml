@@ -17,6 +17,7 @@ nav = [
   ]},
   { "References" = "references.md" },
   { "Backlog" = "backlog.md" },
+  { "Plan 03 — Baseline walk (draft)" = "plans/03-baseline-walk.md" },
   { "API Reference" = "api.md" },
   { "Changelog" = "changelog.md" },
 ]
