@@ -1,256 +1,277 @@
 # 03 — The baseline walk: 2011 → 2025 → 2050 → 2100
 
-**Status: DRAFT 2026-11-11 — not yet opened.** The intent below was drafted by an assistant
-from a planning conversation and has not been confirmed. Nothing here is a settled decision
-until it is, and until it graduates into [`../design/assumptions.md`](../design/assumptions.md).
+**Status: DRAFT 2026-11-11 — not yet opened.** The intent and success criteria were drafted by
+an assistant and await Nathan's confirmation. Design choices below are the plan's working
+design; the ones that need his call are listed once, under *Open for the designer*.
 
 **Designer intent (Nathan — drafted, to confirm or rewrite).** Walk the 2011 EXIOBASE table
 forward ourselves, step by named step, so that the 2050 world the game is played in rests on
-explicit, sourced assumptions about how the economy's structure changes — electricity mix,
-electrification, sector composition, household spending, sector carbon efficiency — rather
-than on one economy-wide scalar. Check the walk against what actually happened to 2025. From
-there to 2050 the **SSP2 narrative** — the "middle of the road" storyline — guides each
-assumption we make ourselves; published SSP2 projections are what we compare our result
-against, not an input we copy. Then carry on to 2100.
+explicit, sourced assumptions about how the economy's structure changes: electricity,
+electrification, sector composition, household spending, sector carbon efficiency. Check the
+walk against what happened to 2025. From there the SSP2 "middle of the road" storyline guides
+the assumptions we set, and published SSP2 projections are what we compare the result
+against. Continue to 2100.
 
 **Success criteria (drafted).**
 
 1. A 2025 world built from the 2011 table reproduces observed emissions by major sector and in
-   total, with the remaining gap reported per sector rather than hidden.
-2. Every assumption is one row in a committed driver ledger: a value, a source, a licence, and
-   the name of the matching IPCC scenario variable, so it can be compared with any published run.
-3. A 2050 world built on SSP2-guided assumptions replaces both constants in
-   `engine/intensity.py` (issue #17), and is shown beside published SSP2 runs with the
-   differences explained.
+   total, with the remaining gap reported per sector.
+2. Every assumption is one row in a committed ledger: a value, a source, a licence, and the
+   name of the matching IPCC scenario variable, so it can be set beside any published run.
+3. A 2050 world replaces both constants in `engine/intensity.py` (issue #17) and is shown
+   beside published SSP2 runs with the differences explained.
 4. A named sensitivity for AI data-centre electricity shows where it does and does not move
    regional and world CO₂.
 
-**Added rigour (agent).** The hindcast-before-forecast ordering, the five-year snapshots, the
-source register and its licence test, and the "one home per change" rule are the assistant's.
-They serve the intent by making the walk checkable. Drop any that stop doing so.
+**Added rigour (agent).** Hindcast before forecast, five-year snapshots, the source register
+and its licence test, and the one-home-per-change rule. They serve the intent by making the
+walk checkable; drop any that stop doing so.
 
 ---
 
-## The method in one page
+## Start here
 
-EXIOBASE computes emissions from three tables, so there are three things a walk can change:
+The first piece of work is **Milestone A**: apply the electricity step alone from 2011 to
+2015, 2019 and 2025 using Ember's generation data, and report electricity-sector and total
+emissions against observed values. It exercises the price conversion, the snapshot job and
+the checking harness on the one step whose mechanism already exists (the BUILD operating
+phase). Everything else in this plan builds on those three pieces.
+
+## The method
+
+EXIOBASE computes emissions from three tables, so a walk can change three things:
 
 - **Final demand (`Y`)** — how much is bought, and of what.
 - **Recipes (`A`)** — what each industry buys to make one unit of output.
-- **Emission rates (`S`, and `F_Y` for fuel households burn directly)** — emissions per unit.
+- **Emission rates (`S`, and `F_Y` for fuel that households burn directly).**
 
-Each real-world trend is assigned to **one** of those, applied in a fixed order, and the system
-is re-solved. Emissions are an output. The world total is a check at the end, never a dial.
+Each real-world trend is assigned to one of those, the steps are applied in a fixed order,
+and the system is re-solved. Emissions are a result; the world total is a check.
 
-Three rules:
+1. **One home per change.** A fuel saving goes into the recipe or the emission rate, not both.
+2. **Constant 2011 prices.** A physical change (TWh, vehicle-km) becomes money at the table's
+   own implied price: its euros for that product divided by the observed 2011 quantity.
+3. **Five-year snapshots**, each built on the one before: 2015 to 2050, then decadal to 2100.
+4. **Each step keeps column totals**, and the accounting identity is asserted after it.
 
-1. **One home per change.** A fuel saving goes into the recipe *or* the emission rate, never
-   both. (The same rule the lifetimes tape follows for its `k` split.)
-2. **Constant 2011 prices throughout**, as De Koning et al. 2016 and Cap et al. 2024 do. A
-   physical change (TWh, vehicle-km) becomes money at the table's own implied price: the
-   table's euros for that product divided by the observed physical quantity in 2011.
-3. **Five-year snapshots**, each built on the one before: 2015, 2020\*, 2025, 2030 … 2050,
-   then decadal to 2100. (\* 2020 is computed but never used as a checkpoint — see COVID.)
-
-This is the method of De Koning et al. 2016, Wiebe et al. 2018 and Cap et al. 2024, applied to
-the product-by-product table through `pymrio` rather than to supply-use tables. Those papers
-rebalance with SUT-RAS after each step; here each step keeps column totals and the accounting
-identity is asserted after it.
+This is the change-ratio method of De Koning et al. 2016, Wiebe et al. 2018 and Cap et al.
+2024, applied to the product-by-product table through `pymrio`.
 
 ## The steps
 
-Order follows Cap et al. 2024 Table 1, regrouped. "Exists" means the mechanism is already in
-`src/redworlds/` for a single tape and region and needs generalising, not inventing.
+"Driven by" is the evidence a ledger row cites for the step's size. Long-term integrated
+models derive these from prices and costs; this walk has no prices, so it uses observed
+trends, adoption S-curves, and the reference-region method of Chen et al. 2022 (take the
+speed from regions that have already passed this level, re-check every five years).
 
-| # | Step | Table | How the number is converted | Code |
+| # | Step | Lands in | Driven by | Code |
 |---|---|---|---|---|
-| 1 | Population and income per head | `Y` | Growth ratio per region, applied to final demand | exists: `scale_final_demand` |
-| 2 | Spending mix as incomes rise | `Y` | Income elasticity per product (Bjelle et al. 2021) | exists in part: per-product scaling |
-| 3 | Sector shift (agriculture / industry / services) | `Y`, check on `x` | Falls out of 1–2; compared with observed value-added shares | check only |
-| 4 | Electricity mix | `A`, `Y` | Generation share by source and country → move purchases between EXIOBASE's twelve `Electricity by …` products | exists: BUILD operating phase (T6) |
-| 5 | Road transport electrification | `Y`, `F_Y`, `A` | EV share of fleet × cars' share of road fuel; electricity at ~⅓ the energy | exists: `apply_swap`, road `F_Y` share |
-| 6 | Heating | `Y`, `F_Y`, `A` | Gas and oil to heat-pump electricity at COP ~3 | exists: `apply_swap` |
-| 7 | Industry efficiency and fuel switching | `A` | Sector CO₂ pathway → fossil fuel inputs via emission factors | new |
-| 8 | Aviation and shipping | `A`, `S` | Sector pathways | new, small |
-| 9 | Methane and nitrous oxide | `S` | Reduction ratios for agriculture, waste, energy | new, small |
-| 10 | Data centres | `A` | TWh → electricity input of *Computer and related services (72)* and *Post and telecommunication services (64)* | new, small |
-| 11 | Capital | `A` | Carry the endogenised capital coefficients through consistently (backlog item) | open |
+| 1 | Economy size | `Y` | Population × income per head, per region. This *sets* GDP: in an input-output table GDP equals final demand | `scale_final_demand` |
+| 2 | Spending mix | `Y` | Income elasticity per product, with saturation; age structure, household size and urban share (see Households) | per-product scaling, extend |
+| 3 | Food and diet | `Y`, `S` | Diet by income (meat and dairy rise, then level off; food elasticities fall as income grows, Zhao et al. 2022) from reference regions; food-waste share; farm emission rates. Comparison: Springmann et al. 2018's middle-of-the-road baseline, food-system pressures up 50–90% from 2010 to 2050 without mitigation | new |
+| 4 | General productivity | `A` | Observed fall in inputs needed per unit of output. The largest brake on emissions in Cap et al.'s leave-one-out test. Excludes the energy savings counted in step 8 | new |
+| 5 | Clean electricity supply | `A`, `Y` | Generation built by source and region; coal and gas retirement by stated plant life (see Electricity) | BUILD operating phase, generalise |
+| 6 | Road transport | `Y`, `F_Y`, `A` | EV share of the fleet on an S-curve fitted to sales, capped by fleet turnover; electricity at about a third of the fuel energy | `apply_swap`, road `F_Y` share |
+| 7 | Heating | `Y`, `F_Y`, `A` | Heat-pump share of heating, capped by boiler turnover; COP about 3 | `apply_swap` |
+| 8 | Industry energy | `A` | Observed efficiency trend by sector; fuel switching; steel and cement demand per head saturating | new |
+| 9 | Aviation and shipping | `A`, `S` | Sector trends | new, small |
+| 10 | Methane and nitrous oxide | `S` | Reduction ratios for agriculture, waste and energy | new, small |
+| 11 | Data centres | `A` | TWh, as electricity bought by *Computer and related services (72)* and *Post and telecommunication services (64)* | new, small |
+| 12 | Capital | `A` | Capital needed per unit of output, by technology (see Capital) | extend `engine/capital.py` |
 
-Not given a step: **urbanisation.** Gurney et al. 2021 treat it as attribution (which share of
-emissions arises in cities), and Cap et al. 2024 cite a 3–7% effect on EU footprints (Ottelin
-et al. 2019) and call it minor beside income. Its real effects sit inside steps 2, 5 and 6.
-What *is* taken from the urbanisation literature is Chen et al. 2022's projection method:
-look at reference countries that already passed today's level, step five-yearly, hindcast,
-and publish slow / moderate / fast ranges.
+Sector shift toward services is not a step: it falls out of steps 1–4 and is checked against
+observed value-added shares.
 
-## Checkpoints, and COVID
+Urbanisation is not a step either. Its effect on a region's total footprint is small (3–7% in
+the EU, Ottelin et al. 2019, cited in Cap et al. 2024), and it acts through steps 2, 6 and 7.
+It enters as a demographic input to step 2.
 
-- **2015** — last year with observed energy data in EXIOBASE 3.8.2 (Cap et al.'s base year).
-- **2019** — last year with observed GHG data in 3.8.2; pre-COVID.
-- **2025** — the present; landing on observed 2025 values means whatever persisted from 2020 is
-  already in.
+## Electricity
 
-Compare emissions, physical quantities and shares — not euros. The walk is in 2011 prices;
-later EXIOBASE tables are in current prices.
+Electricity has no "mix" input. It is built from demand and supply:
 
-2020–2021 is treated as a hump and never used as a checkpoint. With observed data to 2025 the
-2020 → 2025 step is reliable on its own, so no special treatment is needed beyond that
-(Nathan, 2026-11-11); the worry belonged to older papers projecting across the pandemic from
-before it. Forward trends are fitted on the full observed span unless a driver's row says
-otherwise. One consequence to keep: the baseline carries today's level of remote work, so the
-remote-work tape's ceiling is what is left.
+- **Demand** is a result. Steps 6, 7, 8 and 11 each raise somebody's electricity purchases,
+  and the solve adds them up.
+- **Clean supply** is an input: generation by source and region (solar, wind, nuclear, hydro),
+  from capacity added and typical output.
+- **Fossil generation fills the gap** between the two, within what has not been retired. Each
+  region's ledger states which fossil source fills it.
 
-## Levers: making the drivers explicit
+Under this rule extra demand from data centres or EVs is met by whatever is left over, so the
+walk can show whether it slows the fossil exit or is absorbed by clean build-out. That is
+what the data-centre sensitivity needs; a fixed-share mix would serve new demand at the
+average and could not show it.
 
-Two places where a single input series can be opened up into the things that cause it. Both
-are proposed, not decided.
+It is an annual energy balance. The table has no hours, dispatch or storage, the same limit
+the Smart Grid tape states.
 
-### Electricity: build demand and supply separately
+## Households
 
-Step 4 as written takes generation *shares* as an input. The more explicit version has no
-share input at all:
+Step 2 derives each region's household basket from demographic rows in the ledger: age
+structure, household size, urban share and income distribution. Heating and appliances
+follow the number of households; ageing moves spending toward health and home energy and
+away from commuting. The model keeps one household column per region.
 
-- **Demand is already a result.** Steps 5, 6, 7 and 10 each raise somebody's electricity
-  purchases — EVs, heat pumps, industry, data centres — and the solve adds them up. Each is a
-  lever with its own row in the ledger (EV share of the fleet, heat-pump share of heating,
-  data-centre TWh).
-- **Supply is what gets built.** The input becomes clean generation by source and region
-  (solar, wind, nuclear, hydro, in TWh, from capacity added and typical output), plus coal
-  and gas retirements.
-- **Fossil generation fills the gap** between demand and clean supply, within what has not
-  been retired.
+**Optional extension: an urban and a rural household.** Split a region's household column by
+its urban population share, with a small table of multipliers per spending group (rural: more
+vehicle fuel and heating, fewer services), scaled so the two columns add back to the
+original. Because they add back, a rough multiplier changes who holds the footprint and not
+the region's total, so it can start as a placeholder and be refined with survey data
+(Eurostat Household Budget Survey by degree of urbanisation and income, for Europe). Its
+purpose is to let a tape act on one group. Build it for Region 3 when the game wants that.
 
-Why it matters: under fixed shares, extra demand from data centres or EVs is served at the
-*average* mix and can never slow the fossil exit. Under the gap rule it is served by whatever
-is left over, which is the only way the data-centre sensitivity can show where it does and
-does not make a difference. The cost is one more assumption per region (which fossil source
-fills the gap) and it stays an annual energy balance — this table has no hours, dispatch or
-storage, the same limit the Smart Grid tape states.
+## Capital
 
-Scenario sources that publish these levers explicitly, to assess in the register: IEA Global
-EV Outlook (EV stock by scenario), IEA World Energy Outlook (capacity and generation by
-source), IEA *Energy and AI* (data-centre cases), IRENA capacity statistics, and the AR6
-scenario database (`Capacity|Electricity|…`, `Final Energy|Transportation|Electricity`).
+Capital is endogenised in the 2011 baseline (Södersten et al. 2018), so when demand grows or
+shifts, the construction and machinery behind it follow, separately for each electricity
+source. Three things the walk has to do:
 
-### Demographics: from head-count to households
+1. **Store the capital coefficients separately.** The cached world merges them into `A`; the
+   walk needs to change them on their own.
+2. **Update capital cost by technology.** The capital needed per unit of solar or wind
+   electricity is the 2011 figure, several times today's. Unchanged, a clean grid's embodied
+   emissions are overstated. This lever is where assumptions about 2050 construction costs
+   and efficiencies enter.
+3. **Decide on the 2011 construction trough** at the first snapshot (see the backlog
+   diagnostic under *BUILD capex (a)*).
 
-Step 1 as written is population × income per head. A ladder of more explicit versions:
+## How the code is organised
 
-- **Rung 0 — as written.** One average household per region; elasticities shift its basket.
-- **Rung 1 — explicit demographic rows.** The ledger carries age structure, urban share,
-  household size and income distribution per region, and steps 1–2 are derived from them:
-  heating and appliances follow the number of *households*, not people; ageing moves spending
-  toward health and home energy and away from commuting. Still one household column.
-- **Rung 2 — household cohorts.** Split a region's household column in `Y` into groups, for
-  example urban / rural × income band, each with its own basket and its own growth. Tapes can
-  then act on one group — an urban and a remote track.
+The walk follows the tapes' pattern, so an assumption can begin as a placeholder and be
+replaced between game campaigns.
 
-Rung 2 is cheap for the engine (the shock stays linear) and expensive in data: it needs
-spending by group. For Europe that exists (Eurostat Household Budget Survey by degree of
-urbanisation and by income quintile, the data behind Ottelin et al. 2019 and Ivanova & Wood
-2020); for other regions it is patchy. Its effect on a region's *total* is small (the 3–7%
-above). Its value is in what it lets a tape say about who it touches, which is a game-side
-question.
+- **One step, one pure function** in `engine/`, with its own test on `pymrio.load_test()`.
+- **One ledger**, a committed CSV: step, region, year, value, source, licence, IPCC variable
+  name, and a status of `placeholder`, `provisional` or `ready`.
+- **One job** applies the steps in order and caches each snapshot, so re-running from 2030
+  does not rebuild 2015.
+- **A version stamp** on the baseline, carried in the tape export.
 
-Proposed: adopt Rung 1 now; let the hindcast show whether one average household misses
-observed spending shifts; build Rung 2 for Region 3 only if the game wants the two tracks.
+Changing an assumption is: edit a ledger row, rebuild the baseline, re-export the tapes. A
+placeholder is acceptable where a wrong value costs accuracy but cannot tilt one wing or tape
+against another, the test `engine/intensity.py` states.
 
-Sources to assess: Wittgenstein Centre SSP projections (population by age, sex and
-education), Chen et al. 2022 (urban share), Rao et al. 2019 (income inequality under the
-SSPs), Eurostat HBS, World Bank Global Consumption Database.
+## Checking the walk
 
-## Source register
+- **Checkpoints.** 2015 (last observed energy data in EXIOBASE 3.8.2), 2019 (last observed
+  GHG data) and 2025. Compare emissions, physical quantities and shares, not euros: the walk
+  is in 2011 prices and later EXIOBASE tables are in current prices. 2020 is computed but not
+  used as a checkpoint; landing on observed 2025 carries whatever persisted from the pandemic,
+  including today's level of remote work, which the remote-work tape's ceiling must net out.
+- **Residual by sector.** A change in emissions between two years splits exactly into
+  population, spending per head, spending mix, recipes and emission rates (structural
+  decomposition). The steps name drivers for all five; the residual is what the named drivers
+  miss.
+- **Leave one out**, as Cap et al. do, to see which steps carry the result.
+- **Beside SSP2.** Plot each lever and the totals against published SSP2 runs.
 
-**The licence test.** This repo is public and CC BY-SA 4.0. A source's *data* may be committed
-(in the ledger) only if it allows redistribution and share-alike: public domain, CC0, CC BY,
-CC BY-SA. A non-commercial or no-redistribution source can still be *cited* for a headline
-figure, but its dataset cannot be a ledger input.
+Proposed pass mark: in each major sector the residual is smaller than the effect of the tapes
+that act on that sector.
 
-Licence column: **✔** = checked on the publisher's own page 2026-11-11; **?** = believed, not
-yet checked; **✘** = checked and fails the test.
+## After 2050, and outside the table
+
+Some things the table cannot represent: land-use emissions (the CO₂ row excludes them),
+carbon removal, and products with no 2011 row such as hydrogen. These are taken from
+published SSP2 runs and labelled as borrowed, which is accepted practice for a model with
+narrower boundaries (Krey 2014). One visible consequence: diet tapes will read lower here
+than in the food-systems literature, where land carries much of the benefit.
+
+The input-output walks this plan follows stop at 2050. For 2050–2100 the walk carries fewer
+levers with wider ranges. Trade structure, who makes what for whom, stays as the steps leave
+it unless a trade scenario is added by the Beaufils & Wenz method. Across long-term models the carbon intensity of energy supply
+becomes the dominant lever by 2100, as long-lived plant turns over (Krey 2014), so the supply
+rows matter most there. Where a lever depends on a current policy, its ledger row says
+whether the policy is assumed to continue, strengthen or lapse.
+
+## Sources
+
+**The licence test.** This repo is public and CC BY-SA 4.0. A source's data may be committed
+in the ledger only if it allows redistribution and share-alike (public domain, CC0, CC BY,
+CC BY-SA). Any other source can be cited for a figure but cannot be a ledger input.
+
+Licence column: **✔** checked on the publisher's page 2026-11-11; **?** not yet checked;
+**✘** checked and fails.
 
 ### Proposed
 
-| Step | Observed 2011–2025 | Scenario 2026–2100 | Licence | Used by |
-|---|---|---|---|---|
-| 1 | UN World Population Prospects; World Bank WDI (GDP) | IIASA SSP basic drivers, 2024/25 update, SSP2 | ? ; ? ; ? | Cap (KC & Lutz 2017; Dellink 2017 — the earlier vintage) |
-| 2 | National accounts household expenditure by purpose (Eurostat, OECD) as the check | Bjelle et al. 2021 elasticities | ? ; ? | Cap, Wiebe (own log-log regressions on EXIOBASE 3.4) |
-| 3 | World Bank WDI value-added shares | falls out of 1–2 | ? | Cap (IMAGE 3.2) |
-| 4 | Ember yearly electricity data, by country and source | to choose — see Decisions | ✔ CC BY 4.0 | Cap (IMAGE 3.2, IEA quantities for prices); Wiebe (IEA ETP 2015) |
-| 5 | IEA Global EV Outlook data; fleet statistics | to choose | ? | Cap (CMIP6, Gidden et al. 2019) |
-| 6 | Eurostat energy balances; heat-pump sales statistics | to choose | ? | Cap (IMAGE 3.2, CMIP6) |
-| 7–9 | EDGAR sector emissions; PRIMAP-hist **v2.6** | AR6 scenario database, SSP2 runs | ? ; ✔ CC BY 4.0 (v2.6 only) ; ? | Cap (CMIP6; Frank et al. 2019 for agriculture) |
-| 10 | IEA *Energy and AI* (2025) headline cases | same, extended as a range | cite only | — |
-| check | Global Carbon Budget; EXIOBASE 3.8.2 tables for 2015 and 2019 | — | ? ; ✔ CC BY-SA 4.0 | — |
-| all | IPCC Emission Factor Database for fuel → CO₂ | — | ? | Cap; this repo (road `F_Y`) |
+| Step | Observed 2011–2025 | Evidence for 2026–2100 | Licence |
+|---|---|---|---|
+| 1 | UN World Population Prospects; World Bank WDI | IIASA SSP basic drivers (2024/25 update), SSP2 | ? ; ? ; ? |
+| 2 | Household expenditure by purpose (Eurostat, OECD); Wittgenstein Centre population by age; Chen et al. 2022 urban share | Bjelle et al. 2021 elasticities; Rao et al. 2019 income distribution | ? |
+| 3 | FAO food balances; Poore & Nemecek 2018 for the food chain total (about 13.7 Gt CO₂e, 26% of emissions) as a check | Reference regions; Springmann et al. 2018 baseline | ? |
+| 4, 8 | EDGAR sector emissions; PRIMAP-hist **v2.6** | AR6 scenario database, SSP2 runs | ? ; ✔ CC BY 4.0 ; ? |
+| 5 | Ember yearly electricity data by country and source | IRENA capacity statistics; IEA World Energy Outlook (cite) | ✔ CC BY 4.0 ; ? |
+| 6 | IEA Global EV Outlook; fleet statistics | same, by scenario | ? |
+| 7 | Eurostat energy balances; heat-pump sales | — | ? |
+| 11 | IEA *Energy and AI* (2025) cases | same, extended as a range | cite only |
+| check | Global Carbon Budget; EXIOBASE 3.8.2 tables for 2015 and 2019 | AR6 database; CMIP7 *Medium* once public | ? ; ✔ CC BY-SA 4.0 |
+| all | IPCC Emission Factor Database | — | ? |
 
-EXIOBASE 3.8.2 itself (Zenodo 5589597) carries tables for every year to 2022 under the same
-CC BY-SA licence. Its own description: the observed series ends in 2011; later years are
-estimates from trade and macro data and are "only partially suitable for analyzing trends".
-That is why they are a checkpoint here and not the base.
+EXIOBASE 3.8.2 (Zenodo 5589597) carries tables to 2022 under CC BY-SA. Its observed series
+ends in 2011; later years are estimates from trade and macro data, described there as "only
+partially suitable for analyzing trends". They serve as checkpoints.
 
-### Eliminated, or usable only as a citation
+### Ruled out, or citation only
 
-| Source | Why | Checked |
+| Source | Why | |
 |---|---|---|
-| EXIOBASE 3.9.x | Custom non-commercial share-alike licence, "significantly different" from 3.8 | ✘ |
-| ScenarioMIP-CMIP7 marker scenarios (incl. the *Medium*, current-policy one) | Pre-release: scientific use only, no sharing with third parties. The right scenario, not yet usable. Re-check on public release | ✘ for now |
-| PRIMAP-hist v2.7 and later | Licence changed to CC BY-NC-SA; pin v2.6 | ✘ |
-| IEA datasets (balances, ETP, WEO extended data) | Paid or no-redistribution. Headline figures citable; Wiebe's inputs cannot be reproduced openly | ? |
-| IMAGE 3.2 data package | What Cap et al. used; SSP1-specific there, licence unchecked. AR6 database is the open route to the same kind of series | ? |
-| OECD Environmental Outlook 2012 projections | De Koning's GDP and population; superseded by the SSPs | n/a |
-| WIOD trends | De Koning's source for efficiency trends; ends 2014 | n/a |
-| A single world intensity scalar (Enerdata) | The stand-in this plan retires | n/a |
+| EXIOBASE 3.9.x | Custom non-commercial licence | ✘ |
+| ScenarioMIP-CMIP7 marker scenarios, including the current-policy *Medium* | Pre-release terms: scientific use only, no sharing. Re-check on public release | ✘ for now |
+| PRIMAP-hist v2.7 and later | Licence changed to CC BY-NC-SA | ✘ |
+| IEA datasets (balances, ETP, WEO extended data) | Paid or no redistribution; figures citable | ? |
+| IMAGE 3.2 data package (Cap et al.'s source) | Licence unchecked; the AR6 database is the open route to similar series | ? |
+| OECD Environmental Outlook 2012; WIOD trends (De Koning's sources) | Superseded | — |
 
-### What each cited paper did
+### Precedents
 
-| Paper | Base | Horizon | Scenario | Notes |
+| Paper | Base table | Horizon | Scenario | Take from it |
 |---|---|---|---|---|
-| De Koning et al. 2016 | EXIOBASE 2, year 2000, four regions | 2050 | Own BAU / techno / 2 °C | Origin of the "change ratio" method; constant prices |
-| Wiebe et al. 2018 | EXIOBASE 3.4, 2014 | 2030 | IEA ETP 6 °C and 2 °C | Code on Zenodo and GitHub (FEMRIO v1); demand by regression |
-| Cap et al. 2024 | EXIOBASE 3.8.2, 2015 | 2030, 2050 | SSP1–RCP1.9 | Twelve steps; leave-one-out sensitivity; five-year steps |
-| Dai et al. 2024 | Australian IO + MESSAGEix | — | — | Couples an energy model to an IO scenario builder; not yet read closely |
-| Chen et al. 2022 | UN / World Bank urbanisation | 2100 | All SSPs | Data on Figshare; method borrowed, driver not |
+| De Koning et al. 2016 | EXIOBASE 2, 2000, four regions | 2050 | Own BAU, techno, 2 °C | The change-ratio method; constant prices |
+| Wiebe et al. 2018 | EXIOBASE 3.4, 2014 | 2030 | IEA ETP 6 °C and 2 °C | Published code (FEMRIO v1); demand by regression |
+| Cap et al. 2024 | EXIOBASE 3.8.2, 2015 | 2030, 2050 | SSP1–RCP1.9 | Twelve steps and their sources; leave-one-out test |
+| Chen et al. 2022 | UN and World Bank urbanisation | 2100 | All SSPs | Reference-region S-curves; hindcast; ranges. Data on Figshare |
+| Krey 2014 | Review of energy-climate models | 2100 | — | Borrowing across model boundaries; which levers dominate when |
+| Beaufils & Wenz 2021 | Any MRIO table | — | GDP and trade scenarios | SPIN: projects who trades what with whom from GDP and trade assumptions, then rebalances. It does not handle technological change, so it complements this walk; the route to changing trade structure if Milestone D needs it |
+| Springmann et al. 2018 | Food-system model | 2050 | Middle-of-the-road baseline | Food baseline drivers and size; ceilings for waste (halving, 75%) and diet options |
+| Vita et al. 2019, with supplement | EXIOBASE, Europe | — | Lifestyle scenarios | Worked recipes for diet, food-waste and sufficiency shocks on EXIOBASE, with re-spending rebound. For tape design more than the baseline |
 
-Not yet read for this plan: Beaufils & Wenz 2022 (paywalled), the JRC MR-GRAS baseline, Jewell &
-Cherp 2023, and the degrowth-downscaling paper.
+To read: Dai et al. 2024 (coupling an energy model to an input-output scenario builder), the
+JRC MR-GRAS baseline, Jewell & Cherp 2023. To obtain: Bjelle et al. 2021, *Future changes in
+consumption: the income effect on greenhouse gas emissions* (the elasticities for step 2), and
+Grubler et al. 2018 (a low-energy-demand scenario).
 
-## Decisions for Nathan
+## Decided
 
-1. ~~**Which emissions path "SSP2" means.**~~ **Decided 2026-11-11 (Nathan): the narrative
-   guides, published runs are the comparison.** We set each lever ourselves, on evidence,
-   in the spirit of the SSP2 storyline (trends do not shift markedly from historical
-   patterns; uneven progress; no collapse, no breakthrough — O'Neill et al. 2017, Riahi et al.
-   2017; quote the paragraph from the source when this plan opens). Published SSP2 series
-   (AR6 database; CMIP7 *Medium* once public) are plotted beside ours and differences
-   explained. Consequence: no milestone waits on a scenario dataset's licence.
-2. ~~**COVID trend windows.**~~ **Settled 2026-11-11** — see Checkpoints.
-3. **Data-centre baseline** — proposed: IEA base case in the baseline; the high case and a
-   run-on to 2050 as sensitivities.
-4. **Regional detail** — walk at the 49 EXIOBASE regions and aggregate, or walk the seven game
-   regions. Proposed: seven, because it is minutes not hours, with electricity shares
-   computed from country data before aggregating.
-5. **Electricity as shares, or as demand and supply with fossil filling the gap** — see
-   Levers. Proposed: the gap rule.
-6. **How far up the demographics ladder** — see Levers. Proposed: Rung 1 now.
+- **SSP2 is the storyline, not a dataset** (Nathan, 2026-11-11). Each lever is set on
+  evidence in the spirit of SSP2: trends do not shift markedly from historical patterns
+  (O'Neill et al. 2017; Riahi et al. 2017 — quote the paragraph when this plan opens).
+  Published SSP2 series are the comparison. No milestone waits on a scenario dataset.
+
+## Open for the designer
+
+1. Confirm or rewrite the intent and success criteria.
+2. Electricity built from demand and supply with fossil filling the gap (the design above).
+3. Data centres: IEA base case in the baseline; its high case, and a run-on to 2050, as
+   sensitivities.
+4. Walk the seven game regions (minutes per snapshot), with electricity computed from country
+   data before aggregating; the alternative is all 49 EXIOBASE regions.
+5. The pass mark under *Checking the walk*.
+6. Whether the game wants the urban and rural households.
 
 ## Milestones
 
-Only A can start today. B–D are listed so the shape is visible; each waits on the one before.
+A can start now; each later one builds on the one before.
 
-- **A. Electricity-only hindcast.** Apply step 4 alone from 2011 to 2015, 2019 and 2025 using
-  Ember shares. Report electricity-sector and total emissions against the checkpoints. This
-  tests the price conversion, the snapshot machinery and the check harness on the step whose
-  code already exists.
-- **B. Full hindcast to 2025.** Steps 1–9 with observed values; residual by sector.
-- **C. To 2050 on SSP2-guided levers.** Replaces `engine/intensity.py`'s constants; re-bases
-  every tape. Includes step 10 and its sensitivity.
-- **D. 2050 to 2100.** Same machinery. Open question: tapes re-solved at later snapshots, or
-  scaled along the baseline's intensity path.
+- **A. Electricity-only hindcast** — see *Start here*.
+- **B. Full hindcast to 2025.** Steps 1–10 and 12 on observed values; residual by sector.
+- **C. To 2050.** Levers set under the SSP2 storyline; step 11 and its sensitivity. Replaces
+  the constants in `engine/intensity.py` and re-bases every tape.
+- **D. 2050 to 2100.** Open question: tapes re-solved at later snapshots, or scaled along the
+  baseline's intensity path.
 
-## Not yet verified
+## To verify
 
-- Global Carbon Budget's 2025 fossil CO₂ figure (about 38 Gt, from memory).
-- Every licence marked **?** above.
-- The exact release name and licence of the IIASA SSP basic-drivers update.
+- Global Carbon Budget's 2025 fossil CO₂ figure (about 38 Gt, unconfirmed).
+- Every licence marked **?**.
+- The release name and licence of the IIASA SSP basic-drivers update.
 - Whether Bjelle et al. 2021's elasticities are published as reusable data.
