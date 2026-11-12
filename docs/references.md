@@ -105,6 +105,14 @@ Red Carbon game design by Nathan Moore. The engine design draws on:
 > implications. *Annual Review of Environment and Resources*, 47, 849–887.
 > https://doi.org/10.1146/annurev-environ-112320-105050
 
+> IPCC. (2021). Summary for Policymakers. In *Climate Change 2021: The Physical Science
+> Basis. Contribution of Working Group I to the Sixth Assessment Report of the
+> Intergovernmental Panel on Climate Change*. Cambridge University Press.
+> https://www.ipcc.ch/report/ar6/wg1/
+
+Used for the best estimate and likely range of warming per 1000 Gt CO₂ (0.45 °C, 0.27 to
+0.63) and for the shape of emissions under SSP2-4.5.
+
 ## Combustion emission factors
 
 > IPCC. (2006). *2006 IPCC Guidelines for National Greenhouse Gas Inventories*, Volume 2:

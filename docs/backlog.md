@@ -369,11 +369,23 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
       inside the region (world 44.5 Gt). The 2050 figure waits on the baseline.
 - [ ] **Per-region brick calibration** (one 10-reactor block's abatement on that region's
       grid), and later a global-grid-average anchor.
-- [ ] **Rebalancing weighting scheme.** Flat proportional (placeholder) vs income
-      elasticity (Bjelle et al. 2021, Cap et al. Eq. 1) vs sufficiency-targeted. One
-      function, one weighting argument. Rung 2 (elasticity) is cheap and probably
-      low-yield for Europe; do it to retire the arbitrary assumption. Applies to SWAP and
-      to BUILD reallocation; REDUCE does not rebalance (decided above).
+- [ ] **Rebalancing weighting scheme.** *Rung 2 built 2026-11-12:* `rebalance_economy`
+      takes per-product weights, and the tape export passes income elasticities (Bjelle et
+      al. 2021) for SWAP. Effect on the 2011 table: EV −2.2% abatement, gas ban +0.2%.
+      Rationale in `design/assumptions.md` § "Where the money goes". Still open:
+      - **Sufficiency-targeted weighting** (rung 3): not built.
+      - **Direct rebound.** Cheaper warmth or travel inviting more of it. Needs own-price
+        elasticities; Bjelle et al.'s supplement publishes them by region and category.
+      - **BUILD.** Reallocation from investment stays flat. A household-funded build
+        (`reallocate_from = "households"`) exists and is elasticity-weighted, but whether
+        any tape should use it is a game decision.
+      - **Re-export.** The table shipped to the game was last exported with the flat rule.
+      REDUCE does not rebalance (decided above).
+- [ ] **Spending-mix step: saturation, and household fuel.** The walk's step 2
+      (`engine/spending.py`) holds income elasticities at 2011 values, which will not do
+      for 2050–2100: pick the reference-region method (Chen et al. 2022) or Bjelle et al.'s
+      full demand system. And household direct emissions should follow fuel spending, as
+      in Cap et al. 2024, instead of total spending.
 - [ ] **`eca_buy_less` basket.** Recommended Basket A (goods and leisure, protected list:
       housing, food, household energy, vehicle fuel). Decide whether government and NPISH
       demand are spared.

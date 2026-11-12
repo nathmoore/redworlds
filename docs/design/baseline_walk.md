@@ -7,9 +7,11 @@ design. The work of building it is sequenced in
 so far and the decisions still open; each simplification, once made, is recorded in
 [`assumptions.md`](assumptions.md).
 
-**Status, 2026-11-11.** Two steps exist and have been run as a hindcast to 2025: economy
-size and electricity. Every other step is designed here and not yet built. Nothing in this document feeds a tape
-number yet: the tapes still use the two scalars in `engine/intensity.py`.
+**Status, 2026-11-12.** Three steps exist and have been run as a hindcast to 2025: economy
+size, spending mix and electricity. Every other step is designed here and not yet built.
+Nothing in this document feeds a tape number yet: the tapes still use the two scalars in
+`engine/intensity.py`. What the built steps read and assume is kept on one page,
+[`how_we_predict_the_future.md`](how_we_predict_the_future.md).
 
 **The idea in one paragraph.** Each real-world trend that changes emissions — more people,
 higher incomes, a cleaner grid, electric cars — is written down as a number with a source,
@@ -25,18 +27,18 @@ files in `jobs/`, player actions in `actions/` (the walk adds nothing there).
 
 | Kind | Where | Today |
 |---|---|---|
-| A step: world in, world out, no file access | `src/redworlds/engine/` | `economy.py`, `electricity.py` |
-| Data preparation: raw download → small committed table | `src/redworlds/jobs/` | `prepare_economy.py`, `prepare_electricity.py` |
+| A step: world in, world out, no file access | `src/redworlds/engine/` | `economy.py`, `spending.py`, `electricity.py` |
+| Data preparation: raw download → small committed table | `src/redworlds/jobs/` | `prepare_economy.py`, `prepare_spending.py`, `prepare_electricity.py` |
 | A run: load the cached world, apply steps, report | `src/redworlds/jobs/` | `hindcast_electricity.py`, `hindcast_walk.py`, `diagnose_intensities.py`; later `walk_baseline.py` |
-| Inputs: the driver ledger | `data/baseline/` | `economy.csv`, `electricity_generation.csv`, `electricity_observed.csv`; diagnostic: `intensity_outliers.csv` |
-| Concordances: outside categories → EXIOBASE | `data/concordances/` | `ember_to_exiobase.csv`, `country_to_exiobase.csv` |
-| Raw downloads | `data/<source>/`, gitignored | `data/ember/`, `data/worldbank/`, `data/owid/` |
+| Inputs: the driver ledger | `data/baseline/` | `economy.csv`, `income_elasticities.csv`, `electricity_generation.csv`, `electricity_observed.csv`; diagnostic: `intensity_outliers.csv` |
+| Concordances: outside categories → EXIOBASE | `data/concordances/` | `ember_to_exiobase.csv`, `country_to_exiobase.csv`, `exiobase_to_consumption_category.csv` |
+| Raw downloads | `data/<source>/`, gitignored | `data/ember/`, `data/worldbank/`, `data/bjelle2021/`, `data/owid/` |
 | Tests, mirroring the source tree | `tests/engine/`, `tests/jobs/` | one file per module |
 
-Commands: `just prepare-economy` and `just prepare-electricity` rebuild the committed tables
-from the raw downloads; `just hindcast-electricity` runs the electricity-only walk and
-`just hindcast-walk` runs both steps against observed CO₂ (each about ten minutes at seven
-regions on an 8 GB laptop).
+Commands: `just prepare-economy`, `just prepare-spending` and `just prepare-electricity`
+rebuild the committed tables from the raw downloads; `just hindcast-electricity` runs the
+electricity-only walk and `just hindcast-walk` runs all built steps against observed CO₂
+(ten minutes or more at seven regions on an 8 GB laptop).
 
 ## What to read for which task
 
@@ -48,7 +50,9 @@ Short names link to the publisher; full citations are in
 | The method as a whole | [De Koning et al. 2016](https://doi.org/10.1080/14693062.2014.999224) (the change-ratio method); [Cap et al. 2024](https://doi.org/10.1016/j.spc.2023.12.031) (twelve steps on EXIOBASE 3.8.2, with sources); [Wiebe et al. 2018](https://doi.org/10.1186/s40008-018-0118-y) (published code) |
 | The electricity step | `engine/electricity.py`; *Electricity* below; `assumptions.md` § "The baseline walk: electricity"; [Krey 2014](https://doi.org/10.1002/wene.98) on supply against demand |
 | Economy size and the SSP2 storyline | [O'Neill et al. 2017](https://doi.org/10.1016/j.gloenvcha.2015.01.004) (the narratives); [Riahi et al. 2017](https://doi.org/10.1016/j.gloenvcha.2016.05.009) (overview and quantification) |
-| Spending mix | [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114) (income elasticities on EXIOBASE); [Zhao et al. 2022](https://doi.org/10.3390/nu14224711) (food elasticities falling with income) |
+| Spending mix | [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114) (income elasticities on EXIOBASE); [Cap et al. 2024](https://doi.org/10.1016/j.spc.2023.12.031) Eq. 1 (how they are applied); [Zhao et al. 2022](https://doi.org/10.3390/nu14224711) (food elasticities falling with income) |
+| Rebound and re-spending | `engine/balancing.py`; [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114) (income and own-price elasticities); [Vita et al. 2019](https://doi.org/10.1016/j.ecolecon.2019.05.002) (income rebound as an uncertainty range); [`how_we_predict_the_future.md`](how_we_predict_the_future.md#rebound-where-re-spent-money-goes) |
+| Physical cross-checks on any step | MacKay, *Sustainable Energy — Without the Hot Air* (per person, per day; see `../references.md`) |
 | Households, age, urban and rural | [Chen et al. 2022](https://doi.org/10.1038/s41597-022-01209-5) (urban share and the reference-region method); [Ottelin et al. 2019](https://doi.org/10.1088/1748-9326/ab443d) (footprints by degree of urbanisation); [Rao et al. 2019](https://doi.org/10.1016/j.futures.2018.07.001) (income distribution) |
 | Food, diet and food waste | [Springmann et al. 2018](https://doi.org/10.1038/s41586-018-0594-0) (baseline to 2050 and options); [Poore & Nemecek 2018](https://doi.org/10.1126/science.aaq0216) (impacts by product); [Vita et al. 2019](https://doi.org/10.1016/j.ecolecon.2019.05.002) and its supplement (diet shocks on EXIOBASE, with rebound) |
 | Capital, technology recipes and learning curves | [Södersten et al. 2018](https://doi.org/10.1021/acs.est.8b02791); `engine/capital.py`; Wiebe et al. 2018 SI Table SI1 (capital-cost splits by technology); [Way et al. 2022](https://doi.org/10.1016/j.joule.2022.08.009) (learning rates and cost forecasts); IEA *Energy Technology Perspectives 2026* chapter 3 (the dashboards); IAEA *World Fusion Outlook 2025* for fusion |
@@ -85,7 +89,7 @@ speed from regions that have already passed this level, re-check every five year
 | # | Step | Lands in | Driven by | Code |
 |---|---|---|---|---|
 | 1 | Economy size | `Y` | Population × income per head, per region. This *sets* GDP: in an input-output table GDP equals final demand | `scale_final_demand` |
-| 2 | Spending mix | `Y` | Income elasticity per product group, with saturation ([Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114) estimate them for 49 regions and find the effect on world emissions to 2030 small, with larger regional and product differences); age structure, household size and urban share (see Households) | per-product scaling, extend |
+| 2 | Spending mix | `Y` | Income elasticity per product group ([Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114) estimate them for 49 regions and find the effect on world emissions to 2030 small, with larger regional and product differences), applied as in [Cap et al. 2024](https://doi.org/10.1016/j.spc.2023.12.031) Eq. 1. **Built** with elasticities fixed at 2011. Not yet built: saturation as incomes rise; age structure, household size and urban share (see Households) | `engine/spending.py` |
 | 3 | Food and diet | `Y`, `S` | Diet by income (meat and dairy rise, then level off; food elasticities fall as income grows, [Zhao et al. 2022](https://doi.org/10.3390/nu14224711)) from reference regions; food-waste share; farm emission rates. Comparison: [Springmann et al. 2018](https://doi.org/10.1038/s41586-018-0594-0)'s middle-of-the-road baseline, food-system pressures up 50–90% from 2010 to 2050 without mitigation | new |
 | 4 | General productivity | `A` | Observed fall in inputs needed per unit of output. The largest brake on emissions in Cap et al.'s leave-one-out test. Excludes the energy savings counted in step 8 | new |
 | 5 | Clean electricity supply | `A`, `Y` | Generation built by source and region; coal and gas retirement by stated plant life (see Electricity) | BUILD operating phase, generalise |
@@ -427,7 +431,7 @@ Licence column: **✔** checked on the publisher's page 2026-11-11; **?** not ye
 | Step | Observed 2011–2025 | Evidence for 2026–2100 | Licence |
 |---|---|---|---|
 | 1 | UN World Population Prospects; World Bank WDI | IIASA SSP basic drivers (2024/25 update), SSP2 | ? ; ? ; ? |
-| 2 | Household expenditure by purpose (Eurostat, OECD); Wittgenstein Centre population by age; [Chen et al. 2022](https://doi.org/10.1038/s41597-022-01209-5) urban share | [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114) elasticities; [Rao et al. 2019](https://doi.org/10.1016/j.futures.2018.07.001) income distribution | ? |
+| 2 | Household expenditure by purpose (Eurostat, OECD); Wittgenstein Centre population by age; [Chen et al. 2022](https://doi.org/10.1038/s41597-022-01209-5) urban share | [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114) elasticities (CC BY 4.0 ✔, committed); [Rao et al. 2019](https://doi.org/10.1016/j.futures.2018.07.001) income distribution | ? for the rest |
 | 3 | FAO food balances; [Poore & Nemecek 2018](https://doi.org/10.1126/science.aaq0216) for the food chain total (about 13.7 Gt CO₂e, 26% of emissions) as a check | Reference regions; [Springmann et al. 2018](https://doi.org/10.1038/s41586-018-0594-0) baseline | ? |
 | 4, 8 | EDGAR sector emissions; [PRIMAP-hist **v2.6**](https://zenodo.org/records/13752654) | AR6 scenario database, SSP2 runs | ? ; ✔ CC BY 4.0 ; ? |
 | 5 | [Ember yearly electricity data](https://ember-energy.org/data/electricity-data-explorer/) by country and source | IRENA capacity statistics; IEA World Energy Outlook (cite) | ✔ CC BY 4.0 ; ? |
@@ -467,6 +471,9 @@ partially suitable for analyzing trends". They serve as checkpoints.
 | [Vita et al. 2019](https://doi.org/10.1016/j.ecolecon.2019.05.002), with supplement | EXIOBASE, Europe | — | Lifestyle scenarios | Worked recipes for diet, food-waste and sufficiency shocks on EXIOBASE, with re-spending rebound. For tape design more than the baseline |
 
 Read only in part so far: [Dai et al. 2024](https://doi.org/10.1080/09535314.2024.2387023), [Jewell & Cherp 2023](https://doi.org/10.1002/wcc.838), [Grubler et al. 2018](https://doi.org/10.1038/s41560-018-0172-6)
-and the [JRC MR-GRAS baseline](https://publications.jrc.ec.europa.eu/repository/handle/JRC120513). The supplement to [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114) is in hand: a mapping of EXIOBASE's 200 products to
-its consumption categories, six region groups, and projected spending shares by category to
-2030, which is what step 2 needs.
+and the [JRC MR-GRAS baseline](https://publications.jrc.ec.europa.eu/repository/handle/JRC120513). The supplement to [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114) supplies step 2: income
+elasticities for EXIOBASE's 49 regions and fifteen consumption categories, and the mapping
+of its 200 products to those categories. It also holds own-price elasticities and
+projected spending shares to 2030 for six region groups; neither is used yet. The first is
+what a direct-rebound treatment would need, the second a ready comparison for step 2's
+output.

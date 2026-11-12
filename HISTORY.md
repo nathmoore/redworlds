@@ -11,6 +11,12 @@ electricity data, and a hindcast from 2011 to 2025 that follows the observed fal
 carbon intensity of generation. Design in `docs/design/baseline_walk.md`; build order and
 results in `docs/plans/03-baseline-walk.md`.
 
+**Spending mix and elasticity-weighted rebound (November 2026).** The walk gains its
+spending-mix step: household baskets shift with income per head, using the income
+elasticities of Bjelle et al. 2021 applied as in Cap et al. 2024. The same elasticities now
+decide where a SWAP's re-spent money goes, in place of the flat proportional placeholder.
+`docs/design/how_we_predict_the_future.md` lists every input and assumption of the walk on one page.
+
 **Nine tapes with real numbers (September 2026).** The engine went from scaffolding to a
 table the game can score from:
 

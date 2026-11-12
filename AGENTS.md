@@ -65,8 +65,8 @@ seconds. Check whether a cached world already exists before rebuilding one.
 redworlds/
 ├── src/redworlds/
 │   ├── actions/         ← one tape's shock: build.py, swap.py, reduce.py
-│   ├── jobs/            ← reads data, calls engine: build_baseline.py, export_tape_table.py, prepare_electricity.py, hindcast_electricity.py, …
-│   ├── engine/          ← pure functions: io_tables.py, balancing.py, capital.py, scoring.py, electricity.py, currency.py, prices.py, regions.py
+│   ├── jobs/            ← reads data, calls engine: build_baseline.py, export_tape_table.py, prepare_electricity.py, prepare_spending.py, hindcast_walk.py, …
+│   ├── engine/          ← pure functions: io_tables.py, balancing.py, capital.py, scoring.py, economy.py, spending.py, electricity.py, currency.py, prices.py, regions.py
 │   ├── cli.py           ← thin typer entry point
 │   └── config.py        ← loads config/config.toml
 ├── tests/               ← mirrors src/redworlds/; tests/fixtures/ holds test-world concordances
@@ -87,7 +87,7 @@ redworlds/
     ├── references.md    ← full citations
     ├── ai-guide.md      ← working on this repo with an AI assistant
     ├── plans/           ← numbered implementation plans; see "Plans are closable" below
-    └── design/          ← red_carbon_contract.md, assumptions.md, architecture.md, game_mechanics.md, baseline_walk.md
+    └── design/          ← red_carbon_contract.md, assumptions.md, architecture.md, game_mechanics.md, baseline_walk.md, how_we_predict_the_future.md
 ```
 
 ---
@@ -103,6 +103,7 @@ just type-check            # ty, on its own
 just baseline              # build and cache the baseline world
 just prepare-electricity   # rebuild data/baseline/ from the raw Ember download
 just prepare-economy       # rebuild data/baseline/economy.csv from the raw World Bank downloads
+just prepare-spending      # rebuild the income-elasticity table from the Bjelle et al. 2021 supplement
 just hindcast-electricity  # baseline walk: electricity-only run against the cached world
 just hindcast-walk         # baseline walk: every built step, against observed CO2
 just diagnose-intensities  # list region-product cells whose emission intensity looks unreliable
@@ -225,9 +226,41 @@ change as a refactor. Four rules:
    closes. Closed plans stay where they are rather than moving to an archive directory,
    because these docs are published and moving a file breaks its URL.
 
+6. **The walk's inputs and assumptions are on one page, and it is kept current.**
+   `docs/design/how_we_predict_the_future.md` lists every step of the baseline walk that exists,
+   what it reads, what it assumes and which way each assumption leans. Change a step, an
+   input table or a default, and that page changes in the same commit.
+
 Stubs use `raise NotImplementedError`, and always come in threes: the stub, a
 `# TODO: implement — see GitHub issue #N` (or a pointer to `docs/backlog.md` until the
 issue exists), and a skipped test in the mirroring test file.
+
+---
+
+## Sources: cite everything, reproduce only what is open
+
+The model rests on published work and says so. Three rules, which apply to a paper, a
+report, a book or a dataset alike:
+
+1. **Cite and acknowledge every source the thinking rests on.** Inline in short form where
+   the number, method or argument is used; in full in `docs/references.md`. This covers
+   ideas as much as data: a step that follows a paper's equation names the paper and the
+   equation. It holds whatever the source's licence. A source that shaped the design is
+   credited even if no number of its appears.
+2. **Only openly licensed material is reproduced here.** Data is committed only when its
+   licence passes the test in `docs/design/baseline_walk.md` § Sources (public domain, CC0,
+   CC BY, CC BY-SA), and then as a small derived table with attribution and a job that
+   rebuilds it from the original download. Everything else — a paywalled article, a
+   non-commercial dataset, a book in copyright — is used as a foundation for thinking and
+   cited for a figure, a method or an argument, restated in this repo's own words. Its
+   text, tables, figures and data files are not copied in, in whole or in part, and its
+   numbers are not transcribed in bulk. When a source's licence is unknown, treat it as not
+   open until it has been checked, and record the check.
+3. **Write about what a source says and where it says it.** "Cap et al. 2024, Eq. 1";
+   "chapter 3 of the report". The documents themselves, and any working notes on them, are
+   kept outside this repo and are not described in it. Which source to read for which
+   task is in `docs/design/baseline_walk.md` § "What to read for which task"; ask the
+   maintainer for access to anything you cannot reach.
 
 ---
 

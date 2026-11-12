@@ -32,31 +32,27 @@ walk checkable; drop any that stop doing so.
 
 ---
 
-## Resume here — handoff, 2026-11-12
+## Resume here — handoff, 2026-11-12 (second session)
 
-Two steps are built and run (economy size, electricity). The design is in
-[`../design/baseline_walk.md`](../design/baseline_walk.md); read its *Where things live* table first. Papers
-and report PDFs are held outside this repo by Nathan, each with a text conversion; ask him
-for the folder. Next session, in this order:
+Three steps are built and run: economy size, spending mix, electricity. Read
+[`../design/how_we_predict_the_future.md`](../design/how_we_predict_the_future.md) first: it lists what each
+built step reads and assumes. The method is in [`../design/baseline_walk.md`](../design/baseline_walk.md).
+The papers and reports are held outside this repo by Nathan; ask him for the folder.
+Next, in this order:
 
-1. **Spending shares from Bjelle et al. 2021** (CC BY 4.0). From the paper's supplement, write
-   `data/concordances/` rows mapping EXIOBASE products to its consumption categories and
-   countries to its six region groups, and `data/baseline/` rows for projected spending
-   shares by category. Look in its `SI_model_statistics` and `SI_regression_data` files for
-   the elasticities themselves; they have not been opened yet. Two uses: step 2 of the walk,
-   and the re-spend weighting for SWAP and BUILD rebound (backlog: "Rebalancing weighting
-   scheme").
-2. **Technology cards from the IEA's *Energy Technology Perspectives 2026*** (CC BY 4.0). One
+1. **Technology cards from the IEA's *Energy Technology Perspectives 2026*** (CC BY 4.0). One
    CSV row per technology and scenario year: market status, deployment today, and
    deployment in CPS, STEPS and NZE for 2035 and 2050. Numbers in the report's text are
    exact; numbers on the dashboard charts have to be read off the images and should be
    marked approximate. Do not use the report's data annex or any IEA data file.
-3. **Sprint item A5**, wind and solar recipes, which the cards and learning rates feed.
-4. Then the sprint list below, from A4.
+2. **Sprint item A5**, wind and solar recipes, which the cards and learning rates feed.
+3. Then the sprint list below, from A4. **B3 and B4 are where the remaining 9.5 Gt is**:
+   the spending step turned out to be worth 0.07 Gt, so nothing more on household baskets
+   will close the hindcast gap.
 
-Not yet done: the full test suite was last run before the intensity diagnostic was added;
-the *World Energy Outlook 2025* is downloaded but unread; the fusion figures are from
-summaries and unconfirmed.
+Not yet done: the *World Energy Outlook 2025* is unread; the fusion figures are from
+summaries and unconfirmed; the tape table has not been re-exported since the re-spend rule
+changed.
 
 ## Sprint plan
 
@@ -77,6 +73,15 @@ Tick items here as they land; findings go under *Milestone A results* below.
 - [x] **B1 Economy size** (2026-11-11). `engine/economy.py` scales each region's final demand
   by its real GDP growth; `just prepare-economy` builds `data/baseline/economy.csv` from
   World Bank data; `just hindcast-walk` runs both built steps against observed CO₂.
+
+- [x] **B2 Spending mix** (2026-11-12). `just prepare-spending` turns the supplement to
+  [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114) into `data/baseline/income_elasticities.csv` and a product
+  concordance; `engine/spending.py` applies them as in [Cap et al. 2024](https://doi.org/10.1016/j.spc.2023.12.031) Eq. 1. The
+  supplement held the elasticities themselves for all 49 regions, so they are used
+  directly and the six region groups and projected shares were not needed.
+- [x] **Elasticity-weighted re-spend for SWAP** (2026-11-12). `rebalance_economy` takes
+  weights; the tape export passes the same elasticities. Backlog: "Rebalancing weighting
+  scheme".
 
 **Next, in order**
 
@@ -111,22 +116,17 @@ Tick items here as they land; findings go under *Milestone A results* below.
 3. **A6 The walk's skeleton.** A general ledger loader with the `status` column, a
    `jobs/walk_baseline.py` that applies steps in order and caches each snapshot, and the
    version stamp. The electricity hindcast becomes its first caller.
-4. **B2 Spending mix.** [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114)'s supplement is in hand: products mapped to
-   consumption categories, and projected spending shares by category and region group to
-   2030. Check its reuse terms (the paper is CC BY), prepare the shares as ledger rows, and
-   apply them through the existing per-product scaling. They find the effect on world
-   emissions small, so expect this step to matter by region and product more than in total.
-5. **B3 Road transport and heating.** Data preparation for EV stock and heat pumps; apply
+4. **B3 Road transport and heating.** Data preparation for EV stock and heat pumps; apply
    `apply_swap`'s mechanism at baseline scale.
-6. **B4 Industry, productivity and non-CO₂**, then the residual by sector against observed
+5. **B4 Industry, productivity and non-CO₂**, then the residual by sector against observed
    emissions. Closes Milestone B.
-7. **B5 Trade and where things are made.** Measure first: compare each region's import
+6. **B5 Trade and where things are made.** Measure first: compare each region's import
    shares by product group in the 2011 table with EXIOBASE 3.8.2's 2019 table, and the
    regional split of output with observed value added by sector. If sourcing moved enough
    to matter, add step 13.
-8. **C and D** as under *Milestones*.
+7. **C and D** as under *Milestones*.
 
-A run of the hindcast takes about nine minutes on an 8 GB laptop at seven regions. Item 1
+A run of the hindcast takes ten to thirty minutes on an 8 GB laptop at seven regions. Item 1
 is the only one that needs the full 49-region table.
 
 ## Milestone A results
@@ -161,31 +161,36 @@ What it shows:
   32.9 Gt on the 2011 mix to 30.5 Gt on the 2025 mix.
 - **Stand-ins are not a detail.** They cover a fifth of East Asia's generation by 2025 (A5).
 
-## Results with two steps: economy size and electricity
+## Results with three steps: economy size, spending mix, electricity
 
-Run 2026-11-11. World CO₂ in Gt; observed is the Global Carbon Budget's fossil and
-industrial series.
+Run 2026-11-12. World CO₂ in Gt, each column adding one step; observed is the Global Carbon
+Budget's fossil and industrial series.
 
-| Year | Economy size only | With electricity mix | Observed | Over observed |
-|---|---|---|---|---|
-| 2011 (table as it stands) | 32.5 | 32.5 | 34.5 | −6% |
-| 2015 | 37.6 | 37.4 | 35.5 | +5% |
-| 2019 | 43.4 | 42.2 | 37.1 | +14% |
-| 2025 | 52.0 | 48.6 | 39.0 | +25% |
+| Year | Economy size | + spending mix | + electricity mix | Observed | Over observed |
+|---|---|---|---|---|---|
+| 2011 (table as it stands) | 32.5 | 32.5 | 32.5 | 34.5 | −6% |
+| 2015 | 37.63 | 37.62 | 37.4 | 35.5 | +5% |
+| 2019 | 43.45 | 43.41 | 42.1 | 37.1 | +14% |
+| 2025 | 51.95 | 51.88 | 48.5 | 39.0 | +24% |
 
 What it shows:
 
 - **The starting point is close.** The 2011 table is 6% under observed world CO₂, and each
   region is within 7%.
 - **"The 2011 world, bigger" overshoots by a third.** Growth alone gives 52 Gt for 2025.
+- **The spending mix barely moves the total**: 0.07 Gt in 2025. On households' own
+  supply-chain footprint it is −1.4% in South Asia, −0.5% in USA and Canada, −0.2% in
+  Mainland East Asia and Europe. This agrees with [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114), and has a plain
+  cause: every fuel and all electricity sit in one consumption category whose income
+  elasticity is close to one.
 - **The electricity mix closes about a quarter of the gap** (3.4 of 13 Gt).
-- **The remaining 9.6 Gt is what the unbuilt steps must explain**: efficiency and
-  productivity, industry, electrification of transport and heat, and the spending mix.
-  That is the same ordering [Cap et al. 2024](https://doi.org/10.1016/j.spc.2023.12.031) found, where productivity was the largest brake.
+- **The remaining 9.5 Gt is what the unbuilt steps must explain**: efficiency and
+  productivity, industry, electrification of transport and heat. That is the same ordering
+  [Cap et al. 2024](https://doi.org/10.1016/j.spc.2023.12.031) found, where productivity was the largest brake.
 - **By region for 2025:** Africa and Middle East lands on observed; South Asia and South
-  East Asia are 15% over; Latin America 20%, USA and Canada 30%, Mainland East Asia 35%,
+  East Asia are 14–15% over; Latin America 20%, USA and Canada 30%, Mainland East Asia 35%,
   Europe and Central Asia 57%.
-- **Europe moves the wrong way under the electricity step** (8.35 Gt with and without it,
+- **Europe moves the wrong way under the electricity step** (8.34 Gt before it, 8.35 after,
   and higher with it in 2015 and 2019). Imposing the observed mix raises its emissions
   because the table books its heat-and-power plants outside electricity (sprint item A4).
   Until that is resolved, Europe's electricity result should not be read.
@@ -211,7 +216,8 @@ the model's regional figures include what each region's carriers emit.
   Perspectives 2026* also sets which technologies the walk treats explicitly.
 - **Bjelle et al. 2021's data is used for spending shares and for rebound** (Nathan,
   2026-11-12): the paper and its supplement are CC BY 4.0, so derived tables are committed
-  with attribution.
+  with attribution. Built the same day; the case for and against using it for rebound is in
+  [design § Rebound](../design/how_we_predict_the_future.md#rebound-where-re-spent-money-goes).
 - **The IEA's scenarios are the reference set** (Nathan, 2026-11-12). Baseline levers are read
   against Current Policies and Stated Policies; tapes are measured against Net Zero
   Emissions by 2050. Technologies are described in the style of the IEA's technology
@@ -233,6 +239,12 @@ the model's regional figures include what each region's carriers emit.
    sensitivities.
 3. Walk the seven game regions (minutes per snapshot), with electricity computed from country
    data before aggregating; the alternative is all 49 EXIOBASE regions.
+   *Proposed 2026-11-13 (Nathan), not decided:* make the resolution a switch. Seven regions
+   for building and testing; all 49 for the walks that are published; the 2050 world
+   aggregated to seven for the game. What this needs: input ledgers kept at EXIOBASE-region
+   level and aggregated on load, steps that take whatever region list the table has, and
+   first a one-off comparison of the economy-size step at 7 and at 49 to see how much the
+   answer moves. All 200 products are already kept, so only regions are in question.
 4. The pass mark proposed under [Checking the walk](../design/baseline_walk.md#checking-the-walk).
 5. Whether the game wants the urban and rural households.
 
@@ -256,4 +268,3 @@ A can start now; each later one builds on the one before.
   them by continent, which is an assumption.
 - Every licence marked **?**.
 - The release name and licence of the IIASA SSP basic-drivers update.
-- Whether [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114)'s elasticities are published as reusable data.

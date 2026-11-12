@@ -83,9 +83,29 @@ reduction in discretionary goods — so a REDUCE tape is defined by a basket of 
 groups, not a flat percentage of everything.
 
 The rebalancing weighting used by SWAP (and by BUILD under the reallocation flag) is a
-single function with a weighting argument. The placeholder is flat proportional; the
-planned upgrade is income-elasticity weighting per product (Bjelle et al. 2021; Cap et al.
-2024 Eq. 1). See `engine/balancing.py`.
+single function with a weighting argument (`engine/balancing.py`). Two weightings exist:
+
+- **Flat proportional**: every product keeps its share of the basket. The original
+  placeholder, and still what happens when no weights are supplied.
+- **Income elasticity** (2026-11-12): a product's share of the re-spend is its budget share
+  times its income elasticity, which is where an extra euro of income goes. Elasticities
+  are from Bjelle et al. 2021, for fifteen consumption categories, averaged into game
+  regions (`data/baseline/income_elasticities.csv`). The tape export uses this for SWAP; a
+  record can keep the flat rule with `respend_weighting = "flat"`.
+
+What the elasticity rule still simplifies: a saving is treated as extra income, so
+**direct rebound is absent** (cheaper warmth does not lead to a warmer house); the
+elasticities describe how spending followed national income over years, which is not
+quite what a household does with a windfall; and fifteen categories cannot separate
+flights from trains. On the 2011 table the change from flat is −2.2% of the EV tape's
+abatement and +0.2% of the gas ban's. The fuller account, including why this is judged the
+best open source for the purpose, is in
+[`how_we_predict_the_future.md`](how_we_predict_the_future.md#rebound-where-re-spent-money-goes).
+
+BUILD stays an injection. Its reallocation variant withdraws from other investment, flat,
+because household elasticities say nothing about which investment is displaced. A build
+paid for by households (`reallocate_from = "households"` on the record) is available and
+is weighted by elasticity; no tape uses it.
 
 For the two consumer-side SWAP tapes, one third is an **energy ratio**, never a spend ratio:
 COP 3 for heat-pump heat and the same order-of-magnitude energy ratio for EV travel. Removed
@@ -103,8 +123,9 @@ apportioned separately: EXIOBASE's `Energy Carrier Net TROA` fixes total househo
 energy, its petrol/diesel purchases interpolate the fuel mix, and IPCC 2006 factors convert
 that activity to CO₂ and CO₂e. The resulting shares are 54.23% of household direct CO₂ and
 53.65% of household direct CO₂e. With those shares EV abates, but it remains provisional:
-the 2050 electricity structure and flat proportional rebound are still material to its sign
-and magnitude.
+the 2050 electricity structure is still material to its sign and magnitude. (The figures in
+this paragraph predate elasticity-weighted re-spend, which lowers the EV tape's abatement by
+a further 2.2%.)
 
 ### Capital is endogenised in the baseline
 
@@ -235,6 +256,34 @@ sets the size of each economy; the model does not forecast it. Simplifications:
 
 Run alone this step is "the 2011 world, bigger", and overshoots observed emissions. The
 overshoot is what the remaining steps have to explain.
+
+### The baseline walk: spending mix
+
+*Provisional — part of the baseline walk, [`baseline_walk.md`](baseline_walk.md). It does not yet feed any
+tape number.*
+
+Each region's household basket is moved by the growth in its income per head
+(`engine/spending.py`): spending on a product is multiplied by one plus its income
+elasticity times the change in income, and the basket is rescaled to its previous total.
+This is Cap et al. 2024's Eq. 1 with the elasticities of Bjelle et al. 2021. The step
+changes shares only; the economy-size step owns the total. Simplifications:
+
+- **Elasticities are fixed at their 2011 values.** Acceptable to 2025; a saturation rule
+  is needed before the step is used to 2050 and beyond (backlog).
+- **Fifteen categories.** Products in a category move together, and every fuel and all
+  electricity sit in one category whose elasticity is close to one, so the step hardly
+  moves household energy use.
+- **Game-region elasticities are spending-weighted averages** of the published figures for
+  EXIOBASE's 49 regions.
+- **Income per head is real GDP per person.**
+- **Household direct emissions follow total household spending**, not fuel spending. Cap
+  et al. scale them with energy-carrier purchases; that refinement is not made here.
+- **Only households shift.** Government and investment keep their 2011 mix.
+- **No price effects**, as in Cap et al., who describe this as a very simplified demand
+  system consistent with the linear model around it.
+
+In the hindcast the step lowers world CO₂ in 2025 by 0.07 Gt of 52, in line with Bjelle et
+al.'s finding that the effect on the total is small.
 
 ### The baseline walk: electricity
 
