@@ -32,6 +32,32 @@ walk checkable; drop any that stop doing so.
 
 ---
 
+## Resume here — handoff, 2026-11-12
+
+Two steps are built and run (economy size, electricity). The design is in
+[`../design/baseline_walk.md`](../design/baseline_walk.md); read its *Where things live* table first. Papers
+and report PDFs are held outside this repo by Nathan, each with a text conversion; ask him
+for the folder. Next session, in this order:
+
+1. **Spending shares from Bjelle et al. 2021** (CC BY 4.0). From the paper's supplement, write
+   `data/concordances/` rows mapping EXIOBASE products to its consumption categories and
+   countries to its six region groups, and `data/baseline/` rows for projected spending
+   shares by category. Look in its `SI_model_statistics` and `SI_regression_data` files for
+   the elasticities themselves; they have not been opened yet. Two uses: step 2 of the walk,
+   and the re-spend weighting for SWAP and BUILD rebound (backlog: "Rebalancing weighting
+   scheme").
+2. **Technology cards from the IEA's *Energy Technology Perspectives 2026*** (CC BY 4.0). One
+   CSV row per technology and scenario year: market status, deployment today, and
+   deployment in CPS, STEPS and NZE for 2035 and 2050. Numbers in the report's text are
+   exact; numbers on the dashboard charts have to be read off the images and should be
+   marked approximate. Do not use the report's data annex or any IEA data file.
+3. **Sprint item A5**, wind and solar recipes, which the cards and learning rates feed.
+4. Then the sprint list below, from A4.
+
+Not yet done: the full test suite was last run before the intensity diagnostic was added;
+the *World Energy Outlook 2025* is downloaded but unread; the fusion figures are from
+summaries and unconfirmed.
+
 ## Sprint plan
 
 The build order, newest state first. Each numbered item is sized for one working session.
@@ -180,6 +206,12 @@ the model's regional figures include what each region's carriers emit.
 - **IEA and MacKay are read side by side** (Nathan, 2026-11-12). The IEA's outlook is that of
   building and swapping; MacKay's physical arithmetic is the check that keeps it from
   becoming the frame. See [design § Reference scenarios](../design/baseline_walk.md#reference-scenarios).
+- **Baseline technology growth follows the IEA's Current Policies Scenario unless a ledger
+  row states an exception and its reason** (Nathan, 2026-11-12). *Energy Technology
+  Perspectives 2026* also sets which technologies the walk treats explicitly.
+- **Bjelle et al. 2021's data is used for spending shares and for rebound** (Nathan,
+  2026-11-12): the paper and its supplement are CC BY 4.0, so derived tables are committed
+  with attribution.
 - **The IEA's scenarios are the reference set** (Nathan, 2026-11-12). Baseline levers are read
   against Current Policies and Stated Policies; tapes are measured against Net Zero
   Emissions by 2050. Technologies are described in the style of the IEA's technology

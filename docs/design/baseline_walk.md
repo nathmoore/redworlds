@@ -313,7 +313,8 @@ IEA's scenario documentation for the World Energy Outlook 2025):
 | Stated Policies (STEPS) | Exploratory | Current policies plus those announced or in advanced planning; aspirational goals are not assumed met | The baseline's closest published neighbour |
 | Net Zero Emissions by 2050 (NZE) | Normative | A pathway for the energy sector to reach net zero CO₂ by 2050, with no offsets from other sectors | The benchmark a set of tapes is measured against |
 
-A baseline lever that falls outside the CPS-to-STEPS range needs a stated reason. A tape's
+**The default rule:** a technology's growth in the baseline follows the Current Policies
+Scenario. A ledger row may depart from it only by stating the exception and its reason. A tape's
 ceiling can be read against NZE: the IEA's *Net Zero Roadmap* (2023 update) gives milestones
 of the kind a tape describes — renewable capacity tripled to 11,000 GW by 2030, electric
 cars at two-thirds of new sales by 2030, energy-sector methane cut by 75% by 2030, coal
