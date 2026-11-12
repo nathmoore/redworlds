@@ -1,0 +1,207 @@
+exiobase_product,consumption_category,share
+# Maps EXIOBASE 3.8.2 (pxp) products to the fifteen household consumption categories of
+# Bjelle et al. 2021 (https://doi.org/10.1016/j.eneco.2021.105114). share is the part of
+# the product's household spending counted in the category; one product is split.
+# Adapted from the paper's supplement (SI_concordances.xlsx), CC BY 4.0, by
+# redworlds.jobs.prepare_spending. Do not edit by hand; re-run the job.
+Paddy rice,"Vegetables, fruit, nuts, rice and crops",1.0
+Wheat,"Vegetables, fruit, nuts, rice and crops",1.0
+Cereal grains nec,"Vegetables, fruit, nuts, rice and crops",1.0
+"Vegetables, fruit, nuts","Vegetables, fruit, nuts, rice and crops",1.0
+Oil seeds,"Vegetables, fruit, nuts, rice and crops",1.0
+"Sugar cane, sugar beet","Vegetables, fruit, nuts, rice and crops",1.0
+Plant-based fibers,"Vegetables, fruit, nuts, rice and crops",1.0
+Crops nec,"Vegetables, fruit, nuts, rice and crops",1.0
+Cattle,"Fish, Meat and dairy",1.0
+Pigs,"Fish, Meat and dairy",1.0
+Poultry,"Fish, Meat and dairy",1.0
+Meat animals nec,"Fish, Meat and dairy",1.0
+Animal products nec,Food nec,1.0
+Raw milk,Food nec,1.0
+"Wool, silk-worm cocoons",Clothing,1.0
+Manure (conventional treatment),Miscellaneous goods and services,1.0
+Manure (biogas treatment),Miscellaneous goods and services,1.0
+"Products of forestry, logging and related services (02)","Housing, real estate, water, gas, electricity and other fuels",1.0
+Fish and other fishing products; services incidental of fishing (05),"Fish, Meat and dairy",1.0
+Anthracite,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Coking Coal,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Other Bituminous Coal,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Sub-Bituminous Coal,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Patent Fuel,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Lignite/Brown Coal,"Housing, real estate, water, gas, electricity and other fuels",1.0
+BKB/Peat Briquettes,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Peat,"Housing, real estate, water, gas, electricity and other fuels",1.0
+"Crude petroleum and services related to crude oil extraction, excluding surveying","Housing, real estate, water, gas, electricity and other fuels",1.0
+"Natural gas and services related to natural gas extraction, excluding surveying","Housing, real estate, water, gas, electricity and other fuels",1.0
+Natural Gas Liquids,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Other Hydrocarbons,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Uranium and thorium ores (12),"Housing, real estate, water, gas, electricity and other fuels",1.0
+Iron ores,Miscellaneous goods and services,1.0
+Copper ores and concentrates,Miscellaneous goods and services,1.0
+Nickel ores and concentrates,Miscellaneous goods and services,1.0
+Aluminium ores and concentrates,Miscellaneous goods and services,1.0
+Precious metal ores and concentrates,Miscellaneous goods and services,1.0
+"Lead, zinc and tin ores and concentrates",Miscellaneous goods and services,1.0
+Other non-ferrous metal ores and concentrates,Miscellaneous goods and services,1.0
+Stone,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Sand and clay,"Housing, real estate, water, gas, electricity and other fuels",1.0
+"Chemical and fertilizer minerals, salt and other mining and quarrying products n.e.c.","Housing, real estate, water, gas, electricity and other fuels",1.0
+Products of meat cattle,"Fish, Meat and dairy",1.0
+Products of meat pigs,"Fish, Meat and dairy",1.0
+Products of meat poultry,"Fish, Meat and dairy",1.0
+Meat products nec,"Fish, Meat and dairy",1.0
+products of Vegetable oils and fats,Food nec,1.0
+Dairy products,"Fish, Meat and dairy",1.0
+Processed rice,"Vegetables, fruit, nuts, rice and crops",1.0
+Sugar,Food nec,1.0
+Food products nec,Food nec,1.0
+Beverages,Tobacco and beverages,1.0
+Fish products,"Fish, Meat and dairy",1.0
+Tobacco products (16),Tobacco and beverages,1.0
+Textiles (17),Clothing,1.0
+Wearing apparel; furs (18),Clothing,1.0
+Leather and leather products (19),Clothing,0.5
+Leather and leather products (19),"Furniture, Household goods and services",0.5
+Wood and products of wood and cork (except furniture); articles of straw and plaiting materials (20),"Furniture, Household goods and services",1.0
+"Wood material for treatment, Re-processing of secondary wood material into new wood material","Housing, real estate, water, gas, electricity and other fuels",1.0
+Pulp,"Housing, real estate, water, gas, electricity and other fuels",1.0
+"Secondary paper for treatment, Re-processing of secondary paper into new pulp","Housing, real estate, water, gas, electricity and other fuels",1.0
+Paper and paper products,Recreation and culture,1.0
+Printed matter and recorded media (22),Recreation and culture,1.0
+Coke Oven Coke,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Gas Coke,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Coal Tar,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Motor Gasoline,Transport services and fuels nec,1.0
+Aviation Gasoline,Transport services and fuels nec,1.0
+Gasoline Type Jet Fuel,Transport services and fuels nec,1.0
+Kerosene Type Jet Fuel,Transport services and fuels nec,1.0
+Kerosene,Transport services and fuels nec,1.0
+Gas/Diesel Oil,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Heavy Fuel Oil,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Refinery Gas,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Liquefied Petroleum Gases (LPG),"Housing, real estate, water, gas, electricity and other fuels",1.0
+Refinery Feedstocks,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Ethane,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Naphtha,"Housing, real estate, water, gas, electricity and other fuels",1.0
+White Spirit & SBP,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Lubricants,Transport services and fuels nec,1.0
+Bitumen,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Paraffin Waxes,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Petroleum Coke,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Non-specified Petroleum Products,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Nuclear fuel,"Housing, real estate, water, gas, electricity and other fuels",1.0
+"Plastics, basic","Housing, real estate, water, gas, electricity and other fuels",1.0
+"Secondary plastic for treatment, Re-processing of secondary plastic into new plastic","Housing, real estate, water, gas, electricity and other fuels",1.0
+N-fertiliser,"Housing, real estate, water, gas, electricity and other fuels",1.0
+P- and other fertiliser,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Chemicals nec,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Charcoal,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Additives/Blending Components,Transport services and fuels nec,1.0
+Biogasoline,Transport services and fuels nec,1.0
+Biodiesels,Transport services and fuels nec,1.0
+Other Liquid Biofuels,Transport services and fuels nec,1.0
+Rubber and plastic products (25),"Furniture, Household goods and services",1.0
+Glass and glass products,"Furniture, Household goods and services",1.0
+"Secondary glass for treatment, Re-processing of secondary glass into new glass","Furniture, Household goods and services",1.0
+Ceramic goods,"Furniture, Household goods and services",1.0
+"Bricks, tiles and construction products, in baked clay","Housing, real estate, water, gas, electricity and other fuels",1.0
+"Cement, lime and plaster","Housing, real estate, water, gas, electricity and other fuels",1.0
+"Ash for treatment, Re-processing of ash into clinker","Housing, real estate, water, gas, electricity and other fuels",1.0
+Other non-metallic mineral products,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Basic iron and steel and of ferro-alloys and first products thereof,"Housing, real estate, water, gas, electricity and other fuels",1.0
+"Secondary steel for treatment, Re-processing of secondary steel into new steel","Housing, real estate, water, gas, electricity and other fuels",1.0
+Precious metals,Miscellaneous goods and services,1.0
+"Secondary preciuos metals for treatment, Re-processing of secondary preciuos metals into new preciuos metals",Miscellaneous goods and services,1.0
+Aluminium and aluminium products,"Housing, real estate, water, gas, electricity and other fuels",1.0
+"Secondary aluminium for treatment, Re-processing of secondary aluminium into new aluminium","Housing, real estate, water, gas, electricity and other fuels",1.0
+"Lead, zinc and tin and products thereof",Miscellaneous goods and services,1.0
+"Secondary lead for treatment, Re-processing of secondary lead into new lead",Miscellaneous goods and services,1.0
+Copper products,Miscellaneous goods and services,1.0
+"Secondary copper for treatment, Re-processing of secondary copper into new copper",Miscellaneous goods and services,1.0
+Other non-ferrous metal products,Miscellaneous goods and services,1.0
+"Secondary other non-ferrous metals for treatment, Re-processing of secondary other non-ferrous metals into new other non-ferrous metals",Miscellaneous goods and services,1.0
+Foundry work services,Miscellaneous goods and services,1.0
+"Fabricated metal products, except machinery and equipment (28)",Miscellaneous goods and services,1.0
+Machinery and equipment n.e.c. (29),"Furniture, Household goods and services",1.0
+Office machinery and computers (30),Miscellaneous goods and services,1.0
+Electrical machinery and apparatus n.e.c. (31),Miscellaneous goods and services,1.0
+"Radio, television and communication equipment and apparatus (32)",Communication services,1.0
+"Medical, precision and optical instruments, watches and clocks (33)",Miscellaneous goods and services,1.0
+"Motor vehicles, trailers and semi-trailers (34)",Motor Vehicles,1.0
+Other transport equipment (35),Transport services and fuels nec,1.0
+Furniture; other manufactured goods n.e.c. (36),"Furniture, Household goods and services",1.0
+Secondary raw materials,Miscellaneous goods and services,1.0
+"Bottles for treatment, Recycling of bottles by direct reuse",Miscellaneous goods and services,1.0
+Electricity by coal,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Electricity by gas,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Electricity by nuclear,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Electricity by hydro,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Electricity by wind,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Electricity by petroleum and other oil derivatives,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Electricity by biomass and waste,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Electricity by solar photovoltaic,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Electricity by solar thermal,"Housing, real estate, water, gas, electricity and other fuels",1.0
+"Electricity by tide, wave, ocean","Housing, real estate, water, gas, electricity and other fuels",1.0
+Electricity by Geothermal,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Electricity nec,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Transmission services of electricity,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Distribution and trade services of electricity,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Coke oven gas,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Blast Furnace Gas,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Oxygen Steel Furnace Gas,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Gas Works Gas,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Biogas,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Distribution services of gaseous fuels through mains,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Steam and hot water supply services,"Housing, real estate, water, gas, electricity and other fuels",1.0
+"Collected and purified water, distribution services of water (41)","Housing, real estate, water, gas, electricity and other fuels",1.0
+Construction work (45),"Housing, real estate, water, gas, electricity and other fuels",1.0
+"Secondary construction material for treatment, Re-processing of secondary construction material into aggregates","Housing, real estate, water, gas, electricity and other fuels",1.0
+"Sale, maintenance, repair of motor vehicles, motor vehicles parts, motorcycles, motor cycles parts and accessoiries",Motor Vehicles,1.0
+Retail trade services of motor fuel,Transport services and fuels nec,1.0
+"Wholesale trade and commission trade services, except of motor vehicles and motorcycles (51)",Miscellaneous goods and services,1.0
+"Retail  trade services, except of motor vehicles and motorcycles; repair services of personal and household goods (52)",Miscellaneous goods and services,1.0
+Hotel and restaurant services (55),Restaurants and hotels,1.0
+Railway transportation services,"Railway, air and other transportation services",1.0
+Other land transportation services,"Railway, air and other transportation services",1.0
+Transportation services via pipelines,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Sea and coastal water transportation services,"Railway, air and other transportation services",1.0
+Inland water transportation services,"Railway, air and other transportation services",1.0
+Air transport services (62),"Railway, air and other transportation services",1.0
+Supporting and auxiliary transport services; travel agency services (63),Transport services and fuels nec,1.0
+Post and telecommunication services (64),Communication services,1.0
+"Financial intermediation services, except insurance and pension funding services (65)",Miscellaneous goods and services,1.0
+"Insurance and pension funding services, except compulsory social security services (66)","Health, education, insurance and social security",1.0
+Services auxiliary to financial intermediation (67),Miscellaneous goods and services,1.0
+Real estate services (70),"Housing, real estate, water, gas, electricity and other fuels",1.0
+Renting services of machinery and equipment without operator and of personal and household goods (71),Miscellaneous goods and services,1.0
+Computer and related services (72),Miscellaneous goods and services,1.0
+Research and development services (73),Miscellaneous goods and services,1.0
+Other business services (74),Miscellaneous goods and services,1.0
+Public administration and defence services; compulsory social security services (75),"Health, education, insurance and social security",1.0
+Education services (80),"Health, education, insurance and social security",1.0
+Health and social work services (85),"Health, education, insurance and social security",1.0
+Food waste for treatment: incineration,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Paper waste for treatment: incineration,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Plastic waste for treatment: incineration,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Intert/metal waste for treatment: incineration,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Textiles waste for treatment: incineration,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Wood waste for treatment: incineration,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Oil/hazardous waste for treatment: incineration,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Food waste for treatment: biogasification and land application,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Paper waste for treatment: biogasification and land application,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Sewage sludge for treatment: biogasification and land application,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Food waste for treatment: composting and land application,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Paper and wood waste for treatment: composting and land application,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Food waste for treatment: waste water treatment,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Other waste for treatment: waste water treatment,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Food waste for treatment: landfill,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Paper for treatment: landfill,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Plastic waste for treatment: landfill,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Inert/metal/hazardous waste for treatment: landfill,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Textiles waste for treatment: landfill,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Wood waste for treatment: landfill,"Housing, real estate, water, gas, electricity and other fuels",1.0
+Membership organisation services n.e.c. (91),Recreation and culture,1.0
+"Recreational, cultural and sporting services (92)",Recreation and culture,1.0
+Other services (93),Miscellaneous goods and services,1.0
+Private households with employed persons (95),"Housing, real estate, water, gas, electricity and other fuels",1.0
+Extra-territorial organizations and bodies,Miscellaneous goods and services,1.0

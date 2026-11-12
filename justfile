@@ -66,7 +66,11 @@ diagnose-intensities:
 prepare-economy:
     uv run --python=3.13 python -m redworlds.jobs.prepare_economy
 
-# Baseline walk: economy size, then economy size plus electricity, against observed CO2
+# Rebuild the income-elasticity table and product concordance from the Bjelle et al. 2021 supplement
+prepare-spending:
+    uv run --python=3.13 python -m redworlds.jobs.prepare_spending
+
+# Baseline walk: economy size, then spending mix, then electricity, against observed CO2
 hindcast-walk:
     uv run --python=3.13 python -m redworlds.jobs.hindcast_walk
 

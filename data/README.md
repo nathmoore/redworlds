@@ -31,6 +31,7 @@ share at that tape's four-year ceiling.
 | `exiobase/` | EXIOBASE files are large (hundreds of MB) and licensed separately. Download — see below. |
 | `ember/` | The raw Ember electricity download (16 MB). Small derived tables are committed in `baseline/`. |
 | `worldbank/` | Raw World Bank GDP and population downloads. A small derived table is committed in `baseline/`. |
+| `bjelle2021/` | Two workbooks from the supplement to Bjelle et al. 2021. Small derived tables are committed in `baseline/` and `concordances/`. |
 | `owid/` | Observed CO₂ by country (Our World in Data's distribution of the Global Carbon Budget). Read as a check only; nothing derived from it is committed. |
 | `worlds/` | The cached 2050 baseline and (phase 2) per-player IO tables. Generated from EXIOBASE. |
 
@@ -82,9 +83,13 @@ its data may be committed here.
 | `electricity_generation.csv` | Observed TWh by game region, year and EXIOBASE electricity product, 2011–2025 | Ember yearly electricity data, CC BY 4.0 | `just prepare-electricity` |
 | `electricity_observed.csv` | Observed generation, power emissions and emissions intensity by game region and year | same | same |
 | `economy.csv` | Real GDP and population by game region and year, 2011–2025 | World Bank World Development Indicators, CC BY 4.0 | `just prepare-economy` |
+| `income_elasticities.csv` | Income elasticity of household spending, and 2011 budget share, by game region and consumption category | Bjelle et al. 2021 supplement, CC BY 4.0; budget shares from EXIOBASE 3.8.2, CC BY-SA 4.0 | `just prepare-spending` |
 | `intensity_outliers.csv` | Region-product cells whose emission intensity is far from the world's: a diagnostic, not an input | EXIOBASE 3.8.2 (the cached baseline), CC BY-SA 4.0 | `just diagnose-intensities` |
 
-Both files are comma-separated with the column header on the first line and `#` comment
+The same job writes `concordances/exiobase_to_consumption_category.csv`, which assigns each
+EXIOBASE product to one of the paper's fifteen consumption categories.
+
+All of these files are comma-separated with the column header on the first line and `#` comment
 lines after it; read them with `pandas.read_csv(path, comment="#")`.
 
 ### How to get the Ember data
@@ -112,6 +117,23 @@ Then run `just prepare-economy`.
 
 > World Bank. *World Development Indicators*: GDP (constant 2015 US$), NY.GDP.MKTP.KD, and
 > Population, total, SP.POP.TOTL. https://data.worldbank.org — licensed CC BY 4.0.
+
+### How to get the income elasticities
+
+The supplementary data to Bjelle et al. 2021 is one zip file, linked from the article page
+under *Appendix A. Supplementary data* (https://doi.org/10.1016/j.eneco.2021.105114; the
+article and its supplement are open access under CC BY 4.0). Unzip it and put two of its
+workbooks into `data/bjelle2021/` (gitignored):
+
+- `SI_regression_data.xlsx` — sheet `eps_income` holds the income elasticities
+- `SI_concordances.xlsx` — sheet `Products` maps EXIOBASE products to categories
+
+Then run `just prepare-spending`. It also reads `Y.txt` from the EXIOBASE download, to weight
+countries into game regions by what their households spend.
+
+> Bjelle, E. L., Wiebe, K. S., Többen, J., Tisserant, A., Ivanova, D., Vita, G., & Wood, R.
+> (2021). Future changes in consumption: The income effect on greenhouse gas emissions.
+> *Energy Economics*, 95, 105114. https://doi.org/10.1016/j.eneco.2021.105114 — CC BY 4.0.
 
 ### How to get the observed CO₂ series
 
