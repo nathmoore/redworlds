@@ -18,6 +18,7 @@ from redworlds.config import load_config
 from redworlds.engine.intensity import TARGET_YEAR, intensity_scalar
 from redworlds.engine.io_tables import CO2_STRESSOR, GHG_STRESSOR, emissions_to_tonnes
 from redworlds.jobs.build_baseline import BASELINE_NAME
+from redworlds.jobs.prepare_spending import product_elasticities
 from redworlds.jobs.run_tapes import (
     BuildTapeResult,
     ReduceTapeResult,
@@ -276,8 +277,14 @@ def build_tape_table(
     co2_stressor: str | tuple[str, ...] = CO2_STRESSOR,
     region_names: dict[int, str] | None = None,
     mean_lives: dict[str, dict[str, float]] | None = None,
+    respend_weights: dict[str, dict[str, float]] | None = None,
 ) -> dict[str, Any]:
-    """Solve ready and provisional tapes; retain held records without assigning a score."""
+    """Solve ready and provisional tapes; retain held records without assigning a score.
+
+    ``respend_weights`` is {region: {product: income elasticity}}; SWAP tapes, and BUILD
+    tapes paid for by households, use it to decide where re-spent money goes. Without it
+    every re-spend is flat proportional.
+    """
     provenance = provenance or _provenance()
     co2e_to_tonnes = emissions_to_tonnes(world, 1.0, extension, stressor)
     tapes: dict[str, Any] = {}
@@ -328,6 +335,7 @@ def build_tape_table(
                 extension=extension,
                 stressor=stressor,
                 co2_stressor=co2_stressor,
+                respend_weights=respend_weights,
             )
             tapes[key] = _y_side_payload(record, result, provenance, co2e_to_tonnes)
         else:
@@ -338,6 +346,7 @@ def build_tape_table(
                 extension=extension,
                 stressor=stressor,
                 co2_stressor=co2_stressor,
+                respend_weights=respend_weights,
             )
             tapes[key] = _build_payload(record, result, provenance, co2e_to_tonnes)
 
@@ -374,7 +383,7 @@ def main() -> None:
     baskets = load_scenario_weights()
     mean_lives = load_scenario_lifetimes()
     validate_baskets(world, {category: list(weights) for category, weights in baskets.items()}, records)
-    table = build_tape_table(world, records, baskets, mean_lives=mean_lives)
+    table = build_tape_table(world, records, baskets, mean_lives=mean_lives, respend_weights=product_elasticities())
     destination = DEFAULT_EXPORT_DIR / f"tape_table_{date.today().isoformat()}.json"
     write_tape_table(table, destination)
     print(f"Exported {len(table['tapes'])} tapes to {destination}")

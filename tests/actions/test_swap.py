@@ -183,3 +183,29 @@ def test_swap_accepts_a_share_for_one_stressor(test_mrio: pymrio.IOSystem) -> No
     before = float(_account(test_mrio).F_Y.loc[TEST_STRESSOR, "reg1"].sum())
     after = float(_account(result).F_Y.loc[TEST_STRESSOR, "reg1"].sum())
     assert after == pytest.approx(before * (1 - 0.5 * 0.25))
+
+
+def test_swap_respend_weights_move_the_rebound_and_keep_the_budget_closed(test_mrio: pymrio.IOSystem) -> None:
+    """Weighted re-spend changes where the saving goes, not whether the budget closes."""
+
+    def swap(respend_weights: dict[str, float] | None) -> pymrio.IOSystem:
+        return apply_swap(
+            mrio=test_mrio,
+            region="reg1",
+            from_technology="food",
+            replacement_technology="mining",
+            pct_rollout=0.2,
+            service_energy_ratio=1 / 3,
+            energy_extension=TEST_EXTENSION,
+            energy_stressor=TEST_STRESSOR,
+            respend_weights=respend_weights,
+        )
+
+    flat = swap(None)
+    weighted = swap({"transport": 3.0})
+    assert flat.Y is not None and weighted.Y is not None
+
+    column = ("reg1", HOUSEHOLDS)
+    transport = (slice(None), "transport")
+    assert weighted.Y.loc[transport, column].sum() > flat.Y.loc[transport, column].sum()
+    assert gdp_impact(test_mrio, weighted) == pytest.approx(0.0, abs=1e-9)

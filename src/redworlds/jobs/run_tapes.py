@@ -14,6 +14,7 @@ References:
   - docs/backlog.md — T3
 """
 
+from collections.abc import Mapping
 from dataclasses import dataclass
 from typing import Any
 
@@ -26,6 +27,7 @@ from redworlds.actions.swap import apply_swap
 from redworlds.engine.io_tables import (
     CO2_STRESSOR,
     CONSUMPTION_CATEGORIES,
+    GFCF,
     GHG_EXTENSION,
     GHG_STRESSOR,
     HOUSEHOLDS,
@@ -308,6 +310,23 @@ def run_reduce_tape(
     )
 
 
+RESPEND_WEIGHTINGS: tuple[str, ...] = ("income_elasticity", "flat")
+
+
+def _respend_weights(
+    record: dict[str, Any],
+    region: str,
+    respend_weights: Mapping[str, Mapping[str, float]] | None,
+) -> Mapping[str, float] | None:
+    """Return the region's re-spend weights, or None where the record or caller asks for flat."""
+    weighting = record.get("respend_weighting", "income_elasticity")
+    if weighting not in RESPEND_WEIGHTINGS:
+        raise ValueError(f"{record['key']!r}: respend_weighting must be one of {RESPEND_WEIGHTINGS}; got {weighting!r}")
+    if respend_weights is None or weighting == "flat":
+        return None
+    return respend_weights[region]
+
+
 def run_swap_tape(
     world: pymrio.IOSystem,
     record: dict[str, Any],
@@ -316,8 +335,15 @@ def run_swap_tape(
     extension: str = GHG_EXTENSION,
     stressor: str | tuple[str, ...] = GHG_STRESSOR,
     co2_stressor: str | tuple[str, ...] | None = None,
+    respend_weights: Mapping[str, Mapping[str, float]] | None = None,
 ) -> SwapTapeResult:
-    """Solve one consumer-side SWAP tape at its full ceiling."""
+    """Solve one consumer-side SWAP tape at its full ceiling.
+
+    ``respend_weights`` is {region: {product: income elasticity}}. When given, the money
+    the swap leaves over is re-spent where extra income goes (Bjelle et al. 2021) and not
+    in proportion to the existing basket. A record can keep the flat rule by setting
+    ``respend_weighting = "flat"``.
+    """
     if record["wing"] != "swap":
         raise ValueError(f"{record['key']!r} is a {record['wing']} tape; run_swap_tape takes swap tapes")
     region_names = load_region_names() if region_names is None else region_names
@@ -342,6 +368,7 @@ def run_swap_tape(
         direct_emissions_shares=_direct_emissions_shares(record),
         energy_extension=record.get("energy_extension", "satellite"),
         energy_stressor=record.get("energy_stressor", "Energy Carrier Supply: Total"),
+        respend_weights=_respend_weights(record, region, respend_weights),
     )
     delta = annual_delta(world, shocked, extension, stressor)
     flat = cumulative_delta(delta, FLAT_CURVE)
@@ -378,13 +405,21 @@ def run_build_tape(
     extension: str = GHG_EXTENSION,
     stressor: str | tuple[str, ...] = GHG_STRESSOR,
     co2_stressor: str | tuple[str, ...] | None = None,
+    respend_weights: Mapping[str, Mapping[str, float]] | None = None,
 ) -> BuildTapeResult:
-    """Solve one BUILD tape's construction phase and four operating deployment points."""
+    """Solve one BUILD tape's construction phase and four operating deployment points.
+
+    A record with ``reallocate = true`` pays for the build by withdrawing the same amount
+    elsewhere: from other investment by default, or from households with
+    ``reallocate_from = "households"``, in which case ``respend_weights`` (see
+    :func:`run_swap_tape`) decide which household spending gives way.
+    """
     if record["wing"] != "build":
         raise ValueError(f"{record['key']!r} is a {record['wing']} tape; run_build_tape takes build tapes")
     region_names = load_region_names() if region_names is None else region_names
     region = region_names[record["region_id"]]
     build_years = record["build_years_reference"]
+    from_households = record.get("reallocate_from", "investment") == "households"
     construction = apply_build_construction(
         world,
         region,
@@ -397,6 +432,8 @@ def run_build_tape(
             "Other business services (74)": 0.09,
         },
         reallocate=record.get("reallocate", False),
+        reallocate_from=(HOUSEHOLDS,) if from_households else (GFCF,),
+        reallocation_weights=_respend_weights(record, region, respend_weights) if from_households else None,
     )
     construction_delta = annual_delta(world, construction, extension, stressor)
 

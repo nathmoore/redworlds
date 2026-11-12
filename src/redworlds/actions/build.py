@@ -96,12 +96,22 @@ def apply_build_construction(
     annual_budget_purchaser: float,
     capex_split: Mapping[str, float] = DEFAULT_CAPEX_SPLIT,
     reallocate: bool = False,
+    reallocate_from: Sequence[str] = (GFCF,),
+    reallocation_weights: Mapping[str, float] | None = None,
 ) -> pymrio.IOSystem:
     """Inject one build year's capex into the region's GFCF column.
 
     Player-facing budgets are 2026 MUSD at purchaser prices; cached-table money is at basic
     prices. The universal 1.20 conversion is the documented temporary approximation until
     EXIOBASE's sector-specific tax and margin matrices are wired.
+
+    With ``reallocate`` the same amount is withdrawn elsewhere, so the build is paid for
+    and not added on top. Who pays is ``reallocate_from``: other investment by default, or
+    the household column, which describes a build funded from bills or taxes. Household
+    crowd-out can be weighted by income elasticity (``reallocation_weights``), so that
+    the spending given up is what a household drops first when it has less. Elasticities
+    describe households; they say nothing about which investment is displaced, so leave
+    the weights out when reallocating from investment.
     """
     if annual_budget_purchaser < 0.0:
         raise ValueError(f"annual_budget_purchaser must be non-negative; got {annual_budget_purchaser}")
@@ -119,8 +129,9 @@ def apply_build_construction(
             result,
             region,
             -annual_budget_basic,
-            categories=(GFCF,),
-            excluded_sectors=tuple(capex_split),
+            categories=tuple(reallocate_from),
+            excluded_sectors=tuple(capex_split) if GFCF in reallocate_from else (),
+            weights=reallocation_weights,
         )
     return recalculate_from_final_demand(result)
 

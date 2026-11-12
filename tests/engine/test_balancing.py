@@ -12,6 +12,7 @@ TODO: implement — see docs/backlog.md §Sequencing (GitHub issue pending)
 """
 
 import numpy as np
+import pandas as pd
 import pymrio
 import pytest
 
@@ -53,3 +54,48 @@ def test_rebalance_can_withdraw_from_gfcf_and_exclude_a_sector(test_mrio: pymrio
 def test_rebalance_rejects_an_empty_selection(test_mrio: pymrio.IOSystem) -> None:
     with pytest.raises(ValueError, match="basket is empty"):
         rebalance_economy(test_mrio, "reg1", 1.0, excluded_sectors=list(test_mrio.get_sectors()))
+
+
+def test_weights_send_the_respend_to_marginal_not_average_spending(test_mrio: pymrio.IOSystem) -> None:
+    """A product's share of the re-spend is its basket share times its weight."""
+    assert test_mrio.Y is not None
+    weights = {"food": 0.5, "transport": 2.0}
+    flat = rebalance_economy(test_mrio, "reg1", 100.0)
+    weighted = rebalance_economy(test_mrio, "reg1", 100.0, weights=weights)
+    assert flat.Y is not None and weighted.Y is not None
+
+    before = test_mrio.Y
+
+    def gained(result_y: pd.DataFrame, product: str) -> float:
+        rows, column = (slice(None), product), ("reg1", HOUSEHOLDS)
+        return float((result_y.loc[rows, column] - before.loc[rows, column]).sum())
+
+    assert float(weighted.Y.to_numpy().sum() - test_mrio.Y.to_numpy().sum()) == pytest.approx(100.0)
+    assert gained(weighted.Y, "food") < gained(flat.Y, "food")
+    assert gained(weighted.Y, "transport") > gained(flat.Y, "transport")
+    # Relative to flat, each product's gain moves by its weight, up to one common factor.
+    food_ratio = gained(weighted.Y, "food") / gained(flat.Y, "food")
+    transport_ratio = gained(weighted.Y, "transport") / gained(flat.Y, "transport")
+    assert transport_ratio / food_ratio == pytest.approx(2.0 / 0.5)
+
+
+def test_weights_of_one_are_flat_proportional(test_mrio: pymrio.IOSystem) -> None:
+    """Weighting every product equally is the same as not weighting."""
+    flat = rebalance_economy(test_mrio, "reg1", 100.0)
+    weighted = rebalance_economy(test_mrio, "reg1", 100.0, weights=dict.fromkeys(test_mrio.get_sectors(), 1.0))
+    assert flat.Y is not None and weighted.Y is not None
+    assert weighted.Y.to_numpy() == pytest.approx(flat.Y.to_numpy())
+
+
+def test_a_negative_weight_is_an_error(test_mrio: pymrio.IOSystem) -> None:
+    with pytest.raises(ValueError, match="non-negative"):
+        rebalance_economy(test_mrio, "reg1", 100.0, weights={"food": -0.1})
+
+
+def test_a_weighted_withdrawal_cannot_take_more_than_is_spent_on_a_product(test_mrio: pymrio.IOSystem) -> None:
+    """Concentrating a large withdrawal on one product must not drive it negative."""
+    assert test_mrio.Y is not None
+    basket = float(test_mrio.Y.loc[:, ("reg1", HOUSEHOLDS)].clip(lower=0.0).sum())
+    weights = dict.fromkeys(test_mrio.get_sectors(), 0.0) | {"food": 1.0}
+    with pytest.raises(ValueError, match="exceeds spending"):
+        rebalance_economy(test_mrio, "reg1", -0.9 * basket, weights=weights)

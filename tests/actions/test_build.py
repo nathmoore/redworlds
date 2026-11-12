@@ -18,7 +18,7 @@ import pytest
 
 from redworlds.actions.build import apply_build, apply_build_construction, apply_build_operation
 from redworlds.engine.currency import CONVERSION_FACTOR
-from redworlds.engine.io_tables import GFCF
+from redworlds.engine.io_tables import GFCF, HOUSEHOLDS
 from redworlds.engine.prices import purchaser_to_basic
 
 
@@ -53,6 +53,34 @@ def test_build_reallocation_is_budget_neutral(test_mrio: pymrio.IOSystem) -> Non
     result = apply_build_construction(test_mrio, "reg1", 1.0, {"food": 1.0}, reallocate=True)
     assert result.Y is not None and test_mrio.Y is not None
     assert float(result.Y.to_numpy().sum()) == pytest.approx(float(test_mrio.Y.to_numpy().sum()))
+
+
+def test_build_can_be_paid_for_by_households_weighted_by_elasticity(test_mrio: pymrio.IOSystem) -> None:
+    """Household-funded reallocation leaves investment alone and takes most from the high-weight product."""
+    assert test_mrio.Y is not None
+
+    def build(weights: dict[str, float] | None) -> pymrio.IOSystem:
+        return apply_build_construction(
+            test_mrio,
+            "reg1",
+            1_000.0,
+            {"food": 1.0},
+            reallocate=True,
+            reallocate_from=(HOUSEHOLDS,),
+            reallocation_weights=weights,
+        )
+
+    flat = build(None)
+    weighted = build({"transport": 3.0})
+    assert flat.Y is not None and weighted.Y is not None
+
+    injected = purchaser_to_basic(1_000.0) / CONVERSION_FACTOR
+    gfcf_change = float((weighted.Y[("reg1", GFCF)] - test_mrio.Y[("reg1", GFCF)]).sum())
+    assert gfcf_change == pytest.approx(injected)
+    assert float(weighted.Y.to_numpy().sum()) == pytest.approx(float(test_mrio.Y.to_numpy().sum()))
+    transport = (slice(None), "transport")
+    households = ("reg1", HOUSEHOLDS)
+    assert weighted.Y.loc[transport, households].sum() < flat.Y.loc[transport, households].sum()
 
 
 def test_build_operation_preserves_a_and_y_column_totals(test_mrio: pymrio.IOSystem) -> None:

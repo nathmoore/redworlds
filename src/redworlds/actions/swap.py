@@ -5,7 +5,7 @@ carrying part of the removed spend is converted to physical energy using the sou
 products' EXIOBASE prices; and the replacement service is converted back to money using the
 household electricity mix. A source retail margin can fall with the fuel without being
 mistaken for energy. Any remainder is spread proportionally across the household basket as
-deliberate rebound.
+deliberate rebound, or by income elasticity when ``respend_weights`` is given.
 
 Fuel tapes can also make the relevant share of direct household emissions (``F_Y``) follow
 the source fuel's own change, using the same correction as REDUCE.
@@ -74,6 +74,7 @@ def apply_swap(
     direct_emissions_shares: Mapping[str | tuple[str, ...], float] | None = None,
     energy_extension: str = ENERGY_EXTENSION,
     energy_stressor: str | tuple[str, ...] = ENERGY_STRESSOR,
+    respend_weights: Mapping[str, float] | None = None,
 ) -> pymrio.IOSystem:
     """Replace source energy with service-equivalent energy and preserve the budget.
 
@@ -105,9 +106,12 @@ def apply_swap(
             ``direct_emissions_share`` and leaves unlisted rows unchanged.
         energy_extension: Physical-energy satellite account.
         energy_stressor: Energy-supply row, in TJ for EXIOBASE.
+        respend_weights: {product: weight} deciding where the budget remainder goes,
+            normally income elasticities (``engine.balancing.rebalance_economy``). Omit
+            for flat proportional.
 
     Returns:
-        A calculated, closed-budget IO system after the swap and flat re-spend.
+        A calculated, closed-budget IO system after the swap and the re-spend.
 
     Raises:
         ValueError: If a fraction is invalid or an active energy product cannot be priced.
@@ -171,7 +175,7 @@ def apply_swap(
                 )
 
     remainder = float(mrio.Y.to_numpy().sum() - result.Y.to_numpy().sum())
-    balanced = rebalance_economy(result, region, remainder, categories)
+    balanced = rebalance_economy(result, region, remainder, categories, weights=respend_weights)
 
     if direct_emissions_extension is not None:
         if direct_emissions_driver is None:

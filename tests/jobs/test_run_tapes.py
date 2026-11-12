@@ -207,6 +207,38 @@ def test_solves_a_swap_tape_with_a_closed_budget(game_world, test_baskets) -> No
     assert result.cumulative_curve == pytest.approx(result.annual_delta * 46.5)
 
 
+def test_a_swap_record_can_keep_the_flat_respend_and_rejects_an_unknown_rule(game_world, test_baskets) -> None:
+    """Elasticity weights apply by default when supplied; a record can opt out by name."""
+    record = {
+        **_record(wing="swap"),
+        "max_replaceable_fraction": 0.2,
+        "replacement_category": "test_replacement",
+        "service_energy_ratio": 1 / 3,
+        "energy_extension": TEST_EXTENSION,
+        "energy_stressor": TEST_STRESSOR,
+    }
+    sectors = list(game_world.get_sectors())
+    weights = {region: {sectors[-1]: 5.0} for region in game_world.get_regions()}
+
+    def solve(tape: dict[str, Any], respend_weights: dict[str, dict[str, float]] | None) -> float:
+        result = run_swap_tape(
+            game_world,
+            tape,
+            test_baskets,
+            extension=TEST_EXTENSION,
+            stressor=TEST_STRESSOR,
+            respend_weights=respend_weights,
+        )
+        assert result.gdp_impact == pytest.approx(0.0, abs=1e-9)
+        return result.annual_delta
+
+    unweighted = solve(record, None)
+    assert solve(record, weights) != pytest.approx(unweighted)
+    assert solve({**record, "respend_weighting": "flat"}, weights) == pytest.approx(unweighted)
+    with pytest.raises(ValueError, match="respend_weighting"):
+        solve({**record, "respend_weighting": "by_guesswork"}, weights)
+
+
 def test_build_samples_the_non_linear_operating_solve(game_world) -> None:
     sectors = list(game_world.get_sectors())
     record = {
