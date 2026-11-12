@@ -22,8 +22,9 @@ against. Continue to 2100.
    name of the matching IPCC scenario variable, so it can be set beside any published run.
 3. A 2050 world replaces both constants in `engine/intensity.py` (issue #17) and is shown
    beside published SSP2 runs with the differences explained.
-4. A named sensitivity for AI data-centre electricity shows where it does and does not move
-   regional and world CO₂.
+4. A sensitivity report sets the large uncertain levers side by side — AI data-centre
+   electricity, how soon fusion works, how fast solar and wind get cheaper — and shows where
+   each does and does not move regional and world CO₂.
 
 **Added rigour (agent).** Hindcast before forecast, five-year snapshots, the source register
 and its licence test, and the one-home-per-change rule. They serve the intent by making the
@@ -44,6 +45,9 @@ Tick items here as they land; findings go under *Milestone A results* below.
 - [x] **A2 The electricity step** (2026-11-11). `engine/electricity.py`, conserving kWh, with
   a reliability test per technology and a stand-in rule. Tested on the pymrio test world.
 - [x] **A3 First electricity-only hindcast** (2026-11-11). `just hindcast-electricity`.
+- [x] **Reliability check across all products** (2026-11-12). `just diagnose-intensities`
+  writes `data/baseline/intensity_outliers.csv`; findings in
+  [design § Which regions can describe which products](../design/baseline_walk.md#which-regions-can-describe-which-products).
 - [x] **B1 Economy size** (2026-11-11). `engine/economy.py` scales each region's final demand
   by its real GDP growth; `just prepare-economy` builds `data/baseline/economy.csv` from
   World Bank data; `just hindcast-walk` runs both built steps against observed CO₂.
@@ -81,9 +85,11 @@ Tick items here as they land; findings go under *Milestone A results* below.
 3. **A6 The walk's skeleton.** A general ledger loader with the `status` column, a
    `jobs/walk_baseline.py` that applies steps in order and caches each snapshot, and the
    version stamp. The electricity hindcast becomes its first caller.
-4. **B2 Spending mix.** Elasticities from [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114); the numbers are in the
-   paper's online supplement, still to obtain. They find the effect on world emissions
-   small, so a flat placeholder, marked as one in the ledger, is acceptable until then.
+4. **B2 Spending mix.** [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114)'s supplement is in hand: products mapped to
+   consumption categories, and projected spending shares by category and region group to
+   2030. Check its reuse terms (the paper is CC BY), prepare the shares as ledger rows, and
+   apply them through the existing per-product scaling. They find the effect on world
+   emissions small, so expect this step to matter by region and product more than in total.
 5. **B3 Road transport and heating.** Data preparation for EV stock and heat pumps; apply
    `apply_swap`'s mechanism at baseline scale.
 6. **B4 Industry, productivity and non-CO₂**, then the residual by sector against observed
@@ -168,6 +174,12 @@ the model's regional figures include what each region's carriers emit.
   technologies with no track record. See
   [design § Technology maturity](../design/baseline_walk.md#technology-maturity). This settles the vintage
   question raised under sprint item A5: the fleet in each snapshot is a mix of build years.
+- **The baseline reaches 2100, so unproven technologies get a central path** (Nathan,
+  2026-11-12): an invented recipe, a first year and a deployment path with a range, all
+  marked as assumptions. See [design § Technology maturity](../design/baseline_walk.md#technology-maturity).
+- **IEA and MacKay are read side by side** (Nathan, 2026-11-12). The IEA's outlook is that of
+  building and swapping; MacKay's physical arithmetic is the check that keeps it from
+  becoming the frame. See [design § Reference scenarios](../design/baseline_walk.md#reference-scenarios).
 - **The IEA's scenarios are the reference set** (Nathan, 2026-11-12). Baseline levers are read
   against Current Policies and Stated Policies; tapes are measured against Net Zero
   Emissions by 2050. Technologies are described in the style of the IEA's technology

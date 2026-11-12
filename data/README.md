@@ -82,6 +82,7 @@ its data may be committed here.
 | `electricity_generation.csv` | Observed TWh by game region, year and EXIOBASE electricity product, 2011–2025 | Ember yearly electricity data, CC BY 4.0 | `just prepare-electricity` |
 | `electricity_observed.csv` | Observed generation, power emissions and emissions intensity by game region and year | same | same |
 | `economy.csv` | Real GDP and population by game region and year, 2011–2025 | World Bank World Development Indicators, CC BY 4.0 | `just prepare-economy` |
+| `intensity_outliers.csv` | Region-product cells whose emission intensity is far from the world's: a diagnostic, not an input | EXIOBASE 3.8.2 (the cached baseline), CC BY-SA 4.0 | `just diagnose-intensities` |
 
 Both files are comma-separated with the column header on the first line and `#` comment
 lines after it; read them with `pandas.read_csv(path, comment="#")`.

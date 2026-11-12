@@ -248,6 +248,9 @@ above.
 - IEA (2026), *Energy Technology Perspectives 2026*, IEA, Paris. Licence: CC BY 4.0. Chapter 3
   holds the technology deployment dashboards; its technical notes define the market status
   categories used in the design doc. https://www.iea.org/reports/energy-technology-perspectives-2026
+- IEA (2025), *World Energy Outlook 2025*, IEA, Paris. Licence: CC BY 4.0 for the report;
+  CC BY NC SA 4.0 for Annex A, whose tables therefore cannot be committed here.
+  https://www.iea.org/reports/world-energy-outlook-2025
 - IEA (2023), *Net Zero Roadmap: A Global Pathway to Keep the 1.5 °C Goal in Reach* (2023
   update), IEA, Paris. Licence: CC BY 4.0.
   https://www.iea.org/reports/net-zero-roadmap-a-global-pathway-to-keep-the-15-0c-goal-in-reach

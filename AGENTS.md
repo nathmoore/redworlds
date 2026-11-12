@@ -105,6 +105,7 @@ just prepare-electricity   # rebuild data/baseline/ from the raw Ember download
 just prepare-economy       # rebuild data/baseline/economy.csv from the raw World Bank downloads
 just hindcast-electricity  # baseline walk: electricity-only run against the cached world
 just hindcast-walk         # baseline walk: every built step, against observed CO2
+just diagnose-intensities  # list region-product cells whose emission intensity looks unreliable
 just docs-serve            # live docs at http://localhost:8000
 just docs-build            # strict build; fails on broken links
 ```

@@ -27,8 +27,8 @@ files in `jobs/`, player actions in `actions/` (the walk adds nothing there).
 |---|---|---|
 | A step: world in, world out, no file access | `src/redworlds/engine/` | `economy.py`, `electricity.py` |
 | Data preparation: raw download → small committed table | `src/redworlds/jobs/` | `prepare_economy.py`, `prepare_electricity.py` |
-| A run: load the cached world, apply steps, report | `src/redworlds/jobs/` | `hindcast_electricity.py`, `hindcast_walk.py`; later `walk_baseline.py` |
-| Inputs: the driver ledger | `data/baseline/` | `economy.csv`, `electricity_generation.csv`, `electricity_observed.csv` |
+| A run: load the cached world, apply steps, report | `src/redworlds/jobs/` | `hindcast_electricity.py`, `hindcast_walk.py`, `diagnose_intensities.py`; later `walk_baseline.py` |
+| Inputs: the driver ledger | `data/baseline/` | `economy.csv`, `electricity_generation.csv`, `electricity_observed.csv`; diagnostic: `intensity_outliers.csv` |
 | Concordances: outside categories → EXIOBASE | `data/concordances/` | `ember_to_exiobase.csv`, `country_to_exiobase.csv` |
 | Raw downloads | `data/<source>/`, gitignored | `data/ember/`, `data/worldbank/`, `data/owid/` |
 | Tests, mirroring the source tree | `tests/engine/`, `tests/jobs/` | one file per module |
@@ -215,6 +215,15 @@ The status decides how a technology's future is written down:
   report). The baseline carries no fusion unless a ledger row says so; a fusion tape
   carries the range as its uncertainty.
 
+**The walk runs to 2100, so a pre-commercial technology still needs a path.** "Not within a
+decade" leaves seventy years. For each such technology the ledger holds three things, all
+assumptions and all marked as such: an invented recipe (what a unit needs and emits, built
+from the nearest existing technology — fusion from nuclear, with a stated cost multiple);
+a year of first commercial deployment; and a deployment path after it, with a central case
+and a range. The central case goes in the baseline. The range is what the sensitivity
+report varies, so the weight of "how soon does fusion work" can be set beside, say, "how
+large do data centres grow".
+
 **From a curve to a recipe.** Three sets of ledger rows per technology:
 
 - *Cost and performance by build year*: installed cost per kW, capacity factor, operating
@@ -229,6 +238,67 @@ The cost breakdown that turns a cost per kW into purchases from particular produ
 [Wiebe et al. 2018](https://doi.org/10.1186/s40008-018-0118-y) SI Table SI1. A tape that builds something in the game's 2050 reads the
 same curve at 2050 and later: the baseline and the tapes share one description of each
 technology.
+
+## Recipe or concordance
+
+A tape or a step can describe a technology in two ways.
+
+- **A concordance** maps the technology onto products the table already has, with shares:
+  "an electric car is 60% *Motor vehicles*, 30% *Electrical machinery*, 10% other". It
+  changes how much of existing products is bought. It is cheap, and it inherits whatever
+  the table says about those products.
+- **A recipe** is a column of its own: what one unit of output needs from every other
+  product, and what it emits. It is needed when the table has no usable description.
+
+Use a concordance unless all three of these hold:
+
+1. **No reliable column exists.** The product is absent from the table, or fails the
+   reliability check in that region (next section).
+2. **Its own supply chain or emissions are the point.** A heat pump is a manufactured
+   appliance; the table's machinery products describe making one well enough, and what
+   matters is the electricity it uses. A fusion plant, a hydrogen electrolyser or a
+   near-zero steel mill produces something whose inputs and emissions differ from anything
+   in the table.
+3. **It gets big.** It reaches more than about one per cent of its market within the
+   horizon. Below that a stand-in costs little accuracy.
+
+On that test, recipes are needed for solar PV and wind (no reliable column in most
+regions), for fusion and small modular reactors, and later for hydrogen, near-zero steel
+and cement, and carbon removal. Concordances serve for electric vehicles, heat pumps,
+insulation, appliances and every REDUCE basket. The seventeen technologies with dashboards
+in the IEA's *Energy Technology Perspectives 2026* are the checklist of what might be large
+enough to need one.
+
+## Which regions can describe which products
+
+The table describes every product in every region, including products a region barely
+makes. `just diagnose-intensities` compares each region's direct greenhouse-gas intensity
+for each product with the output-weighted world intensity, and lists the cells more than
+five times above or below it in `data/baseline/intensity_outliers.csv`.
+
+At seven regions, of 1,247 region-product cells with output:
+
+| | Cells | Share of world emissions |
+|---|---|---|
+| Far from the world intensity, and under 1% of world output (likely artefacts) | 41 | 0.1% |
+| Far from the world intensity, on a larger share of output | 110 | 4.1% |
+
+- **The artefacts are few and small today.** They matter only when something scales them
+  up, which is why the electricity step tests each technology before using it.
+- **They cluster.** South Asia holds 24 of the 41; Europe and Central Asia holds none.
+  Electricity products account for eleven, nearly all solar, geothermal and tidal.
+- **The 110 larger cells need reading one by one.** Some are real (landfill in Africa and
+  Middle East, cattle in South Asia); some look like booking differences (gas distribution
+  in Mainland East Asia at six times the world intensity).
+- **Aggregation hides more.** Seven regions average away country-level oddities; the same
+  check on the 49-region table will find more, and belongs with the work on Region 3's
+  heat-and-power plants.
+- **A caution on reading it.** The comparison is with the world average, so where the
+  largest producer is itself the odd one, everyone else is flagged instead. Geothermal is
+  the example: Region 3's high figure dominates the average.
+
+Rule for tapes and steps: before scaling a product in a region, look it up in this list. A
+flagged cell needs a stand-in, a borrowed recipe or a stated reason to trust it.
 
 ## Reference scenarios
 
@@ -254,6 +324,17 @@ Two cautions. The NZE scenario is revised each year, and the 2025 version is des
 the IEA as no longer a limited-overshoot pathway, so a milestone is cited with its edition.
 And all IEA scenarios share one population and GDP path, so the difference between them is
 policy and technology only — which is what makes them a clean comparison for the tapes.
+
+**A second lens, so the first does not become the frame.** The IEA's scenarios describe
+change led by industry and policy, with the services people enjoy held roughly constant:
+more is built, and what is used is swapped for a cleaner version. That is the outlook of
+the BUILD wing and of most SWAP tapes, and it is the right reference for them. It says
+little about using less. The counterweight is the method of MacKay's *Sustainable Energy —
+Without the Hot Air*, already the basis of every tape ceiling in this repo: set economics
+and acceptability aside, and ask what is physically required and physically possible per
+person. Each technology card therefore carries two readings where both exist: what the IEA
+scenarios deploy, and what the physical arithmetic allows or demands. Where they disagree,
+the disagreement is recorded, not resolved in favour of either.
 
 **What may be used.** IEA reports — text, figures, and numbers read from them — are
 published under CC BY 4.0 and can be cited and adapted with attribution. IEA datasets, data
@@ -385,5 +466,6 @@ partially suitable for analyzing trends". They serve as checkpoints.
 | [Vita et al. 2019](https://doi.org/10.1016/j.ecolecon.2019.05.002), with supplement | EXIOBASE, Europe | — | Lifestyle scenarios | Worked recipes for diet, food-waste and sufficiency shocks on EXIOBASE, with re-spending rebound. For tape design more than the baseline |
 
 Read only in part so far: [Dai et al. 2024](https://doi.org/10.1080/09535314.2024.2387023), [Jewell & Cherp 2023](https://doi.org/10.1002/wcc.838), [Grubler et al. 2018](https://doi.org/10.1038/s41560-018-0172-6)
-and the [JRC MR-GRAS baseline](https://publications.jrc.ec.europa.eu/repository/handle/JRC120513). Still to obtain: the online supplement to
-[Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114), which holds the elasticities themselves (the paper is open access, CC BY).
+and the [JRC MR-GRAS baseline](https://publications.jrc.ec.europa.eu/repository/handle/JRC120513). The supplement to [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114) is in hand: a mapping of EXIOBASE's 200 products to
+its consumption categories, six region groups, and projected spending shares by category to
+2030, which is what step 2 needs.

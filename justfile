@@ -58,6 +58,10 @@ baseline:
 prepare-electricity:
     uv run --python=3.13 python -m redworlds.jobs.prepare_electricity
 
+# List region-product cells of the baseline whose emission intensity is far from the world's
+diagnose-intensities:
+    uv run --python=3.13 python -m redworlds.jobs.diagnose_intensities
+
 # Rebuild data/baseline/economy.csv from the raw World Bank downloads
 prepare-economy:
     uv run --python=3.13 python -m redworlds.jobs.prepare_economy

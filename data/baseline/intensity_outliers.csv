@@ -1,0 +1,158 @@
+region,product,output,emissions,intensity,world_intensity,ratio,output_share,emissions_share,small_sample
+# Region and product cells of the 2011 baseline whose direct greenhouse-gas intensity is
+# more than 5 times above or below the world intensity for that product.
+# output in million EUR (2011); emissions in tonnes CO2e; intensity in tonnes per
+# million EUR. small_sample: the region makes under 1% of world output of the product.
+# Derived from EXIOBASE 3.8.2 (CC BY-SA 4.0) by redworlds.jobs.diagnose_intensities.
+# Do not edit by hand; re-run the job.
+Mainland East Asia,Distribution services of gaseous fuels through mains,25730.9,175191038.0,6808.58,1070.86,6.36,0.0692,0.4397,False
+Africa and Middle East,Food waste for treatment: landfill,3730.7,173061696.0,46388.45,7787.13,5.96,0.0303,0.1802,False
+South Asia,Cattle,2752.6,147005516.0,53405.5,9541.09,5.6,0.0139,0.0776,False
+South East Asia and Pacific Ocean,Paper for treatment: landfill,2187.5,114499384.0,52342.94,5897.28,8.88,0.0341,0.3026,False
+Africa and Middle East,Supporting and auxiliary transport services; travel agency services (63),106932.3,101433453.0,948.58,101.77,9.32,0.0605,0.564,False
+Mainland East Asia,Tobacco products (16),15247.9,94460822.0,6195.02,821.85,7.54,0.0887,0.6684,False
+South Asia,"Fabricated metal products, except machinery and equipment (28)",60161.8,71499665.0,1188.46,154.59,7.69,0.0331,0.2545,False
+Africa and Middle East,Wearing apparel; furs (18),34315.3,60201587.0,1754.37,222.58,7.88,0.0529,0.4169,False
+Africa and Middle East,Textiles (17),30201.1,57843779.0,1915.29,171.5,11.17,0.0302,0.3371,False
+Africa and Middle East,Furniture; other manufactured goods n.e.c. (36),40070.8,54973724.0,1371.92,203.16,6.75,0.0372,0.2512,False
+USA and Canada,Transportation services via pipelines,3246.1,51051792.0,15727.15,2959.65,5.31,0.0577,0.3068,False
+Africa and Middle East,Wood and products of wood and cork (except furniture); articles of straw and plaiting materials (20),23677.4,49418120.0,2087.14,336.64,6.2,0.0541,0.3354,False
+Africa and Middle East,Secondary raw materials,5371.6,33303704.0,6200.01,713.08,8.69,0.0523,0.4544,False
+Mainland East Asia,Membership organisation services n.e.c. (91),82044.1,32971884.0,401.88,76.46,5.26,0.1281,0.6734,False
+Africa and Middle East,"Recreational, cultural and sporting services (92)",56242.7,21365479.0,379.88,72.69,5.23,0.0405,0.2118,False
+Africa and Middle East,"Financial intermediation services, except insurance and pension funding services (65)",91123.3,20604674.0,226.12,31.09,7.27,0.0366,0.2659,False
+South Asia,Hotel and restaurant services (55),37403.7,20595126.0,550.62,31.74,17.35,0.0102,0.1772,False
+South Asia,Distribution and trade services of electricity,19305.3,20042057.0,1038.17,67.47,15.39,0.0273,0.4197,False
+Mainland East Asia,Textiles waste for treatment: landfill,1039.6,19557419.0,18812.89,3716.31,5.06,0.0556,0.2813,False
+Africa and Middle East,Textiles waste for treatment: landfill,624.4,18385137.0,29443.22,3716.31,7.92,0.0334,0.2644,False
+USA and Canada,Meat animals nec,674.8,18207764.0,26981.76,4943.46,5.46,0.0138,0.0751,False
+Africa and Middle East,Steam and hot water supply services,5732.8,17738533.0,3094.2,25106.82,0.12,0.1022,0.0126,False
+Africa and Middle East,Services auxiliary to financial intermediation (67),48711.4,17307272.0,355.3,34.25,10.37,0.0446,0.4625,False
+Europe and Central Asia,"Wool, silk-worm cocoons",373.5,16696693.0,44703.86,6235.85,7.17,0.0497,0.3562,False
+Africa and Middle East,Other services (93),39107.6,14262040.0,364.69,42.2,8.64,0.0451,0.3899,False
+Mainland East Asia,Anthracite,521.6,13389929.0,25672.26,5027.19,5.11,0.0411,0.2101,False
+Europe and Central Asia,Fish and other fishing products; services incidental of fishing (05),32080.5,12964735.0,404.13,70.25,5.75,0.104,0.5982,False
+South East Asia and Pacific Ocean,Textiles waste for treatment: landfill,617.6,11703323.0,18949.05,3716.31,5.1,0.033,0.1683,False
+South Asia,Retail trade services of motor fuel,1435.4,10348283.0,7209.34,492.71,14.63,0.0244,0.3576,False
+Africa and Middle East,Products of meat pigs,5962.4,9510723.0,1595.13,287.36,5.55,0.045,0.2499,False
+Mainland East Asia,Oil/hazardous waste for treatment: incineration,969.2,9082345.0,9371.04,806.66,11.62,0.0439,0.5095,False
+Mainland East Asia,Plastic waste for treatment: incineration,867.6,8323989.0,9593.89,1001.03,9.58,0.0333,0.3188,False
+Mainland East Asia,Intert/metal waste for treatment: incineration,606.8,8285837.0,13654.74,954.63,14.3,0.0198,0.2826,False
+Africa and Middle East,Products of meat poultry,7492.7,7652254.0,1021.29,201.76,5.06,0.0463,0.2342,False
+South East Asia and Pacific Ocean,Plastic waste for treatment: landfill,1260.9,6827980.0,5414.97,940.03,5.76,0.0292,0.1685,False
+South East Asia and Pacific Ocean,Other Liquid Biofuels,178.0,6822244.0,38318.92,5160.44,7.43,0.1253,0.9304,False
+South Asia,Other transport equipment (35),12908.8,6131317.0,474.97,86.44,5.5,0.0137,0.0754,False
+Europe and Central Asia,Tobacco products (16),42804.5,5978463.0,139.67,821.85,0.17,0.2489,0.0423,False
+USA and Canada,Processed rice,1316.6,5917350.0,4494.41,454.22,9.89,0.0115,0.1136,False
+Mainland East Asia,Secondary raw materials,43951.4,5378012.0,122.36,713.08,0.17,0.4277,0.0734,False
+Mainland East Asia,Food products nec,444084.9,4826259.0,10.87,85.14,0.13,0.2379,0.0304,False
+Africa and Middle East,Food waste for treatment: waste water treatment,11725.3,4788382.0,408.38,3997.83,0.1,0.1189,0.0122,False
+Africa and Middle East,Transportation services via pipelines,7817.7,4344777.0,555.76,2959.65,0.19,0.139,0.0261,False
+USA and Canada,"Electricity by tide, wave, ocean",2.7,4277924.0,1599841.33,185713.63,8.61,0.0377,0.325,False
+Europe and Central Asia,Meat products nec,110084.9,3862802.0,35.09,178.71,0.2,0.4757,0.0934,False
+South Asia,"Sale, maintenance, repair of motor vehicles, motor vehicles parts, motorcycles, motor cycles parts and accessoiries",20140.2,3739560.0,185.68,24.27,7.65,0.0135,0.1034,False
+Latin America and the Caribbean,Steam and hot water supply services,1642.6,3433168.0,2090.14,25106.82,0.08,0.0293,0.0024,False
+South East Asia and Pacific Ocean,Food waste for treatment: composting and land application,1333.3,3302567.0,2476.99,457.09,5.42,0.043,0.233,False
+Mainland East Asia,Fish products,218423.7,2932711.0,13.43,122.02,0.11,0.4771,0.0525,False
+Mainland East Asia,Food waste for treatment: waste water treatment,8829.3,2875049.0,325.63,3997.83,0.08,0.0896,0.0073,False
+Latin America and the Caribbean,Other waste for treatment: waste water treatment,12284.0,2758903.0,224.59,1786.93,0.13,0.0889,0.0112,False
+Mainland East Asia,"Wool, silk-worm cocoons",3798.0,2302739.0,606.3,6235.85,0.1,0.5052,0.0491,False
+Latin America and the Caribbean,Tobacco products (16),17649.0,2215609.0,125.54,821.85,0.15,0.1026,0.0157,False
+USA and Canada,Research and development services (73),118547.0,1963433.0,16.56,118.94,0.14,0.1555,0.0217,False
+Africa and Middle East,Paper waste for treatment: incineration,1612.1,1926381.0,1194.97,194.29,6.15,0.0405,0.2489,False
+South East Asia and Pacific Ocean,Additives/Blending Components,749.7,1879279.0,2506.87,289.28,8.67,0.0482,0.4178,False
+Latin America and the Caribbean,Gasoline Type Jet Fuel,15.3,1866511.0,122047.53,7979.38,15.3,0.0503,0.7698,False
+Mainland East Asia,"Wholesale trade and commission trade services, except of motor vehicles and motorcycles (51)",289507.8,1806675.0,6.24,31.76,0.2,0.1188,0.0233,False
+South Asia,Coke Oven Coke,5921.0,1585854.0,267.84,2439.57,0.11,0.0859,0.0094,False
+Latin America and the Caribbean,Supporting and auxiliary transport services; travel agency services (63),149471.5,1469354.0,9.83,101.77,0.1,0.0846,0.0082,False
+Africa and Middle East,"Lead, zinc and tin ores and concentrates",7376.8,1444578.0,195.83,1143.2,0.17,0.2446,0.0419,False
+Mainland East Asia,Fish and other fishing products; services incidental of fishing (05),149068.5,1338124.0,8.98,70.25,0.13,0.4832,0.0617,False
+South East Asia and Pacific Ocean,Inert/metal/hazardous waste for treatment: landfill,1832.5,1096929.0,598.6,79.27,7.55,0.0277,0.2094,False
+Mainland East Asia,Transportation services via pipelines,5809.7,930143.0,160.1,2959.65,0.05,0.1033,0.0056,False
+Africa and Middle East,Inert/metal/hazardous waste for treatment: landfill,2191.9,922920.0,421.05,79.27,5.31,0.0332,0.1762,False
+Latin America and the Caribbean,Paper waste for treatment: incineration,866.1,905827.0,1045.9,194.29,5.38,0.0217,0.117,False
+South East Asia and Pacific Ocean,Electricity nec,1026.7,871302.0,848.63,10009.14,0.08,0.126,0.0107,False
+USA and Canada,Other Hydrocarbons,24885.4,850336.0,34.17,1742.22,0.02,0.7976,0.0156,False
+Africa and Middle East,Electricity by nuclear,1906.2,783290.0,410.91,32.17,12.77,0.0112,0.1428,False
+South Asia,Transportation services via pipelines,4627.9,778477.0,168.21,2959.65,0.06,0.0823,0.0047,False
+Mainland East Asia,Products of meat pigs,18775.7,775243.0,41.29,287.36,0.14,0.1417,0.0204,False
+Europe and Central Asia,Private households with employed persons (95),84882.6,772654.0,9.1,48.55,0.19,0.4121,0.0773,False
+USA and Canada,"Lead, zinc and tin ores and concentrates",3040.7,661852.0,217.66,1143.2,0.19,0.1008,0.0192,False
+Latin America and the Caribbean,Electricity by nuclear,2052.8,654953.0,319.06,32.17,9.92,0.012,0.1194,False
+South Asia,Animal products nec,14259.9,592728.0,41.57,403.82,0.1,0.1629,0.0168,False
+Africa and Middle East,Aluminium ores and concentrates,2077.2,549539.0,264.56,2072.34,0.13,0.1912,0.0244,False
+Mainland East Asia,Electricity by hydro,54636.3,548300.0,10.04,51.56,0.19,0.2987,0.0581,False
+Africa and Middle East,Food waste for treatment: biogasification and land application,411.3,518673.0,1261.17,242.02,5.21,0.0613,0.3195,False
+Mainland East Asia,products of Vegetable oils and fats,26699.4,508619.0,19.05,136.38,0.14,0.1241,0.0173,False
+South Asia,Blast Furnace Gas,766.5,464395.0,605.88,3763.83,0.16,0.093,0.015,False
+Africa and Middle East,Paper and wood waste for treatment: composting and land application,266.3,405628.0,1523.41,167.4,9.1,0.0302,0.2752,False
+Mainland East Asia,Meat products nec,41362.5,395871.0,9.57,178.71,0.05,0.1787,0.0096,False
+South East Asia and Pacific Ocean,Paper and wood waste for treatment: composting and land application,370.1,364626.0,985.12,167.4,5.88,0.042,0.2474,False
+South Asia,Public administration and defence services; compulsory social security services (75),111468.3,330655.0,2.97,34.36,0.09,0.0179,0.0015,False
+Latin America and the Caribbean,Membership organisation services n.e.c. (91),51731.1,304763.0,5.89,76.46,0.08,0.0808,0.0062,False
+South Asia,N-fertiliser,915.9,283636.0,309.67,1854.1,0.17,0.1509,0.0252,False
+USA and Canada,Uranium and thorium ores (12),963.2,262548.0,272.57,2099.03,0.13,0.0683,0.0089,False
+South Asia,Sugar,19708.5,258444.0,13.11,146.68,0.09,0.2087,0.0187,False
+Mainland East Asia,Products of meat poultry,11909.3,246584.0,20.71,201.76,0.1,0.0735,0.0075,False
+South Asia,Real estate services (70),69776.5,244833.0,3.51,32.76,0.11,0.0116,0.0012,False
+Europe and Central Asia,Other Liquid Biofuels,490.0,244517.0,499.05,5160.44,0.1,0.3448,0.0333,False
+South Asia,"Chemical and fertilizer minerals, salt and other mining and quarrying products n.e.c.",2932.7,224121.0,76.42,629.26,0.12,0.0539,0.0065,False
+South Asia,Coke oven gas,261.2,158905.0,608.37,3451.63,0.18,0.0603,0.0106,False
+Latin America and the Caribbean,Private households with employed persons (95),16243.2,148379.0,9.13,48.55,0.19,0.0789,0.0148,False
+Africa and Middle East,Nuclear fuel,2051.4,126505.0,61.67,349.53,0.18,0.1402,0.0247,False
+Latin America and the Caribbean,Other Liquid Biofuels,538.4,118114.0,219.36,5160.44,0.04,0.379,0.0161,False
+USA and Canada,Electricity nec,211.5,105510.0,498.89,10009.14,0.05,0.026,0.0013,False
+South Asia,Computer and related services (72),28637.8,101804.0,3.55,30.59,0.12,0.0152,0.0018,False
+South Asia,Transmission services of electricity,4810.3,75362.0,15.67,149.31,0.1,0.0243,0.0026,False
+South Asia,Research and development services (73),11909.5,68372.0,5.74,118.94,0.05,0.0156,0.0008,False
+Latin America and the Caribbean,Electricity by Geothermal,812.0,52134.0,64.21,1363.29,0.05,0.2161,0.0102,False
+Africa and Middle East,Gasoline Type Jet Fuel,52.0,50191.0,965.77,7979.38,0.12,0.171,0.0207,False
+USA and Canada,Aluminium ores and concentrates,151.4,39940.0,263.89,2072.34,0.13,0.0139,0.0018,False
+South East Asia and Pacific Ocean,Electricity by Geothermal,1308.3,35994.0,27.51,1363.29,0.02,0.3481,0.007,False
+Mainland East Asia,Other Liquid Biofuels,77.5,17708.0,228.51,5160.44,0.04,0.0545,0.0024,False
+South Asia,Dairy products,5770.7,16408.0,2.84,208.24,0.01,0.0161,0.0002,False
+USA and Canada,Other Liquid Biofuels,42.1,12714.0,301.88,5160.44,0.06,0.0296,0.0017,False
+USA and Canada,Electricity by Geothermal,679.3,10332.0,15.21,1363.29,0.01,0.1807,0.002,False
+Latin America and the Caribbean,"Electricity by tide, wave, ocean",9.4,3794.0,402.22,185713.63,0.0,0.1331,0.0003,False
+USA and Canada,Electricity by solar thermal,33.3,802.0,24.1,25649.39,0.0,0.4282,0.0004,False
+Latin America and the Caribbean,Other Hydrocarbons,79.6,9508683.0,119454.68,1742.22,68.56,0.0026,0.1749,True
+South Asia,Copper ores and concentrates,113.1,6189150.0,54704.76,560.24,97.64,0.001,0.0975,True
+Latin America and the Caribbean,Uranium and thorium ores (12),108.4,5148596.0,47483.74,2099.03,22.62,0.0077,0.1739,True
+South Asia,Other non-ferrous metal ores and concentrates,823.2,4465984.0,5424.87,604.88,8.97,0.0096,0.0862,True
+South Asia,"Lead, zinc and tin ores and concentrates",238.9,4037716.0,16902.07,1143.2,14.78,0.0079,0.1171,True
+South Asia,Natural Gas Liquids,450.9,3977948.0,8822.27,1600.26,5.51,0.0043,0.0239,True
+South Asia,Uranium and thorium ores (12),29.7,3434593.0,115660.34,2099.03,55.1,0.0021,0.116,True
+Mainland East Asia,Electricity by Geothermal,13.6,3429181.0,251310.28,1363.29,184.34,0.0036,0.6693,True
+South Asia,Sand and clay,2.3,2229833.0,961249.14,677.7,1418.39,0.0,0.0187,True
+Africa and Middle East,Electricity by solar thermal,0.0,1133872.0,1842188991.34,25649.39,71821.94,0.0,0.569,True
+South Asia,Precious metal ores and concentrates,40.0,1020966.0,25548.11,438.56,58.25,0.0004,0.0248,True
+Latin America and the Caribbean,Electricity by solar photovoltaic,2.4,641975.0,266164.61,4326.62,61.52,0.0018,0.1095,True
+Mainland East Asia,Nuclear fuel,54.3,335627.0,6181.59,349.53,17.69,0.0037,0.0656,True
+Latin America and the Caribbean,Lignite/Brown Coal,16.0,323833.0,20235.19,2750.23,7.36,0.0013,0.0095,True
+South East Asia and Pacific Ocean,Electricity by solar thermal,0.3,308750.0,940842.31,25649.39,36.68,0.0042,0.1549,True
+South Asia,Electricity by solar photovoltaic,2.2,178811.0,80416.76,4326.62,18.59,0.0016,0.0305,True
+South Asia,Supporting and auxiliary transport services; travel agency services (63),9688.4,38686.0,3.99,101.77,0.04,0.0055,0.0002,True
+South Asia,Electricity nec,40.9,31976.0,781.1,10009.14,0.08,0.005,0.0004,True
+South Asia,Electricity by biomass and waste,183.2,26383.0,144.04,2535.49,0.06,0.0095,0.0005,True
+Mainland East Asia,Electricity by solar thermal,0.1,21231.0,258689.27,25649.39,10.09,0.0011,0.0107,True
+South Asia,"Recreational, cultural and sporting services (92)",1603.0,11122.0,6.94,72.69,0.1,0.0012,0.0001,True
+South Asia,Other services (93),1082.3,8337.0,7.7,42.2,0.18,0.0012,0.0002,True
+South Asia,Membership organisation services n.e.c. (91),430.8,1822.0,4.23,76.46,0.06,0.0007,0.0,True
+South Asia,White Spirit & SBP,31.3,1248.0,39.84,656.23,0.06,0.0037,0.0002,True
+USA and Canada,Gasoline Type Jet Fuel,2.6,1117.0,427.84,7979.38,0.05,0.0086,0.0005,True
+Latin America and the Caribbean,Electricity by solar thermal,0.0,700.0,1861878.11,25649.39,72.59,0.0,0.0004,True
+South Asia,Coal Tar,3.7,418.0,114.23,2825.29,0.04,0.0006,0.0,True
+Mainland East Asia,Sewage sludge for treatment: biogasification and land application,36.4,314.0,8.61,520.2,0.02,0.001,0.0,True
+Mainland East Asia,Food waste for treatment: biogasification and land application,15.0,259.0,17.28,242.02,0.07,0.0022,0.0002,True
+South Asia,Ethane,5.6,224.0,39.71,983.32,0.04,0.0018,0.0001,True
+South Asia,Refinery Feedstocks,3.6,143.0,39.73,583.46,0.07,0.0001,0.0,True
+USA and Canada,Paper waste for treatment: biogasification and land application,0.9,56.0,64.32,606.31,0.11,0.0008,0.0001,True
+South Asia,Aviation Gasoline,1.3,53.0,39.68,793.82,0.05,0.0015,0.0001,True
+USA and Canada,Charcoal,0.9,38.0,44.21,822.46,0.05,0.0002,0.0,True
+Mainland East Asia,Paper waste for treatment: biogasification and land application,1.6,15.0,9.58,606.31,0.02,0.0014,0.0,True
+South Asia,Biogas,0.0,9.0,233.31,2541.53,0.09,0.0,0.0,True
+USA and Canada,Coal Tar,0.7,8.0,12.55,2825.29,0.0,0.0001,0.0,True
+South Asia,Oxygen Steel Furnace Gas,0.0,7.0,240.22,1600.38,0.15,0.0,0.0,True
+South Asia,Electricity by Geothermal,0.0,0.0,206.72,1363.29,0.15,0.0,0.0,True
+South Asia,Other Liquid Biofuels,0.0,0.0,485.1,5160.44,0.09,0.0,0.0,True
+South Asia,"Electricity by tide, wave, ocean",0.0,0.0,243.96,185713.63,0.0,0.0,0.0,True
