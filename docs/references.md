@@ -111,7 +111,7 @@ Red Carbon game design by Nathan Moore. The engine design draws on:
 > https://www.ipcc.ch/report/ar6/wg1/
 
 Used for the best estimate and likely range of warming per 1000 Gt CO₂ (0.45 °C, 0.27 to
-0.63) and for the shape of emissions under SSP2-4.5.
+0.63).
 
 ## Combustion emission factors
 
@@ -214,7 +214,7 @@ Wiebe et al. 2018, Cap et al. 2024, Vita et al. 2019, Bjelle et al. 2021, Söder
 2018 and Ivanova & Wood 2020 are cited in full under *Scenario implementation in EE-MRIO*
 above.
 
-**The SSPs and long-term scenario models**
+**The baseline scenario (CMIP7 Medium), the SSPs and long-term scenario models**
 
 > O'Neill, B. C., Kriegler, E., Ebi, K. L., Kemp-Benedict, E., Riahi, K., Rothman, D. S.,
 > van Ruijven, B. J., et al. (2017). The roads ahead: Narratives for shared socioeconomic
@@ -230,6 +230,30 @@ above.
 > Friedlingstein, P., Hasegawa, T., et al. (2026). The Scenario Model Intercomparison Project
 > for CMIP7 (ScenarioMIP-CMIP7). *Geoscientific Model Development*, 19(7), 2627–2656.
 > https://doi.org/10.5194/gmd-19-2627-2026
+
+Van Vuuren et al. 2026 defines the baseline's scenario, *Medium* (§3.3), and its path
+beyond 2100 (§4).
+
+> Hausfather, Z. (2026). Explainer: The CMIP7 emissions scenarios – and how they explore
+> future climate change. *Carbon Brief*.
+> https://www.carbonbrief.org/explainer-the-cmip7-emissions-scenarios-and-how-they-explore-future-climate-change
+
+Used for Medium's headline figures (cumulative CO₂, warming in 2100 and its range, the
+year 2 °C is passed), from a simple-climate-model ensemble on the published scenario data.
+
+> KC, S., et al. (2024). *Updating the Shared Socioeconomic Pathways (SSPs) Global
+> Population and Human Capital Projections*. IIASA Working Paper WP-24-003. Data: https://doi.org/10.5281/zenodo.7767425; 2025-rebased projections,
+> https://doi.org/10.5281/zenodo.21738149 (CC BY 4.0).
+
+The population half of SSP2 in its 2024/25 update. Full author list still to be taken from
+the working paper.
+
+> Armstrong McKay, D. I., Staal, A., Abrams, J. F., Winkelmann, R., Sakschewski, B.,
+> Loriani, S., Fetzer, I., Cornell, S. E., Rockström, J., & Lenton, T. M. (2022). Exceeding
+> 1.5 °C global warming could trigger multiple climate tipping points. *Science*,
+> 377(6611), eabn7950. https://doi.org/10.1126/science.abn7950
+
+Used for the warming thresholds named in the description of the 2050 world.
 
 > Krey, V. (2014). Global energy-climate scenarios and models: a review. *WIREs Energy and
 > Environment*, 3(4), 363–383. https://doi.org/10.1002/wene.98

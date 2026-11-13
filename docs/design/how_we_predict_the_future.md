@@ -1,10 +1,11 @@
 # How we predict the future
 
 This page has two halves. The first explains, in plain terms, how Red Worlds predicts the
-world's emissions if nobody intervenes: the story it follows, the factors that drive it,
-what the curve looks like so far, and how tonnes become degrees. The second half, from
-[The picture](#the-picture) on, is the reference: every input the walk reads and every
-assumption it makes, with the direction each one is likely to push the answer.
+world's emissions if nobody intervenes: the scenario it follows, the world that gives in
+2050, the factors that drive it, what the curve looks like so far, and how tonnes become
+degrees. The second half, from [The picture](#the-picture) on, is the reference: every
+input the walk reads and every assumption it makes, with the direction each one is likely
+to push the answer.
 
 The method and the plan for the steps not yet built are in
 [`baseline_walk.md`](baseline_walk.md); the argument behind each simplification is in
@@ -33,11 +34,24 @@ in 2011.
 observed, and the result is compared with measured emissions. Only a walk that can
 reproduce the years we have records for is trusted with the years we do not.
 
-**For the future, the story is "middle of the road".** Climate researchers share a set of
-five storylines for how the century might go, the Shared Socioeconomic Pathways
-([O'Neill et al. 2017](https://doi.org/10.1016/j.gloenvcha.2015.01.004);
-[Riahi et al. 2017](https://doi.org/10.1016/j.gloenvcha.2016.05.009)). We follow the
-second, SSP2, which in our words says:
+**For the future, the story is "what we are doing now, carried forward".** The next section
+says where that story comes from.
+
+### The scenario: current policies, carried forward
+
+The world's climate modelling centres agree a shared set of futures to simulate. The
+current set, for the round called CMIP7, has seven
+([Van Vuuren et al. 2026](https://doi.org/10.5194/gmd-19-2627-2026)), named for how their
+emissions move: from *High*, through *Medium*, to *Very Low*. The walk follows **Medium**.
+
+Medium answers one question: what happens if the world keeps doing what it is doing now? It
+has two layers.
+
+**People and the economy follow "middle of the road".** This is the second of five
+storylines researchers share for how society might develop, the Shared Socioeconomic
+Pathways ([O'Neill et al. 2017](https://doi.org/10.1016/j.gloenvcha.2015.01.004);
+[Riahi et al. 2017](https://doi.org/10.1016/j.gloenvcha.2016.05.009)). In our words, SSP2
+says:
 
 > The world carries on much as it has. Social, economic and technological trends do not
 > break sharply from their historical patterns. Incomes grow, unevenly: some countries
@@ -46,15 +60,90 @@ second, SSP2, which in our words says:
 > per unit of output, and fossil fuel dependence eases without ending. Institutions work
 > toward sustainability goals and make slow progress. Inequality improves only slowly.
 
-It is neither the best case nor the worst. It is the world in which nothing surprising
-happens, which is the right thing to measure an intervention against.
+Its numbers were updated in 2024 and 2025. World population peaks at about 10.1 billion
+around 2080 and is about 9.9 billion in 2100
+([KC et al. 2024](https://doi.org/10.5281/zenodo.7767425)), close to the United Nations' own
+projection of a peak near 10.3 billion in the mid-2080s (*World Population Prospects
+2024*).
 
-SSP2 is the storyline, not a dataset we copy. Each factor is set on its own evidence in
-that spirit, and published SSP2 projections are what we compare the result with. For clean
-technology there is one extra rule: growth in the baseline follows the International Energy
-Agency's Current Policies Scenario (only what is already in law), so the baseline does not
-quietly assume promises are kept. See
+**Climate policy stays where it was in 2025.** Only policies actually being implemented
+count. Pledges and net-zero announcements that no law or budget yet backs are left out.
+Those policies stay in place for the century and no new ones are added. Technology is still
+allowed to improve on its own trend, so solar panels and batteries keep getting cheaper
+(Van Vuuren et al. 2026, §3.3).
+
+Three things make this the right world to measure an intervention against:
+
+- **It contains no intervention.** Emissions level off and drift down, from about 40 Gt of
+  CO₂ a year today to about 34 Gt in 2100. They never turn toward net zero. Any turn is
+  something a tape does.
+- **It gives credit for what has happened.** The older scenario sets included worlds with
+  no climate policy at all and a very high emissions case. CMIP7 dropped both, because
+  cheap renewables, existing policy and recent emission trends have made them implausible.
+- **It is neither the best case nor the worst.** Its authors say it should not be read as
+  the most likely future either. It is a benchmark: the consequences of the present
+  course.
+
+What Medium leads to, from a simple climate model run across the range of how the climate
+might respond (Carbon Brief's
+[explainer](https://www.carbonbrief.org/explainer-the-cmip7-emissions-scenarios-and-how-they-explore-future-climate-change),
+2026, using the published scenario data):
+
+| | Medium |
+|---|---|
+| CO₂ emitted, 2024 to 2100 | about 2,800 Gt |
+| Warming passes 2 °C | around 2050 |
+| Warming in 2100 | 2.9 °C, with a range of 2.2 to 3.9 |
+| After 2100 | still rising; settles near 4 °C if emissions reach net zero during the 2100s (Van Vuuren et al. 2026, §4) |
+
+**Medium is a description we follow, not a dataset we copy.** Each factor in the walk is
+set on its own evidence, in the spirit of the two layers above. For clean technology that
+means the International Energy Agency's Current Policies Scenario, which uses the same
+rule as Medium: only what is already in law. The published Medium pathway is then what the
+walk's result is compared with. See
 [Reference scenarios](baseline_walk.md#reference-scenarios).
+
+*Until November 2026 this page named the storyline as SSP2 alone and compared it with
+SSP2-4.5, the nearest scenario in the previous set. Medium keeps SSP2's people and economy.
+What changed is that the policy layer is now stated, and the comparison is with the
+current scenario set.*
+
+### The world of 2050
+
+Tapes are played in the walk's 2050, so it helps to say what kind of world that is. None of
+this is modelled as an event; it is what the assumptions add up to.
+
+- **Larger and richer, unevenly.** More people than today and higher incomes, with most of
+  the growth outside today's rich regions.
+- **Cleaner for its size, and not clean.** Each unit of output carries less CO₂ than it
+  does now. Total emissions are close to today's.
+- **About 2 °C warmer than before industry.**
+- **It has been trying.** The policies of 2025 were kept. Nothing was rolled back, and
+  nothing on the scale of an emergency programme was attempted. People care about the
+  environment and expect steady progress to be enough.
+
+That last point is why 2050 is a point of decision. On its present course this world does
+not reach net zero. The trade-offs it faces are the ones the tapes are built from:
+
+- **Net zero or not, and how fast.** Medium has a sibling scenario, *Medium-to-Low*, which
+  is the same world turning toward net zero from 2040. The walk's 2050 is the world that
+  has not turned.
+- **Long-lived things are being repriced.** Sea level keeps rising for centuries after
+  temperature stops, so coastal land and buildings, and the insurance that covers them,
+  depend on where warming ends up and not only on where it stands.
+- **Thresholds lie ahead.** Medium's path beyond 2100 passes the central estimates for the
+  dieback of part of the Amazon (about 3.5 °C) and for collapse of the Atlantic overturning
+  circulation (about 4 °C), both with wide ranges
+  ([Armstrong McKay et al. 2022](https://doi.org/10.1126/science.abn7950)).
+- **Carbon removal is a promise, not yet a capacity.** Every lower scenario in the set that
+  brings temperature back down relies on removing CO₂ from the air on a scale that has not
+  been built (Van Vuuren et al. 2026, §4). Investing in it competes with everything else.
+- **Building, swapping, or using less.** Scenario sets like this one mostly describe
+  cleaner supply for the same services. Using less is the alternative they say least
+  about, and it is one of the game's three kinds of tape (BUILD, SWAP, REDUCE).
+
+The engine does not model sea level, tipping points or politics. It supplies tonnes. What a
+game makes of them is the game's business.
 
 ### The factors
 
@@ -113,11 +202,11 @@ What stands out:
 - **The model starts 6% low.** The 2011 table holds 32.5 Gt against 34.5 observed, so the
   two curves cross between 2011 and 2015.
 
-What published work leads us to expect once the walk runs forward: under the nearest
-standard scenario (SSP2 with moderate climate policy, "SSP2-4.5"), CO₂ emissions stay near
-today's level until the middle of the century and then fall, without reaching net zero by
-2100 ([IPCC 2021](https://www.ipcc.ch/report/ar6/wg1/), Summary for Policymakers). Our own
-curve is not drawn yet and may differ; when it is, it goes here beside that one.
+What published work leads us to expect once the walk runs forward: under Medium, CO₂
+emissions stay near today's level through the middle of the century and decline slowly,
+to about 34 Gt a year in 2100, without approaching net zero (Van Vuuren et al. 2026;
+Carbon Brief 2026). Our own curve is not drawn yet and may differ; when it is, it goes here
+beside that one.
 
 ### From tonnes to temperature
 
@@ -147,6 +236,12 @@ Three things follow:
 - **An error in the baseline becomes an error in degrees.** The walk's present overshoot
   of 9.5 Gt a year, if it were carried unchanged to 2100, would overstate warming by about
   0.3 °C. This is the reason the hindcast gap must be closed before the walk is run forward.
+
+**A check this line will face.** Medium emits about 2,800 Gt of CO₂ from 2024 to 2100. The
+line turns that into about 1.3 °C of further warming, where the published figure for
+Medium in 2100 implies rather more. Most of the difference is the other gases, described
+next. When the walk reaches 2100, its temperature should be compared with Medium's on a
+CO₂-only basis, or the other gases added.
 
 What the line leaves out: it covers CO₂ only. Methane, nitrous oxide and the cooling effect
 of air pollution add their own warming, which follows different rules (methane's depends on

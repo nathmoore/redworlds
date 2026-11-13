@@ -49,7 +49,7 @@ Download `IOT_2011_pxp.zip` from Zenodo:
 
 This is the 2011 product-by-product (pxp) table. We use 2011 because it is the latest
 year in 3.8.2 with complete, non-extrapolated supply-use data. Red Worlds extrapolates it
-along an SSP2 pathway to the in-game year of **2050** and on to 2100.
+under the CMIP7 *Medium* scenario to the in-game year of **2050** and on to 2100.
 
 ### Capital use matrices
 

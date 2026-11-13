@@ -14,6 +14,10 @@ walk against what happened to 2025. From there the SSP2 "middle of the road" sto
 the assumptions we set, and published SSP2 projections are what we compare the result
 against. Continue to 2100.
 
+*Updated 2026-11-13 (Nathan):* the scenario is now named as CMIP7 *Medium*: SSP2 for people
+and the economy, climate policy held at its 2025 level. The Medium pathway is the published
+comparison. See *Decided*.
+
 **Success criteria.**
 
 1. A 2025 world built from the 2011 table reproduces observed emissions by major sector and in
@@ -21,7 +25,7 @@ against. Continue to 2100.
 2. Every assumption is one row in a committed ledger: a value, a source, a licence, and the
    name of the matching IPCC scenario variable, so it can be set beside any published run.
 3. A 2050 world replaces both constants in `engine/intensity.py` (issue #17) and is shown
-   beside published SSP2 runs with the differences explained.
+   beside the published CMIP7 *Medium* pathway with the differences explained.
 4. A sensitivity report sets the large uncertain levers side by side — AI data-centre
    electricity, how soon fusion works, how fast solar and wind get cheaper — and shows where
    each does and does not move regional and world CO₂.
@@ -124,7 +128,16 @@ Tick items here as they land; findings go under *Milestone A results* below.
    shares by product group in the 2011 table with EXIOBASE 3.8.2's 2019 table, and the
    regional split of output with observed value added by sector. If sourcing moved enough
    to matter, add step 13.
-7. **C and D** as under *Milestones*.
+7. **C1 Forward population and GDP.** `just prepare-economy` gains the years after 2025.
+   Population from the 2025-rebased SSP2 projections of KC (Zenodo, CC BY 4.0: countries,
+   five-year steps to 2100; filter on its region-level column before summing). GDP needs a
+   decision first: see *Open for the designer* 6.
+8. **C2 The Medium comparison.** A small hand-entered table of Medium's headline figures
+   with their sources (CO₂ per year at 2030, 2050 and 2100, the cumulative total,
+   population, warming), and a report that sets the walk beside it. See
+   [design § Tracking against CMIP7 Medium](../design/baseline_walk.md#tracking-against-cmip7-medium).
+   Before entering anything, read the explorer's variable and region definitions.
+9. **C and D** as under *Milestones*.
 
 A run of the hindcast takes ten to thirty minutes on an 8 GB laptop at seven regions. Item 1
 is the only one that needs the full 49-region table.
@@ -200,6 +213,17 @@ the model's regional figures include what each region's carriers emit.
 
 ## Decided
 
+- **The baseline scenario is CMIP7 *Medium*** (Nathan, 2026-11-13). Until now the walk named
+  SSP2 as its storyline and compared itself with SSP2-4.5 and other SSP2 runs. The CMIP7
+  scenario set (Van Vuuren et al. 2026) replaced that framework in 2026. Its *Medium* is
+  what this plan was already building: SSP2's population and economy, and only the climate
+  policy already in force, which is the Current Policies rule decided on 2026-11-12. So the
+  walk's assumptions do not change. What changes is the name, the comparison curve, and
+  the population and GDP sources, which move to the 2024/25 SSP update. The rationale is in
+  [design § The scenario](../design/how_we_predict_the_future.md#the-scenario-current-policies-carried-forward)
+  and [`assumptions.md`](../design/assumptions.md). References to "the SSP2 walk" in the
+  current docs and code were renamed the same day; closed plans 01 and 02 and ticked
+  backlog items keep the old wording as history.
 - **Technologies are described by maturity curves, not one vintage** (Nathan, 2026-11-11).
   Cost and performance by build year, with a learning curve forward and a range for
   technologies with no track record. See
@@ -247,6 +271,13 @@ the model's regional figures include what each region's carriers emit.
    answer moves. All 200 products are already kept, so only regions are in question.
 4. The pass mark proposed under [Checking the walk](../design/baseline_walk.md#checking-the-walk).
 5. Whether the game wants the urban and rural households.
+6. **An open source for GDP after 2025.** The SSP2 GDP projections (OECD, in the SSP basic
+   elements v3.2) are under a licence that forbids reproducing a substantial portion, so
+   they cannot be a committed input. Options: (a) cite regional growth rates from the
+   published papers and enter them by hand as ledger rows, a few numbers per region;
+   (b) build GDP from the open population projections and a stated income-per-head path
+   per region, checked against the published totals; (c) ask IIASA for permission.
+   (a) is the least work and stays within the licence if the rows are few.
 
 ## Milestones
 
@@ -254,7 +285,7 @@ A can start now; each later one builds on the one before.
 
 - **A. Electricity-only hindcast** — first run done; see *Sprint plan* and *Milestone A results*.
 - **B. Full hindcast to 2025.** Steps 1–10 and 12 on observed values; residual by sector.
-- **C. To 2050.** Levers set under the SSP2 storyline; step 11 and its sensitivity. Replaces
+- **C. To 2050.** Levers set under CMIP7 *Medium*; step 11 and its sensitivity. Replaces
   the constants in `engine/intensity.py` and re-bases every tape.
 - **D. 2050 to 2100.** Open question: tapes re-solved at later snapshots, or scaled along the
   baseline's intensity path.
@@ -266,5 +297,13 @@ A can start now; each later one builds on the one before.
   committed until they are confirmed.
 - Which countries EXIOBASE puts in each rest-of-world block. `country_to_exiobase.csv` assigns
   them by continent, which is an assumption.
-- Every licence marked **?**.
-- The release name and licence of the IIASA SSP basic-drivers update.
+- Every licence marked **?**. Two were tried on 2026-11-13 and not found: the UN's terms for
+  *World Population Prospects 2024*, and the Global Carbon Budget's (neither site's pages
+  stated them where looked).
+- ~~The release name and licence of the IIASA SSP basic-drivers update.~~ Checked
+  2026-11-13: "SSP basic elements v3.2", May 2025, GDP and population only (urbanisation
+  not yet updated). IIASA's adapted licence: citable, not a ledger input. Recorded in
+  [design § Sources](../design/baseline_walk.md#sources).
+- Whether the ScenarioMIP explorer's variable list includes electricity by source and
+  final energy for Medium, and which regions it uses.
+- The 2100 temperature the walk should be compared with on a CO₂-only basis.

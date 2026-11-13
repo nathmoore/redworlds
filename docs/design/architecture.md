@@ -33,7 +33,7 @@ fraction, emits payload_json                                  │ loads cached b
 
 One-off / occasional
 ────────────────────
-jobs/build_baseline.py   2011 EXIOBASE → capital endogenised → SSP2 2050 world (+ 2050–2100 trajectory), cached
+jobs/build_baseline.py   2011 EXIOBASE → capital endogenised → 2050 world under CMIP7 Medium (+ 2050–2100 trajectory), cached
 jobs/apply_growth.py     the year-stepping used inside build_baseline (phase 2: nightly per-player advance)
 jobs/update_scenarios.py phase 2: generate the day's scenario / tape shelf
 ```

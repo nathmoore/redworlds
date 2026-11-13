@@ -26,7 +26,7 @@ most often mistaken for one; it lives in
         ▼
   2026 world                     emissions and energy mix as actually reported
         │
-        │  (b) walk forward 2026 → 2050 along SSP2      [scenario]
+        │  (b) walk forward 2026 → 2050 under Medium    [scenario]
         ▼
   2050 baseline                  the world the game's "now" sits in
         │
@@ -71,7 +71,7 @@ correct reading of a 2050 cost in this system is **"what this would cost if you 
 | 2011 MEUR → 2026 MUSD | [`engine/currency.py`](../../src/redworlds/engine/currency.py) | ×2.072 (ECB 2011 EUR/USD 1.3917 × CPI ratio 1.489) | implemented, **unused by the tape path** |
 | basic → purchaser | [`engine/prices.py`](../../src/redworlds/engine/prices.py) | ×1.20 universal markup | implemented, **unused by the tape path** |
 | 2011 → 2026 intensity | [`engine/intensity.py`](../../src/redworlds/engine/intensity.py) | ×0.73 | **observed**, sourced |
-| 2026 → 2050 intensity | same | ×0.60 | **scenario**, trend continuation standing in for SSP2 |
+| 2026 → 2050 intensity | same | ×0.60 | **scenario**, trend continuation standing in for the CMIP7 *Medium* walk |
 
 Combined money factor, 2011 basic MEUR → 2026 purchaser MUSD: **×2.49**.
 
@@ -138,7 +138,7 @@ kept apart because they are different kinds of claim**:
   number rather than something extrapolated from it. Checkable, and improvable without anyone
   agreeing about the future.
 - **2026 → 2050 is a scenario.** The same −2.1%/yr run on for twenty-four years, which is
-  roughly what a middle-of-the-road SSP2 world does. Nobody can check it, and a real SSP2 run
+  roughly what a current-policies (CMIP7 *Medium*) world does. Nobody can check it, and the baseline walk
   should replace it first.
 
 They compose by multiplication, so the split costs nothing and buys two things: the observed

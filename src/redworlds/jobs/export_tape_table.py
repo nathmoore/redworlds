@@ -89,7 +89,7 @@ def _provenance() -> str:
 #
 # Naming them is the cheap half of the fix. The field names stay as they are because the game's
 # PHP reads them (class-redcarbon-game-engine-table.php), so a rename is a cross-repo change for
-# a labelling problem. The whole distinction disappears when the SSP2 walk replaces the scalar
+# a labelling problem. The whole distinction disappears when the baseline walk replaces the scalar
 # with a real 2050 world — see docs/backlog.md and issue #17.
 TONNE_FIELD_BASIS_YEAR: int = 2011
 PRESCALED_FIELDS: tuple[str, ...] = ("bricks_at_cover", "copies")

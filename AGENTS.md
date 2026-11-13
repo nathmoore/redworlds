@@ -16,7 +16,7 @@ decarbonisation. It is not the game. The game's front end lives in a separate pr
 Red Worlds handles:
 
 - **The baseline** — a one-off job builds a 2050 world from the 2011 EXIOBASE table
-  (SSP2 pathway, capital endogenised) and caches it.
+  (CMIP7 *Medium* scenario, capital endogenised) and caches it.
 - **Player actions** — BUILD, SWAP, REDUCE: one tape's shock applied to that baseline.
 - **Scoring** — annual delta against the baseline → deployment curve → cumulative CO₂
   over 2050–2100.

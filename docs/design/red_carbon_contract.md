@@ -176,7 +176,7 @@ From the game's `TECHNICAL_IMPLEMENTATION.md`, `MAINFRAME_PLAY_MODEL.md` §11 an
 }
 ```
 
-The game currently charts against a canned SSP2-shaped world baseline (~37 Gt/yr in 2050
+The game currently charts against a canned placeholder world baseline (~37 Gt/yr in 2050
 falling to ~16 Gt/yr in 2100). It wants the real one back from here.
 
 ### 4.4 The Beta Day path: a precomputed table (decided 2026-09-18)
@@ -204,7 +204,7 @@ computes the score server-side. Per-tape record:
 
 File-level fields: `baseline` (which cached world), `intensity_scalar_2050` (one factor
 applied by the game to every delta, standing in for the 2011 → 2050 intensity decline until
-the SSP2 baseline exists), `units`. The queue/worker path stays the design for tapes that
+the walked baseline exists), `units`. The queue/worker path stays the design for tapes that
 must interact; the `result_json` it returns is the same shape the table carries per tape,
 so the game's table code becomes the fallback rather than a rewrite.
 
@@ -268,8 +268,8 @@ The engine's real backlog is the set of modelling decisions the game could not m
 without a working model. They are tracked as items in `docs/backlog.md` (§Modelling
 decisions) so they can be worked, closed and promoted to GitHub issues. Headline ones:
 the REDUCE rebound contradiction (factor of two), BUILD as injection vs reallocation, the
-construction-emission multiplier, grid tapes as coefficient shocks, and which SSP builds
-the 2050 baseline.
+construction-emission multiplier, and grid tapes as coefficient shocks. The scenario
+that builds the 2050 baseline is decided: CMIP7 *Medium* (`assumptions.md`).
 
 Method constraints to keep in view (Wiebe et al. 2018 §5, Vita et al. 2019): the MRIO is
 purely demand-driven with GDP held constant across scenarios except where a wing rule says

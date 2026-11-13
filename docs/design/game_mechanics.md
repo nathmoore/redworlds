@@ -107,7 +107,7 @@ Function signatures are in `src/redworlds/actions/`.
 
 ## What Red Worlds does
 
-1. Loads the cached SSP2 baseline world for 2050 (with capital endogenised and the
+1. Loads the cached baseline world for 2050 (CMIP7 *Medium*) (with capital endogenised and the
    Leontief inverse precomputed) and the baseline emissions trajectory 2050–2100.
 2. Reads the tape record and derives the engine inputs above.
 3. Applies the shock: BUILD, SWAP, REDUCE or grid efficiency. Y-side shocks reuse the

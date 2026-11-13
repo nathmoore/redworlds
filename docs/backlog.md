@@ -38,7 +38,7 @@ Leontief solve, a deployment curve, a 50-year cumulative delta. See
        test); settle Taiwan (CSV says region 7, game design says 6).~~ Done 2026-09-17:
        Taiwan is region 6 per the game's regions doc; integration test checks the CSV's
        codes equal the table's.
-6. [ ] `jobs/build_baseline.py` stub: 2011 EXIOBASE → capital endogenised → SSP2 2050
+6. [ ] `jobs/build_baseline.py` stub: 2011 EXIOBASE → capital endogenised → CMIP7 Medium 2050
        world → 2050–2100 trajectory. First check the capital-flow data resolution (see
        Modelling decisions).
 7. [ ] `score_tape()` composition returning the result shape in the contract doc §4.3.
@@ -53,7 +53,7 @@ Leontief solve, a deployment curve, a 50-year cumulative delta. See
        which Dependabot took): their TODOs point here.
 10. [x] ~~Create GitHub issues for the stubs without one.~~ Done 2026-09-21. Every
        `TODO: implement` in `src/` now names a real issue: #15 `rebalance_economy`,
-       #16 `shift_sector_share`, #17 the SSP2 walk (replacing `intensity.py`'s two
+       #16 `shift_sector_share`, #17 the baseline walk (replacing `intensity.py`'s two
        stand-in scalars and finishing `build_baseline`), #18 `update_scenarios`.
        #5 `load_config` and #8 `apply_reduce` closed as shipped.
 
@@ -149,7 +149,9 @@ trail survives.
       the wings: BUILD moves money, SWAP keeps it, REDUCE removes it. *Owed on the game
       side:* a decisions-log entry, and re-sizing the REDUCE covers that still carry the
       halving (Make Stuff Last, Remote Work). Use Less Stuff was already corrected to 0.5%.
-- [x] ~~**2050 baseline: which SSP.**~~ **Decided 2026-09-16: SSP2.** How to get there from
+- [x] ~~**2050 baseline: which SSP.**~~ **Decided 2026-09-16: SSP2. Named as CMIP7 *Medium*
+      2026-11-13** (SSP2's people and economy, climate policy held at 2025; rationale in
+      `design/assumptions.md`, change recorded in plan 03 § Decided). How to get there from
       2011 is still a to-do (see Sequencing step 6). Precedents: Cap et al. 2024 (SSP1 on
       EXIOBASE 3.8.2), Wiebe et al. 2018 (IEA ETP to 2030, code on Zenodo).
 - [x] ~~**Construction-sector footprint multiplier.**~~ **Resolved to a to-do 2026-09-16.**
@@ -236,7 +238,7 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
       final demand and GHG, and `WA`'s share of region 7 specifically. If `WA` is a few per
       cent the current assignment is a documented simplification and the region name is the
       only thing that needs fixing; if it is large, the allocator is real work and belongs in
-      the same sequencing slot as the SSP2 walk, because both re-base every tape. **Do not
+      the same sequencing slot as the baseline walk, because both re-base every tape. **Do not
       change the mapping before the measurement** — a re-split moves every regional result.
 
 - [x] ~~**Direct household emissions under a REDUCE.**~~ Done 2026-09-21. pymrio recomputes `F_Y` from `S_Y`,
@@ -328,7 +330,7 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
             not happen, and the identity would break.
 
             **What it does mean** is that the 2011 basis is a construction trough, and two
-            things downstream touch exactly that cell. (a) The SSP2 walk (5b) is where a
+            things downstream touch exactly that cell. (a) The baseline walk (5b) is where a
             trough year should be normalised, if it is going to be — worth an explicit
             decision there rather than inheriting 2011 silently. (b) T5 injects BUILD capex
             into *Construction work (45)*, whose baseline net investment is negative in the
@@ -426,7 +428,7 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
         average. Per-sector correction against IEA *Electricity* / EEA series would be a
         genuine gain and needs no scenario agreement.
       - **2026 → 2050, currently 0.60. SCENARIO**, and simply the observed rate run on.
-        Replace with a real SSP2 run — `jobs/apply_growth.py`, sequencing item 5b. This is the
+        Replace with the baseline walk — `jobs/apply_growth.py`, sequencing item 5b. This is the
         half nobody can check and the one to do properly first.
       *Worth recording, because the split surfaced it:* the single 0.6 these replaced implied
       the observed 0.73 followed by 0.82 — decarbonisation slowing to ~0.8%/yr after 2026,
@@ -479,7 +481,7 @@ check those two sectors' coefficients explicitly at T5/T6 before trusting a BUIL
       weighting, as a named sensitivity pair. **Do not silently select the one that makes EV
       beneficial** — its sign has already moved once on an input change, and a tape whose sign
       depends on the rebound assumption should say so in the export rather than pick. Pairs
-      with the SSP2 walk (issue #17): both must land before EV can leave `provisional`.
+      with the baseline walk (issue #17): both must land before EV can leave `provisional`.
 
 - [ ] **Mean product lifetimes, against Vita et al. 2019.** The weights in
       `appliances_and_devices` are `N / (mean life + N)`, and the mean lives behind them

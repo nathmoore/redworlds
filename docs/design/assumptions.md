@@ -37,10 +37,27 @@ trajectory 2050–2100, and for each tape the annual difference that a shock mak
 accumulated over the window through a deployment curve. Temperature is not modelled;
 the game derives it from cumulative CO₂ (about 0.45 °C per 1000 Gt, Allen et al. 2022).
 
-### The baseline is SSP2, built once from 2011 EXIOBASE data
+### The baseline is CMIP7 Medium, built once from 2011 EXIOBASE data
 
-*Decided 2026-09-16.* EXIOBASE 3.8.2 is a 2011 table. We extrapolate it to a 2050 world
-along a "middle of the road" SSP2 pathway and continue to 2100, following the scenario
+*Decided 2026-09-16 as SSP2; named as CMIP7 Medium 2026-11-13.* EXIOBASE 3.8.2 is a 2011
+table. We extrapolate it to a 2050 world and continue to 2100 under the *Medium* scenario
+of the CMIP7 set (Van Vuuren et al. 2026, §3.3): population and the economy follow the
+"middle of the road" SSP2 storyline, and climate policy stays where it stood in 2025,
+with technology still improving.
+
+Why Medium. A baseline has to be the world without the player's intervention, and it has
+to be one a sceptical reader accepts. Medium is the research community's current
+benchmark for the present course. It counts the progress already made, where the earlier
+scenario sets offered no-policy worlds that are no longer plausible. It assumes no further
+effort, so nothing a tape does is already in it. Its authors do not call it the most
+likely future, and neither do we.
+
+Why the name changed. The 2026-09-16 decision chose SSP2 from the SSP-RCP framework, and
+the walk then added a rule that clean technology follows current policy only. CMIP7
+replaced that framework during 2026, and its Medium is the same pair of choices under one
+published name, with a pathway to compare against. The walk's assumptions did not change.
+
+We follow the scenario
 method of Wiebe et al. (2018) and Cap et al. (2024): exogenous population and GDP growth
 drive final demand; technology change enters as coefficient changes with columns rescaled
 to sum to one; stressors scale with coefficients. The baseline is a cacheable artifact
@@ -480,8 +497,8 @@ Every model has boundaries. Here are the main things this engine deliberately do
 - Physical energy constraints: capacity factors, grid balancing, curtailment. EXIOBASE has
   transmission and distribution sectors whose coefficients can carry losses, but not
   curtailment.
-- Technology learning curves and cost reductions over time, beyond what the SSP2 baseline
-  bakes in.
+- Technology learning curves and cost reductions over time, beyond what the baseline
+  walk bakes in.
 - Political feasibility of player choices — this is the game's job.
 
 These are not failures of the current model; they are the next layer of depth. The engine

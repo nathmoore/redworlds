@@ -6,11 +6,11 @@ does the first:
 
 1. **Done here.** Load EXIOBASE 3.8.2 pxp for 2011, aggregate to the 7 game regions,
    endogenise capital using the 2011 capital use matrix, solve, and persist.
-2. **Not here yet.** Step the world forward to 2050 along SSP2 — population and GDP drive
+2. **Not here yet.** Step the world forward to 2050 under CMIP7 Medium — population and GDP drive
    final demand, technology change enters as coefficient changes with columns rescaled to
    one, stressors scale with coefficients — then on to 2100 for the baseline trajectory.
 
-Splitting it this way is deliberate. The SSP2 walk is the judgement-heavy step and it wants
+Splitting it this way is deliberate. The baseline walk is the judgement-heavy step and it wants
 real tape numbers to sanity-check against, which means the tapes have to run first. They can:
 nothing about a tape's mechanism depends on the walk, only its magnitude, and a 2011-basis
 number labelled as such is worth more now than a 2050 number in a fortnight. Every export is
@@ -32,11 +32,11 @@ less than its consistency.
 This is the only job on the MVP path. It runs when the recipe changes, not nightly.
 
 References:
-  - docs/design/assumptions.md — "The baseline is SSP2, built once from 2011 EXIOBASE data"
+  - docs/design/assumptions.md — "The baseline is CMIP7 Medium, built once from 2011 EXIOBASE data"
   - docs/design/architecture.md — data retained
   - docs/backlog.md — T1, and the negative net-investment decision of 2026-09-18
 
-TODO: the SSP2 2011 → 2050 walk — see GitHub issue #17
+TODO: the 2011 → 2050 baseline walk — see GitHub issue #17
 """
 
 from pathlib import Path
@@ -58,7 +58,7 @@ from redworlds.engine.scoring import total_emissions
 EXIOBASE_2011_PXP: str = "IOT_2011_pxp"
 
 # Name of the cached world this job writes. The year and the region count are in the name
-# because the SSP2 walk will produce a sibling (baseline_2050_agg7) rather than replace it.
+# because the baseline walk will produce a sibling (baseline_2050_agg7) rather than replace it.
 BASELINE_NAME: str = "baseline_2011_agg7"
 
 # Parquet rather than pymrio's default tab-separated text: the point of caching is that a

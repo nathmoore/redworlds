@@ -7,7 +7,7 @@ design. The work of building it is sequenced in
 so far and the decisions still open; each simplification, once made, is recorded in
 [`assumptions.md`](assumptions.md).
 
-**Status, 2026-11-12.** Three steps exist and have been run as a hindcast to 2025: economy
+**Status, 2026-11-13.** Three steps exist and have been run as a hindcast to 2025: economy
 size, spending mix and electricity. Every other step is designed here and not yet built.
 Nothing in this document feeds a tape number yet: the tapes still use the two scalars in
 `engine/intensity.py`. What the built steps read and assume is kept on one page,
@@ -17,8 +17,9 @@ Nothing in this document feeds a tape number yet: the tapes still use the two sc
 higher incomes, a cleaner grid, electric cars — is written down as a number with a source,
 assigned to the one place in the table where it acts, and applied in a fixed order. The
 table is re-solved and emissions fall out. The walk runs first over years that have already
-happened, so its answers can be checked against records, and then forward under the SSP2
-"middle of the road" storyline.
+happened, so its answers can be checked against records, and then forward under the CMIP7
+*Medium* scenario: current policies continued, on the "middle of the road" (SSP2) path for
+population and the economy.
 
 ## Where things live
 
@@ -49,7 +50,8 @@ Short names link to the publisher; full citations are in
 |---|---|
 | The method as a whole | [De Koning et al. 2016](https://doi.org/10.1080/14693062.2014.999224) (the change-ratio method); [Cap et al. 2024](https://doi.org/10.1016/j.spc.2023.12.031) (twelve steps on EXIOBASE 3.8.2, with sources); [Wiebe et al. 2018](https://doi.org/10.1186/s40008-018-0118-y) (published code) |
 | The electricity step | `engine/electricity.py`; *Electricity* below; `assumptions.md` § "The baseline walk: electricity"; [Krey 2014](https://doi.org/10.1002/wene.98) on supply against demand |
-| Economy size and the SSP2 storyline | [O'Neill et al. 2017](https://doi.org/10.1016/j.gloenvcha.2015.01.004) (the narratives); [Riahi et al. 2017](https://doi.org/10.1016/j.gloenvcha.2016.05.009) (overview and quantification) |
+| The scenario: CMIP7 *Medium* and its SSP2 storyline | [Van Vuuren et al. 2026](https://doi.org/10.5194/gmd-19-2627-2026) §3.3 (Medium's design) and §4 (beyond 2100); [O'Neill et al. 2017](https://doi.org/10.1016/j.gloenvcha.2015.01.004) (the SSP narratives); [Riahi et al. 2017](https://doi.org/10.1016/j.gloenvcha.2016.05.009) (overview and quantification); [`how_we_predict_the_future.md`](how_we_predict_the_future.md#the-scenario-current-policies-carried-forward) |
+| Economy size, forward | [KC et al. 2024](https://doi.org/10.5281/zenodo.7767425) (SSP population, 2024 update); the SSP basic elements v3.2 documentation (population and OECD GDP projections, May 2025) |
 | Spending mix | [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114) (income elasticities on EXIOBASE); [Cap et al. 2024](https://doi.org/10.1016/j.spc.2023.12.031) Eq. 1 (how they are applied); [Zhao et al. 2022](https://doi.org/10.3390/nu14224711) (food elasticities falling with income) |
 | Rebound and re-spending | `engine/balancing.py`; [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114) (income and own-price elasticities); [Vita et al. 2019](https://doi.org/10.1016/j.ecolecon.2019.05.002) (income rebound as an uncertainty range); [`how_we_predict_the_future.md`](how_we_predict_the_future.md#rebound-where-re-spent-money-goes) |
 | Physical cross-checks on any step | MacKay, *Sustainable Energy — Without the Hot Air* (per person, per day; see `../references.md`) |
@@ -58,7 +60,7 @@ Short names link to the publisher; full citations are in
 | Capital, technology recipes and learning curves | [Södersten et al. 2018](https://doi.org/10.1021/acs.est.8b02791); `engine/capital.py`; Wiebe et al. 2018 SI Table SI1 (capital-cost splits by technology); [Way et al. 2022](https://doi.org/10.1016/j.joule.2022.08.009) (learning rates and cost forecasts); IEA *Energy Technology Perspectives 2026* chapter 3 (the dashboards); IAEA *World Fusion Outlook 2025* for fusion |
 | Trade structure | [Beaufils & Wenz 2022](https://doi.org/10.1080/09535314.2021.1952404) |
 | 2050 to 2100, and what the table cannot hold | [Krey 2014](https://doi.org/10.1002/wene.98); [Grubler et al. 2018](https://doi.org/10.1038/s41560-018-0172-6) (a low-energy-demand scenario); [Kikstra et al. 2024](https://doi.org/10.1080/09535314.2023.2301443) (degrowth in integrated models) |
-| Comparing a result with published scenarios | *Reference scenarios* below; IEA *Energy Technology Perspectives 2026* and *Net Zero Roadmap* (2023 update); [Van Vuuren et al. 2026](https://doi.org/10.5194/gmd-19-2627-2026) (the CMIP7 scenario set); the AR6 scenario database |
+| Comparing a result with published scenarios | *Reference scenarios* below; IEA *Energy Technology Perspectives 2026* and *Net Zero Roadmap* (2023 update); [Van Vuuren et al. 2026](https://doi.org/10.5194/gmd-19-2627-2026) and the [ScenarioMIP explorer](https://scenariomip.apps.ece.iiasa.ac.at/) (the CMIP7 set, *Medium* first); the AR6 scenario database for anything the CMIP7 release does not carry |
 
 ## The method
 
@@ -100,7 +102,7 @@ speed from regions that have already passed this level, re-check every five year
 | 10 | Methane and nitrous oxide | `S` | Reduction ratios for agriculture, waste and energy | new, small |
 | 11 | Data centres | `A` | TWh, as electricity bought by *Computer and related services (72)* and *Post and telecommunication services (64)* | new, small |
 | 12 | Capital | `A` | Capital needed per unit of output, by technology (see Capital) | extend `engine/capital.py` |
-| 13 | Trade and where things are made | `A`, `Y` | Each buyer's split of a product between domestic and each foreign supplier. Observed: trade shares in EXIOBASE 3.8.2's own later tables, whose estimates rest on trade statistics. Forward: a stated SSP2 assumption per product group | new |
+| 13 | Trade and where things are made | `A`, `Y` | Each buyer's split of a product between domestic and each foreign supplier. Observed: trade shares in EXIOBASE 3.8.2's own later tables, whose estimates rest on trade statistics. Forward: a stated assumption per product group, in the spirit of SSP2 | new |
 
 **Production and trade.** What each region *produces* is a result, not an input: it follows
 from who demands what (steps 1–3) and who they buy it from (step 13). Until step 13 exists,
@@ -306,9 +308,22 @@ flagged cell needs a stand-in, a borrowed recipe or a stated reason to trust it.
 
 ## Reference scenarios
 
-The walk's own assumptions follow the SSP2 storyline. To judge them, and to give the tapes
-something to be measured against, each lever is set beside three scenarios the IEA
-publishes and maintains (definitions from *Energy Technology Perspectives 2026* and the
+The walk follows CMIP7 *Medium*
+([Van Vuuren et al. 2026](https://doi.org/10.5194/gmd-19-2627-2026) §3.3): population and
+the economy on the SSP2 storyline, and climate policy held where it stood in 2025, with
+technology still improving. Medium is a pathway for emissions and land use. It says what
+the total does, and little about any one technology. So the walk uses two references, one
+for each job:
+
+- **CMIP7 *Medium* is the comparison for the result:** world and regional emissions,
+  population and GDP, and the quantities the table cannot hold (see
+  [Tracking against CMIP7 Medium](#tracking-against-cmip7-medium)).
+- **The IEA's scenarios are the reference for each lever.** Its Current Policies Scenario
+  applies the same rule as Medium, only what is already in law, at the level of individual
+  technologies.
+
+To judge the levers, and to give the tapes something to be measured against, each one is
+set beside three scenarios the IEA publishes and maintains (definitions from *Energy Technology Perspectives 2026* and the
 IEA's scenario documentation for the World Energy Outlook 2025):
 
 | Scenario | Kind | What it assumes | Role here |
@@ -394,16 +409,51 @@ against another, the test `engine/intensity.py` states.
   decomposition). The steps name drivers for all five; the residual is what the named drivers
   miss.
 - **Leave one out**, as Cap et al. do, to see which steps carry the result.
-- **Beside SSP2.** Plot each lever and the totals against published SSP2 runs.
+- **Beside Medium.** Set the totals against the published CMIP7 *Medium* pathway (next
+  section), and each lever against the IEA scenarios.
 
 Proposed pass mark: in each major sector the residual is smaller than the effect of the tapes
 that act on that sector.
+
+## Tracking against CMIP7 Medium
+
+The walk is built from its own evidence and then set beside Medium. Agreement is not the
+aim: a difference that can be explained is a finding, and the walk is not tuned to close
+one. What is compared, at 2030, 2050 and 2100 and for the century total:
+
+| Quantity | Walk | Medium | Note |
+|---|---|---|---|
+| Population, world and by region | Step 1 input | Published | Should match closely: both are SSP2, 2024/25 update |
+| GDP, world and by region | Step 1 input | Published | Depends on the open GDP route chosen (plan 03) |
+| Fossil and industrial CO₂ per year | Result | Published | The headline comparison. Medium: about 40 Gt today, about 34 Gt in 2100 |
+| Cumulative CO₂, 2024–2100 | Result | About 2,800 Gt | Fixes the temperature comparison |
+| Methane and nitrous oxide | Step 10 | Published | Needed before a like-for-like temperature |
+| Electricity by source | Step 5 result | Published by the scenario's model, if released | Otherwise the IEA Current Policies figures |
+| Land-use CO₂ and carbon removal | Not in the table | Published | Borrowed and labelled |
+| Warming in 2100 | From the walk's tonnes | 2.9 °C (2.2 to 3.9) | Compare on a CO₂-only basis until step 10 exists |
+
+Three things to settle before the comparison can be drawn:
+
+1. **Regions.** The SSP population and GDP projections are published for the world and for
+   standard aggregates of five, nine and ten regions; confirm the Medium release uses the
+   same. None is the game's seven. Compare at world level first; a mapping from the
+   ten-region set to the seven is a concordance to write.
+2. **Which variables the release carries.** The explorer's definitions list was not readable
+   when this was written. Check it for energy and electricity detail before relying on the
+   rows above.
+3. **Which numbers.** Medium has one marker run (the IMAGE model's) and a wider set from
+   other models. Use the marker, and quote the range across models where it is published.
+
+Medium's own definition gives two further checks on the walk's assumptions. A ledger row
+that assumes a policy not in force in 2025 departs from Medium and must say so. And where
+Medium lets technology improve, the walk's learning curves should produce cost falls of a
+similar order by 2050.
 
 ## After 2050, and outside the table
 
 Some things the table cannot represent: land-use emissions (the CO₂ row excludes them),
 carbon removal, and products with no 2011 row such as hydrogen. These are taken from
-published SSP2 runs and labelled as borrowed, which is accepted practice for a model with
+the published *Medium* pathway and labelled as borrowed, which is accepted practice for a model with
 narrower boundaries ([Krey 2014](https://doi.org/10.1002/wene.98)). One visible consequence: diet tapes will read lower here
 than in the food-systems literature, where land carries much of the benefit.
 
@@ -430,16 +480,16 @@ Licence column: **✔** checked on the publisher's page 2026-11-11; **?** not ye
 
 | Step | Observed 2011–2025 | Evidence for 2026–2100 | Licence |
 |---|---|---|---|
-| 1 | UN World Population Prospects; World Bank WDI | IIASA SSP basic drivers (2024/25 update), SSP2 | ? ; ? ; ? |
+| 1 | World Bank WDI (✔ CC BY 4.0, committed); UN World Population Prospects 2024 as a check | Population: [KC 2025-rebased SSP projections](https://doi.org/10.5281/zenodo.21738149), SSP2, countries, five-year steps, 2025–2100. GDP: no open source yet; the OECD projections in the SSP basic elements v3.2 are citation only (see below) | ✔ ; ? ; ✔ CC BY 4.0 ; ✘ |
 | 2 | Household expenditure by purpose (Eurostat, OECD); Wittgenstein Centre population by age; [Chen et al. 2022](https://doi.org/10.1038/s41597-022-01209-5) urban share | [Bjelle et al. 2021](https://doi.org/10.1016/j.eneco.2021.105114) elasticities (CC BY 4.0 ✔, committed); [Rao et al. 2019](https://doi.org/10.1016/j.futures.2018.07.001) income distribution | ? for the rest |
 | 3 | FAO food balances; [Poore & Nemecek 2018](https://doi.org/10.1126/science.aaq0216) for the food chain total (about 13.7 Gt CO₂e, 26% of emissions) as a check | Reference regions; [Springmann et al. 2018](https://doi.org/10.1038/s41586-018-0594-0) baseline | ? |
-| 4, 8 | EDGAR sector emissions; [PRIMAP-hist **v2.6**](https://zenodo.org/records/13752654) | AR6 scenario database, SSP2 runs | ? ; ✔ CC BY 4.0 ; ? |
+| 4, 8 | EDGAR sector emissions; [PRIMAP-hist **v2.6**](https://zenodo.org/records/13752654) | CMIP7 *Medium* (comparison only); AR6 scenario database, current-policy runs | ? ; ✔ CC BY 4.0 ; ✘ ; ? |
 | 5 | [Ember yearly electricity data](https://ember-energy.org/data/electricity-data-explorer/) by country and source | IRENA capacity statistics; IEA World Energy Outlook (cite) | ✔ CC BY 4.0 ; ? |
 | 6 | IEA Global EV Outlook; fleet statistics | same, by scenario | ? |
 | 7 | Eurostat energy balances; heat-pump sales | — | ? |
 | 11 | IEA *Energy and AI* (2025) cases | same, extended as a range | figures from the report, CC BY 4.0 ✔ |
 | 12 | IRENA installed costs; capacity added by year (Ember, IRENA) | [Way et al. 2022](https://doi.org/10.1016/j.joule.2022.08.009) learning rates (CC BY ✔); IEA *Energy Technology Perspectives 2026* dashboards (CC BY 4.0 ✔) | ? for IRENA |
-| check | Global Carbon Budget; EXIOBASE 3.8.2 tables for 2015 and 2019 | AR6 database; CMIP7 *Medium* once public | ? ; ✔ CC BY-SA 4.0 |
+| check | Global Carbon Budget; EXIOBASE 3.8.2 tables for 2015 and 2019 | CMIP7 *Medium* (comparison only); AR6 database | ? ; ✔ CC BY-SA 4.0 ; ✘ ; ? |
 | all | IPCC Emission Factor Database | — | ? |
 
 EXIOBASE 3.8.2 ([Zenodo 5589597](https://zenodo.org/records/5589597)) carries tables to 2022 under CC BY-SA. Its observed series
@@ -451,7 +501,9 @@ partially suitable for analyzing trends". They serve as checkpoints.
 | Source | Why | |
 |---|---|---|
 | EXIOBASE 3.9.x | Custom non-commercial licence | ✘ |
-| ScenarioMIP-CMIP7 marker scenarios, including the current-policy *Medium* | Pre-release terms: scientific use only, no sharing. Re-check on public release | ✘ for now |
+| ScenarioMIP-CMIP7 scenario data, including *Medium* ([explorer](https://scenariomip.apps.ece.iiasa.ac.at/); released publicly 1 September 2026, still labelled a pre-release) | IIASA's own licence, adapted from CC BY 4.0: parts may be shared with attribution, a substantial portion may not be reproduced, and no share-alike. Fails the test for a ledger input. Individual figures can be cited and plotted beside the walk's, with a link to the source (licence page read 2026-11-13) | ✘ as input; citable |
+| SSP basic elements v3.2 (May 2025): population and OECD GDP projections, on the IIASA SSP explorer | The same adapted licence. The population half has an open route (KC, Zenodo, CC BY 4.0); the GDP half does not | ✘ as input; citable |
+| The FaIR runs behind Van Vuuren et al.'s figures ([Zenodo](https://doi.org/10.5281/zenodo.14382495), v1.1.1) | MIT-licensed code and cached output; described there as indicative. A source for Medium's temperature path to 2500, not a ledger input | citable |
 | PRIMAP-hist v2.7 and later | Licence changed to CC BY-NC-SA | ✘ |
 | IEA datasets, data explorers and report data annexes | Not under the reports' CC BY licence: insubstantial amounts only, no redistribution. Figures in the reports themselves are CC BY 4.0 and citable | ✘ |
 | IMAGE 3.2 data package (Cap et al.'s source) | Licence unchecked; the AR6 database is the open route to similar series | ? |

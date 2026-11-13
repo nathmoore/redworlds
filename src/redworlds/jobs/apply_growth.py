@@ -1,4 +1,4 @@
-"""Step an IO world forward by one year along the SSP2 pathway.
+"""Step an IO world forward by one year under the CMIP7 Medium scenario.
 
 Used inside jobs/build_baseline.py to walk the 2011 table to 2050 and on to 2100
 (population and GDP drive final demand; technology change enters as coefficient
@@ -6,7 +6,7 @@ changes with columns rescaled to one; stressors scale with coefficients — Wieb
 2018). In phase 2 the same function advances per-player worlds nightly.
 
 References:
-  - docs/design/assumptions.md — the baseline is SSP2, built once
+  - docs/design/assumptions.md — the baseline is CMIP7 Medium, built once
   - docs/design/architecture.md — two phases
 """
 

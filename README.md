@@ -79,7 +79,7 @@ one that takes, in each region.
 Every model makes choices. Here are ours, and the places they pinch.
 
 - **The base year is 2011**, the last complete table in EXIOBASE 3.8.2. We walk it forward
-  to 2050 on an SSP2 pathway. Economies change in forty years; ours changes only in the
+  to 2050 under the CMIP7 *Medium* scenario (current policies continued). Economies change in forty years; ours changes only in the
   ways we have modelled.
 - **Trade patterns are fixed and prices do not respond.** Demand-driven input–output
   models have no market clearing: nothing gets dearer because you bought more of it.

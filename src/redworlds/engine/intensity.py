@@ -15,7 +15,7 @@ The two halves are different kinds of claim and deserve different amounts of tru
   collapsed, European coal generation fell sharply, and the carbon intensity of world output
   fell by about 2% a year throughout. This half is checkable against published series, and it
   can be improved without anyone agreeing about the future.
-- **2026 → 2050 is a scenario.** Nobody knows. SSP2 is the defensible choice and is what the
+- **2026 → 2050 is a scenario.** Nobody knows. CMIP7 Medium (current policies continued) is the defensible choice and is what the
   game's baseline assumes, but it is a choice.
 
 A note on vintage, since the pivot is the year we are in: complete annual energy and
@@ -27,7 +27,7 @@ projection for a year that is not over either. Stated once here rather than hedg
 Collapsing them into one number buries the half we can verify inside the half we cannot, and
 hides which part of a disagreement is actually in dispute. Splitting them costs nothing —
 they compose by multiplication — and it lets the observed half be replaced with real data
-long before the scenario half needs the full SSP2 walk.
+long before the scenario half needs the full baseline walk.
 
 **Both are still stand-ins.** The right answer is to walk the table forward year by year,
 with population and GDP driving final demand and technology change entering as coefficient
@@ -90,11 +90,11 @@ OBSERVED_2011_TO_2026: float = 0.73
 # Stage two, 2026 → 2050. SCENARIO.
 #
 # Continues the observed 2.08%/yr decline across the twenty-four years to 2050, which is
-# roughly what a middle-of-the-road SSP2 world does: no collapse, no breakthrough, the
-# existing trend running on. This is the half nobody can check, and the half a real SSP2 run
+# roughly what a current-policies (CMIP7 Medium) world does: no collapse, no breakthrough, the
+# existing trend running on. This is the half nobody can check, and the half the baseline walk
 # should replace first.
 SCENARIO_2026_TO_2050: float = 0.60
-"""Trend continuation standing in for SSP2. The weakest number in the export."""
+"""Trend continuation standing in for the CMIP7 Medium walk. The weakest number in the export."""
 
 
 def intensity_scalar(year: int = TARGET_YEAR) -> float:
@@ -124,6 +124,6 @@ def intensity_scalar(year: int = TARGET_YEAR) -> float:
         return OBSERVED_2011_TO_2026 * SCENARIO_2026_TO_2050
     raise ValueError(
         f"intensity_scalar answers for {BASE_YEAR}, {PRESENT_YEAR} and {TARGET_YEAR} while the "
-        f"correction is two scalars; asked for {year}. Per-year answers need the SSP2 walk — "
+        f"correction is two scalars; asked for {year}. Per-year answers need the baseline walk — "
         f"see docs/backlog.md."
     )
